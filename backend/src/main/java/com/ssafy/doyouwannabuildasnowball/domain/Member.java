@@ -1,7 +1,8 @@
 package com.ssafy.doyouwannabuildasnowball.domain;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.ssafy.doyouwannabuildasnowball.domain.base.BaseEntity;
+import com.ssafy.doyouwannabuildasnowball.domain.type.AuthProvider;
+import com.ssafy.doyouwannabuildasnowball.domain.type.MemberRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,23 +15,33 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
-public class User extends BaseEntity {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "member_id")
+    private Long memberId;
+
+    @Column(name = "kakao_id")
+    private Long kakaoId;
 
     @Column(length = 100)
     private String name;
 
+    @Column(unique = true, length = 100)
+    private String nickname;
+
     @Column(length = 100)
     private String email;
 
-    @Column(name = "oauth_id")
-    private Long oauthId;
 
-    @Column(unique = true, length = 100)
-    private String nickname;
+    @Enumerated(EnumType.STRING)
+    private AuthProvider authProvider;
+
+    @Enumerated(EnumType.STRING)
+    private MemberRole role;
+
+    @Column(length = 200)
+    private String profileImageUrl;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "main_id")

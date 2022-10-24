@@ -2,12 +2,14 @@ package com.ssafy.doyouwannabuildasnowball.config.security;
 
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.CustomAccessDeniedHandler;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.CustomAuthenticationEntryPoint;
+import com.ssafy.doyouwannabuildasnowball.config.security.oauth.service.CustomOAuth2UserService;
 import com.ssafy.doyouwannabuildasnowball.config.security.repository.CookieAuthorizationRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -20,6 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private static final String[] PERMIT_URL_ARRAY = {
             /* swagger v2 */
             "/v2/api-docs",
@@ -56,9 +59,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().anonymous()
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler)
+                .authenticationEntryPoint(authenticationEntryPoint) // 인증이 되지 않은 유저가 요청을 했을 때 동작
+                .accessDeniedHandler(accessDeniedHandler) // 서버에 요청을 할 때 액세스가 가능한지 권한을 체크후 액세스 할 수 없는 요청을 했을시 동작
                 .and()
+
+                // oauth2 kakao login 설정 적용
                 .oauth2Login()
                 .authorizationEndpoint()
                 .baseUri("oauth2/authorize")
@@ -66,12 +71,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .redirectionEndpoint()
                 .baseUri("oauth2/code/*")
-//                .and()
-//                .userInfoEndpoint()
-//                .userService(customOAuth2UserService)
+                .and()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
 //                .and()
 //                .successHandler()
 //                .failureHandler();
+
+
+//                .and()
+//                .defaultSuccessUrl("/{login-success-url}")          // oauth2 인증이 성공했을 때 이동 url 설정
+//                .successHandler(OAuth2AuthenticationSuccessHandler) // 인증 프로세스에 따라 사용자 정의 로직 수행
+//                .userInfoEndpoint()
+//                .userService(userOauth2Service);                    // 로그인 성공 후 로그인 정보 들고 후처리
+
+
+//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
 
         ;
     }

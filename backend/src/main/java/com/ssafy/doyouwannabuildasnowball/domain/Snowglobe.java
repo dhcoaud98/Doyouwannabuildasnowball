@@ -21,11 +21,11 @@ public class Snowglobe extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "maker_id")
-    private User maker;
+    private Member maker;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
-    private User receiver;
+    private Member receiver;
 
     @Column(name = "decorate_id")
     private String decorateId;

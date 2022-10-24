@@ -23,9 +23,9 @@ public class Friend extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "follow_id")
-    private User follow;
+    private Member follow;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "followed_id")
-    private User followed;
+    private Member followed;
 }

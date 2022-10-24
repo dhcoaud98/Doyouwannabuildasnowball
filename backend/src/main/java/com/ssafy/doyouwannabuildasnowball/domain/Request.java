@@ -1,6 +1,5 @@
 package com.ssafy.doyouwannabuildasnowball.domain;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.ssafy.doyouwannabuildasnowball.domain.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,9 +21,9 @@ public class Request extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ask_id")
-    private User ask;
+    private Member ask;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asked_id")
-    private User asked;
+    private Member asked;
 }
