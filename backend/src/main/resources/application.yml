@@ -42,14 +42,14 @@ spring:
 
   data:
     mongodb:
-      #      username: ssafy
-      #      password: yfass1234
-      #      authentication-database: admin
+#      username: ssafy
+#      password: yfass1234
+#      authentication-database: admin
       auto-index-creation:
       uri: mongodb://localhost:27017/snowball
-#          host: localhost
-#          port: 27017
-#          database: snowball
+#      host: localhost
+#      port: 27017
+#      database: snowball
 
     web:
       pageable:
