@@ -1,12 +1,14 @@
 import Button from '@mui/material/Button';
+import { Grid } from '@mui/material';
 
-const MainPage= () => {
+
+const MainPage = () => {
   return (
       <div>
-        <h1>MainPage</h1>
+        <h1>Mae</h1>
         <p>여기는 제일 기본이 되는 MainPage입니다.</p>
 
-        <Button>KakaoLogin</Button>
+        <Button>KakaoLogin</Button> 
       </div>
     )
 }

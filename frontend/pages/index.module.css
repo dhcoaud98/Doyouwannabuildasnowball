@@ -1,0 +1,24 @@
+#root_div {
+  height: 100vh;
+  width: 100vw;
+}
+
+#container_div {
+  height: 100vh;
+  width: 100vw;
+}
+
+#left_div {
+  height: 100%;
+}
+
+#right_div {
+  height: 100%;
+}
+
+#main_div {
+  background-color: aqua;
+  background-image : url('../public/images/backImage.png');
+  height: 100%;
+  width: 100%;
+}
