@@ -1,8 +1,6 @@
 package com.ssafy.doyouwannabuildasnowball.domain;
 
 import com.ssafy.doyouwannabuildasnowball.domain.base.BaseEntity;
-import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
-import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeUpdateRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,9 +25,6 @@ public class Snowglobe extends BaseEntity {
     @JoinColumn(name = "receiver_id")
     private Member receiver;
 
-    @Column(name = "decorate_id")
-    private String decorateId;
-
     @Column(name = "maker_saved")
     private boolean makerSaved;
 
@@ -39,5 +34,7 @@ public class Snowglobe extends BaseEntity {
     @Column(length = 200)
     private String screenshot;
 
-    private Integer music;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "music_id")
+    private Music music;
 }

@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Setter
 public class Decoration {
     @Id
-    private String id;
+    private Long id;
     // 스노우볼 커스텀 요소 맞춰서 수정
     private String deco;
 }
