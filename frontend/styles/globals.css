@@ -47,8 +47,18 @@ a {
 }
 
 #main_div {
-  background-color: aqua;
   background-image : url('../public/images/backImage.png');
   height: 100%;
   width: 100%;
+}
+
+.MuiMobileStepper-dot{
+  background-color: #A6D388;
+  width: 10px;
+  height: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.MuiMobileStepper-dotActive{
+  background-color: #048320;
 }
