@@ -1,15 +1,15 @@
 package com.ssafy.doyouwannabuildasnowball.service;
 
 import com.ssafy.doyouwannabuildasnowball.common.exception.BadRequestException;
+import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.domain.Snowglobe;
-import com.ssafy.doyouwannabuildasnowball.domain.User;
 import com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.common.MainSnowglobeDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeUpdateRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeDetailResponseDto;
+import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.SnowglobeRepository;
-import com.ssafy.doyouwannabuildasnowball.repository.jpa.UserRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.mongo.DecorationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Transactional(readOnly = true)
 public class SnowglobeService {
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final SnowglobeRepository snowglobeRepository;
     private final DecorationRepository decorationRepository;
 
@@ -33,7 +33,7 @@ public class SnowglobeService {
     @Transactional
     public MainSnowglobeDto mainSnowglobe(Long uid) {
         //메인 스노우볼 아이디 main_id > mid
-        Long mid = userRepository.getMainIdById(uid);
+        Long mid = memberRepository.getMainIdById(uid);
         Snowglobe snowglobe = snowglobeRepository.findById(mid).orElseThrow(() -> new BadRequestException("유효하지 않은 스노우볼입니다."));
         return MainSnowglobeDto.builder()
                 .snowglobeId(snowglobe.getSnowglobeId())
@@ -46,8 +46,8 @@ public class SnowglobeService {
     //메인 스노우볼 페이지 링크 공유
     //url = `https://서버 주소/share?userId=${userId}`
     @Transactional
-    public String shareSnowglobe(Long uid) {
-        String url = "https://서버 주소/share?userId=${uid}";
+    public String shareSnowglobe(Long mid) {
+        String url = "https://서버 주소/share?memberId=${mid}";
         return url;
     }
 
@@ -55,7 +55,7 @@ public class SnowglobeService {
     @Transactional
     public void updateSnowglobe(Long uid, SnowglobeUpdateRequestDto snowglobeUpdateRequestDto) {
         //메인 스노우볼 아이디 main_id > mid
-        Long mid = userRepository.getMainIdById(uid);
+        Long mid = memberRepository.getMainIdById(uid);
         Snowglobe snowglobe = snowglobeRepository.findById(mid).orElseThrow(() -> new BadRequestException("유효하지 않은 스노우볼입니다."));
         //decorateId 받아서 mongo - decoration 데이터 update 추가
         Decoration decoById = decorationRepository.findById(snowglobe.getDecorateId()).orElseThrow(() -> new BadRequestException("유효하지 않은 요소입니다."));
@@ -65,10 +65,10 @@ public class SnowglobeService {
 
     //친구 메인 페이지에서 스노우볼 선물하기
     @Transactional
-    public Snowglobe presentSnowglobe(Long rid, SnowglobeRequestDto snowglobeRequestDto, User user) {
-        User receiver = userRepository.findById(rid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+    public Snowglobe presentSnowglobe(Long rid, SnowglobeRequestDto snowglobeRequestDto, Member member) {
+        Member receiver = memberRepository.findById(rid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         return Snowglobe.builder()
-                .maker(user)
+                .maker(member)
                 .receiver(receiver)
                 .decorateId(snowglobeRequestDto.getDecorateId())
                 .makerSaved(false)
@@ -81,10 +81,10 @@ public class SnowglobeService {
 
     //선물한 스노우볼 내 책장에 저장
     @Transactional
-    public void savePresent(Long snowglobeId, User user) {
+    public void savePresent(Long snowglobeId, Member member) {
         Snowglobe snowglobe = snowglobeRepository.findById(snowglobeId).orElseThrow(() -> new BadRequestException("유효하지 않은 스노우볼입니다."));
-        Long mid = snowglobe.getMaker().getUserId();
-        if (mid == user.getUserId()) {
+        Long mid = snowglobe.getMaker().getMemberId();
+        if (mid == member.getMemberId()) {
             snowglobe.setMakerSaved(true);
             snowglobeRepository.save(snowglobe);
         } else {
@@ -100,12 +100,12 @@ public class SnowglobeService {
 
     //책장에서 스노우볼 삭제
     @Transactional
-    public void deleteSnowglobe(Long sid, User user) {
+    public void deleteSnowglobe(Long sid, Member member) {
         Snowglobe snowglobe = snowglobeRepository.findById(sid).orElseThrow(() -> new BadRequestException("유효하지 않은 스노우볼입니다."));
-        if (user.getUserId().equals(snowglobe.getMaker().getUserId())) {
+        if (member.getMemberId().equals(snowglobe.getMaker().getMemberId())) {
             snowglobe.setMakerSaved(false);
             snowglobeRepository.save(snowglobe);
-        } else if (user.getUserId().equals(snowglobe.getReceiver().getUserId())) {
+        } else if (member.getMemberId().equals(snowglobe.getReceiver().getMemberId())) {
             snowglobe.setReceiverSaved(false);
             snowglobeRepository.save(snowglobe);
         } else {
