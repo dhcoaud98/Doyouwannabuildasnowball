@@ -8,6 +8,8 @@ import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';  
 
+// import merryChristmasLetter from '../public/images/christmas_lettering.png'
+
 const Tutorial= () => {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -28,32 +30,36 @@ const Tutorial= () => {
 
         {/* 메인 콘텐츠 */}
         <Grid xs={12} sm={8} md={6} xl={4} item id="main_div">
-<MobileStepper
-className={styles.mobile_stepper}
-      variant="dots"
-      steps={6}
-      position="static"
-      activeStep={activeStep}
-      sx={{ maxWidth: 400, flexGrow: 1 }}
-      nextButton={
-        <Button size="small" onClick={handleNext} disabled={activeStep === 5}>
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowLeft />
-          ) : (
-            <KeyboardArrowRight />
-          )}
-        </Button>
-      }
-      backButton={
-        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowRight />
-          ) : (
-            <KeyboardArrowLeft />
-          )}
-        </Button>
-      }
-    />
+          <img src='/images/christmas_lettering.png' alt="" className={styles.merrychristmas_lettering}/>
+          {/* 튜토리얼 설명문구란 */}
+          <div className={styles.tutorial_box}>
+          </div>
+
+          <MobileStepper
+            className={styles.mobile_stepper}
+            variant="dots"
+            steps={4}
+            activeStep={activeStep}
+            sx={{ maxWidth: 400, flexGrow: 1 }}
+            nextButton={
+              <Button  onClick={handleNext} disabled={activeStep === 3}>
+                {theme.direction === 'rtl' ? (
+                    <KeyboardArrowLeft />
+                  ) : (
+                  <KeyboardArrowRight />
+                )}
+              </Button>
+            }
+            backButton={
+              <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                {theme.direction === 'rtl' ? (
+                  <KeyboardArrowRight />
+                ) : (
+                  <KeyboardArrowLeft />
+                )}
+              </Button>
+            }
+          />
           
         </Grid>
         {/* 오른쪽 마진 */}
