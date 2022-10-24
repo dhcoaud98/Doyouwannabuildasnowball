@@ -9,28 +9,39 @@ import com.ssafy.doyouwannabuildasnowball.domain.type.AuthProvider;
 import com.ssafy.doyouwannabuildasnowball.domain.type.MemberRole;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberRepository memberRepository;
-
+    private final HttpSession httpSession;
     // OAuth2UserRequest에 있는 Access Token으로 유저정보 get
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+        log.info("attributes : " + attributes);
 
-        return process(oAuth2UserRequest, oAuth2User);
+        httpSession.setAttribute("login_info", attributes);
+        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),attributes, "id");
+//        return process(oAuth2UserRequest, oAuth2User);
     }
 
     // 획득한 유저정보를 Java Model과 맵핑하고 프로세스 진행

@@ -2,6 +2,7 @@ package com.ssafy.doyouwannabuildasnowball.config.security;
 
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.CustomAccessDeniedHandler;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.CustomAuthenticationEntryPoint;
+import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.OAuth2AuthenticationSuccessHandler;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.service.CustomOAuth2UserService;
 import com.ssafy.doyouwannabuildasnowball.config.security.repository.CookieAuthorizationRequestRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private static final String[] PERMIT_URL_ARRAY = {
             /* swagger v2 */
             "/v2/api-docs",
@@ -53,29 +55,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() // swagger API 호출시 403 에러 발생 방지
-                .authorizeRequests()
-                .antMatchers(PERMIT_URL_ARRAY).permitAll() // 리소스(URL)의 권한 설정, antMatchers 설정한 리소스의 접근을 인증절차 없이 허용
-                .anyRequest().anonymous()
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint) // 인증이 되지 않은 유저가 요청을 했을 때 동작
-                .accessDeniedHandler(accessDeniedHandler) // 서버에 요청을 할 때 액세스가 가능한지 권한을 체크후 액세스 할 수 없는 요청을 했을시 동작
-                .and()
-
-                // oauth2 kakao login 설정 적용
                 .oauth2Login()
-                .authorizationEndpoint()
-                .baseUri("oauth2/authorize")
-                .authorizationRequestRepository(cookieAuthorizationRequestRepository)
-                .and()
-                .redirectionEndpoint()
-                .baseUri("oauth2/code/*")
-                .and()
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService)
+
+
+        ;
+//        http
+//                .csrf().disable() // swagger API 호출시 403 에러 발생 방지
+//                .authorizeRequests()
+//                .antMatchers(PERMIT_URL_ARRAY).permitAll() // 리소스(URL)의 권한 설정, antMatchers 설정한 리소스의 접근을 인증절차 없이 허용
+//                .anyRequest().anonymous()
 //                .and()
-//                .successHandler()
+//                .exceptionHandling()
+//                .authenticationEntryPoint(authenticationEntryPoint) // 인증이 되지 않은 유저가 요청을 했을 때 동작
+//                .accessDeniedHandler(accessDeniedHandler) // 서버에 요청을 할 때 액세스가 가능한지 권한을 체크후 액세스 할 수 없는 요청을 했을시 동작
+//                .and()
+//
+//                // oauth2 kakao login 설정 적용
+//                .oauth2Login()
+//                .authorizationEndpoint()
+//                .baseUri("oauth2/authorize")
+//                .authorizationRequestRepository(cookieAuthorizationRequestRepository)
+//                .and()
+//                .redirectionEndpoint()
+//                .baseUri("oauth2/code/*")
+//                .and()
+//                .userInfoEndpoint()
+//                .userService(customOAuth2UserService)
+//                .and()
+//                .successHandler(oAuth2AuthenticationSuccessHandler)
 //                .failureHandler();
 
 
