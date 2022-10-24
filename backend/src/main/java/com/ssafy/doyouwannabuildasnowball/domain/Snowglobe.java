@@ -1,10 +1,9 @@
 package com.ssafy.doyouwannabuildasnowball.domain;
 
 import com.ssafy.doyouwannabuildasnowball.domain.base.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
+import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeUpdateRequestDto;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 public class Snowglobe extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
