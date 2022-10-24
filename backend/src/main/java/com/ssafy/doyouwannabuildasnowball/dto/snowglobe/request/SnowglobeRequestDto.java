@@ -1,5 +1,6 @@
 package com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request;
 
+import com.ssafy.doyouwannabuildasnowball.domain.Music;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class SnowglobeRequestDto {
-    private String decorateId;
+    private Long snowglobeId;
     private String screenshot;
-    private int music;
+    private Music music;
 }

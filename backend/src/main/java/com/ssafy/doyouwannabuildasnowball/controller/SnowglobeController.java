@@ -10,6 +10,7 @@ import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
 import com.ssafy.doyouwannabuildasnowball.service.SnowglobeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import javax.validation.Valid;
 @Slf4j
 @RequestMapping("/snowglobe")
 public class SnowglobeController {
-    private final Member member;
+//    private final Member member;
     private final SnowglobeService snowglobeService;
 
     //메인 스노우볼 페이지

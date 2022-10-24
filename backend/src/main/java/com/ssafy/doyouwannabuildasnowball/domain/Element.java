@@ -21,15 +21,15 @@ public class Element extends BaseEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(referencedColumnName = "category_id", name = "first")
     private Category first;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(referencedColumnName = "category_id", name = "second")
     private Category second;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(referencedColumnName = "category_id", name = "third")
     private Category third;
 
 //    @OneToOne(fetch = FetchType.LAZY)

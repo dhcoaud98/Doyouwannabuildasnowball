@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class SnowglobeDetailResponseDto {
-    private String decorationId;
+    private Long snowglobeId;
     private String deco;
 }

@@ -18,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -33,11 +35,10 @@ public class SnowglobeService {
     @Transactional
     public MainSnowglobeDto mainSnowglobe(Long uid) {
         //메인 스노우볼 아이디 main_id > mid
-        Long mid = memberRepository.getMainIdById(uid);
-        Snowglobe snowglobe = snowglobeRepository.findById(mid).orElseThrow(() -> new BadRequestException("유효하지 않은 스노우볼입니다."));
+        Optional<Member> member = memberRepository.findById(uid);
+        Snowglobe snowglobe = member.get().getSnowglobe();
         return MainSnowglobeDto.builder()
                 .snowglobeId(snowglobe.getSnowglobeId())
-                .decorateId(snowglobe.getDecorateId())
                 .screenshot(snowglobe.getScreenshot())
                 .music(snowglobe.getMusic())
                 .build();
@@ -55,10 +56,10 @@ public class SnowglobeService {
     @Transactional
     public void updateSnowglobe(Long uid, SnowglobeUpdateRequestDto snowglobeUpdateRequestDto) {
         //메인 스노우볼 아이디 main_id > mid
-        Long mid = memberRepository.getMainIdById(uid);
-        Snowglobe snowglobe = snowglobeRepository.findById(mid).orElseThrow(() -> new BadRequestException("유효하지 않은 스노우볼입니다."));
+        Optional<Member> member = memberRepository.findById(uid);
+        Snowglobe snowglobe = member.get().getSnowglobe();
         //decorateId 받아서 mongo - decoration 데이터 update 추가
-        Decoration decoById = decorationRepository.findById(snowglobe.getDecorateId()).orElseThrow(() -> new BadRequestException("유효하지 않은 요소입니다."));
+        Decoration decoById = decorationRepository.findById(snowglobe.getSnowglobeId()).orElseThrow(() -> new BadRequestException("유효하지 않은 요소입니다."));
         decoById.setDeco(snowglobeUpdateRequestDto.getDecoration());
         decorationRepository.save(decoById);
     }
@@ -67,10 +68,10 @@ public class SnowglobeService {
     @Transactional
     public Snowglobe presentSnowglobe(Long rid, SnowglobeRequestDto snowglobeRequestDto, Member member) {
         Member receiver = memberRepository.findById(rid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
+        //rdb id 만들고 mongodb에 deco 넣기 추가
         return Snowglobe.builder()
                 .maker(member)
                 .receiver(receiver)
-                .decorateId(snowglobeRequestDto.getDecorateId())
                 .makerSaved(false)
                 .receiverSaved(true)
                 .screenshot(snowglobeRequestDto.getScreenshot())
@@ -117,9 +118,9 @@ public class SnowglobeService {
     @Transactional
     public SnowglobeDetailResponseDto showDetail(Long sid) {
         Snowglobe snowglobe = snowglobeRepository.findById(sid).orElseThrow(() -> new BadRequestException("유효하지 않은 스노우볼입니다."));
-        Decoration decoration = decorationRepository.findById(snowglobe.getDecorateId()).orElseThrow(() -> new BadRequestException("유효하지 않은 요소입니다."));
+        Decoration decoration = decorationRepository.findById(snowglobe.getSnowglobeId()).orElseThrow(() -> new BadRequestException("유효하지 않은 요소입니다."));
         return SnowglobeDetailResponseDto.builder()
-                .decorationId(decoration.getId())
+                .snowglobeId(sid)
                 .deco(decoration.getDeco())
                 .build();
     }

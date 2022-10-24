@@ -3,6 +3,9 @@ server:
     context-path: /api
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
+
   servlet:
     multipart:
       enabled: true
