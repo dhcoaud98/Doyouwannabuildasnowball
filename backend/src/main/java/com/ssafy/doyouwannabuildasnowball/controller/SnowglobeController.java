@@ -2,15 +2,15 @@ package com.ssafy.doyouwannabuildasnowball.controller;
 
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.domain.Snowglobe;
+import com.ssafy.doyouwannabuildasnowball.dto.music.common.MusicAllDto;
+import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicSelectRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.common.MainSnowglobeDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeUpdateRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeDetailResponseDto;
-import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
 import com.ssafy.doyouwannabuildasnowball.service.SnowglobeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -18,13 +18,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/snowglobe")
 public class SnowglobeController {
-//    private final Member member;
     private final SnowglobeService snowglobeService;
 
     //메인 스노우볼 페이지
@@ -79,8 +79,16 @@ public class SnowglobeController {
     }
 
     //음악 목록 조회
-
+    @GetMapping("/music/list")
+    public ResponseEntity<List<MusicAllDto>> musicList() {
+        return new ResponseEntity<List<MusicAllDto>>(snowglobeService.musicAll(), HttpStatus.OK);
+    }
 
     //음악 변경
+    @PatchMapping("/{snowglobe_id}/music/select")
+    public ResponseEntity<Void> musicChange(@PathVariable(value = "snowglobe_id") Long sid, @Valid @RequestBody MusicSelectRequestDto musicSelectRequestDto) {
+        snowglobeService.musicSelect(sid, musicSelectRequestDto);
+        return ResponseEntity.ok().build();
+    }
 
 }

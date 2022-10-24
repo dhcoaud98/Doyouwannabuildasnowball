@@ -1,9 +1,6 @@
 package com.ssafy.doyouwannabuildasnowball.domain.collection;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
@@ -13,6 +10,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Decoration {
     @Id
     private Long id;
