@@ -11,6 +11,8 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 // import merryChristmasLetter from '../public/images/christmas_lettering.png'
 
 const Tutorial= () => {
+  const tutorialTextArr = ['설명1', '설명2', '설명3', '설명4']
+
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -22,6 +24,8 @@ const Tutorial= () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  let cntTutorialText = tutorialTextArr[activeStep]
+
   return (
     <div id="container_div">
       <Grid container id="container_div">
@@ -30,10 +34,11 @@ const Tutorial= () => {
 
         {/* 메인 콘텐츠 */}
         <Grid xs={12} sm={8} md={6} xl={4} item id="main_div">
-          <img src='/images/christmas_lettering.png' alt="" className={styles.merrychristmas_lettering}/>
-          {/* 튜토리얼 설명문구란 */}
-          <div className={styles.tutorial_box}>
+          <div className={styles.tutorial_text}>
+            {cntTutorialText}
           </div>
+          <img src='/images/tutorial_box.png' alt="" className={styles.tutorial_box}/>
+          {/* 튜토리얼 설명문구란 */}
 
           <MobileStepper
             className={styles.mobile_stepper}
