@@ -1,5 +1,9 @@
 package com.ssafy.doyouwannabuildasnowball.domain.base;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Getter;
 import net.bytebuddy.asm.Advice;
 import org.springframework.data.annotation.CreatedDate;

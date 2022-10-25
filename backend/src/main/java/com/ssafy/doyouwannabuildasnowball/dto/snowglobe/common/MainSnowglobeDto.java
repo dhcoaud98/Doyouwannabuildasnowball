@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 @Getter
 @NoArgsConstructor
@@ -13,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class MainSnowglobeDto {
     private Long snowglobeId;
     private String screenshot;
-    private Music music;
+    private Long musicId;
 
 }
