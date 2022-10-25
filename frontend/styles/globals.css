@@ -48,6 +48,8 @@ a {
 
 #main_div {
   background-image : url('../public/images/backImage.png');
+  background-size: cover;
+  position: relative;
   height: 100%;
   width: 100%;
 }

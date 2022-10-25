@@ -1,24 +1,27 @@
-/* #root_div {
-  height: 100vh;
-  width: 100vw;
+.main_logo {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 10vh;
 }
 
-#container_div {
-  height: 100vh;
-  width: 100vw;
+.kakao_login_btn {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  position: absolute;
+  left: 20%;
+  bottom: 15%;
 }
 
-#left_div {
-  height: 100%;
-}
-
-#right_div {
-  height: 100%;
-}
-
-#main_div {
-  background-color: aqua; 
-  background-image : url('../public/images/backImage.png');
-  height: 100%;
+.kakao_login_img {
   width: 100%;
-} */
+}
+
+.decoration {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
