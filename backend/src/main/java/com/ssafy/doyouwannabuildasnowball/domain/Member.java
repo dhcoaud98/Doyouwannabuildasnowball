@@ -3,10 +3,7 @@ package com.ssafy.doyouwannabuildasnowball.domain;
 import com.ssafy.doyouwannabuildasnowball.domain.base.BaseEntity;
 import com.ssafy.doyouwannabuildasnowball.domain.type.AuthProvider;
 import com.ssafy.doyouwannabuildasnowball.domain.type.MemberRole;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

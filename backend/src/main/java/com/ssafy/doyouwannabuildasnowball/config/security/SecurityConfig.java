@@ -37,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             /* swagger v3 */
             "/v3/api-docs/**",
             "/swagger-ui/**",
+            "/login"
     };
 
     /**
@@ -55,7 +56,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable() // swagger API 호출시 403 에러 발생 방지
+                .authorizeRequests()
+                .antMatchers(PERMIT_URL_ARRAY).permitAll() // 리소스(URL)의 권한 설정, antMatchers 설정한 리소스의 접근을 인증절차 없이 허용
+                .anyRequest().permitAll()
+                .and()
+                .exceptionHandling()
+//                .authenticationEntryPoint(authenticationEntryPoint) // 인증이 되지 않은 유저가 요청을 했을 때 동작
+                .accessDeniedHandler(accessDeniedHandler) // 서버에 요청을 할 때 액세스가 가능한지 권한을 체크후 액세스 할 수 없는 요청을 했을시 동작
+                .and()
                 .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize")
+                .and()
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService)
 
