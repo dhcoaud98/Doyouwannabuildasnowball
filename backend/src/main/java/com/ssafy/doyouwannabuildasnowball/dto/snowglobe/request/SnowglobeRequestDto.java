@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class SnowglobeRequestDto {
-    private Long snowglobeId;
-    private String screenshot;
-    private Music music;
+    private Long makerId;
     private String deco;
 }

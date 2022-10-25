@@ -6,6 +6,7 @@ import com.ssafy.doyouwannabuildasnowball.domain.type.MemberRole;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NoArgsConstructor
