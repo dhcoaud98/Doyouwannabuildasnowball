@@ -2,14 +2,17 @@ package com.ssafy.doyouwannabuildasnowball.config.security;
 
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.CustomAccessDeniedHandler;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.CustomAuthenticationEntryPoint;
+import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.OAuth2AuthenticationFailureHandler;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.OAuth2AuthenticationSuccessHandler;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.service.CustomOAuth2UserService;
 import com.ssafy.doyouwannabuildasnowball.config.security.repository.CookieAuthorizationRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -25,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+
+
     private static final String[] PERMIT_URL_ARRAY = {
             /* swagger v2 */
             "/v2/api-docs",
@@ -34,10 +40,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/security",
             "/swagger-ui.html",
             "/webjars/**",
-            /* swagger v3 */
+//            /* swagger v3 */
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "/login"
+            /* 카카오 로그인 */
+//            "/user/kakao/callback",
+//            "/user/login",
+//            "/api"
+            /* 로그인 permission */
+//            "/login/**",
+//            "/oauth2/authorize/kakao",
+//            "api/login"
     };
 
     /**
@@ -55,23 +68,66 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
-                .csrf().disable() // swagger API 호출시 403 에러 발생 방지
-                .authorizeRequests()
-                .antMatchers(PERMIT_URL_ARRAY).permitAll() // 리소스(URL)의 권한 설정, antMatchers 설정한 리소스의 접근을 인증절차 없이 허용
-                .anyRequest().permitAll()
-                .and()
-                .exceptionHandling()
-//                .authenticationEntryPoint(authenticationEntryPoint) // 인증이 되지 않은 유저가 요청을 했을 때 동작
-                .accessDeniedHandler(accessDeniedHandler) // 서버에 요청을 할 때 액세스가 가능한지 권한을 체크후 액세스 할 수 없는 요청을 했을시 동작
-                .and()
+//                .csrf().disable()
+
                 .oauth2Login()
-                .authorizationEndpoint()
-                .baseUri("/oauth2/authorize")
-                .and()
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService)
 
+
+
+//        http
+//                .httpBasic().disable()
+//                .cors().configurationSource(corsConfigurationSource())
+//                .and()
+//                .csrf().disable()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers(PERMIT_URL_ARRAY).permitAll()
+//                .antMatchers("/oauth2/**", "/auth/**", "/api", "/swagger*/**", "/v2/api-docs").permitAll()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .and()
+//                .oauth2Login()
+//                .authorizationEndpoint()
+//                .baseUri("/oauth2/authorize")
+//                .authorizationRequestRepository(cookieAuthorizationRequestRepository)
+//                .and()
+//                .redirectionEndpoint()
+//                .baseUri("/oauth2/callback/*")
+//                .and()
+//                .userInfoEndpoint()
+//                .userService(customOAuth2UserService)
+//                .and()
+//                .successHandler(oAuth2AuthenticationSuccessHandler)
+//                .failureHandler(oAuth2AuthenticationFailureHandler);
+
+//                .and()
+//                .successHandler(authenticationSuccessHandler)
+//                .failureHandler(authenticationFailureHandler);
+//        http
+////                .csrf().disable() // swagger API 호출시 403 에러 발생 방지
+////                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+////                .and()
+////                .authorizeRequests()
+////                .antMatchers(PERMIT_URL_ARRAY).permitAll() // 리소스(URL)의 권한 설정, antMatchers 설정한 리소스의 접근을 인증절차 없이 허용
+////                .antMatchers("/api/auth/**", "/api/oauth2/**").permitAll()
+////                .anyRequest().hasRole("USER")
+////                .anyRequest().permitAll()
+////                .and()
+////                .exceptionHandling()
+////                .authenticationEntryPoint(authenticationEntryPoint) // 인증이 되지 않은 유저가 요청을 했을 때 동작
+////                .accessDeniedHandler(accessDeniedHandler) // 서버에 요청을 할 때 액세스가 가능한지 권한을 체크후 액세스 할 수 없는 요청을 했을시 동작
+////                .and()
+//                .oauth2Login()
+//                .authorizationEndpoint()
+//                .baseUri("/oauth2/authorize")
+//                .and()
+//                .userInfoEndpoint()
+//                .userService(customOAuth2UserService)
+//
 
         ;
 //        http
@@ -111,7 +167,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
 
-        ;
+//        ;
     }
 
     @Bean

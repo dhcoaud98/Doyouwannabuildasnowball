@@ -43,10 +43,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
         Map<String, Object> attributes = oAuth2User.getAttributes();
+        String accessToken = oAuth2UserRequest.getAccessToken().getTokenValue();
+        System.out.println("accessToken = " + accessToken);
+        KakaoOAuth2UserInfo kakaoOAuth2UserInfo = new KakaoOAuth2UserInfo(attributes);
+        log.info("id : " + kakaoOAuth2UserInfo.getId());
+        log.info("nick name : " + kakaoOAuth2UserInfo.getName());
+        log.info("e-mail : " + kakaoOAuth2UserInfo.getEmail());
 
         httpSession.setAttribute("login_info", attributes);
-//        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),attributes, "id");
-        return process(oAuth2UserRequest, oAuth2User);
+        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),attributes, "id");
+//        return process(oAuth2UserRequest, oAuth2User);
     }
 
     // 획득한 유저정보를 Java Model과 맵핑하고 프로세스 진행
