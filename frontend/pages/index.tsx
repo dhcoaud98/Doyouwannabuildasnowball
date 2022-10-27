@@ -4,6 +4,9 @@ import styles from "./index.module.css"
 
 
 const Home = () => {
+
+  const REDIRECT_URI = 'http://localhost:8080/api/login/oauth2/code/kakao'
+  
   return (
     <div id="container_div">
       <Grid container id="container_div">
@@ -16,7 +19,10 @@ const Home = () => {
           <img src="/images/main_logo.png" alt="" className={styles.main_logo}/>
 
           {/* 카카오로그인버튼 - 고정 */}
-          <Button className={styles.kakao_login_btn}><img src="/images/kakao_login_btn.png" alt="" className={styles.kakao_login_img} /></Button>
+          <a href={REDIRECT_URI}>
+            <div id="kakao-button" className={styles.kakao_login_btn}><img src="/images/kakao_login_btn.png" alt="" className={styles.kakao_login_img} /></div>
+          </a>
+          {/* <Button className={styles.kakao_login_btn}><img src="/images/kakao_login_btn.png" alt="" className={styles.kakao_login_img} /></Button> */}
 
           {/* 하단 장식줄 - 고정 */}
           <img src="/images/decoration.png" alt="" className={styles.decoration}/>
