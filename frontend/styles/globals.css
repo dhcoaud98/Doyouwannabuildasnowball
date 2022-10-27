@@ -64,3 +64,17 @@ a {
 .MuiMobileStepper-dotActive{
   background-color: #048320;
 }
+
+.cntmenu-text {
+  font-family:'MaruBuri-Regular';
+  font-weight: lighter;
+  font-size: 2em;
+  text-align: center;
+}
+
+.MuiSpeedDial-fab {
+  background-color: transparent; 
+  background-image: url('../public/images/wreath_2.png');
+  background-size: 105.7%;
+  box-shadow: none;
+}
