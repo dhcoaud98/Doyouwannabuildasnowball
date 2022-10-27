@@ -1,0 +1,25 @@
+.navbar_body {
+  margin: 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 5%;
+  margin-left: 5%;
+}
+
+.goback {
+  /* position: absolute; */
+  height: 10%;
+}
+
+.navbar_text {
+  color: #4E5D39;
+  font-style: italic;
+}
+
+.arrow_back_icon{
+  /* z-index: 1; */
+  position: absolute;
+}
