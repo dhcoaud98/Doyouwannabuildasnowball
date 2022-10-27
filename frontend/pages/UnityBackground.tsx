@@ -14,14 +14,21 @@ function UnityBackground() {
   });
 
   useEffect(() => {
-    addEventListener("SetMap", SendRequest);
+    addEventListener("SetMap1", SendRequest)
+    addEventListener("SaveMap", ConMap)
     return () => {
-      removeEventListener("SetMap", SendRequest);
+      removeEventListener("SetMap1", SendRequest)
+      removeEventListener("SaveMap", ConMap)
     };
-  }, [addEventListener, removeEventListener, SendRequest]);
+  }, [addEventListener, removeEventListener, SendRequest])
 
   function SendRequest() {
-    sendMessage("Test", "setMap",1)
+    sendMessage("GameObject", "setMap", 0)
+    console.log('sta')
+  }
+
+  function ConMap(pos: JSON){
+    console.log(pos)
   }
 
   return (
