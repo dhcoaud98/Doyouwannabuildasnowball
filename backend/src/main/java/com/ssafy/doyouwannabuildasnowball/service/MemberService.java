@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException.USER_NOT_FOUND;
+import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException.MEMBER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(MEMBER_NOT_FOUND));
     }
 
     public void updateUserInfo(MemberUpdateRequest memberUpdateRequest) {
@@ -41,7 +41,7 @@ public class MemberService {
             Member member = memberOptional.get();
             member.setNickname(memberUpdateRequest.getNickname());
             memberRepository.save(member);
-        } else throw new NotFoundException(USER_NOT_FOUND);
+        } else throw new NotFoundException(MEMBER_NOT_FOUND);
 
     }
 
@@ -55,7 +55,7 @@ public class MemberService {
         Member member;
         if (memberOptional.isPresent())
             member = memberOptional.get();
-        else throw new NotFoundException(USER_NOT_FOUND);
+        else throw new NotFoundException(MEMBER_NOT_FOUND);
 
         // 새로운 스노우볼 생성
         snowglobeRepository.save(

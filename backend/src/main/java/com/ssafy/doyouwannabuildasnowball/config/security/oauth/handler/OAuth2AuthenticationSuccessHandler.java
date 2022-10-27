@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 
-import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException.USER_NOT_FOUND;
 import static com.ssafy.doyouwannabuildasnowball.config.security.repository.CookieAuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 
