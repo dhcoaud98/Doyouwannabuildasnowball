@@ -6,13 +6,16 @@
 
 .upper {
   height: 15%;
+  min-width: 100%;
   display: flex;
   justify-content: center;
   align-items: end;
 }
+
 .lower {
   height: 10%;
 }
+
 .decoration {
   width: 100%;
   position: absolute;
@@ -24,11 +27,14 @@
   height: 75%;
 }
 
-.vertical_div {
+.snow_navbar{
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  z-index: 3;
 }
 
-.font_test {
-  font-family:'MaruBuri-Regular';
-  font-weight: lighter;
-  font-size: 2em;
+.brownicon{
+  color: #662113; 
+  background-color: #FFF3E1;
 }
