@@ -1,0 +1,40 @@
+.custom_main_content {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.upper {
+  height: 15%;
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+
+.lower {
+  height: 10%;
+}
+
+.decoration {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+}
+
+.three_container {
+  height: 75%;
+}
+
+.snow_navbar{
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  z-index: 3;
+}
+
+.brownicon{
+  color: #662113; 
+  background-color: #FFF3E1;
+}
