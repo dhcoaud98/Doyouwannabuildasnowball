@@ -78,3 +78,18 @@ a {
   background-size: 105.7%;
   box-shadow: none;
 }
+
+::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #A6D388; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(216, 248, 176, 0.4); /*스크롤바 뒷 배경 색상*/
+}

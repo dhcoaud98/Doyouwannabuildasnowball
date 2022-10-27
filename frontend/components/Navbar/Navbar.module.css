@@ -16,11 +16,12 @@
   text-align: center;
 }
 
-.arrow_back_icon{
-  position: absolute;
+.avatar {
+  max-width: 100%;
+  max-height: 100%;
 }
 
-
-.avatar {
+.back_button {
   z-index: 2;
+  color: black;
 }

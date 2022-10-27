@@ -9,29 +9,18 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ImageIcon from '@mui/icons-material/Image';
-import ListItemButton from '@mui/material/ListItemButton';
-import { FixedSizeList, ListChildComponentProps } from 'react-window';
-import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
-
+import Button from '@mui/material/Button'
+import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 
 // 컴포너트
 import Navbar from 'components/Navbar/Navbar';
 import SearchBar from 'components/Search/SearchBar';
 
-function renderRow(props: ListChildComponentProps) {
-  const { index, style } = props;
-
-  return (
-    <ListItem style={style} key={index} component="div" disablePadding>
-      <ListItemButton>
-        <ListItemText primary={`Item ${index + 1}`} />
-      </ListItemButton>
-    </ListItem>
-  );
-}
 
 const Profile= () => {
 
+  // [채명] axios로 친구 목록 받아서 friends에 넣기
+  const friends = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   
   return (
     <div id="container_div">
@@ -63,70 +52,33 @@ const Profile= () => {
           
           {/* 여기는 친구 목록 */}
           <div className={styles.friends}>
-            <Container maxWidth="sm">
-            <Box component="div"
-              sx={{ width: '100%', bgcolor: '#FFF8F3' }}
-            >
-              <FixedSizeList
-                height={400}
-                width={500}
-                itemSize={46}
-                itemCount={200}
-                overscanCount={10}
-              >
-                {renderRow}
-              </FixedSizeList>
-            </Box>
-              {/* <Box component="div" sx={{ bgcolor: '#FFF8F3', height: '65vh' }}> */}
-
-                {/* <List sx={{ width: '100%' }}>
-                 
-                  <ListItem sx={{ height: 100 }}>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <ImageIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="고유라" />
-                  </ListItem>
-                  <ListItem sx={{ height: 100 }}>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <ImageIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="손민지" />
-                  </ListItem >
-                  <ListItem sx={{ height: 100 }}>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <ImageIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="남성은" />
-                  </ListItem>
-                  <ListItem sx={{ height: 100 }}>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <ImageIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="백승훈" />
-                  </ListItem>
-                  <ListItem sx={{ height: 100 }}>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <ImageIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="원민석" />
-                    <h2 className={styles.gift_request}>
-                      💞
-                    </h2>
-                  </ListItem>
-                </List> */}
-
-              {/* </Box> */}
+            <Container>
+              <Box component="div" sx={{ bgcolor: '#FFF8F3', height: '65vh' }}>
+                  <List
+                    sx={{
+                      position: 'relative',
+                      width: '100%',
+                      bgcolor: 'FFF8F3',
+                      overflow: 'auto',
+                      maxHeight: '100%',
+                      '& ul': { padding: 0 },
+                    }}
+                  >
+                    {friends.map((item) => (
+                      <ListItem sx={{height: 100}}>
+                        <ListItemAvatar>
+                          <Avatar>
+                            <ImageIcon />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={`Item ${item}`} />
+                        <Button color="error">
+                         <ForwardToInboxIcon fontSize='large'/>
+                        </Button>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
             </Container>
           </div>
 
