@@ -10,12 +10,12 @@ const Search = styled('div')(({ theme }) => ({
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.5),
   },
-  marginLeft: 20,
-  marginRight: 20,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    width: 'auto',
-  },
+  marginLeft: 24,
+  marginRight: 24,
+  width: 'auto',
+  // [theme.breakpoints.up('sm')]: {
+    // width: 'auto',
+  // },
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -33,18 +33,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(5)})`,
     transition: theme.transitions.create('width'),
-    width: '100%',
-
+    width: '100vw',
+    [theme.breakpoints.up('sm')]: {
+      width: '100%',
+      '&:focus': {
+        width: '100%',
+      },
+    },
   },
 }));
 
 const SearchBar= () => {
   return (
-    <Search>
+    <Search id='css-xkcxz9'>
       <SearchIconWrapper >
-        <SearchIcon />
+        <SearchIcon sx={{ ml: 1 }}/>
       </SearchIconWrapper>
       <StyledInputBase
+        className='css-3zl9sa-MuiInputBase-root MuiInputBase-input'
         placeholder="친구를 검색하세요"
         inputProps={{ 'aria-label': 'search' }}
       />

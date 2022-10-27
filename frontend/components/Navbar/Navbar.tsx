@@ -1,26 +1,26 @@
 import Grid from '@mui/material/Grid';
-
 import styles from "./Navbar.module.css"
 import IconButton from '@mui/material/IconButton'
 import Avatar from '@mui/material/Avatar'
-
+// import { useNavigate } from 'react-router-dom';
 
 const Navbar= () => {
 
-  // const history = useHistory();
+  // const navigate = useNavigate();
 
   const goback = () => {
-    // history.push('/');
-    alert('뒤로 가기')
+    // navigate('/[userid]');
+    alert('뒤로가기')
   }
 
   return (
     <div className={styles.navbar} >   
       
         {/* 뒤로가기 */}
-        <Grid xs={0} sm={2} item>
+        <Grid xs={0} sm={2} item >
           <IconButton sx={{ m: 2.5, p:0 }} onClick={goback}>
             <Avatar alt="" src="/images/wreath_1.png" className={styles.avatar}>
+
             </Avatar>
           </IconButton>
         </Grid>
