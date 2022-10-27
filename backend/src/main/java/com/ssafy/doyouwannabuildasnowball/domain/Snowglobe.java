@@ -2,8 +2,10 @@ package com.ssafy.doyouwannabuildasnowball.domain;
 
 import com.ssafy.doyouwannabuildasnowball.domain.base.BaseEntity;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NoArgsConstructor
@@ -17,11 +19,11 @@ public class Snowglobe extends BaseEntity {
     @Column(name = "snowglobe_id")
     private Long snowglobeId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "maker_id")
     private Member maker;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "receiver_id")
     private Member receiver;
 

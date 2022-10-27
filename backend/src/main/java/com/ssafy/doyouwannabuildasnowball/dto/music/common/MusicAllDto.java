@@ -14,5 +14,6 @@ public class MusicAllDto {
     private Long musicId;
     private String url;
     private String title;
-    private Category category;
+    private Long categoryId;
+    private String categoryName;
 }

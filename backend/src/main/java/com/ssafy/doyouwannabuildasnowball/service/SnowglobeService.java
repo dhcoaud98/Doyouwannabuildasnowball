@@ -43,10 +43,11 @@ public class SnowglobeService {
     public MainSnowglobeDto mainSnowglobe(Long uid) {
         Optional<Member> member = memberRepository.findById(uid);
         Snowglobe snowglobe = member.get().getSnowglobe();
+        log.info("스노ㅗ랑러ㅣㅏ너"+snowglobe.toString());
         return MainSnowglobeDto.builder()
                 .snowglobeId(snowglobe.getSnowglobeId())
                 .screenshot(snowglobe.getScreenshot())
-                .music(snowglobe.getMusic())
+                .musicId(snowglobe.getMusic().getMusicId())
                 .build();
     }
 
@@ -54,7 +55,7 @@ public class SnowglobeService {
     //url = `https://서버 주소/share?userId=${userId}`
     @Transactional
     public String shareSnowglobe(Long mid) {
-        String url = "https://서버 주소/share?memberId=${mid}";
+        String url = "https://localhost:8080/share?memberId="+mid;
         return url;
     }
 
@@ -62,26 +63,29 @@ public class SnowglobeService {
     @Transactional
     public void updateSnowglobe(Long uid, SnowglobeUpdateRequestDto snowglobeUpdateRequestDto) {
         //메인 스노우볼 아이디 main_id > mid
-        Optional<Member> member = memberRepository.findById(uid);
-        Snowglobe snowglobe = member.get().getSnowglobe();
+        Member member = memberRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 회원입니다."));
+        Snowglobe snowglobe = member.getSnowglobe();
         Decoration decoById = decorationRepository.findById(snowglobe.getSnowglobeId()).orElseThrow(() -> new BadRequestException("유효하지 않은 요소입니다."));
+
         decoById.setDeco(snowglobeUpdateRequestDto.getDecoration());
+        snowglobe.setScreenshot(snowglobeUpdateRequestDto.getScreenshot());
+
         decorationRepository.save(decoById);
+        snowglobeRepository.save(snowglobe);
     }
 
     //친구 메인 페이지에서 스노우볼 선물하기
     @Transactional
-    public Snowglobe presentSnowglobe(Long rid, SnowglobeRequestDto snowglobeRequestDto, Member member) {
+    public void presentSnowglobe(Long rid, SnowglobeRequestDto snowglobeRequestDto) {
+        Member maker = memberRepository.findById(snowglobeRequestDto.getMakerId()).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Member receiver = memberRepository.findById(rid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
-        //rdb id 만들고 mongodb에 deco 넣기 추가
         Snowglobe snowglobe = new Snowglobe().builder()
-                .maker(member)
+                .maker(maker)
                 .receiver(receiver)
                 .makerSaved(false)
                 .receiverSaved(true)
-//                .screenshot(snowglobeRequestDto.getScreenshot())
-                .music(snowglobeRequestDto.getMusic())
                 .build();
+
         snowglobeRepository.save(snowglobe);
 
         Decoration decoration = new Decoration().builder()
@@ -89,21 +93,15 @@ public class SnowglobeService {
                 .deco(snowglobeRequestDto.getDeco())
                 .build();
         decorationRepository.save(decoration);
-        return snowglobe;
     }
 
 
     //선물한 스노우볼 내 책장에 저장
     @Transactional
-    public void savePresent(Long snowglobeId, Member member) {
+    public void savePresent(Long snowglobeId) {
         Snowglobe snowglobe = snowglobeRepository.findById(snowglobeId).orElseThrow(() -> new BadRequestException("유효하지 않은 스노우볼입니다."));
-        Long mid = snowglobe.getMaker().getMemberId();
-        if (mid.equals(member.getMemberId())) {
-            snowglobe.setMakerSaved(true);
-            snowglobeRepository.save(snowglobe);
-        } else {
-            new BadRequestException("유효하지 않은 요청입니다.");
-        }
+        snowglobe.setMakerSaved(true);
+        snowglobeRepository.save(snowglobe);
     }
 
     //갖고있는 스노우볼 확인 (내 책장)
@@ -114,12 +112,12 @@ public class SnowglobeService {
 
     //책장에서 스노우볼 삭제
     @Transactional
-    public void deleteSnowglobe(Long sid, Member member) {
+    public void deleteSnowglobe(Long sid, Long mid) {
         Snowglobe snowglobe = snowglobeRepository.findById(sid).orElseThrow(() -> new BadRequestException("유효하지 않은 스노우볼입니다."));
-        if (member.getMemberId().equals(snowglobe.getMaker().getMemberId())) {
+        if (mid.equals(snowglobe.getMaker().getMemberId())) {
             snowglobe.setMakerSaved(false);
             snowglobeRepository.save(snowglobe);
-        } else if (member.getMemberId().equals(snowglobe.getReceiver().getMemberId())) {
+        } else if (mid.equals(snowglobe.getReceiver().getMemberId())) {
             snowglobe.setReceiverSaved(false);
             snowglobeRepository.save(snowglobe);
         } else {
@@ -148,7 +146,8 @@ public class SnowglobeService {
                     .musicId(music.getMusicId())
                     .title(music.getTitle())
                     .url(music.getUrl())
-                    .category(music.getCategory())
+                    .categoryId(music.getCategory().getCategoryId())
+                    .categoryName(music.getCategory().getCategoryName())
                     .build());
         }
         return result;
