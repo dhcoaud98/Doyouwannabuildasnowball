@@ -9,6 +9,34 @@
   height: 5%;
 }
 
+
+/* .upper {
+  height: 15%;
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+} */
+
+.deco {
+  height: 10%;
+}
+
+.decoimag {
+  position: absolute;
+  display:flex;
+  width: 100%;
+  /* justify-content: center;
+  align-items: center; */
+}
+
 .friends {
-  height: 80%
+  height: 70%
+}
+
+.friends_box {
+
+}
+
+.gift_request {
+  padding-right: 20;
 }
