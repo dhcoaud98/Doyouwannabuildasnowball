@@ -4,7 +4,7 @@ const Board= () => {
   return (
       <div>
         <h1>
-          Board
+          게시판 페이지
         </h1>
       </div>
     )

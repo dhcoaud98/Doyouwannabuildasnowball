@@ -8,7 +8,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const Navbar= () => {
 
   // const navigate = useNavigate();
-
+  
   const goback = () => {
     // navigate('/[userid]');
     alert('뒤로가기')
