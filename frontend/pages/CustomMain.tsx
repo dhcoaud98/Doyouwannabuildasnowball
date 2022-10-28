@@ -2,6 +2,7 @@ import { Grid, Stack } from '@mui/material';
 // three import
 import MainContainer from "components/Three/MainContainer";
 import styles from "./CustomMain.module.css"
+import gsap from 'gsap'
 
 import { styled } from '@mui/material/styles';
 import SpeedDial, { SpeedDialProps } from '@mui/material/SpeedDial';
@@ -11,9 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PeopleIcon from '@mui/icons-material/People';
 import ShareIcon from '@mui/icons-material/Share';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import { red } from '@mui/material/colors';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 
 const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
@@ -82,6 +81,24 @@ const CustomMain= () => {
           {/* Three.js */}
           <Grid component="div" item xs={9}>
             <MainContainer/>
+
+            <div className={styles.container}>
+              <div className={`${styles.button} ${styles.btn_clickable}`}>
+                <div className={styles.slider}>
+                  <div className={styles.slider_text}>
+                    <div className={styles.text}>마을 놀러가기!</div>
+                  </div>
+                  <div className={styles.slider_trigger}>
+                    <div className={styles.controller} id='controller'>
+                     <ArrowForwardIosIcon />
+                    </div>
+                    <div className={styles.endpoint_container}>
+                      <div className={styles.endpoint} id='controllerDrop'></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </Grid>
 
           {/* 하단 */}
