@@ -46,9 +46,12 @@ public class SnowglobeService {
     public MainSnowglobeDto mainSnowglobe(Long uid) {
         Member member = memberRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 회원입니다."));
         Snowglobe snowglobe = member.getSnowglobe();
+        Decoration decoration = decorationRepository.findById(snowglobe.getSnowglobeId()).orElseThrow(() -> new BadRequestException("유효하지 않은 요소입니다."));
+
         return MainSnowglobeDto.builder()
                 .snowglobeId(snowglobe.getSnowglobeId())
-                .screenshot(snowglobe.getScreenshot())
+                .tree(decoration.getTree())
+                .snowman(decoration.getSnowman())
                 .musicId(snowglobe.getMusic().getMusicId())
                 .build();
     }
