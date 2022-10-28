@@ -97,17 +97,17 @@ oauth2:
     authorizedRedirectUri: http://localhost:3000
 #  authorizedRedirectUri: https://j7a603.p.ssafy.io/oauth2/redirect
 
-#cloud:
-#  aws:
-#    credentials:
-#      accessKey: AKIASQN6UNY6TV5Y5GEP
-#      secretKey: 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
-#    s3:
-#      bucket: rideus-image
-#    region:
-#      static: ap-northeast-2
-#    stack:
-#      auto: false
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIA3FTVN73LLSOXAIHF
+      secretKey: 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
+    s3:
+      bucket: 601snowball
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 
 logging:
   level:
