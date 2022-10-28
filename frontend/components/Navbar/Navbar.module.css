@@ -19,9 +19,15 @@
 .avatar {
   max-width: 100%;
   max-height: 100%;
+  /* z-index: 1; */
 }
 
 .back_button {
   z-index: 2;
   color: black;
+}
+
+
+.arrow {
+  z-index: 1;
 }

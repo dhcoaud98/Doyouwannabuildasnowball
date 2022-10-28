@@ -1,4 +1,5 @@
 
+import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
@@ -44,15 +45,29 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const SearchBar= () => {
+  const [text, setText] = useState('');
+  
+  const onChange = (e: any) => {
+    setText(e.target.value);
+    console.log('지금 검색 이름 = ', e.target.value)
+  };
+
+
+  // 친구 목록 검색 axios
+  
+
   return (
     <Search id='css-xkcxz9'>
       <SearchIconWrapper >
         <SearchIcon sx={{ ml: 1 }}/>
       </SearchIconWrapper>
+      {/* <input onChange={onChange} value={text}  /> */}
       <StyledInputBase
         className='css-3zl9sa-MuiInputBase-root MuiInputBase-input'
         placeholder="친구를 검색하세요"
         inputProps={{ 'aria-label': 'search' }}
+        onChange={onChange}
+        value={text}
       />
     </Search>
     )

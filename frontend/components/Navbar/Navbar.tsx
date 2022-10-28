@@ -3,6 +3,7 @@ import styles from "./Navbar.module.css"
 import IconButton from '@mui/material/IconButton'
 import Avatar from '@mui/material/Avatar'
 // import { useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Navbar= () => {
 
@@ -20,7 +21,7 @@ const Navbar= () => {
         <Grid xs={0} sm={2} item >
           <IconButton sx={{ m: 2.5, p:0 }} onClick={goback}>
             <Avatar alt="" src="/images/wreath_1.png" className={styles.avatar}>
-
+              <ArrowBackIcon className={styles.arrow}/>
             </Avatar>
           </IconButton>
         </Grid>

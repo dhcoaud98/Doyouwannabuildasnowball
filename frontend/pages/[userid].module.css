@@ -30,6 +30,37 @@
 }
 
 .friends {
-
   height: 70%
 }
+
+
+.modal-text {
+  font-family:'MaruBuri-Regular';
+  font-weight: lighter;
+  font-size: 2em;
+  text-align: center;
+  color: #4E5D39;
+}
+
+.cntmenu_text1 {
+  font-family:'MaruBuri-Regular';
+  font-weight: lighter;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  color: #4E5D39;
+}
+
+.gift_delete_button{
+  display: flex;
+  justify-content: center;
+
+}
+
+.go{
+  color: #6A1206;
+  margin: 0;
+}
+
+
+
