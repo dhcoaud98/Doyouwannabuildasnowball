@@ -1,6 +1,6 @@
 import "./MainContainer.module.css"
 import { Canvas } from "@react-three/fiber"
-import { Suspense, useEffect, useRef } from "react"
+import { Suspense, useEffect, useRef, useState } from "react"
 import { Center, Environment } from "@react-three/drei"
 import Snow_globe from "./Snow_globe"
 import Model from './Scene'
@@ -14,14 +14,14 @@ import S3 from 'react-aws-s3';
 function MainContainer() {
   // 변수 선언
   const target = useRef()
+  let [env,setEnv] = useState(0)
   // 이미지 업로드 함수
-  const saveImage = (sb_id) => {
-    console.log(target.current)
+  const saveImage = (sb_id) => {  
+    setEnv(1)
+
     // canvas to blob
     const imgBase64 = target.current.toDataURL('image/png')
     const decodeImg = atob(imgBase64.split(',')[1])
-    console.log(decodeImg)
-
     let array =[]
     for (let i=0; i <decodeImg.length; i++){
       array.push(decodeImg.charCodeAt(i))
@@ -40,7 +40,10 @@ function MainContainer() {
   const filename = `${sb_id}.png`
   ReactS3Client
     .uploadFile(file, filename)
-    .then(data => console.log(data))
+    .then(data => {
+      console.log(data)
+      setEnv(0)
+    })
     .catch(err => console.log(err))
   }
     
@@ -63,8 +66,7 @@ function MainContainer() {
             </Center>
             <Environment preset="dawn" />
           </Suspense>
-
-          {/* <Environment background resolution={64}>
+          {env === 0 ? <Environment background resolution={64}>
             <mesh scale={51}>
               <sphereGeometry args={[1, 64, 64]} />
               <LayerMaterial side={THREE.BackSide}>
@@ -73,7 +75,8 @@ function MainContainer() {
                 <Noise mapping="local" type="cell" scale={0.5} mode="softlight" />
               </LayerMaterial>
             </mesh>
-          </Environment> */}
+          </Environment> : null}
+          
         </Canvas>
     </div>
     
