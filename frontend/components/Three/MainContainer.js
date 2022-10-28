@@ -8,9 +8,42 @@ import { MeshReflectorMaterial } from "@react-three/drei"
 import { LayerMaterial, Base, Depth, Noise, Color } from 'lamina'
 import * as THREE from "three"
 import { OrbitControls } from "@react-three/drei"
+import S3 from 'react-aws-s3';
 
 
 function MainContainer() {
+  // 변수 선언
+  const target = useRef()
+  // 이미지 업로드 함수
+  const saveImage = (sb_id) => {
+    console.log(target.current)
+    // canvas to blob
+    const imgBase64 = target.current.toDataURL('image/png')
+    const decodeImg = atob(imgBase64.split(',')[1])
+    console.log(decodeImg)
+
+    let array =[]
+    for (let i=0; i <decodeImg.length; i++){
+      array.push(decodeImg.charCodeAt(i))
+    }
+
+    const file = new Blob([new Uint8Array(array)], {type: 'image/png'})
+    // S3 Config
+    const config = {
+      bucketName: '601snowball',
+      dirName: 'snowball_sc', /* optional */
+      region: 'ap-northeast-2',
+      accessKeyId: 'AKIA3FTVN73LLSOXAIHF',
+      secretAccessKey: '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',
+  }
+  const ReactS3Client = new S3(config)
+  const filename = `${sb_id}.png`
+  ReactS3Client
+    .uploadFile(file, filename)
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
+  }
+    
   return (
     <div className='canvas-container'>
       <style jsx>{`
@@ -19,9 +52,8 @@ function MainContainer() {
       height:100%;
       }
     `}</style>
-        <Canvas width="100" height="400" camera={{ position: [0,0,5], fov: 35 }} gl={{ alpha: false }} dpr={[1,2]} id={'menu-canvas'}>
+        <Canvas width="100" height="400" camera={{ position: [0,0,5], fov: 35 }} gl={{ preserveDrawingBuffer: true }} dpr={[1,2]} id={'menu-canvas'} ref={target} onClick={() => saveImage('1423')}>
           <OrbitControls/>
-          <color attach="background" args={["linear-gradient(#FF7878, #F63C3C)"]}/>
           <directionalLight intensity={2} position={[10, 6, 6]}> 
           </directionalLight>
           <Suspense fallback={null}>  
@@ -32,7 +64,7 @@ function MainContainer() {
             <Environment preset="dawn" />
           </Suspense>
 
-          <Environment background resolution={64}>
+          {/* <Environment background resolution={64}>
             <mesh scale={51}>
               <sphereGeometry args={[1, 64, 64]} />
               <LayerMaterial side={THREE.BackSide}>
@@ -41,9 +73,8 @@ function MainContainer() {
                 <Noise mapping="local" type="cell" scale={0.5} mode="softlight" />
               </LayerMaterial>
             </mesh>
-          </Environment>
+          </Environment> */}
         </Canvas>
-
     </div>
     
   )
