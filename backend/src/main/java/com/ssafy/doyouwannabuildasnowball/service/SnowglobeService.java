@@ -44,8 +44,8 @@ public class SnowglobeService {
     //user_id > uid
     @Transactional
     public MainSnowglobeDto mainSnowglobe(Long uid) {
-        Optional<Member> member = memberRepository.findById(uid);
-        Snowglobe snowglobe = member.get().getSnowglobe();
+        Member member = memberRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 회원입니다."));
+        Snowglobe snowglobe = member.getSnowglobe();
         return MainSnowglobeDto.builder()
                 .snowglobeId(snowglobe.getSnowglobeId())
                 .screenshot(snowglobe.getScreenshot())
@@ -86,6 +86,7 @@ public class SnowglobeService {
         Member receiver = memberRepository.findById(rid).orElseThrow(() -> new BadRequestException("유효하지 않은 사용자입니다."));
         Snowglobe snowglobe = new Snowglobe().builder()
                 .maker(maker)
+                .screenshot(snowglobeRequestDto.getScreenshot())
                 .receiver(receiver)
                 .makerSaved(false)
                 .receiverSaved(true)

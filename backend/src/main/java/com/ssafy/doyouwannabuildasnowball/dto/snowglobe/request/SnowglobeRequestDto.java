@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class SnowglobeRequestDto {
     private Long makerId;
+    private String screenshot;
     private Tree tree;
     private Snowman snowman;
 }
