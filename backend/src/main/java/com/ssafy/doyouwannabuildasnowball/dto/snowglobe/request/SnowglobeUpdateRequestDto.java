@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class SnowglobeUpdateRequestDto {
+    private String screenshot;
     private Tree tree;
     private Snowman snowman;
 }
