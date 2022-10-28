@@ -69,8 +69,8 @@ public class SnowglobeController {
     //책장에서 스노우볼 삭제*
     @PatchMapping("/{snowglobe_id}/delete")
     //Member member
-    public ResponseEntity<Void> deleteSnowglobe(@PathVariable(value = "snowglobe_id") Long sid, Long mid) {
-        snowglobeService.deleteSnowglobe(sid, mid);
+    public ResponseEntity<Void> deleteSnowglobe(@PathVariable(value = "snowglobe_id") Long sid, Member member) {
+        snowglobeService.deleteSnowglobe(sid, member.getMemberId());
         return ResponseEntity.ok().build();
     }
 
