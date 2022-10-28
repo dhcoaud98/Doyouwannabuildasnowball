@@ -1,4 +1,4 @@
-package com.ssafy.doyouwannabuildasnowball.config.security.oauth.util;
+package com.ssafy.doyouwannabuildasnowball.config.security.oauth.JWT;
 
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.CustomUserDetails;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
@@ -27,8 +27,7 @@ public class JwtTokenProvider {
     private final String SECRET_KEY;
     private final String COOKIE_REFRESH_TOKEN_KEY;
 
-    @Value("${token.expiration_time}")
-    private long ACCESS_TOKEN_EXPIRE_LENGTH;
+    private long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 60 * 60 * 24;
     private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L * 60 * 60 * 24 * 7;    // 1week
     private final String AUTHORITIES_KEY = "role";
 
@@ -57,44 +56,44 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .setSubject(userId)
                 .claim(AUTHORITIES_KEY, role)
-                .setIssuer("ride-us")
+                .setIssuer("snowball")
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .compact();
     }
 
-//    public String createRefreshToken(Authentication authentication, HttpServletResponse response) {
-//        Date now = new Date();
-//        Date validity = new Date(now.getTime() + REFRESH_TOKEN_EXPIRE_LENGTH);
-//
-//        String refreshToken = Jwts.builder()
-//                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-//                .setIssuer("ride-us")
-//                .setIssuedAt(now)
-//                .setExpiration(validity)
-//                .compact();
-//
-//        saveRefreshToken(authentication, refreshToken);
-//
-//        ResponseCookie cookie = ResponseCookie.from(COOKIE_REFRESH_TOKEN_KEY, refreshToken)
-//                .httpOnly(true)
-//                .secure(true)
-//                .sameSite("Lax")
-//                .maxAge(REFRESH_TOKEN_EXPIRE_LENGTH / 1000)
-//                .path("/")
-//                .build();
-//
-//        response.addHeader("Set-Cookie", cookie.toString());
-//
-//        return refreshToken;
-//    }
+    public String createRefreshToken(Authentication authentication, HttpServletResponse response) {
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + REFRESH_TOKEN_EXPIRE_LENGTH);
 
-//    private void saveRefreshToken(Authentication authentication, String refreshToken) {
-//        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
-//        Long id = Long.valueOf(user.getName());
-//
+        String refreshToken = Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .setIssuer("A601")
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .compact();
+
+        saveRefreshToken(authentication, refreshToken);
+
+        ResponseCookie cookie = ResponseCookie.from(COOKIE_REFRESH_TOKEN_KEY, refreshToken)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("A601")
+                .maxAge(REFRESH_TOKEN_EXPIRE_LENGTH / 1000)
+                .path("/")
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
+
+        return refreshToken;
+    }
+
+    private void saveRefreshToken(Authentication authentication, String refreshToken) {
+        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+        Long id = Long.valueOf(user.getName());
+
 //        memberRepository.updateRefreshToken(id, refreshToken);
-//    }
+    }
 
     // Access Token을 검사하고 얻은 정보로 Authentication 객체 생성
     public Authentication getAuthentication(String accessToken) {

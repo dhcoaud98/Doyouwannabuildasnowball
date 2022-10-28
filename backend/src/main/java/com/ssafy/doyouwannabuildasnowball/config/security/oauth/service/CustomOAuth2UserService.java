@@ -41,63 +41,38 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     // OAuth2UserRequest에 있는 Access Token으로 유저정보 get
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
+        log.info("[CustomOauh2UserService] -> loadUser");
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
-        Map<String, Object> attributes = oAuth2User.getAttributes();
-        String accessToken = oAuth2UserRequest.getAccessToken().getTokenValue();
-        System.out.println("accessToken = " + accessToken);
-        KakaoOAuth2UserInfo kakaoOAuth2UserInfo = new KakaoOAuth2UserInfo(attributes);
-        log.info("id : " + kakaoOAuth2UserInfo.getId());
-        log.info("nick name : " + kakaoOAuth2UserInfo.getName());
-        log.info("e-mail : " + kakaoOAuth2UserInfo.getEmail());
-
-        httpSession.setAttribute("login_info", attributes);
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),attributes, "id");
-//        return process(oAuth2UserRequest, oAuth2User);
+        log.info("oauth2User : " + oAuth2User.toString());
+        return process(oAuth2UserRequest, oAuth2User);
     }
 
     // 획득한 유저정보를 Java Model과 맵핑하고 프로세스 진행
-    private OAuth2User process(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
-
-        // kakao, userinfo 정보 확인
+    private OAuth2User process(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User){
+        log.info("[CustomOauh2UserService] -> process");
         AuthProvider authProvider = AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase());
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(authProvider, oAuth2User.getAttributes());
-        Map<String, Object> attributes = oAuth2User.getAttributes();
-        KakaoOAuth2UserInfo kakaoOAuth2UserInfo = new KakaoOAuth2UserInfo(attributes);
-        log.info("id : " + kakaoOAuth2UserInfo.getId());
-        log.info("nick name : " + kakaoOAuth2UserInfo.getName());
-        log.info("e-mail : " + kakaoOAuth2UserInfo.getEmail());
-
-        //         email이 없는 경우
-        if (userInfo.getEmail().isEmpty()) {
-            throw new OAuthProcessingException("Email not found from OAuth2 provider");
-        }
 
         Optional<Member> userOptional = memberRepository.findByKakaoId(Long.valueOf(userInfo.getId()));
         Member member;
 
-
-        // 사용자가 이미 회원가입 되어있는 경우
         if(userOptional.isPresent()) {
+            log.info("user is present");
             member = userOptional.get();
-            if (authProvider != member.getAuthProvider()) {
+            if(authProvider != member.getAuthProvider()){
                 throw new OAuthProcessingException("Wrong Match Auth Provider");
             }
-        }
-        else {
+        } else{
+            log.info("new member");
             member = createMember(userInfo, authProvider);
-            // 기본 스노우볼 생성
-            memberService.makeDefaultSnowglobe(member.getMemberId());
         }
         return CustomUserDetails.create(member, oAuth2User.getAttributes());
-
-//        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
-//                attributes, "id");
-
     }
+
 
     private Member createMember(OAuth2UserInfo userInfo, AuthProvider authProvider) {
         Member member = Member.builder()
-//                .nickname(userInfo.getName())
+                .name(userInfo.getName())
                 .email(userInfo.getEmail())
                 .kakaoId(Long.valueOf(userInfo.getId()))
                 .profileImageUrl(userInfo.getImageUrl())

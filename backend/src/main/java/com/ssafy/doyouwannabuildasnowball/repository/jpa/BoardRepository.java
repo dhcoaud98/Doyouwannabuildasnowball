@@ -13,10 +13,11 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
 
-    List<Board> findAllBySnowglobeId(Long snowglobeId);
+    @Query("select b from Board b where b.snowglobe.id =:snowglobeId")
+    List<Board> findAllSnowglobe(Long snowglobeId);
     @Transactional
     @Modifying
-    @Query("UPDATE Board b SET b.content = :content, b.picture = :picture WHERE b.board_id=:boardId")
+    @Query("UPDATE Board b SET b.content = :content, b.picture = :picture WHERE b.boardId = :boardId")
     void updateBoardContent(String content, String picture, Long boardId);
 
 }

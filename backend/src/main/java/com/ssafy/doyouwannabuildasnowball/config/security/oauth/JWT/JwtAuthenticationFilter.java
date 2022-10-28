@@ -1,6 +1,5 @@
-package com.ssafy.doyouwannabuildasnowball.config.security.oauth.filter;
+package com.ssafy.doyouwannabuildasnowball.config.security.oauth.JWT;
 
-import com.ssafy.doyouwannabuildasnowball.config.security.oauth.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -26,6 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        log.info("JwtAuthenticationFilter : doFilterInternal");
         String token = parseBearerToken(request);
 
         // Validation Access Token

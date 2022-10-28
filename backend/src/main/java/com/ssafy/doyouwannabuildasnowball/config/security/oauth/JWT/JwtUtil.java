@@ -1,4 +1,4 @@
-package com.ssafy.doyouwannabuildasnowball.config.security.oauth.util;
+package com.ssafy.doyouwannabuildasnowball.config.security.oauth.JWT;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -1,5 +1,8 @@
 package com.ssafy.doyouwannabuildasnowball.config.security;
 
+import com.ssafy.doyouwannabuildasnowball.config.security.oauth.JWT.JwtAccessDeniedHandler;
+import com.ssafy.doyouwannabuildasnowball.config.security.oauth.JWT.JwtAuthenticationEntryPoint;
+import com.ssafy.doyouwannabuildasnowball.config.security.oauth.JWT.JwtAuthenticationFilter;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.CustomAccessDeniedHandler;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.CustomAuthenticationEntryPoint;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler.OAuth2AuthenticationFailureHandler;
@@ -30,7 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
-
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private static final String[] PERMIT_URL_ARRAY = {
             /* swagger v2 */
             "/v2/api-docs",
@@ -43,14 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            /* swagger v3 */
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            /* 카카오 로그인 */
-//            "/user/kakao/callback",
-//            "/user/login",
-//            "/api"
-            /* 로그인 permission */
-//            "/login/**",
-//            "/oauth2/authorize/kakao",
-//            "api/login"
     };
 
     /**
@@ -68,107 +65,46 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .httpBasic().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .cors()
+                .and()
+                .authorizeRequests()
+                .antMatchers(PERMIT_URL_ARRAY).permitAll()
+                .antMatchers("/api/auth/**", "/api/oauth2/**").permitAll()
+//                .anyRequest().permitAll()
+
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .headers();
 
         http
-//                .csrf().disable()
-
                 .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize")
+                .authorizationRequestRepository(cookieAuthorizationRequestRepository)
+                .and()
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler);
 
 
+        http.exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .and()
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-//        http
-//                .httpBasic().disable()
-//                .cors().configurationSource(corsConfigurationSource())
-//                .and()
-//                .csrf().disable()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers(PERMIT_URL_ARRAY).permitAll()
-//                .antMatchers("/oauth2/**", "/auth/**", "/api", "/swagger*/**", "/v2/api-docs").permitAll()
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .and()
-//                .oauth2Login()
-//                .authorizationEndpoint()
-//                .baseUri("/oauth2/authorize")
-//                .authorizationRequestRepository(cookieAuthorizationRequestRepository)
-//                .and()
-//                .redirectionEndpoint()
-//                .baseUri("/oauth2/callback/*")
-//                .and()
-//                .userInfoEndpoint()
-//                .userService(customOAuth2UserService)
-//                .and()
-//                .successHandler(oAuth2AuthenticationSuccessHandler)
-//                .failureHandler(oAuth2AuthenticationFailureHandler);
-
-//                .and()
-//                .successHandler(authenticationSuccessHandler)
-//                .failureHandler(authenticationFailureHandler);
-//        http
-////                .csrf().disable() // swagger API 호출시 403 에러 발생 방지
-////                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-////                .and()
-////                .authorizeRequests()
-////                .antMatchers(PERMIT_URL_ARRAY).permitAll() // 리소스(URL)의 권한 설정, antMatchers 설정한 리소스의 접근을 인증절차 없이 허용
-////                .antMatchers("/api/auth/**", "/api/oauth2/**").permitAll()
-////                .anyRequest().hasRole("USER")
-////                .anyRequest().permitAll()
-////                .and()
-////                .exceptionHandling()
-////                .authenticationEntryPoint(authenticationEntryPoint) // 인증이 되지 않은 유저가 요청을 했을 때 동작
-////                .accessDeniedHandler(accessDeniedHandler) // 서버에 요청을 할 때 액세스가 가능한지 권한을 체크후 액세스 할 수 없는 요청을 했을시 동작
-////                .and()
-//                .oauth2Login()
-//                .authorizationEndpoint()
-//                .baseUri("/oauth2/authorize")
-//                .and()
-//                .userInfoEndpoint()
-//                .userService(customOAuth2UserService)
-//
-
-        ;
-//        http
-//                .csrf().disable() // swagger API 호출시 403 에러 발생 방지
-//                .authorizeRequests()
-//                .antMatchers(PERMIT_URL_ARRAY).permitAll() // 리소스(URL)의 권한 설정, antMatchers 설정한 리소스의 접근을 인증절차 없이 허용
-//                .anyRequest().anonymous()
-//                .and()
-//                .exceptionHandling()
-//                .authenticationEntryPoint(authenticationEntryPoint) // 인증이 되지 않은 유저가 요청을 했을 때 동작
-//                .accessDeniedHandler(accessDeniedHandler) // 서버에 요청을 할 때 액세스가 가능한지 권한을 체크후 액세스 할 수 없는 요청을 했을시 동작
-//                .and()
-//
-//                // oauth2 kakao login 설정 적용
-//                .oauth2Login()
-//                .authorizationEndpoint()
-//                .baseUri("oauth2/authorize")
-//                .authorizationRequestRepository(cookieAuthorizationRequestRepository)
-//                .and()
-//                .redirectionEndpoint()
-//                .baseUri("oauth2/code/*")
-//                .and()
-//                .userInfoEndpoint()
-//                .userService(customOAuth2UserService)
-//                .and()
-//                .successHandler(oAuth2AuthenticationSuccessHandler)
-//                .failureHandler();
-
-
-//                .and()
-//                .defaultSuccessUrl("/{login-success-url}")          // oauth2 인증이 성공했을 때 이동 url 설정
-//                .successHandler(OAuth2AuthenticationSuccessHandler) // 인증 프로세스에 따라 사용자 정의 로직 수행
-//                .userInfoEndpoint()
-//                .userService(userOauth2Service);                    // 로그인 성공 후 로그인 정보 들고 후처리
-
-
-//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
-
-//        ;
     }
+
+
+
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

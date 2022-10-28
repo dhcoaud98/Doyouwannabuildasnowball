@@ -9,7 +9,9 @@ import com.ssafy.doyouwannabuildasnowball.dto.board.response.BoardAllResponse;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.BoardRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.SnowglobeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import springfox.documentation.spring.web.json.Json;
 
@@ -21,16 +23,18 @@ import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundExcept
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardService {
 
 
     private final BoardRepository boardRepository;
 
     private final SnowglobeRepository snowglobeRepository;
-    public BoardAllResponse findAllBoardBySnowglobe(Long snowglobeId) {
-        List<Board> boardList = boardRepository.findAllBySnowglobeId(snowglobeId);
-        return new BoardAllResponse(boardList);
 
+
+    public BoardAllResponse findAllBoardBySnowglobe(Long snowglobeId) {
+        List<Board> boardList = boardRepository.findAllSnowglobe(snowglobeId);
+        return new BoardAllResponse(boardList);
     }
 
     public void saveContent(WriteBoardRequest writeBoardRequest) throws Exception {
@@ -52,8 +56,12 @@ public class BoardService {
         if(boardOptional.isPresent()) {
             board = boardOptional.get();
             board.contentUpdate(boardDto.getContent(), boardDto.getPicture());
-            boardRepository.updateBoardContent(boardDto.getContent(), board.getPicture(), boardDto.getBoardId());
+            boardRepository.updateBoardContent(board.getContent(), board.getPicture(), board.getBoardId());
 
         } else throw new NotFoundException(BOARD_NOT_FOUND);
+    }
+
+    public void removeContent(Long boardId) {
+        boardRepository.deleteById(boardId);
     }
 }

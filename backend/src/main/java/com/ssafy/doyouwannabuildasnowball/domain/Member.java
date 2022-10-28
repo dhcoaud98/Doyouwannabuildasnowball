@@ -36,6 +36,9 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AuthProvider authProvider;
 
+
+    private String refreshToken;
+
     @Enumerated(EnumType.STRING)
     private MemberRole role;
 

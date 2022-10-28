@@ -1,6 +1,6 @@
-#server:
-#  servlet:
-#    context-path: /api
+server:
+  servlet:
+    context-path: /api
 
 spring:
   main:
@@ -66,8 +66,7 @@ spring:
           kakao:
             client-id: 272ae474b08df0caa648c29a2cf58ff2
             client-secret: PE7rGTcwahIX2yHK8ZgYHDnLT6BMUHP3
-            redirect-uri: http://localhost:8080/oauth2/code/kakao
-#            redirect-uri: http://localhost:8080/api/oauth2/authorize/kakao
+            redirect-uri: http://localhost:8080/api/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             client-name: Kakao
@@ -95,7 +94,7 @@ token:
 
 oauth2:
   # 클라이언트 주소
-    authorizedRedirectUri: http://localhost:8080/api/oauth2/code/kakao
+    authorizedRedirectUri: http://localhost:3000
 #  authorizedRedirectUri: https://j7a603.p.ssafy.io/oauth2/redirect
 
 #cloud:

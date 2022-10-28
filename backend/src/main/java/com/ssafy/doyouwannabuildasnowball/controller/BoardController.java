@@ -22,8 +22,7 @@ public class BoardController {
 
     @GetMapping("/all/{snowglobeId}")
     public ResponseEntity<BoardAllResponse> findAllBoardBySnowglobe(@PathVariable Long snowglobeId) {
-//        return ResponseEntity.status(HttpStatus.OK).body(boardService.findAllBoardBySnowglobe(snowglobeId));
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(boardService.findAllBoardBySnowglobe(snowglobeId));
     }
 
 
@@ -41,6 +40,11 @@ public class BoardController {
         boardService.modifyCotnent(boardDto);
     }
 
+    @DeleteMapping("/{boardId}/delete")
+    public ResponseEntity removeContent(Long boardId) {
+        boardService.removeContent(boardId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 
 

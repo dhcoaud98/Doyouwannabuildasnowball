@@ -1,19 +1,15 @@
 package com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler;
 
 import com.ssafy.doyouwannabuildasnowball.common.exception.BadRequestException;
-import com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.util.CookieUtil;
-import com.ssafy.doyouwannabuildasnowball.config.security.oauth.util.JwtTokenProvider;
+import com.ssafy.doyouwannabuildasnowball.config.security.oauth.JWT.JwtTokenProvider;
 import com.ssafy.doyouwannabuildasnowball.config.security.repository.CookieAuthorizationRequestRepository;
-import com.ssafy.doyouwannabuildasnowball.domain.Member;
-import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
@@ -39,6 +35,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        log.info("[OAut2AuthenticationSuccessHandler] on Authentication Success");
         String targetUrl = determineTargetUrl(request, response, authentication);
         System.out.println("targetUrl = " + targetUrl);
         if (response.isCommitted()) {
@@ -50,6 +47,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        log.info("[Authentication Success handler] determine target url");
         Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
 
@@ -60,7 +58,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         System.out.println("targetUrl 2 = " + targetUrl);
         // JWT 생성
         String accessToken = tokenProvider.createAccessToken(authentication);
-//        tokenProvider.createRefreshToken(authentication, response);
+        tokenProvider.createRefreshToken(authentication, response);
         System.out.println("accessToken = " + accessToken);
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("accessToken", accessToken)
