@@ -15,23 +15,25 @@ const Navbar= () => {
   }
 
   return (
-    <div className={styles.navbar} >   
+    <Grid container>   
       
-        {/* 뒤로가기 */}
-        <Grid xs={0} sm={2} item >
-          <IconButton sx={{ m: 2.5, p:0 }} onClick={goback}>
-            <Avatar alt="" src="/images/wreath_1.png" className={styles.avatar}>
-              <ArrowBackIcon className={styles.arrow}/>
-            </Avatar>
-          </IconButton>
-        </Grid>
+      {/* 뒤로가기 */}
+      <Grid xs={2} item >
+        <IconButton sx={{ m: 2.5, p:0 }} onClick={goback}>
+          <Avatar alt="" src="/images/wreath_1.png" className={styles.avatar}></Avatar>
+          <ArrowBackIcon className={styles.arrow}/>
+        </IconButton>
+      </Grid>
 
-        {/* 현재 화면 이름 */}
-        <Grid xs={0} sm={8}  item>
-          <h1 className='cntmenu-text'>나의 친구들</h1>
-        </Grid>
-      </div>
-    )
+      {/* 현재 화면 이름 */}
+      <Grid xs={8} item>
+        <h1 className='cntmenu-text'>나의 친구들</h1>
+      </Grid>
+
+      {/* 좌우대칭 */}
+      <Grid xs={2} item></Grid>
+    </Grid>
+  )
 }
 
 export default Navbar

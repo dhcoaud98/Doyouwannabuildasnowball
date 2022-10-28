@@ -22,7 +22,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
-// 컴포너트
+// 컴포넌트
 import Navbar from 'components/Navbar/Navbar';
 import SearchBar from 'components/Search/SearchBar';
 

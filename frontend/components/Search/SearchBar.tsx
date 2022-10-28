@@ -34,7 +34,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(5)})`,
     transition: theme.transitions.create('width'),
-    width: '100vw',
+    width: '100%',
     [theme.breakpoints.up('sm')]: {
       width: '100%',
       '&:focus': {
