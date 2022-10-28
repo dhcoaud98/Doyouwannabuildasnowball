@@ -15,10 +15,14 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Boolean existsByNickname(String nickname);
 
     @Modifying
-    // native query
-    // @Query(value = "UPDATE Member m SET m.snowglobeId=:snowglobeId WHERE m.memberId=:memberId", nativeQuery = true)
-    // JPQL
     @Query("update Member m set m.snowglobe.snowglobeId =:snowglobeId where m.memberId =:memberId")
+        // native query
+        // @Query(value = "UPDATE Member m SET m.snowglobeId=:snowglobeId WHERE m.memberId=:memberId", nativeQuery = true)
+        // JPQL
     void updateSnowglobeIdById(@Param("memberId") Long memberId,@Param("snowglobeId") Long snowglobeId);
+
+    @Modifying
+    @Query("update Member m set m.nickname =:nickname where m.memberId =:memberId")
+    void updateMemberNickname(@Param("memberId") Long memberId, @Param("nickname") String nickname);
 
 }

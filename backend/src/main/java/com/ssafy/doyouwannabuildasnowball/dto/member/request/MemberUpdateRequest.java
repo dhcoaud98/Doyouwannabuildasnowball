@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MemberUpdateRequest {
 
-    @ApiModelProperty(notes = "카카오 아이디")
-    private Long kakaoId;
+    @ApiModelProperty(notes = "멤버 아이디")
+    private Long memberId;
     @ApiModelProperty(notes = "닉네임")
     private String nickname;
 //    @ApiModelProperty(notes = "전화번호")
