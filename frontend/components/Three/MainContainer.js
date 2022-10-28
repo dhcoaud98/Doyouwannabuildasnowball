@@ -54,7 +54,6 @@ function MainContainer() {
     `}</style>
         <Canvas width="100" height="400" camera={{ position: [0,0,5], fov: 35 }} gl={{ preserveDrawingBuffer: true }} dpr={[1,2]} id={'menu-canvas'} ref={target} onClick={() => saveImage('1423')}>
           <OrbitControls/>
-          <color attach="background" args={["linear-gradient(#FF7878, #F63C3C)"]}/>
           <directionalLight intensity={2} position={[10, 6, 6]}> 
           </directionalLight>
           <Suspense fallback={null}>  
@@ -65,7 +64,7 @@ function MainContainer() {
             <Environment preset="dawn" />
           </Suspense>
 
-          <Environment background resolution={64}>
+          {/* <Environment background resolution={64}>
             <mesh scale={51}>
               <sphereGeometry args={[1, 64, 64]} />
               <LayerMaterial side={THREE.BackSide}>
@@ -74,7 +73,7 @@ function MainContainer() {
                 <Noise mapping="local" type="cell" scale={0.5} mode="softlight" />
               </LayerMaterial>
             </mesh>
-          </Environment>
+          </Environment> */}
         </Canvas>
     </div>
     
