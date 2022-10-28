@@ -10,7 +10,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
-@Setter
 public class Category extends BaseEntity {
 
     @Id

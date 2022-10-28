@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class MusicSelectRequestDto {
-    private Long snowglobeId;
     private Long musicId;
 }
