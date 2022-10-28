@@ -3,7 +3,6 @@ package com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.doyouwannabuildasnowball.common.dto.ExceptionResponse;
-import jdk.internal.org.jline.utils.Log;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,7 +26,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        Log.info("[CustomAccessDeniedHandler] handler");
+        log.info("[CustomAccessDeniedHandler] handler");
         String body = objectMapper.writeValueAsString(ExceptionResponse.from("보유한 권한으로 접근할 수 없습니다."));
 
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);

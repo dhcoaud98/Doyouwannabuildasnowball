@@ -144,7 +144,7 @@ public class SnowglobeService {
             snowglobe.updateReceiverSaved(false);
             snowglobeRepository.save(snowglobe);
         } else {
-            new BadRequestException("삭제할 수 없는 스노우볼입니다.");
+            throw new BadRequestException("삭제할 수 없는 스노우볼입니다.");
         }
     }
 

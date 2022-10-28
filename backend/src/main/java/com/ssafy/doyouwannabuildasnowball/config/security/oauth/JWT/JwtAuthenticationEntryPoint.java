@@ -1,6 +1,5 @@
 package com.ssafy.doyouwannabuildasnowball.config.security.oauth.JWT;
 
-import jdk.internal.org.jline.utils.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

@@ -37,6 +37,16 @@ public class MemberService {
                 .orElseThrow(() -> new NotFoundException(MEMBER_NOT_FOUND));
     }
 
+
+    @Transactional
+    public Member createMember(Member member) {
+        Member newMember = memberRepository.save(member);
+        newMember.setSnowglobe(makeDefaultSnowglobe(member.getMemberId()));
+        return newMember;
+    }
+
+
+    @Transactional
     public void updateUserInfo(MemberUpdateRequest memberUpdateRequest) {
         Optional<Member> memberOptional = memberRepository.findById(memberUpdateRequest.getKakaoId());
         if (memberOptional.isPresent()) {
@@ -54,7 +64,8 @@ public class MemberService {
         return memberRepository.existsByNickname(nickname);
     }
 
-    public void makeDefaultSnowglobe(Long memberId) {
+    @Transactional
+    public Snowglobe makeDefaultSnowglobe(Long memberId) {
 
         Optional<Member> memberOptional = memberRepository.findById(memberId);
         Member member;
@@ -63,22 +74,25 @@ public class MemberService {
         else throw new NotFoundException(MEMBER_NOT_FOUND);
 
         // 새로운 스노우볼 생성
-        snowglobeRepository.save(
-            Snowglobe.builder()
-                .maker(member)
-                .makerSaved(true)
-                .receiver(member)
-                .receiverSaved(true)
-                .screenshot(null)
-                .music(null)
-                .build());
+        Snowglobe defaultSnowball = snowglobeRepository.save(
+                Snowglobe.builder()
+                        .maker(member)
+                        .makerSaved(true)
+                        .receiver(member)
+                        .receiverSaved(true)
+                        .screenshot(null)
+                        .music(null)
+                        .build());
         // 스노우볼 아이디를 회원에게 저장
+        memberRepository.updateSnowglobeIdById(member.getMemberId(), defaultSnowball.getSnowglobeId());
 
 
+        return defaultSnowball;
     }
-
-
     public Member userInfo(String memberId) {
         return memberRepository.findById(Long.valueOf(memberId)).get();
     }
+
+
+
 }

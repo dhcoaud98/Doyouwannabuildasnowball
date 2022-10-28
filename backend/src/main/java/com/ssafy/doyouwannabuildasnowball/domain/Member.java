@@ -46,6 +46,6 @@ public class Member extends BaseEntity {
     private String profileImageUrl;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "main_id")
+    @JoinColumn(name = "snowglobe_id")
     private Snowglobe snowglobe;
 }

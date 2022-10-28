@@ -34,10 +34,10 @@ import java.util.Optional;
 @Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final MemberRepository memberRepository;
 
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
-    private final HttpSession httpSession;
+
     // OAuth2UserRequest에 있는 Access Token으로 유저정보 get
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -53,7 +53,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         AuthProvider authProvider = AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase());
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(authProvider, oAuth2User.getAttributes());
 
-        Optional<Member> userOptional = memberRepository.findByKakaoId(Long.valueOf(userInfo.getId()));
+        Optional<Member> userOptional = memberRepository.findByKakaoId(userInfo.getId());
         Member member;
 
         if(userOptional.isPresent()) {
@@ -74,11 +74,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Member member = Member.builder()
                 .name(userInfo.getName())
                 .email(userInfo.getEmail())
-                .kakaoId(Long.valueOf(userInfo.getId()))
+                .kakaoId(userInfo.getId())
                 .profileImageUrl(userInfo.getImageUrl())
                 .role(MemberRole.ROLE_MEMBER)
                 .authProvider(authProvider)
                 .build();
-        return memberRepository.save(member);
+        return memberService.createMember(member);
     }
 }
