@@ -1,18 +1,31 @@
 package com.ssafy.doyouwannabuildasnowball.domain;
 
 import com.ssafy.doyouwannabuildasnowball.domain.base.BaseEntity;
+import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeShelfResponseDto;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
+@NamedNativeQuery(
+        name = "set_shelf",
+        query = "select snowglobe_id, screenshot from snowglobe where (maker_id=:id and maker_saved=true) or (receiver_id=:id and receiver_saved=true)",
+        resultSetMapping = "shelf_dto"
+)
+@SqlResultSetMapping(
+        name = "shelf_dto",
+        classes = @ConstructorResult(
+                targetClass = SnowglobeShelfResponseDto.class,
+                columns = {
+                        @ColumnResult(name = "snowglobe_id", type = Long.class),
+                        @ColumnResult(name = "screenshot", type = String.class)
+                }
+        )
+)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
-@Setter
 public class Snowglobe extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,4 +52,20 @@ public class Snowglobe extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "music_id")
     private Music music;
+
+    public void updateScreenshot(String screenshot) {
+        this.screenshot = screenshot;
+    }
+
+    public void updateMakerSaved(Boolean makerSaved) {
+        this.makerSaved = makerSaved;
+    }
+
+    public void updateReceiverSaved(Boolean receiverSaved) {
+        this.receiverSaved = receiverSaved;
+    }
+
+    public void updateMusic(Music music) {
+        this.music = music;
+    }
 }

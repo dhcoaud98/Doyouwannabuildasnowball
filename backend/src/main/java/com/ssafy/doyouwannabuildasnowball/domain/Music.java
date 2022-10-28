@@ -11,7 +11,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
-@Setter
 public class Music extends BaseEntity {
 
     @Id

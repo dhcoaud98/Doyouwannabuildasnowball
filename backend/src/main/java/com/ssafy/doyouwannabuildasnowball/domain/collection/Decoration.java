@@ -9,11 +9,17 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 @Builder
 public class Decoration {
     @Id
     private Long id;
     // 스노우볼 커스텀 요소 맞춰서 수정
-    private String deco;
+    private Tree tree;
+    private Snowman snowman;
+
+    public void updateDeco(Long id, Tree tree, Snowman snowman) {
+        this.id = id;
+        this.tree = tree;
+        this.snowman = snowman;
+    }
 }

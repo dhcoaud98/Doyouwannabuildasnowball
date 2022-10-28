@@ -1,22 +1,21 @@
 package com.ssafy.doyouwannabuildasnowball.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
-import com.ssafy.doyouwannabuildasnowball.domain.Snowglobe;
 import com.ssafy.doyouwannabuildasnowball.dto.music.common.MusicAllDto;
 import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicSelectRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.common.MainSnowglobeDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeUpdateRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeDetailResponseDto;
+import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeShelfResponseDto;
 import com.ssafy.doyouwannabuildasnowball.service.SnowglobeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -37,12 +36,13 @@ public class SnowglobeController {
     //메인 스노우볼 페이지 링크 공유*
     @GetMapping("/{member_id}/share")
     public ResponseEntity<String> shareSnowglobe(@PathVariable(value = "member_id") Long uid) {
+        snowglobeService.shareSnowglobe(uid);
         return new ResponseEntity<String>(snowglobeService.shareSnowglobe(uid), HttpStatus.OK);
     }
 
     //메인 스노우볼 수정*
-    @PatchMapping("/{member_id}/modify")
-    public ResponseEntity<Void> modifySnowglobe(@PathVariable(value = "member_id") Long uid, @Valid @RequestBody SnowglobeUpdateRequestDto snowglobeUpdateRequestDto) {
+    @PutMapping("/{member_id}/modify")
+    public ResponseEntity<Void> modifySnowglobe(@PathVariable(value = "member_id") Long uid, @JsonProperty @RequestBody SnowglobeUpdateRequestDto snowglobeUpdateRequestDto) {
         snowglobeService.updateSnowglobe(uid, snowglobeUpdateRequestDto);
         return ResponseEntity.ok().build();
     }
@@ -61,16 +61,17 @@ public class SnowglobeController {
         return ResponseEntity.ok().build();
     }
 
-    //갖고있는 스노우볼 확인 (내 책장)
+    //갖고있는 스노우볼 확인 (내 책장)*
     @GetMapping("/{member_id}/shelf")
-    public ResponseEntity<PageImpl<Snowglobe>> myShelf(@PathVariable(value = "member_id") Long uid, Pageable pageable) {
-        return new ResponseEntity<PageImpl<Snowglobe>>(snowglobeService.showAllSnowglobe(uid, pageable), HttpStatus.OK);
+    public ResponseEntity<List<SnowglobeShelfResponseDto>> myShelf(@PathVariable(value = "member_id") Long uid) {
+        return new ResponseEntity<List<SnowglobeShelfResponseDto>>(snowglobeService.showAllSnowglobe(uid), HttpStatus.OK);
     }
 
-    //책장에서 스노우볼 삭제
+    //책장에서 스노우볼 삭제*
     @PatchMapping("/{snowglobe_id}/delete")
-    public ResponseEntity<Void> deleteSnowglobe(@PathVariable(value = "snowglobe_id") Long sid, Member member) {
-        snowglobeService.deleteSnowglobe(sid, member.getMemberId());
+    //Member member
+    public ResponseEntity<Void> deleteSnowglobe(@PathVariable(value = "snowglobe_id") Long sid, Long mid) {
+        snowglobeService.deleteSnowglobe(sid, mid);
         return ResponseEntity.ok().build();
     }
 
@@ -89,8 +90,13 @@ public class SnowglobeController {
     //음악 변경*
     @PatchMapping("/{snowglobe_id}/music/select")
     public ResponseEntity<Void> musicChange(@PathVariable(value = "snowglobe_id") Long sid, @Valid @RequestBody MusicSelectRequestDto musicSelectRequestDto) {
+        log.info("music controller"+musicSelectRequestDto);
         snowglobeService.musicSelect(sid, musicSelectRequestDto);
         return ResponseEntity.ok().build();
     }
+
+    //음악 추천
+
+    //스크린샷 받고 저장하기
 
 }
