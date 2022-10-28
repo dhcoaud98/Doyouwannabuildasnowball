@@ -12,7 +12,6 @@ import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeShelfR
 import com.ssafy.doyouwannabuildasnowball.service.SnowglobeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

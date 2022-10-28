@@ -67,6 +67,7 @@ public class SnowglobeService {
         //메인 스노우볼 아이디 main_id > mid
         Member member = memberRepository.findById(uid).orElseThrow(() -> new BadRequestException("유효하지 않은 회원입니다."));
         Snowglobe snowglobe = member.getSnowglobe();
+        snowglobe.updateScreenshot(snowglobeUpdateRequestDto.getScreenshot());
 
         Tree tree = snowglobeUpdateRequestDto.getTree();
         Snowman snowman = snowglobeUpdateRequestDto.getSnowman();
