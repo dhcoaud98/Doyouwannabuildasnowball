@@ -27,8 +27,8 @@ function UnityBackground() {
     console.log('sta')
   }
 
-  function ConMap(pos: JSON){
-    console.log(pos)
+  function ConMap(pos: string){
+    console.log(typeof(pos))
   }
 
   return (
