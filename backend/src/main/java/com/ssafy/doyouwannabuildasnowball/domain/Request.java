@@ -26,4 +26,13 @@ public class Request extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asked_id")
     private Member asked;
+    
+    public static Request create(Member ask, Member asked) {
+    	
+    	Request request = new Request();
+    	request.ask = ask;
+    	request.asked = asked;
+    	
+        return request;
+    }
 }

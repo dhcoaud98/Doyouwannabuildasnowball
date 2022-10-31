@@ -1,6 +1,7 @@
 package com.ssafy.doyouwannabuildasnowball.domain;
 
 import com.ssafy.doyouwannabuildasnowball.domain.base.BaseEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,4 +29,24 @@ public class Friend extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "followed_id")
     private Member followed;
+    
+    
+  
+    public static Friend create(Member follow, Member followed) {
+    	
+    	Friend friend = new Friend();
+    	friend.acceptance = false;
+    	friend.follow = follow;
+    	friend.followed = followed;
+    	
+        return friend;
+    }
+    
+    public static Friend approve(Friend friend) {
+    	
+    	friend.acceptance = true;
+    	
+        return friend;
+    }
+    
 }
