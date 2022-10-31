@@ -2,7 +2,9 @@ package com.ssafy.doyouwannabuildasnowball.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
+import com.ssafy.doyouwannabuildasnowball.domain.Music;
 import com.ssafy.doyouwannabuildasnowball.dto.music.common.MusicAllDto;
+import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicRecommendationRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicSelectRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.common.MainSnowglobeDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
@@ -94,8 +96,10 @@ public class SnowglobeController {
         return ResponseEntity.ok().build();
     }
 
-    //음악 추천
-
-    //스크린샷 받고 저장하기
+//    //음악 추천
+//    @GetMapping("/snowglobe/music/recommend")
+//    public ResponseEntity<MusicAllDto> musicRecommend(@Valid @RequestBody MusicRecommendationRequestDto musicRecommendationRequestDto) {
+//        return new ResponseEntity<MusicAllDto>(snowglobeService.musicRecommend(musicRecommendationRequestDto), HttpStatus.OK);
+//    }
 
 }
