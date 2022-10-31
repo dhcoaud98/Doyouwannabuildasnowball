@@ -132,3 +132,17 @@
   font-size: 1.3rem;
   text-align: center;
 }
+
+.d_none{
+  display: none;
+}
+
+.custom_list{
+  display: block;
+  position: absolute;
+  z-index: 5;
+  bottom: 0;
+  width: 100%;
+  height: 40vh;
+  background-color: white;
+}
