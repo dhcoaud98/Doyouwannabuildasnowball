@@ -25,7 +25,8 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 // 컴포너트
 import Navbar from 'components/Navbar/Navbar';
 import SearchBar from 'components/Search/SearchBar';
-
+import MainContainer from "components/Three/MainContainer";
+import Snow_globe from "components/Three/Snow_globe";
 
 const Collection= () => {
 
@@ -58,9 +59,24 @@ const Collection= () => {
 
             {/* 여기는 컬렉션 박스 */}
             <div className={styles.collection_box}>
-              <div>
-                <img src="../public/images/deco1.png" alt="" className={styles.flower_deco}/>
+              <img src="/images/deco1.png" alt="" className={styles.flower_deco}/>
+      
+              {/* <div className={styles.collection_box_top}></div> */}
+
+              <div className={styles.collection_box_top}>
+                <img src="/images/woodbar2.png" className={styles.collection_mysnowball}></img>
               </div>
+              <div className={styles.collection_box_top}>
+                {/* <Snow_globe/> */}
+              </div>
+              
+              <div className={styles.collection_box_top}>
+                <img src="/images/woodbar2.png" className={styles.collection_mysnowball2}></img>
+              </div>
+              <div className={styles.collection_box_top}>
+                <img src="/images/woodbar2.png" className={styles.collection_mysnowball3}></img>
+              </div>
+
             </div>
 
 
