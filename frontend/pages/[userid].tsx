@@ -21,6 +21,7 @@ import { styled } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import Image from 'next/image'
 
 // 컴포넌트
 import Navbar from 'components/Navbar/Navbar';
