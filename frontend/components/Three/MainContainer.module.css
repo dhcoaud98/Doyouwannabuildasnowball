@@ -1,0 +1,45 @@
+#menu-container {
+  opacity: 0;
+  animation: menufade 5s
+}
+
+#menu-canvas:hover {
+  cursor: pointer;
+}
+
+.canvas-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+
+@keyframes menufade{
+  from {
+    opacity:1;
+  }
+  to {
+    opacity:0;
+  }
+}
+
+#menu-h1 {
+    color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    /* position: absolute; */
+    /* justify-content: center; */
+    top: 1;
+    bottom: 0;
+    margin-right: auto;
+    width: 100px;
+    height: 50px;
+    z-index: 2;
+}
+
+#menu-h1:hover {
+  cursor: pointer;
+  opacity: 70%;
+}
