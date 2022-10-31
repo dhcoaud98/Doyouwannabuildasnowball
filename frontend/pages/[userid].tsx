@@ -107,7 +107,7 @@ const Profile= () => {
                       }}
                     >
                       {friends.map((item) => (
-                        <ListItem sx={{height: 100}}>
+                        <ListItem sx={{height: 100}} key={item}>
                           <ListItemAvatar sx={{ mr:2 }}>
                             <Badge color="error" badgeContent={15} max={100} onClick={handleOpen}>
                             <Avatar>
