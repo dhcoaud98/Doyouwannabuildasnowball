@@ -49,4 +49,12 @@ public class Member extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "snowglobe_id")
     private Snowglobe snowglobe;
+    
+    
+//    public static Member join(Long memberId) {
+//    	Member member = new Member();
+//    	member.memberId = memberId;
+//
+//        return member;
+//    }
 }
