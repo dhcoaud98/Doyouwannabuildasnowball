@@ -63,17 +63,16 @@ public class BoardService {
 
     public void modifyCotnent(BoardDto boardDto) {
 
-        Optional<Board> boardOptional = boardRepository.findById(boardDto.getBoardId());
-        Board board;
-        if(boardOptional.isPresent()) {
-            board = boardOptional.get();
-            board.contentUpdate(boardDto.getContent(), boardDto.getPicture());
-            boardRepository.updateBoardContent(board.getContent(), board.getPicture(), board.getBoardId());
+        Board board = boardRepository.findById(boardDto.getBoardId())
+                .orElseThrow(() -> new NotFoundException(BOARD_NOT_FOUND));
+        String imageURL = s3Upload.uploadImageToS3(boardDto.getPicture());
+        board.contentUpdate(boardDto.getContent(), imageURL);
+        boardRepository.updateBoardContent(board.getContent(), board.getPicture(), board.getBoardId());
 
-        } else throw new NotFoundException(BOARD_NOT_FOUND);
     }
 
     public void removeContent(Long boardId) {
+
         boardRepository.deleteById(boardId);
     }
 }

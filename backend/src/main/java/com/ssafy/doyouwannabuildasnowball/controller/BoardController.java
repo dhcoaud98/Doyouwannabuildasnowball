@@ -28,21 +28,26 @@ public class BoardController {
 
 
     @PostMapping("/write")
-    public void saveContent(@RequestBody WriteBoardRequest writeBoardRequest) {
+    public ResponseEntity<Void> saveContent(@RequestBody WriteBoardRequest writeBoardRequest) {
         try {
             boardService.saveContent(writeBoardRequest);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PutMapping("/modify")
     public void modifyContent(@RequestBody BoardDto boardDto) {
-        boardService.modifyCotnent(boardDto);
+        try {
+            boardService.modifyCotnent(boardDto);
+        } catch (NotFoundException ne) {
+            ne.printStackTrace();
+        }
     }
 
     @DeleteMapping("/{boardId}/delete")
-    public ResponseEntity removeContent(Long boardId) {
+    public ResponseEntity<Void> removeContent(Long boardId) {
         boardService.removeContent(boardId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

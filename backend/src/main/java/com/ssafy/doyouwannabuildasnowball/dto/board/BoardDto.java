@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Getter
@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 public class BoardDto {
 
     private Long boardId;
-    private Snowglobe snowglobe;
+    private Long snowglobeId;
     private String content;
-    private String picture;
+    private MultipartFile picture;
+
 }
