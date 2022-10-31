@@ -1,32 +1,29 @@
 import styles from "./Collection.module.css"
 import * as React from 'react';
 import { Grid } from '@mui/material';
-import Box from '@mui/material/Box'
-import Container from '@mui/material/Container';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
-import Button from '@mui/material/Button'
-import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import Badge from '@mui/material/Badge';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { styled } from '@mui/material/styles';
+// import Box from '@mui/material/Box'
+// import Container from '@mui/material/Container';
+// import List from '@mui/material/List';
+// import ListItem from '@mui/material/ListItem';
+// import ListItemText from '@mui/material/ListItemText';
+// import ListItemAvatar from '@mui/material/ListItemAvatar';
+// import Avatar from '@mui/material/Avatar';
+// import ImageIcon from '@mui/icons-material/Image';
+// import Button from '@mui/material/Button'
+// import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+// import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+// import Badge from '@mui/material/Badge';
+// import Modal from '@mui/material/Modal';
+// import Typography from '@mui/material/Typography';
+// import { createTheme, ThemeProvider } from '@mui/material/styles'
+// import { styled } from '@mui/material/styles';
 // import { theme } from "@/styles/theme";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+// import AutorenewIcon from '@mui/icons-material/Autorenew';
+// import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 // 컴포너트
 import Navbar from 'components/Navbar/Navbar';
-import SearchBar from 'components/Search/SearchBar';
-import MainContainer from "components/Three/MainContainer";
-import Snow_globe from "components/Three/Snow_globe";
 
 const Collection= () => {
 
