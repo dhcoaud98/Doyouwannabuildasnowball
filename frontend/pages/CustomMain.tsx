@@ -15,70 +15,40 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 import { useState, ReactFragment } from "react";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 
-
-const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
-  position: 'absolute',
-}));
-
-type Anchor = "bottom";
+import CustomList from "../components/Custom/CustomList"
 
 
 
+const CustomMain= () => {
+  // 스피드 다이얼 스타일
+  const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
+    position: 'absolute',
+  }));
 
+  // 스노우볼 커스텀 리스트창 상태
+  const [customListState, setCustomListState] = useState(false);
+  const customListStyles = customListState ? styles.custom_list : styles.d_none;
 
-
-
-
-// const toggleDrawer = (anchor: Anchor, open: boolean) => (
-//   event: React.KeyboardEvent | React.MouseEvent
-//   ) => {
-//     if (
-//       event.type === "keydown" &&
-//       ((event as React.KeyboardEvent).key === "Tab" ||
-//       (event as React.KeyboardEvent).key === "Shift")
-//       ) {
-//         return;
-//       }
-      
-//       setDrawerState({ ...drawerState, [anchor]: open });
-//     };
-    
-const CustomMain= () => {  
-  const [drawerState, setDrawerState] = useState({bottom: false});
-  
-  // 퀵다이얼 버튼들 함수
-  const customSnowBall = (anchor:Anchor, open:boolean) => {
-    console.log('커스텀')
-    setDrawerState({ ...drawerState, [anchor]: open });
+  // 스피드 다이얼 버튼들 함수
+  const customSnowBall = () => {
+    if (customListState === false) {
+      console.log('커스텀시작')
+      setCustomListState((prev) => true)
+    } else {
+      console.log('커스텀 끄읏')
+      setCustomListState((prev) => false)
+    }
   }
   const shareSnowBall = () => {}
   const showFriends= () => {}
   
   const actions = [
-    { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall("bottom", true)},
+    { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
     { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
     { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
   ];
-  const list = (anchor: Anchor) => (
-    <Box
-      component="div"
-      sx={{ width: "auto" }}
-      role="presentation"
-      onClick={() => customSnowBall(anchor, false)}
-      onKeyDown={() => customSnowBall(anchor, false)}
-    >
-      <div>옛날에 못생긴 조개가 있었어</div>
-      <div>걔가 너어어무 못생겨서 사람들이 모두 죽었어</div>
-      <div>끝이야</div>
-      <div>더 우울해졌어</div>
-      <div>(Drop the beat)</div>
-    </Box>
-  );
-
 
   return (
     <div id="container_div">
@@ -100,8 +70,6 @@ const CustomMain= () => {
 
               {/* 스피드다이얼 */}
               <Grid xs={2} item component="div" style={{position:'relative', height: '4.5rem'}}>
-
-              {/* <Box component="div" sx={{ position: 'relative', mt: 3, height: 320 }}> */}
                 <StyledSpeedDial
                   ariaLabel="SpeedDial playground example"
                   icon={<MenuIcon />}
@@ -124,7 +92,7 @@ const CustomMain= () => {
                       icon={action.icon}
                       tooltipTitle={action.name}
                       className={styles.brownicon}
-                      onClick={() => action.eventFunc}
+                      onClick={action.eventFunc}
                     />
                   ))}
                 </StyledSpeedDial>
@@ -160,15 +128,10 @@ const CustomMain= () => {
           <Grid component="div" item xs={1}>
             <img src="/images/decoration.png" alt="" className={styles.decoration}/>
           </Grid>      
-          {/* <ReactFragment> */}
-            <Drawer
-              anchor="bottom"
-              open={drawerState["bottom"]}
-              onClose={() => customSnowBall("bottom", false)}
-            >
-              {list("bottom")}
-            </Drawer>
-          {/* </ReactFragment> */}
+          
+          <div className={customListStyles}>
+            <CustomList/>
+          </div>
         </Grid>
 
         {/* 오른쪽 마진 */}
