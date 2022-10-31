@@ -9,12 +9,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
 
     @Query("select b from Board b where b.snowglobe.id =:snowglobeId")
-    List<Board> findAllSnowglobe(Long snowglobeId);
+    Optional<List<Board>> findAllContents(Long snowglobeId);
     @Transactional
     @Modifying
     @Query("UPDATE Board b SET b.content = :content, b.picture = :picture WHERE b.boardId = :boardId")

@@ -1,8 +1,10 @@
 package com.ssafy.doyouwannabuildasnowball.dto.board.request;
 
+import com.mongodb.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -11,10 +13,7 @@ public class WriteBoardRequest {
 
     private Long snowglobeId;
     private String content;
-    private String picture;
 
-
-
-
-
+    @Nullable
+    private MultipartFile picture;
 }

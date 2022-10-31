@@ -1,5 +1,6 @@
 package com.ssafy.doyouwannabuildasnowball.service;
 
+import com.ssafy.doyouwannabuildasnowball.common.api.S3Upload;
 import com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException;
 import com.ssafy.doyouwannabuildasnowball.domain.Board;
 import com.ssafy.doyouwannabuildasnowball.domain.Snowglobe;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException.BOARD_NOT_FOUND;
+import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException.SNOWGLOBE_NOT_FOUND;
 
 
 @Service
@@ -30,22 +32,32 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     private final SnowglobeRepository snowglobeRepository;
+    private final S3Upload s3Upload;
 
+    public BoardAllResponse findAllContentsBySnowglobe(Long snowglobeId) {
 
-    public BoardAllResponse findAllBoardBySnowglobe(Long snowglobeId) {
-        List<Board> boardList = boardRepository.findAllSnowglobe(snowglobeId);
+        List<Board> boardList = boardRepository.findAllContents(snowglobeId)
+                .orElseThrow(() -> new NotFoundException(BOARD_NOT_FOUND));
+
         return new BoardAllResponse(boardList);
     }
 
-    public void saveContent(WriteBoardRequest writeBoardRequest) throws Exception {
+    public void saveContent(WriteBoardRequest writeBoardRequest) throws NotFoundException {
 
-        Optional<Snowglobe> snowglobeOptional = snowglobeRepository.findById(writeBoardRequest.getSnowglobeId());
+        Snowglobe snowglobe = snowglobeRepository.findById(writeBoardRequest.getSnowglobeId())
+                .orElseThrow(()->new NotFoundException(SNOWGLOBE_NOT_FOUND));
+
+        String imageURL = null;
+
+        // request에 파일이 존재하는 경우
+        if(writeBoardRequest.getPicture() != null)
+            imageURL = s3Upload.uploadImageToS3(writeBoardRequest.getPicture());
+
         boardRepository.save(Board.builder()
                         .content(writeBoardRequest.getContent())
-                        .picture(writeBoardRequest.getPicture())
-                        .snowglobe(snowglobeOptional.orElseThrow(() -> new Exception("snow globe is not present")))
+                        .picture(imageURL)
+                        .snowglobe(snowglobe)
                         .build());
-
     }
 
 

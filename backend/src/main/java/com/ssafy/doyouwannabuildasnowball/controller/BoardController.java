@@ -1,6 +1,7 @@
 package com.ssafy.doyouwannabuildasnowball.controller;
 
 
+import com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException;
 import com.ssafy.doyouwannabuildasnowball.dto.board.BoardDto;
 import com.ssafy.doyouwannabuildasnowball.dto.board.request.WriteBoardRequest;
 import com.ssafy.doyouwannabuildasnowball.dto.board.response.BoardAllResponse;
@@ -22,7 +23,7 @@ public class BoardController {
 
     @GetMapping("/all/{snowglobeId}")
     public ResponseEntity<BoardAllResponse> findAllBoardBySnowglobe(@PathVariable Long snowglobeId) {
-        return ResponseEntity.status(HttpStatus.OK).body(boardService.findAllBoardBySnowglobe(snowglobeId));
+        return ResponseEntity.status(HttpStatus.OK).body(boardService.findAllContentsBySnowglobe(snowglobeId));
     }
 
 
@@ -30,7 +31,7 @@ public class BoardController {
     public void saveContent(@RequestBody WriteBoardRequest writeBoardRequest) {
         try {
             boardService.saveContent(writeBoardRequest);
-        } catch (Exception e) {
+        } catch (NotFoundException e) {
             e.printStackTrace();
         }
     }
