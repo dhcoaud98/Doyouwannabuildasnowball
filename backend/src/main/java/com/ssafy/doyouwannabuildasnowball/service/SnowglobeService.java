@@ -8,6 +8,7 @@ import com.ssafy.doyouwannabuildasnowball.domain.collection.Snowman;
 import com.ssafy.doyouwannabuildasnowball.domain.collection.Tree;
 import com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration;
 import com.ssafy.doyouwannabuildasnowball.dto.music.common.MusicAllDto;
+import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicRecommendationRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicSelectRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.common.MainSnowglobeDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
@@ -191,7 +192,10 @@ public class SnowglobeService {
         snowglobeRepository.save(snowglobe);
     }
 
-    //음악 추천
-
+//    //음악 추천
+//    @Transactional
+//    public MusicAllDto musicRecommend(MusicRecommendationRequestDto musicRecommendationRequestDto) {
+//
+//    }
 
 }
