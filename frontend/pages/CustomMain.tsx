@@ -38,7 +38,7 @@ const CustomMain= () => {
           <Grid component="div" item container xs={2} className={styles.upper}>
               
               <Grid xs={2} item component="div"></Grid>
-
+              
               {/* 현재 화면 이름 */}
               <Grid xs={8} item component="div" style={{justifyContent: 'end'}}>
                 <h1 className='cntmenu-text'>나의 스노우볼</h1>
