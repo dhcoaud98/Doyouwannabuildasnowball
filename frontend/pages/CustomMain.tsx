@@ -14,7 +14,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-import { useState, ReactFragment } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 
 import CustomList from "../components/Custom/CustomList"
@@ -30,6 +30,8 @@ const CustomMain= () => {
   // 스노우볼 커스텀 리스트창 상태
   const [customListState, setCustomListState] = useState(false);
   const customListStyles = customListState ? styles.custom_list : styles.d_none;
+  const noneAtCustomListTrue = customListState ? styles.d_none : "";
+  const noneAtCustomListFalse = customListState ? "" : styles.d_none;
 
   // 스피드 다이얼 버튼들 함수
   const customSnowBall = () => {
@@ -102,7 +104,7 @@ const CustomMain= () => {
           </Grid>
 
           {/* Three.js */}
-          <Grid component="div" item xs={9}>
+          <Grid component="div" item xs={9} className={noneAtCustomListTrue}>
             <MainContainer/>
 
             <div className={styles.container}>
@@ -124,10 +126,17 @@ const CustomMain= () => {
             </div>
           </Grid> 
 
+          <Grid component="div" item xs={6} className={noneAtCustomListFalse}>
+            <MainContainer/>
+          </Grid> 
+
+          
           {/* 하단 */}
-          <Grid component="div" item xs={1}>
+          <Grid component="div" item xs={1} className={noneAtCustomListTrue}>
             <img src="/images/decoration.png" alt="" className={styles.decoration}/>
           </Grid>      
+
+          <Grid component="div" item xs={4} className={noneAtCustomListFalse}></Grid>   
           
           <div className={customListStyles}>
             <CustomList/>

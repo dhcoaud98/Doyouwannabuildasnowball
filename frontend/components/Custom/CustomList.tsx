@@ -15,7 +15,7 @@ const CustomList= () => {
 
   return (
     <div>
-      <Box component="div" sx={{  bgcolor: 'white' }}>
+      <Box component="div" className={styles.drawer_box}>
         <Tabs
           value={value}
           onChange={handleChange}
