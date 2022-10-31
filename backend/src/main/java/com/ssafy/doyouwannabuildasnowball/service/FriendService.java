@@ -43,7 +43,7 @@ public class FriendService {
 			Member follow = memberRepository.findById(followId).get();
 			Member followed = memberRepository.findById(followedId).get();
 			Friend friend = Friend.create(follow, followed);
-			System.out.println(friend.getFollow());
+//			System.out.println(friend.getFollow());
 			friendRepository.save(friend);
 
 			
