@@ -22,4 +22,11 @@ public class Decoration {
         this.tree = tree;
         this.snowman = snowman;
     }
+
+    public Decoration ( Long snowglobeId ) {
+        this.id = snowglobeId;
+        this.tree = null;
+        this.snowman = null;
+    }
+
 }
