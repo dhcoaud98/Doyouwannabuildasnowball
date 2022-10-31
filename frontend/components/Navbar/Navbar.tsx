@@ -17,10 +17,10 @@ const Navbar= () => {
     alert('뒤로가기')
   }
 
-  const router = useRouter();
-    
-  console.log(router.pathname);
 
+  // 현재 페이지 확인
+  const router = useRouter();
+  // console.log(router.pathname);
   const [nowPage, setNowPage] = React.useState(' ');
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const Navbar= () => {
     } else {
       setNowPage('나의 친구 목록')
     }
-  });
+  }, []);
 
 
   return (
