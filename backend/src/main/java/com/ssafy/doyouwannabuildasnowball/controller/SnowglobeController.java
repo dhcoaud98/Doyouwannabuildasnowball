@@ -28,6 +28,7 @@ import java.util.List;
 public class SnowglobeController {
     private final SnowglobeService snowglobeService;
 
+
     //메인 스노우볼 페이지*
     @GetMapping("/{member_id}")
     public ResponseEntity<MainSnowglobeDto> mainSnowglobe(@PathVariable(value = "member_id") Long uid) {

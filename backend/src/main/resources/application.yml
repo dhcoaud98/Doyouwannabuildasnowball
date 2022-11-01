@@ -20,14 +20,14 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
       #로컬 환경
-#    url: jdbc:mysql://localhost:3306/snowball?useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
-#    username: ssafy
-#    password: ssafy
+    url: jdbc:mysql://localhost:3306/snowball?useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
+    username: ssafy
+    password: ssafy
 
 #    # ec2 DB에 연결
-    url: jdbc:mysql://k7a601.p.ssafy.io:3306/snowball?useSSL=false&useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
-    username: ssafy
-    password: mylittlesnowball601!
+#    url: jdbc:mysql://k7a601.p.ssafy.io:3306/snowball?useSSL=false&useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
+#    username: ssafy
+#    password: mylittlesnowball601!
 
 
   jpa:
@@ -49,7 +49,8 @@ spring:
 #      password: yfass1234
 #      authentication-database: admin
       auto-index-creation:
-      uri: mongodb://ssafy2:mylittlesnowball601!@k7a601.p.ssafy.io:27017/snowball
+      uri: mongodb://localhost:27017/snowball
+#      uri: mongodb://ssafy2:mylittlesnowball601!@k7a601.p.ssafy.io:27017/snowball
 #      host: localhost
 #      port: 27017
 #      database: snowball
