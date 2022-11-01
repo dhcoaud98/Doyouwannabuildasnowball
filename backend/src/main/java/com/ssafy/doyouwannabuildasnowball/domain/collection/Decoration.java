@@ -15,19 +15,16 @@ public class Decoration {
     @Id
     private Long id;
     // 스노우볼 커스텀 요소 맞춰서 수정
-    private Tree tree;
-    private Snowman snowman;
+    private List<Element> deco;
 
-    public void updateDeco(Long id, Tree tree, Snowman snowman) {
+    public void updateDeco(Long id, List<Element> deco) {
         this.id = id;
-        this.tree = tree;
-        this.snowman = snowman;
+        this.deco = deco;
     }
 
     public Decoration ( Long snowglobeId ) {
         this.id = snowglobeId;
-        this.tree = null;
-        this.snowman = null;
+        this.deco = null;
     }
 
 }

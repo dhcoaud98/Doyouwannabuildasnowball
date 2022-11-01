@@ -4,11 +4,9 @@ import com.ssafy.doyouwannabuildasnowball.common.exception.BadRequestException;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.domain.Music;
 import com.ssafy.doyouwannabuildasnowball.domain.Snowglobe;
-import com.ssafy.doyouwannabuildasnowball.domain.collection.Snowman;
-import com.ssafy.doyouwannabuildasnowball.domain.collection.Tree;
+import com.ssafy.doyouwannabuildasnowball.domain.collection.Element;
 import com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration;
 import com.ssafy.doyouwannabuildasnowball.dto.music.common.MusicAllDto;
-import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicRecommendationRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicSelectRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.common.MainSnowglobeDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
@@ -27,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -39,7 +36,6 @@ public class SnowglobeService {
     private final SnowglobeRepository snowglobeRepository;
     private final DecorationRepository decorationRepository;
     public final MusicRepository musicRepository;
-    private final MongoTemplate mongoTemplate;
 
     //메인 스노우볼 페이지
     //user_id > uid
@@ -51,8 +47,7 @@ public class SnowglobeService {
 
         return MainSnowglobeDto.builder()
                 .snowglobeId(snowglobe.getSnowglobeId())
-                .tree(decoration.getTree())
-                .snowman(decoration.getSnowman())
+                .deco(decoration.getDeco())
                 .musicId(snowglobe.getMusic().getMusicId())
                 .build();
     }
@@ -73,11 +68,10 @@ public class SnowglobeService {
         Snowglobe snowglobe = member.getSnowglobe();
         snowglobe.updateScreenshot(snowglobeUpdateRequestDto.getScreenshot());
 
-        Tree tree = snowglobeUpdateRequestDto.getTree();
-        Snowman snowman = snowglobeUpdateRequestDto.getSnowman();
+        List<Element> deco = snowglobeUpdateRequestDto.getDeco();
 
         Decoration decoById = decorationRepository.findById(snowglobe.getSnowglobeId()).orElseThrow(() -> new BadRequestException("유효하지 않은 요소입니다."));
-        decoById.updateDeco(snowglobe.getSnowglobeId(), tree, snowman);
+        decoById.updateDeco(snowglobe.getSnowglobeId(), deco);
         
         decorationRepository.save(decoById);
         snowglobeRepository.save(snowglobe);
@@ -100,8 +94,7 @@ public class SnowglobeService {
 
         Decoration decoration = new Decoration().builder()
                 .id(snowglobe.getSnowglobeId())
-                .tree(snowglobeRequestDto.getTree())
-                .snowman(snowglobeRequestDto.getSnowman())
+                .deco(snowglobeRequestDto.getDeco())
                 .build();
         decorationRepository.save(decoration);
     }
@@ -160,8 +153,7 @@ public class SnowglobeService {
         Decoration decoration = decorationRepository.findById(sid).orElseThrow(() -> new BadRequestException("유효하지 않은 요소입니다."));
         return SnowglobeDetailResponseDto.builder()
                 .snowglobeId(sid)
-                .tree(decoration.getTree())
-                .snowman(decoration.getSnowman())
+                .deco(decoration.getDeco())
                 .build();
     }
 
