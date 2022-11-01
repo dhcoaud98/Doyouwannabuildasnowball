@@ -56,14 +56,34 @@ const theme = createTheme({
   },
 });
 
-const Profile= () => {
-    // modal state
-  let [member, setMember] = useState(1)
+type Member = {
+  friendId: number,
+  memberId: number,
+  nickname: string,
+  profileImageUrl: string,
+  nullsnowglobeId: number,
+  snowglobeRequestCnt: number,
+  status: number,
+}
 
+const Profile= () => {
+  // 라우터
   const router = useRouter();
-  
+
   // [채명] axios로 친구 목록 받아서 friends에 넣기
   const [friends, setfriends] = React.useState([]);
+
+  // 모달에 들어가는 한명의 데이터
+  let [member, setMember] = useState<Member>({
+    friendId: -1,
+    memberId: -1,
+    nickname: "",
+    profileImageUrl: "",
+    nullsnowglobeId: -1,
+    snowglobeRequestCnt: -1,
+    status: -1,
+  })
+
   useEffect(() => {
     const fetchFriends = async () => {
       try {
@@ -80,7 +100,7 @@ const Profile= () => {
     fetchFriends();
   }, [])
 
-  // 친구 삭제
+  // 친구 삭제 함수
   const deleteFriend = (friendId : any) => {
     axios.delete(`http://localhost:8080/api/friend/list/${friendId}?memberId=1`)
       .then(res => {
@@ -95,6 +115,7 @@ const Profile= () => {
       .then(res => {
         console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data);
+
       })
   }
 
@@ -115,13 +136,14 @@ const Profile= () => {
       .then(res => {
         console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data)
+        handleClose();
       })
   }
   
 
   // modal창 만들기
   const [open, setOpen] = React.useState(false);
-  const handleOpen = (member) => {
+  const handleOpen = (member:Object) => {
     setOpen(true);
     setMember(member)
   }
@@ -130,7 +152,6 @@ const Profile= () => {
 
 
   return (
-    <ThemeProvider theme={theme}>
       <div id="container_div">
         <Grid container id="container_div">
           {/* 왼쪽 마진 */}
@@ -172,8 +193,8 @@ const Profile= () => {
                         '& ul': { padding: 0 },
                       }}
                     >
-                      {friends.map((item) => (
-                        <ListItem sx={{height: 100}} key={item.id}>
+                      {friends.map((item, index) => (
+                        <ListItem sx={{height: 100}} key={index}>
                           
                           <ListItemAvatar sx={{ mr:2 }}>
                             <Badge color="error" badgeContent={item.snowglobeRequestCnt} max={100} onClick={() => handleOpen(item)}>
@@ -215,41 +236,44 @@ const Profile= () => {
                   </Box>
               </Container>
             </div>
-
           </Grid>
+
           {/* 오른쪽 마진 */}
           <Grid xs={0} sm={2} md={3} xl={4} item id="right_div"></Grid>
         </Grid>
+
+        {/* 모달, 모달에 테마 적용 */}
+        <ThemeProvider theme={theme}>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box component="div" sx={style}>
+              <Grid xs={12} item component="div">
+                <Button>
+                  <ArrowBackIcon />
+                </Button>
+              </Grid>
+              <Grid xs={12} item component="div" style={{justifyContent: 'center'}}>
+                <h1 className={styles.cntmenu_text1}>스노우볼 요청</h1>
+              </Grid>
+              <Grid xs={12} item component="div" style={{justifyContent: 'center'}} sx={{ mt:4, mb: 8 }}>
+                <h4 className={styles.cntmenu_text1}>스노우볼 요청이 왔네요!</h4>
+              </Grid>
+              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
+                <Button variant="contained" color="primary" sx={{width: '70%'}}>
+                  <h4 className={styles.go}>선물하러 가기</h4></Button>
+              </Grid>
+              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
+                <Button variant="contained" color="success" sx={{width: '70%'}} onClick={()=>(requestDelete(member.memberId))}>
+                <h4 className={styles.go}>요청 삭제하기</h4></Button>
+              </Grid>
+            </Box>
+          </Modal>
+        </ThemeProvider>
       </div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box component="div" sx={style}>
-          <Grid xs={12} item component="div">
-            <Button>
-              <ArrowBackIcon />
-            </Button>
-          </Grid>
-          <Grid xs={12} item component="div" style={{justifyContent: 'center'}}>
-            <h1 className={styles.cntmenu_text1}>스노우볼 요청</h1>
-          </Grid>
-          <Grid xs={12} item component="div" style={{justifyContent: 'center'}} sx={{ mt:4, mb: 8 }}>
-            <h4 className={styles.cntmenu_text1}>스노우볼 요청이 왔네요!</h4>
-          </Grid>
-          <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
-            <Button variant="contained" color="primary" sx={{width: '70%'}}>
-              <h4 className={styles.go}>선물하러 가기</h4></Button>
-          </Grid>
-          <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
-            <Button variant="contained" color="success" sx={{width: '70%'}} onClick={()=>(console.log(member))}>
-            <h4 className={styles.go}>요청 삭제하기</h4></Button>
-          </Grid>
-        </Box>
-      </Modal>
-    </ThemeProvider>
     )
 }
 
