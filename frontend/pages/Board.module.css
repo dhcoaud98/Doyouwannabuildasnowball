@@ -1,0 +1,52 @@
+.navbar_top_margin {
+  height: 5%;
+}
+.navbar {
+  height: 10%;
+}
+
+.board_body {
+  height: 85%;
+}
+
+.board_body_box {
+  position: relative;
+}
+
+.board_card {
+  position: absolute;
+  margin: 15px;
+  /* background: rgb(245, 217, 217); */
+}
+
+.message_box_content {
+  margin : 5px;
+  
+}
+
+.board_content {
+  position: relative;
+  height: 85%;
+}
+
+.input_body{
+  height: 10%;
+  display: flex; 
+  position: relative;
+  justify-content: center;
+}
+
+.input_box {
+  position: absolute;
+  width: 80%;
+}
+
+.send_button {
+  color: #A6D388;
+}
+
+
+
+
+
+
