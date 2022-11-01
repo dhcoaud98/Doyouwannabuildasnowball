@@ -1,11 +1,12 @@
 package com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response;
 
-import com.ssafy.doyouwannabuildasnowball.domain.collection.Snowman;
-import com.ssafy.doyouwannabuildasnowball.domain.collection.Tree;
+import com.ssafy.doyouwannabuildasnowball.domain.collection.Element;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -13,6 +14,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SnowglobeDetailResponseDto {
     private Long snowglobeId;
-    private Tree tree;
-    private Snowman snowman;
+    private List<Element> deco;
 }
