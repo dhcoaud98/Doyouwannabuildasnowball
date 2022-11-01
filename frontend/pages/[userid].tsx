@@ -17,6 +17,8 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { styled } from '@mui/material/styles';
+import { useEffect, useState } from 'react'
+import { useRouter } from "next/router";
 // import { theme } from "@/styles/theme";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
@@ -26,6 +28,7 @@ import Image from 'next/image'
 // 컴포넌트
 import Navbar from 'components/Navbar/Navbar';
 import SearchBar from 'components/Search/SearchBar';
+import axios from 'axios';
 
 // 모달 스타일
 const style = {
@@ -53,19 +56,102 @@ const theme = createTheme({
   },
 });
 
+type Member = {
+  friendId: number,
+  memberId: number,
+  nickname: string,
+  profileImageUrl: string,
+  nullsnowglobeId: number,
+  snowglobeRequestCnt: number,
+  status: number,
+}
+
 const Profile= () => {
+  // 라우터
+  const router = useRouter();
 
   // [채명] axios로 친구 목록 받아서 friends에 넣기
-  const friends = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  const [friends, setfriends] = React.useState([]);
+
+  // 모달에 들어가는 한명의 데이터
+  let [member, setMember] = useState<Member>({
+    friendId: -1,
+    memberId: -1,
+    nickname: "",
+    profileImageUrl: "",
+    nullsnowglobeId: -1,
+    snowglobeRequestCnt: -1,
+    status: -1,
+  })
+
+  useEffect(() => {
+    const fetchFriends = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:8080/api/friend/list/1'
+        );
+        setfriends(response.data);
+        console.log('친구 목록 = ', response.data)
+      } catch (e: any) {
+        console.log('errer = ', e)
+      }
+    };
+
+    fetchFriends();
+  }, [])
+
+  // 친구 삭제 함수
+  const deleteFriend = (friendId : any) => {
+    axios.delete(`http://localhost:8080/api/friend/list/${friendId}?memberId=1`)
+      .then(res => {
+        console.log("새로 받은 데이터 = ", res.data);
+        setfriends(res.data);
+    })
+  }
+
+  // 친구 요청 받기
+  const followFriend = (friendId : any) => {
+    axios.patch(`http://localhost:8080/api/friend/request/${friendId}?memberId=1`)
+      .then(res => {
+        console.log("새로 받은 데이터 = ", res.data);
+        setfriends(res.data);
+
+      })
+  }
+
+  // 스노우볼 요청
+
+
+  // 스노우볼 요청 삭제
+  const requestDelete = (memberId : any) => {
+    console.log(memberId)
+    axios.delete(`http://localhost:8080/api/friend/snowglobe/request`, {
+      //헤더에 포함된 정보들 
+      
+    	data:{
+        "sendMemberId" : memberId,
+        "receiveMemberId" : 1
+        }
+    })
+      .then(res => {
+        console.log("새로 받은 데이터 = ", res.data);
+        setfriends(res.data)
+        handleClose();
+      })
+  }
   
-  // [채명] modal창 만들기
+
+  // modal창 만들기
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (member:Object) => {
+    setOpen(true);
+    setMember(member)
+  }
   const handleClose = () => setOpen(false);
 
 
+
   return (
-    <ThemeProvider theme={theme}>
       <div id="container_div">
         <Grid container id="container_div">
           {/* 왼쪽 마진 */}
@@ -107,75 +193,87 @@ const Profile= () => {
                         '& ul': { padding: 0 },
                       }}
                     >
-                      {friends.map((item) => (
-                        <ListItem sx={{height: 100}} key={item}>
+                      {friends.map((item, index) => (
+                        <ListItem sx={{height: 100}} key={index}>
+                          
                           <ListItemAvatar sx={{ mr:2 }}>
-                            <Badge color="error" badgeContent={15} max={100} onClick={handleOpen}>
+                            <Badge color="error" badgeContent={item.snowglobeRequestCnt} max={100} onClick={() => handleOpen(item)}>
                             <Avatar>
-                                <ImageIcon />
+                              <ImageIcon />
                             </Avatar>
                             </Badge>
-                            <Modal
-                              open={open}
-                              onClose={handleClose}
-                              aria-labelledby="modal-modal-title"
-                              aria-describedby="modal-modal-description"
-                            >
-                              <Box component="div" sx={style}>
-
-                                  <Grid xs={12} item component="div">
-                                    <Button>
-                                      <ArrowBackIcon />
-                                    </Button>
-                                  </Grid>
-                                  <Grid xs={12} item component="div" style={{justifyContent: 'center'}}>
-                                    <h1 className={styles.cntmenu_text1}>스노우볼 요청</h1>
-                                  </Grid>
-                                  <Grid xs={12} item component="div" style={{justifyContent: 'center'}} sx={{ mt:4, mb: 8 }}>
-                                    <h4 className={styles.cntmenu_text1}>스노우볼 요청이 왔네요!</h4>
-                                  </Grid>
-                                  <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
-                                    <Button variant="contained" color="primary" sx={{width: '70%'}}>
-                                      <h4 className={styles.go}>선물하러 가기</h4></Button>
-                                  </Grid>
-                                  <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
-                                    <Button variant="contained" color="success" sx={{width: '70%'}}>
-                                    <h4 className={styles.go}>요청 삭제하기</h4></Button>
-                                  </Grid>
-
-                              </Box>
-                            </Modal>
+                            
                           </ListItemAvatar>
-                          <ListItemText primary={`Item ${item}`} />
-                          {/* 편지 요창 버튼 */}
-                          <Button>
-                            <ForwardToInboxIcon color="error" fontSize='large' />
-                          </Button>
-                          {/* 친구 신청 후 상대방이 받을 때까지 기다리는 버튼 */}
+                          <ListItemText primary={`${item.nickname}`} />
+
+                          {/* 1. 편지 요청 버튼 => 3*/}
+                          { item.status == 3 ? 
+                            <Button onClick={() =>(requestLetter(item.friendId))}>  
+                              <ForwardToInboxIcon color="error" fontSize='large' />
+                            </Button>
+                          : null }
+                          {/* 2. 친구 신청 후 상대방이 받을 때까지 기다리는 버튼 => 2 */}
+                          { item.status == 2 ? 
                           <Button>
                             <AutorenewIcon color="disabled" fontSize='large' />
                           </Button>
-                          {/* 친구 삭제 버튼 */}
-                          <Button>
-                            <PersonRemoveIcon color="disabled" fontSize='large' />
-                          </Button>
-                          {/* 상대방이 나에게 친구 신청했는데 내가 안 받은 버튼 + 친구 신청 버튼 */}
-                          <Button>
+                          : null }
+                          {/* 3. 상대방이 나에게 친구 신청했는데 내가 안 받은 버튼 + 친구 신청 버튼 => 1 */}
+                          { item.status == 1 ? 
+                          <Button onClick={() =>(followFriend(item.friendId))}>
                             <PersonAddIcon color="inherit" fontSize='large' />
                           </Button>
+                            : null }
+                          {/* 4. 친구 삭제 버튼 => 1, 2, 3 */}
+                          {/* onClick={deleteFriend(item.friendId)} */}
+                          <Button onClick={() =>(deleteFriend(item.friendId))}>
+                            <PersonRemoveIcon color="disabled" fontSize='large' />
+                          </Button>
+
                         </ListItem>
                       ))}
                     </List>
                   </Box>
               </Container>
             </div>
-
           </Grid>
+
           {/* 오른쪽 마진 */}
           <Grid xs={0} sm={2} md={3} xl={4} item id="right_div"></Grid>
         </Grid>
+
+        {/* 모달, 모달에 테마 적용 */}
+        <ThemeProvider theme={theme}>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box component="div" sx={style}>
+              <Grid xs={12} item component="div">
+                <Button>
+                  <ArrowBackIcon />
+                </Button>
+              </Grid>
+              <Grid xs={12} item component="div" style={{justifyContent: 'center'}}>
+                <h1 className={styles.cntmenu_text1}>스노우볼 요청</h1>
+              </Grid>
+              <Grid xs={12} item component="div" style={{justifyContent: 'center'}} sx={{ mt:4, mb: 8 }}>
+                <h4 className={styles.cntmenu_text1}>스노우볼 요청이 왔네요!</h4>
+              </Grid>
+              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
+                <Button variant="contained" color="primary" sx={{width: '70%'}}>
+                  <h4 className={styles.go}>선물하러 가기</h4></Button>
+              </Grid>
+              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
+                <Button variant="contained" color="success" sx={{width: '70%'}} onClick={()=>(requestDelete(member.memberId))}>
+                <h4 className={styles.go}>요청 삭제하기</h4></Button>
+              </Grid>
+            </Box>
+          </Modal>
+        </ThemeProvider>
       </div>
-    </ThemeProvider>
     )
 }
 
