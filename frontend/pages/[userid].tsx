@@ -14,9 +14,7 @@ import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import Badge from '@mui/material/Badge';
 import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react'
 import { useRouter } from "next/router";
 // import { theme } from "@/styles/theme";
@@ -56,6 +54,7 @@ const theme = createTheme({
   },
 });
 
+// Member 타입 지정
 type Member = {
   friendId: number,
   memberId: number,
@@ -70,7 +69,7 @@ const Profile= () => {
   // 라우터
   const router = useRouter();
 
-  // [채명] axios로 친구 목록 받아서 friends에 넣기
+  // axios로 친구 목록 받아서 friends에 넣기
   const [friends, setfriends] = React.useState([]);
 
   // 모달에 들어가는 한명의 데이터
@@ -84,11 +83,15 @@ const Profile= () => {
     status: -1,
   })
 
+  // 현재 유저
+  const [nowUser, setNowUser] = React.useState(1);
+
+  // 전체 친구 목록 가져오기
   useEffect(() => {
     const fetchFriends = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:8080/api/friend/list/1'
+          `http://localhost:8080/api/friend/list/${nowUser}`
         );
         setfriends(response.data);
         console.log('친구 목록 = ', response.data)
@@ -102,7 +105,7 @@ const Profile= () => {
 
   // 친구 삭제 함수
   const deleteFriend = (friendId : any) => {
-    axios.delete(`http://localhost:8080/api/friend/list/${friendId}?memberId=1`)
+    axios.delete(`http://localhost:8080/api/friend/list/${friendId}?memberId=${nowUser}`)
       .then(res => {
         console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data);
@@ -111,7 +114,7 @@ const Profile= () => {
 
   // 친구 요청 받기
   const followFriend = (friendId : any) => {
-    axios.patch(`http://localhost:8080/api/friend/request/${friendId}?memberId=1`)
+    axios.patch(`http://localhost:8080/api/friend/request/${friendId}?memberId=${nowUser}`)
       .then(res => {
         console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data);
@@ -120,17 +123,28 @@ const Profile= () => {
   }
 
   // 스노우볼 요청
-
+  const requestLetter = (memberId : any) => {
+    console.log(memberId)
+    console.log(nowUser)
+    axios.post(`http://localhost:8080/api/friend/snowglobe/request`, {
+    	data:{
+        "receiveMemberId" : memberId,
+        "sendMemberId" : nowUser
+        }
+    })
+      .then(res => {
+        console.log("새로 받은 데이터 = ", res.data);
+      })
+  }
 
   // 스노우볼 요청 삭제
   const requestDelete = (memberId : any) => {
     console.log(memberId)
     axios.delete(`http://localhost:8080/api/friend/snowglobe/request`, {
       //헤더에 포함된 정보들 
-      
     	data:{
         "sendMemberId" : memberId,
-        "receiveMemberId" : 1
+        "receiveMemberId" : nowUser
         }
     })
       .then(res => {
@@ -143,7 +157,7 @@ const Profile= () => {
 
   // modal창 만들기
   const [open, setOpen] = React.useState(false);
-  const handleOpen = (member:Object) => {
+  const handleOpen = (member:Member) => {
     setOpen(true);
     setMember(member)
   }
@@ -193,7 +207,7 @@ const Profile= () => {
                         '& ul': { padding: 0 },
                       }}
                     >
-                      {friends.map((item, index) => (
+                      {friends.map((item:Member, index) => (
                         <ListItem sx={{height: 100}} key={index}>
                           
                           <ListItemAvatar sx={{ mr:2 }}>
@@ -208,7 +222,7 @@ const Profile= () => {
 
                           {/* 1. 편지 요청 버튼 => 3*/}
                           { item.status == 3 ? 
-                            <Button onClick={() =>(requestLetter(item.friendId))}>  
+                            <Button onClick={() =>(requestLetter(item.memberId))}>  
                               <ForwardToInboxIcon color="error" fontSize='large' />
                             </Button>
                           : null }
@@ -244,6 +258,7 @@ const Profile= () => {
 
         {/* 모달, 모달에 테마 적용 */}
         <ThemeProvider theme={theme}>
+        { member.snowglobeRequestCnt != 0 ? 
           <Modal
             open={open}
             onClose={handleClose}
@@ -252,7 +267,7 @@ const Profile= () => {
           >
             <Box component="div" sx={style}>
               <Grid xs={12} item component="div">
-                <Button>
+                <Button onClick = {()=>(handleClose())}>
                   <ArrowBackIcon />
                 </Button>
               </Grid>
@@ -272,6 +287,7 @@ const Profile= () => {
               </Grid>
             </Box>
           </Modal>
+            : null }
         </ThemeProvider>
       </div>
     )
