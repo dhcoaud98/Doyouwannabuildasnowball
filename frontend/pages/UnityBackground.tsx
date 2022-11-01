@@ -14,17 +14,18 @@ function UnityBackground() {
   });
 
   useEffect(() => {
-    addEventListener("SetMap1", SendRequest)
+    addEventListener("SendJsRequest", SendRequest)
     addEventListener("SaveMap", ConMap)
     return () => {
-      removeEventListener("SetMap1", SendRequest)
+      removeEventListener("SendJsRequest", SendRequest)
       removeEventListener("SaveMap", ConMap)
     };
-  }, [addEventListener, removeEventListener, SendRequest])
+  }, [addEventListener, removeEventListener,SendRequest])
 
   function SendRequest() {
-    sendMessage("GameObject", "setMap", 0)
     console.log('sta')
+    sendMessage("UserObject", "DispatchPos", JSON.stringify({id: 14, position: [{indicator: 0, x: -14, y: -6.68, z: -8.76},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0}]}))
+    
   }
 
   function ConMap(pos: string){
