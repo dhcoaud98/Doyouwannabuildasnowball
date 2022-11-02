@@ -3,9 +3,14 @@ import  {Unity, useUnityContext } from "react-unity-webgl"
 import MainContainer from "components/Three/MainContainer";
 import { useEffect } from "react";
 
+// axios
+import { axiosGet } from "./api/axios"
+
 
 
 function UnityBackground() {
+
+  // Unity Embed
   const { unityProvider, sendMessage, addEventListener, removeEventListener } = useUnityContext({
     loaderUrl: "Build/Project.loader.js",
     dataUrl: "Build/Project.data",
@@ -13,6 +18,8 @@ function UnityBackground() {
     codeUrl: "Build/Project.wasm",
   });
 
+
+  // unity-javascript communication setter
   useEffect(() => {
     addEventListener("SendJsRequest", SendRequest)
     addEventListener("SaveMap", ConMap)
@@ -22,14 +29,15 @@ function UnityBackground() {
     };
   }, [addEventListener, removeEventListener,SendRequest])
 
+  // javascript => unity setMap
   function SendRequest() {
     console.log('sta')
-    sendMessage("UserObject", "DispatchPos", JSON.stringify({id: 14, position: [{indicator: 0, x: -14, y: -6.68, z: -8.76},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0}]}))
+    sendMessage("UserObject", "DispatchPos", JSON.stringify({snowglobeid: 14, deco: [{indicator: 0, coordinateX: -14, coordinateY: -6.68, coordinateZ: -8.76},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, z: 0}]}))
     
   }
 
   function ConMap(pos: string){
-    console.log(typeof(pos))
+    console.log(pos)
   }
 
   return (

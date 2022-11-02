@@ -1,11 +1,22 @@
-import Button from '@mui/material/Button';
-import { Grid, Stack } from '@mui/material';
-import styles from "./index.module.css"
+// Systems
+import { useRouter } from "next/router";
 import { useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
-import { useRouter } from "next/router";
+import axios from "axios";
+// Other components
+import styles from "./index.module.css"
+
+// MUI
+import { Grid } from '@mui/material';
+import { useDispatch } from "react-redux";
+import { setUser } from "store/userSlice";
+
+// ------------------------------------------------------------------------
+
 
 const Home = () => {
+  // react hook
+  const dispatch = useDispatch()
 
   // 로그인
   const API_SERVER = "http://localhost:8080/api"
@@ -33,6 +44,16 @@ const Home = () => {
       // console.log(accessToken)
       localStorage.setItem("accessToken", accessToken); // 토큰을 로컬 스토리지에 저장 === 로그인 함.
       console.log("localStorage = ", window.localStorage)
+      axios({
+        method: "GET",
+        url: `http://localhost:8080/api/member/me`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then((res) => {
+          dispatch(setUser(res.data))
+      })
       router.push('/CustomMain')
       // setTimeout(() => {
       //   navigate('/')

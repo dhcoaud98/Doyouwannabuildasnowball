@@ -1,32 +1,29 @@
-import { Grid, Stack } from '@mui/material';
-import IconButton from '@mui/material/IconButton'
-import Avatar from '@mui/material/Avatar'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+// Systems
+import { useRouter } from "next/router";
+import { useState } from "react";
 
-// three import
+// Other components
 import MainContainer from "components/Three/MainContainer";
+import CustomList from "../components/Custom/CustomList"
 import styles from "./CustomMain.module.css"
-import gsap from 'gsap'
 
+// MUI
 import { styled } from '@mui/material/styles';
-import SpeedDial, { SpeedDialProps } from '@mui/material/SpeedDial';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
-
+import { SpeedDial, SpeedDialAction, Button, Avatar, Grid } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu';
 import PeopleIcon from '@mui/icons-material/People';
 import ShareIcon from '@mui/icons-material/Share';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-import { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
-
-import CustomList from "../components/Custom/CustomList"
-import { borderRadius } from '@mui/system';
-
+// ------------------------------------------------------------------------
 
 
 const CustomMain= () => {
+  // 라우터
+  const router = useRouter();
 
   // 스피드 다이얼 스타일
   const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
@@ -44,12 +41,13 @@ const CustomMain= () => {
 
   // 저장버튼 함수
 
-  // 뒤로가기 함수
+  // 꾸미기 취소 함수
   const cancelCustom = () => {
     setCustomListState((prev) => false)
   }
 
   // 스피드 다이얼 버튼들 함수
+  // 꾸미기
   const customSnowBall = () => {
     if (customListState === false) {
       console.log('커스텀시작')
@@ -59,8 +57,13 @@ const CustomMain= () => {
       setCustomListState((prev) => false)
     }
   }
+  // 공유하기
   const shareSnowBall = () => {}
-  const showFriends= () => {}
+  // 친구목록
+  const showFriends= () => {
+    // 현재는 사용자 정보가 없으므로...
+    router.push('/dddd')
+  }
   
   const actions = [
     { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
