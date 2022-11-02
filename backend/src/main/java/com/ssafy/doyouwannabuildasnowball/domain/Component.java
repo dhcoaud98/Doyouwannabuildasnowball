@@ -11,12 +11,12 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-public class Element extends BaseEntity {
+public class Component extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "element_id")
-    private Long elementId;
+    @Column(name = "component_id")
+    private Long componentId;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
