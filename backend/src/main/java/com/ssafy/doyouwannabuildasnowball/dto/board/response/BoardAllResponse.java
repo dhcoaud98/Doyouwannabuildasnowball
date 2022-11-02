@@ -8,9 +8,9 @@ import java.util.List;
 @Getter
 public class BoardAllResponse {
 
-    List<Board> BoardList;
+    List<Board> boardList;
 
     public BoardAllResponse(List<Board> boardList) {
-        this.BoardList = boardList;
+        this.boardList = boardList;
     }
 }
