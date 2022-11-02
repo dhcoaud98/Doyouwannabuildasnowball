@@ -29,7 +29,7 @@ public class MemberController {
         return ResponseEntity.ok(memberService.findByLoginMember(member.getId()));
     }
 
-    @GetMapping("/me/{memberId}")
+    @GetMapping("/info/{memberId}")
     public ResponseEntity<MemberMeResponse> getUserInfo(@PathVariable Long memberId) {
         try {
             MemberMeResponse memberMeResponse = memberService.userInfo(memberId);
