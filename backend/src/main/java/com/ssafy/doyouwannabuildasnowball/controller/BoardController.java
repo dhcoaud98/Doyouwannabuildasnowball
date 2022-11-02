@@ -21,7 +21,7 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/all/{snowglobeId}")
+    @GetMapping("/{snowglobeId}/all")
     public ResponseEntity<BoardAllResponse> findAllBoardBySnowglobe(@PathVariable Long snowglobeId) {
         return ResponseEntity.status(HttpStatus.OK).body(boardService.findAllContentsBySnowglobe(snowglobeId));
     }
@@ -38,12 +38,13 @@ public class BoardController {
     }
 
     @PutMapping("/modify")
-    public void modifyContent(@RequestBody BoardDto boardDto) {
+    public ResponseEntity<Void> modifyContent(@RequestBody BoardDto boardDto) {
         try {
             boardService.modifyCotnent(boardDto);
         } catch (NotFoundException ne) {
             ne.printStackTrace();
         }
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/{boardId}/delete")
