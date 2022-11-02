@@ -1,31 +1,21 @@
 import * as React from 'react';
 import { Grid } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { styled } from '@mui/material/styles';
-import Image from 'next/image'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
-
+import { useEffect, useState } from 'react'
+import axios from 'axios';
 
 // 컴포넌트
 import Navbar from 'components/Navbar/Navbar';
 import styles from "./Board.module.css"
-
 
 // 버튼 색
 const theme = createTheme({
@@ -44,17 +34,48 @@ const Board= () => {
   
   const messageColor = ['#FA6767', '#C68CFF', '#FFACAC', '#FDE58E', '#FFBE5F']
 
-  const [content, setContent] = React.useState(' ');
+  // 메시지 전송
+  const [contents, setContents] = useState('');
+  const [text, setText] = useState('');
+  const onChange = (e : any) => {
+    setText(e.target.value);
+    console.log(e.target.value)
+  };
+
+  const sendMessage = () => {
+    axios.post(`http://localhost:8080/api/board/write`, {
+        "content" : text,
+        "picture" : 'null',
+        "snowglobe" : 3
+    })
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    setText('');
+  };
 
   // delete axios
 
-  // create axios
-  const sendMessage = () => (
-    console.log('메시지 보내기')
-    // axios로 메시지를 DB에 보내고, 출력
-  )
 
-  // get message axios
+  // 전체 메시지 조회 message axios
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/board/1/all`
+        );
+        setContents(response.data);
+        console.log('메시지 목록 = ', response.data)
+      } catch (err : any) {
+        console.log("에러 = ", err)
+      }
+    };
+
+    fetchMessages();
+  }, [])
 
 
   return (
@@ -79,27 +100,11 @@ const Board= () => {
               {/* 여기는 게시판 메인 */}
               <div className={styles.board_body}>
                 <Container>
-                  <Box component="div" sx={{ bgcolor: '#FFF8F3', height: '80vh' }} className={styles.board_body_box}>
-                    
+                  <Box component="div" sx={{ bgcolor: '#FFF8F3', height: '75vh' }} className={styles.board_body_box}>
+                    <b>값: {text}</b>
                     {/* 메시지 카드 */}
-                    {/* <Box component="div" className={styles.board_card}>
-                      <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                        Word 
-                      </Typography>
-                      <Typography variant="body2">
-                        well
-                        <br />
-                        {'"a benevolent smile"'}
-                      </Typography>
-
-                      <Button>
-                        <DeleteForeverIcon color="disabled" fontSize='medium' />
-                      </Button>
-                    </Box> */}
-
-                    {/* <BoardInput/> */}
-                    <div className={styles.board_content}> 
-                      <Box component="div" className={styles.board_card} sx={{ backgroundColor : '#C68CFF' }}>
+                    {/* <div className={styles.board_content}>  */}
+                      {/* <Box component="div" className={styles.board_card} sx={{ backgroundColor : '#C68CFF' }}>
                         <div className={styles.message_box_content}>
                           <Typography sx={{ fontSize: 14 }} color="text.secondary">
                             손민지
@@ -109,41 +114,30 @@ const Board= () => {
                           </Typography>
                             <br />
 
+                          삭제버튼
                           <Button>
                             <DeleteForeverIcon color="disabled" fontSize='small' />
                           </Button>
                         </div>
-                      </Box>
-                    </div>
-                  
-
-                  
-                    {/* 글쓰기 버튼 */}
-                    <div className={styles.input_body}>
-                    <Paper
-                      component="form"
-                      sx={{ display: 'flex', alignItems: 'center', width: 400 }}
-                    >
-                      <InputBase
-                        sx={{ ml: 1, flex: 1 }}
-                        placeholder="내용을 입력하세요"
-                        inputProps={{ 'aria-label': 'message' }}
-                      />
-                      <Button sx={{ p: '10px' }} aria-label="search" onClick={sendMessage}>
-                        <SendIcon className={styles.send_button}/>
-                      </Button>
-                    </Paper>
-                      {/* <Grid xs={10}>
-                      <TextField label="내용을 입력하세요" id="fullWidth" className={styles.input_box} />
-                      </Grid>
-                      <Grid xs={2}>
-                        <Fab size="small" color="primary" aria-label="add" className={styles.text_button}>
-                          <SendIcon />
-                        </Fab>
-                      </Grid> */}
-                    </div>
-
+                      </Box> */}
+                    {/* </div> */}
                   </Box>
+                  {/* 글쓰기 버튼 */}
+                  <Box component="div" className={styles.input_body}>
+                    <TextField 
+                      onChange={onChange} 
+                      value={text} 
+                      sx={{ mr: 1 }}
+                      // label="내용을 입력하세요"
+                      // color="success"
+                      focused 
+                      placeholder="내용을 입력하세요" 
+                      className={styles.input_box}/>
+                    <Button variant="contained" onClick={sendMessage}><SendIcon/></Button>
+                      {/* <div>
+                        <b>값: {text}</b>
+                      </div> */}
+                    </Box>
 
                 </Container>
               </div>
