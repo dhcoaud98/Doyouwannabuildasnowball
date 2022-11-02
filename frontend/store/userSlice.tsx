@@ -32,6 +32,7 @@ export const userSlice = createSlice({
       state.nickname = action.payload.nickname
       state.snowglobeId = action.payload.snowglobeId
       state.profileImgUrl = action.payload.profileImageUrl
+      console.log(state.userId)
     },
     // minusCounter: (state: StateType, action: PayloadAction<number>) => {
     //   state.value -= action.payload;

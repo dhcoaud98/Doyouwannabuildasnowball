@@ -87,7 +87,7 @@ const Profile= () => {
   })
 
  
-  const [nowUser, setNowUser] = useState(1);
+  const [nowUser, setNowUser] = useState(0);
  
  
   // 로그인 유저 정보 가져오기
@@ -111,21 +111,11 @@ const Profile= () => {
           console.log("멤버 정보 = ", response.data.memberId)
 
           // 전체 친구 목록
-          useEffect(() => {
-            const fetchFriends = async () => {
-              try {
-                const response = await axios.get(
-                  `http://localhost:8080/api/friend/list/${nowUser}`
-                );
-                setfriends(response.data);
-                // console.log('친구 목록 = ', response.data)
-              } catch (err: any) {
-                console.log('errer = ', err)
-              }
-            };
-        
-            fetchFriends();
-          }, [])
+          axios.get(
+            `http://localhost:8080/api/friend/list/${response.data.memberId}`
+          ) .then(res => {
+            setfriends(res.data);
+          })
         } catch (err: any) {
           console.log('errer = ', err)
         }

@@ -8,7 +8,7 @@ import styles from "./index.module.css"
 
 // MUI
 import { Grid } from '@mui/material';
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { setUser } from "store/userSlice";
 
 // ------------------------------------------------------------------------
@@ -16,7 +16,7 @@ import { setUser } from "store/userSlice";
 
 const Home = () => {
   // react hook
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
   // 로그인
   const API_SERVER = "http://localhost:8080/api"
