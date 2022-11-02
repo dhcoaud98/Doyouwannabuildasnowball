@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "decoration")
@@ -24,7 +25,11 @@ public class Decoration {
 
     public Decoration ( Long snowglobeId ) {
         this.id = snowglobeId;
-        this.deco = null;
+        Element defaultElement = new Element(0,0,0,0);
+        this.deco = new ArrayList<>();
+        for(int index=0; index<7; index++)
+            deco.add(defaultElement);
+
     }
 
 }
