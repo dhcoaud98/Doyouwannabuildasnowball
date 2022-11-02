@@ -1,12 +1,18 @@
-import Button from '@mui/material/Button';
-import { Grid, Stack } from '@mui/material';
-import styles from "./index.module.css"
+// Systems
+import { useRouter } from "next/router";
 import { useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
-import { useRouter } from "next/router";
+
+// Other components
+import styles from "./index.module.css"
+
+// MUI
+import { Grid } from '@mui/material';
+
+// ------------------------------------------------------------------------
+
 
 const Home = () => {
-
   // 로그인
   const API_SERVER = "http://localhost:8080/api"
   const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"

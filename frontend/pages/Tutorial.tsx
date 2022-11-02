@@ -1,29 +1,36 @@
-import { Grid } from '@mui/material';
+// Systems
+import * as React from 'react';
+
+// Other components
 import styles from "./Tutorial.module.css"
 
-import * as React from 'react';
+// MUI
+import { Grid, Button, MobileStepper } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import MobileStepper from '@mui/material/MobileStepper';
-import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';  
 
-// import merryChristmasLetter from '../public/images/christmas_lettering.png'
+// ------------------------------------------------------------------------
+
 
 const Tutorial= () => {
-  const tutorialTextArr = ['설명1', '설명2', '설명3', '설명4']
-
-  const theme = useTheme();
+  // 튜토리얼 장
   const [activeStep, setActiveStep] = React.useState(0);
-
+  
+  // 튜토리얼 다음 장 함수
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
-
+  // 튜토리얼 이전 장 함수
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
+  
+  // 테마 사용
+  const theme = useTheme();
+  
+  // 각 장에 해당하는 튜토리얼에 띄워줄 요소들과 현재 장에서 보여주는 튜토리얼들
+  const tutorialTextArr = ['설명1', '설명2', '설명3', '설명4']
   let cntTutorialText = tutorialTextArr[activeStep]
 
   return (
