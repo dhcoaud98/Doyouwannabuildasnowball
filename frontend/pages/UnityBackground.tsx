@@ -24,12 +24,12 @@ function UnityBackground() {
 
   function SendRequest() {
     console.log('sta')
-    sendMessage("UserObject", "DispatchPos", JSON.stringify({id: 14, position: [{indicator: 0, x: -14, y: -6.68, z: -8.76},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0},{indicator: 1, x: 0, y: 0, z: 0}]}))
+    sendMessage("UserObject", "DispatchPos", JSON.stringify({id: 14, deco: [{indicator: 0, coordinateX: -14, coordinateY: -6.68, coordinateZ: -8.76},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, z: 0}]}))
     
   }
 
   function ConMap(pos: string){
-    console.log(typeof(pos))
+    console.log(pos)
   }
 
   return (
