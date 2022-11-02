@@ -17,6 +17,10 @@ import PeopleIcon from '@mui/icons-material/People';
 import ShareIcon from '@mui/icons-material/Share';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import PersonOffIcon from '@mui/icons-material/PersonOff';
+import AppsIcon from '@mui/icons-material/Apps';
 
 // ------------------------------------------------------------------------
 
@@ -47,29 +51,51 @@ const CustomMain= () => {
   }
 
   // 스피드 다이얼 버튼들 함수
-  // 꾸미기
-  const customSnowBall = () => {
-    if (customListState === false) {
-      console.log('커스텀시작')
-      setCustomListState((prev) => true)
-    } else {
-      console.log('커스텀 끄읏')
-      setCustomListState((prev) => false)
-    }
-  }
-  // 공유하기
-  const shareSnowBall = () => {}
-  // 친구목록
-  const showFriends= () => {
-    // 현재는 사용자 정보가 없으므로...
-    router.push('/dddd')
-  }
+    // 1.내 메인페이지일 경우 스피드 다이얼 함수 구성
+      // ㄱ.꾸미기
+      const customSnowBall = () => {
+        setCustomListState((prev) => true)
+      }
+      // ㄴ.공유하기
+      const shareSnowBall = () => {}
+      // ㄷ.친구목록으로 라우팅
+      const showFriends = () => {
+        // 현재는 사용자 정보가 없으므로...
+        router.push('/dddd')
+      }
+      const showCollection = () => {
+        router.push('Collection')
+      } 
+
+    // 2.남의 메인페이지일 경우 스피드 다이얼 함수 구성
+      // ㄱ.선물하기
+      const giftSnowBall = () => {   
+        setCustomListState((prev) => true)
+      }
+      // ㄴ.친구요청 보내기
+      const requestBeFriend = () => {}
+      // ㄷ.친구삭제
+      const deleteFriend= () => {}
   
-  const actions = [
-    { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
-    { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
-    { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
-  ];
+
+  // 스피드 다이얼 구성요소
+    // 1.내 메인페이지일 경우 스피드 다이얼 구성
+    const myActions = [
+      { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
+      { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
+      { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
+      { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection}
+    ];
+
+    // 2.남의 메인페이지일 경우 스피드 다이얼 구성
+    // 친구 추가 요청과 친구삭제는 친구 여부에 따라서 하나만 뜨도록 구성 예정
+    const theOtherActions = [
+      { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+      { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
+      { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},
+    ]
+
+  // const actions = 현재 url의 userid와 로그인된 사용자의 url이 같다면 ? myActions : theOtherActions
 
   return (
     <div id="container_div">
@@ -79,7 +105,6 @@ const CustomMain= () => {
 
         {/* 메인 콘텐츠 */}
         <Grid xs={12} sm={8} md={6} xl={4} item id="main_div" container direction="column" justifyContent="space-between">                                
-          
           {/* 상단 */}
           <Grid component="div" item container xs={2} className={styles.upper}>
             {/* 상단 내브바 왼쪽 */}
@@ -110,7 +135,9 @@ const CustomMain= () => {
                   sx: { bgcolor: '#FFF3E1', color: '#662113', '&:hover': {bgcolor: '#FFF3E1',}}
                 }}
               >
-                {actions.map((action) => (
+                {/* 내 메인페이지인지에 따라 바뀜 */}
+                {/* 여기가 추후에 myActions가 아닌 actions로 바뀔 것 */}
+                {myActions.map((action) => (
                   <SpeedDialAction key={action.name} icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={action.eventFunc}/>
                 ))}
               </StyledSpeedDial>

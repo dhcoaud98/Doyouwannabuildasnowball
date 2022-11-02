@@ -64,8 +64,8 @@ const CustomList= () => {
 
           {/* 탭별 하단요소들 */}
           <Grid component="div" container justifyContent="space-around" alignContent="space-evenly" p={2} className={styles.btn_container}>
-            {tapImagesArr[tapValue].map((tapImage) => (
-              <Grid item>
+            {tapImagesArr[tapValue].map((tapImage, idx) => (
+              <Grid item key={idx}>
                 <Button variant="outlined">{tapImage.image_path}</Button>
               </Grid>
               ))}
