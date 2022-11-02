@@ -18,15 +18,19 @@ import ShareIcon from '@mui/icons-material/Share';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 
 import CustomList from "../components/Custom/CustomList"
 import { borderRadius } from '@mui/system';
+import { useRouter } from "next/router";
 
 
 
 const CustomMain= () => {
+  // 라우터
+  const router = useRouter();
+
   // 스피드 다이얼 스타일
   const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
     position: 'absolute',
@@ -43,12 +47,13 @@ const CustomMain= () => {
 
   // 저장버튼 함수
 
-  // 뒤로가기 함수
+  // 꾸미기 취소 함수
   const cancelCustom = () => {
     setCustomListState((prev) => false)
   }
 
   // 스피드 다이얼 버튼들 함수
+  // 꾸미기
   const customSnowBall = () => {
     if (customListState === false) {
       console.log('커스텀시작')
@@ -58,8 +63,13 @@ const CustomMain= () => {
       setCustomListState((prev) => false)
     }
   }
+  // 공유하기
   const shareSnowBall = () => {}
-  const showFriends= () => {}
+  // 친구목록
+  const showFriends= () => {
+    // 현재는 사용자 정보가 없으므로...
+    router.push('/dddd')
+  }
   
   const actions = [
     { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
