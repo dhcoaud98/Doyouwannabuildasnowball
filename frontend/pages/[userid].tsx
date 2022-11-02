@@ -108,7 +108,6 @@ const Profile= () => {
   })
 
 
-
   // 친구 삭제 함수
   const deleteFriend = (friendId : any) => {
     axios.delete(`http://localhost:8080/api/friend/list/${friendId}?memberId=${nowUser}`)
