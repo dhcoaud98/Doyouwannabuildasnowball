@@ -29,7 +29,7 @@ FROM nginx
 # 80 포트 오픈
 EXPOSE 80
 
-echo pwd
+ECHO pwd
 
 COPY --from=builder usr/src/app/build /usr/share/nginx/html
 
