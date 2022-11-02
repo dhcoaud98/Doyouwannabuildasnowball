@@ -29,6 +29,8 @@ FROM nginx
 # 80 포트 오픈
 EXPOSE 80
 
+echo pwd
+
 COPY --from=builder usr/src/app/build /usr/share/nginx/html
 
 # container 실행 시 자동으로 실행할 command. nginx 시작함
