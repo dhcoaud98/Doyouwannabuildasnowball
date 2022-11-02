@@ -40,7 +40,7 @@ public class MemberController {
         }
     }
 
-    @PatchMapping("/info")
+    @PatchMapping("/update")
     public ResponseEntity<Void> updateUserInfo(@RequestBody MemberUpdateRequest memberUpdateRequest) {
         try {
             memberService.updateUserInfo(memberUpdateRequest);
@@ -55,8 +55,6 @@ public class MemberController {
         log.info("member : " + member.toString());
         log.info(member.getName());
         log.info(member.getEmail());
-
-
 
         Boolean isDuplicated = memberService.confirmDuplicateNickname(nickname);
         return ResponseEntity.ok(isDuplicated);
