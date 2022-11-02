@@ -19,18 +19,18 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class MongoConfig {
     private final MongoMappingContext mongoMappingContext;
 
-    @Value("${spring.data.mongodb.uri}")
-    private String connectionString;
-
-    @Bean
-    public MongoDatabaseFactory mongoDatabaseFactory() {
-        return new SimpleMongoClientDatabaseFactory(connectionString);
-    }
-
-    @Bean
-    public MongoTemplate mongoTemplate() {
-        return new MongoTemplate(mongoDatabaseFactory());
-    }
+//    @Value("${spring.data.mongodb.uri}")
+//    private String connectionString;
+//
+//    @Bean
+//    public MongoDatabaseFactory mongoDatabaseFactory() {
+//        return new SimpleMongoClientDatabaseFactory(connectionString);
+//    }
+//
+//    @Bean
+//    public MongoTemplate mongoTemplate() {
+//        return new MongoTemplate(mongoDatabaseFactory());
+//    }
 
 //    @Bean
 //    public MappingMongoConverter mappingMongoConverter(MongoDatabaseFactory mongoDatabaseFactory, MongoMappingContext mongoMappingContext) {
