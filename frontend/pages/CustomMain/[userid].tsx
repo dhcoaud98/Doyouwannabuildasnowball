@@ -4,8 +4,8 @@ import { useState } from "react";
 
 // Other components
 import MainContainer from "components/Three/MainContainer";
-import CustomList from "../components/Custom/CustomList"
-import styles from "./CustomMain.module.css"
+import CustomList from "../../components/Custom/CustomList"
+import styles from "./[userid].module.css"
 
 // MUI
 import { styled } from '@mui/material/styles';
