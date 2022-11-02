@@ -1,10 +1,7 @@
 package com.ssafy.doyouwannabuildasnowball.domain;
 
 import com.ssafy.doyouwannabuildasnowball.domain.base.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Builder
+@ToString
 public class Board extends BaseEntity {
     @Id
     @Column(name = "board_id")
