@@ -48,6 +48,7 @@ public class SnowglobeController {
         snowglobeService.updateSnowglobe(uid, snowglobeUpdateRequestDto);
         return ResponseEntity.ok().build();
     }
+    
 
     //친구 메인 페이지에서 스노우볼 선물하기*
     @PostMapping("{receiver_id}/present")
