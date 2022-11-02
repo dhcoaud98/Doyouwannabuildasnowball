@@ -7,8 +7,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
 import SendIcon from '@mui/icons-material/Send';
 import { useEffect, useState } from 'react'
 import axios from 'axios';
@@ -34,7 +32,7 @@ const Board= () => {
   
   const messageColor = ['#FA6767', '#C68CFF', '#FFACAC', '#FDE58E', '#FFBE5F']
 
-  // 메시지 전송
+  // 1. 메시지 전송
   const [contents, setContents] = useState('');
   const [text, setText] = useState('');
   const onChange = (e : any) => {
@@ -46,7 +44,7 @@ const Board= () => {
     axios.post(`http://localhost:8080/api/board/write`, {
         "content" : text,
         "picture" : 'null',
-        "snowglobe" : 3
+        "snowglobe" : 1
     })
       .then(res => {
         console.log(res.data)
@@ -57,10 +55,10 @@ const Board= () => {
     setText('');
   };
 
-  // delete axios
+  // 2. 메시지 삭제
+  // const accessToken = window.localStorage.getItem('accessToken')
 
-
-  // 전체 메시지 조회 message axios
+  // 3. 전체 메시지 조회
   useEffect(() => {
     const fetchMessages = async () => {
       try {
