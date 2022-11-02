@@ -1,6 +1,6 @@
 # Dockerfile
 
-FROM node:18.11.2 as builder
+FROM node:16.16.0 as builder
 # root 에 app 폴더를 생성
 
 WORKDIR /app
