@@ -7,6 +7,7 @@ import com.ssafy.doyouwannabuildasnowball.domain.Snowglobe;
 import com.ssafy.doyouwannabuildasnowball.dto.board.BoardDto;
 import com.ssafy.doyouwannabuildasnowball.dto.board.request.WriteBoardRequest;
 import com.ssafy.doyouwannabuildasnowball.dto.board.response.BoardAllResponse;
+import com.ssafy.doyouwannabuildasnowball.dto.board.response.BoardResponse;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.BoardRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.SnowglobeRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import springfox.documentation.spring.web.json.Json;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +41,21 @@ public class BoardService {
         List<Board> boardList = boardRepository.findAllContents(snowglobeId)
                 .orElseThrow(() -> new NotFoundException(BOARD_NOT_FOUND));
 
-        return new BoardAllResponse(boardList);
+
+        List<BoardResponse> boardResponses = new ArrayList<>();
+        boardList.forEach(board -> boardResponses.add(BoardResponse.builder()
+                        .createdTime(board.getCreatedTime())
+                        .modifiedTime(board.getModifiedTime())
+                        .boardId(board.getBoardId())
+                        .snowglobeId(board.getSnowglobe().getSnowglobeId())
+                        .content(board.getContent())
+                        .imageUrl(board.getPicture()).build()
+        ));
+        BoardAllResponse boardAllResponse = new BoardAllResponse(boardResponses);
+
+
+        log.info("boardList size : " + boardList.size());
+        return boardAllResponse;
     }
 
     public void saveContent(WriteBoardRequest writeBoardRequest) throws NotFoundException {
