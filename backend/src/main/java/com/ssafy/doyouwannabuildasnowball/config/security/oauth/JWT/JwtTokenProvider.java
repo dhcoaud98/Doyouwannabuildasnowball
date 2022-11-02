@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
@@ -88,11 +89,12 @@ public class JwtTokenProvider {
         return refreshToken;
     }
 
+    @Transactional
     private void saveRefreshToken(Authentication authentication, String refreshToken) {
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
         Long id = Long.valueOf(user.getName());
-
-//        memberRepository.updateRefreshToken(id, refreshToken);
+        log.info("referesh token user id : " + id);
+        memberRepository.updateRefreshToken(id, refreshToken);
     }
 
     // Access Token을 검사하고 얻은 정보로 Authentication 객체 생성

@@ -24,6 +24,11 @@ public class MemberController {
 
 
 
+    @GetMapping("/me")
+    public ResponseEntity<MemberMeResponse> loginMemberInformation(@ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
+        return ResponseEntity.ok(memberService.findByLoginMember(member.getId()));
+    }
+
     @GetMapping("/me/{memberId}")
     public ResponseEntity<MemberMeResponse> getUserInfo(@PathVariable Long memberId) {
         try {
