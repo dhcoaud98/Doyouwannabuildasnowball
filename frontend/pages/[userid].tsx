@@ -86,6 +86,24 @@ const Profile= () => {
   // 현재 유저
   const [nowUser, setNowUser] = React.useState(1);
 
+
+  // 로그인 유저 정보 가져오기
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/member/me`
+        );
+        // setNowUser(response.data);
+        console.log('내 정보 = ', response.data)
+      } catch (err: any) {
+        console.log('errer = ', err)
+      }
+    };
+
+    fetchUsers();
+  }, [])
+
   // 전체 친구 목록 가져오기
   useEffect(() => {
     const fetchFriends = async () => {
@@ -94,9 +112,9 @@ const Profile= () => {
           `http://localhost:8080/api/friend/list/${nowUser}`
         );
         setfriends(response.data);
-        console.log('친구 목록 = ', response.data)
-      } catch (e: any) {
-        console.log('errer = ', e)
+        // console.log('친구 목록 = ', response.data)
+      } catch (err: any) {
+        console.log('errer = ', err)
       }
     };
 
@@ -107,7 +125,7 @@ const Profile= () => {
   const deleteFriend = (friendId : any) => {
     axios.delete(`http://localhost:8080/api/friend/list/${friendId}?memberId=${nowUser}`)
       .then(res => {
-        console.log("새로 받은 데이터 = ", res.data);
+        // console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data);
     })
   }
@@ -116,7 +134,7 @@ const Profile= () => {
   const followFriend = (friendId : any) => {
     axios.patch(`http://localhost:8080/api/friend/request/${friendId}?memberId=${nowUser}`)
       .then(res => {
-        console.log("새로 받은 데이터 = ", res.data);
+        // console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data);
 
       })
@@ -124,17 +142,19 @@ const Profile= () => {
 
   // 스노우볼 요청
   const requestLetter = (memberId : any) => {
-    console.log(memberId)
-    console.log(nowUser)
     axios.post(`http://localhost:8080/api/friend/snowglobe/request`, {
-    	data:{
         "receiveMemberId" : memberId,
         "sendMemberId" : nowUser
-        }
-    })
-      .then(res => {
-        console.log("새로 받은 데이터 = ", res.data);
       })
+        .then(res => {
+          // console.log("새로 받은 데이터 = ", res.data);
+          if (res.data==='fail') {
+            alert('요청이 불확실합니다.')
+          }
+        })
+        .catch(err => {
+          alert('요청이 불확실합니다.')
+        })
   }
 
   // 스노우볼 요청 삭제
@@ -148,13 +168,12 @@ const Profile= () => {
         }
     })
       .then(res => {
-        console.log("새로 받은 데이터 = ", res.data);
+        // console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data)
         handleClose();
       })
   }
   
-
   // modal창 만들기
   const [open, setOpen] = React.useState(false);
   const handleOpen = (member:Member) => {
