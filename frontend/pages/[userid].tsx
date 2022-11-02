@@ -27,6 +27,7 @@ import Image from 'next/image'
 import Navbar from 'components/Navbar/Navbar';
 import SearchBar from 'components/Search/SearchBar';
 import axios from 'axios';
+import { EightKSharp } from '@mui/icons-material';
 
 // 모달 스타일
 const style = {
@@ -67,7 +68,9 @@ type Member = {
 
 const Profile= () => {
   // 라우터
-  const router = useRouter();
+  // const router = useRouter();
+  // const accessToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiaXNzIjoic25vd2JhbGwiLCJpYXQiOjE2NjczNjMwMTAsImV4cCI6MTY2NzQ0OTQxMH0.Qy5pTKtpf_BTJxU4Qv6PWDmajOg_Ac1kGZArd3JcIfZ0bv2X60XgWXqWge1ZbjwwsV5tY6l9eHIEmox1eI2WjA'
+  // console.log("access token  : " , accessToken)
 
   // axios로 친구 목록 받아서 friends에 넣기
   const [friends, setfriends] = React.useState([]);
@@ -83,43 +86,57 @@ const Profile= () => {
     status: -1,
   })
 
-  // 현재 유저
-  const [nowUser, setNowUser] = React.useState(1);
-
-
+ 
+  const [nowUser, setNowUser] = useState(1);
+ 
+ 
   // 로그인 유저 정보 가져오기
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/member/me`
-        );
-        // setNowUser(response.data);
-        console.log('내 정보 = ', response.data)
-      } catch (err: any) {
-        console.log('errer = ', err)
-      }
-    };
+  if (typeof window !== "undefined") {
+    // browser code
+    const accessToken = window.localStorage.getItem('accessToken')
 
+    useEffect(() => {
+      const fetchUsers = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/api/member/me`, {
+              headers: {
+                Authorization: `Bearer ${accessToken}`
+              }
+            }
+          );
+          // setNowUser(response.data);
+          console.log('내 정보 = ', response.data)
+          setNowUser(response.data.memberId)
+          console.log("멤버 정보 = ", response.data.memberId)
+
+          // 전체 친구 목록
+          useEffect(() => {
+            const fetchFriends = async () => {
+              try {
+                const response = await axios.get(
+                  `http://localhost:8080/api/friend/list/${nowUser}`
+                );
+                setfriends(response.data);
+                // console.log('친구 목록 = ', response.data)
+              } catch (err: any) {
+                console.log('errer = ', err)
+              }
+            };
+        
+            fetchFriends();
+          }, [])
+        } catch (err: any) {
+          console.log('errer = ', err)
+        }
+      }
     fetchUsers();
-  }, [])
+  }, []) }
+
+  // 현재 유저
 
   // 전체 친구 목록 가져오기
-  useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/friend/list/${nowUser}`
-        );
-        setfriends(response.data);
-        // console.log('친구 목록 = ', response.data)
-      } catch (err: any) {
-        console.log('errer = ', err)
-      }
-    };
-
-    fetchFriends();
-  }, [])
+  
 
   // 친구 삭제 함수
   const deleteFriend = (friendId : any) => {
