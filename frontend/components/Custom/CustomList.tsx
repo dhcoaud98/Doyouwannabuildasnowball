@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Tabs, Tab, Box, Button } from '@mui/material';
+import { Tabs, Tab, Box, Button, Grid } from '@mui/material';
 import styles from './CustomList.module.css'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
@@ -37,8 +37,8 @@ const CustomList= () => {
   return (
     <div>
       <Box component="div" className={styles.drawer_box}>
-        {/* 상단탭 */}
         <ThemeProvider theme={theme}>
+          {/* 상단탭 */}
           <Tabs
             value={tapValue}
             onChange={handleChange}
@@ -56,11 +56,13 @@ const CustomList= () => {
           </Tabs>
 
           {/* 탭별 하단요소들 */}
-          <div>
+          <Grid component="div" container justifyContent="space-around" alignContent="space-evenly" p={2} className={styles.btn_container}>
             {tapImagesArr[tapValue].map((tapImage) => (
-              <Button>{tapImage.image_path}</Button>
+              <Grid item>
+                <Button variant="outlined">{tapImage.image_path}</Button>
+              </Grid>
               ))}
-          </div>
+          </Grid>
         </ThemeProvider>
       </Box>
     </div>
