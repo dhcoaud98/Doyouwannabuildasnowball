@@ -1,7 +1,14 @@
+// Systems
 import * as React from 'react';
-import { Tabs, Tab, Box, Button, Grid } from '@mui/material';
+
+// Other components
 import styles from './CustomList.module.css'
+
+// MUI
+import { Tabs, Tab, Box, Button, Grid } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+// ------------------------------------------------------------------------
 
   
 // 탭 테마 색상 변경
