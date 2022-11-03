@@ -53,8 +53,8 @@ const Home = () => {
       })
       .then((res) => {
           dispatch(setUser(res.data))
+          router.push(`/CustomMain/${res.data.memberId}`)
       })
-      router.push('/CustomMain')
       // setTimeout(() => {
       //   navigate('/')
       // }, 1000);
