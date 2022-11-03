@@ -1,6 +1,6 @@
 // Systems
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {useSelector} from 'react-redux'
 import { RootState } from 'store/store';
 import axios from 'axios';
@@ -33,7 +33,9 @@ const CustomMain= () => {
   const router = useRouter();
 
   // 현재 CustomMain의 Owner ID
-  const ownerUserID = Number(window.location.href.split('/')[-1])
+  const ownerQuery =router.query;
+  let ownerUserID
+
 
   // 현재 서비스 사용자아이디
   const nowUserID = useSelector((state : RootState)  => state.user.userId);
@@ -42,8 +44,12 @@ const CustomMain= () => {
   let ownerUserNickName = ""
   
   // 컴포넌트 실행시 가장 먼저 실행되는 함수
-  window.onload = () => {
-    // Owner 정보 가져오기
+  useEffect(() => {
+    console.log(ownerQuery)
+    if (ownerQuery.userid)
+    {
+      // Owner 정보 가져오기
+    ownerUserID = ownerQuery.userid
     axios.get(`http://localhost:8080/api/member/info/${ownerUserID}`)
     .then((response) => {
       console.log(response.data)
@@ -52,7 +58,9 @@ const CustomMain= () => {
     .catch((error) => {
       console.log(error)
     })
-  }
+    }
+    
+  },[ownerQuery]) 
 
   // 스피드 다이얼 스타일
   const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
