@@ -58,6 +58,7 @@ public class BoardService {
         return boardAllResponse;
     }
 
+    @Transactional
     public void saveContent(WriteBoardRequest writeBoardRequest) throws NotFoundException {
 
         Snowglobe snowglobe = snowglobeRepository.findById(writeBoardRequest.getSnowglobeId())
