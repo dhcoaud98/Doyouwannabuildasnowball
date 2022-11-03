@@ -1,6 +1,9 @@
 // Systems
 import { useRouter } from "next/router";
 import { useState } from "react";
+import {useSelector} from 'react-redux'
+import { RootState } from 'store/store';
+import axios from 'axios';
 
 // Other components
 import MainContainer from "components/Three/MainContainer";
@@ -29,6 +32,28 @@ const CustomMain= () => {
   // 라우터
   const router = useRouter();
 
+  // 현재 CustomMain의 Owner ID
+  const ownerUserID = Number(window.location.href.split('/')[-1])
+
+  // 현재 서비스 사용자아이디
+  const nowUserID = useSelector((state : RootState)  => state.user.userId);
+
+  // 소유자 닉네임 딱 대기
+  let ownerUserNickName = ""
+  
+  // 컴포넌트 실행시 가장 먼저 실행되는 함수
+  window.onload = () => {
+    // Owner 정보 가져오기
+    axios.get(`http://localhost:8080/api/member/info/${ownerUserID}`)
+    .then((response) => {
+      console.log(response.data)
+      ownerUserNickName = response.data.nickname
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
   // 스피드 다이얼 스타일
   const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
     position: 'absolute',
@@ -44,7 +69,10 @@ const CustomMain= () => {
   const noneAtCustomListFalse = customListState ? "" : styles.d_none;
 
   // 저장버튼 함수
+  const saveCustom = () => {
 
+  }
+  
   // 꾸미기 취소 함수
   const cancelCustom = () => {
     setCustomListState((prev) => false)
@@ -89,15 +117,25 @@ const CustomMain= () => {
 
     // 2.남의 메인페이지일 경우 스피드 다이얼 구성
     // 친구 추가 요청과 친구삭제는 친구 여부에 따라서 하나만 뜨도록 구성 예정
-    const theOtherActions = [
+    const theOthersActions = [
       { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
       { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
       { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},
     ]
 
-  // const actions = 현재 url의 userid와 로그인된 사용자의 url이 같다면 ? myActions : theOtherActions
 
-  return (
+  // 여기서부터는 현재 서비스 사용자와 현재 페이지 소유자가 같은지 여부에 따라 달라지는 변수들
+  let actions = theOthersActions
+  let whoseSnowGlobe:string = ownerUserNickName
+  let customMenuName:string = "선물하기"
+  
+  if (ownerUserID === nowUserID) {
+    actions = myActions
+    whoseSnowGlobe = "나"
+    customMenuName = "꾸미기"
+  }
+
+    return (
     <div id="container_div">
       <Grid container id="container_div">
         {/* 왼쪽 마진 */}
@@ -119,7 +157,7 @@ const CustomMain= () => {
             {/* 상단 내브바 중간 */}
             {/* 현재 상태 이름 */}
             <Grid xs={8} item component="div" style={{justifyContent: 'end'}}>
-              <h1 className='cntmenu-text'>{customListState === true ? "꾸미기" : "나의 스노우볼" }</h1>
+              <h1 className='cntmenu-text'>{customListState === true ? customMenuName : `${whoseSnowGlobe}의 스노우볼` }</h1>
             </Grid>
 
             {/* 상단 내브바 오른쪽 */}
@@ -137,7 +175,7 @@ const CustomMain= () => {
               >
                 {/* 내 메인페이지인지에 따라 바뀜 */}
                 {/* 여기가 추후에 myActions가 아닌 actions로 바뀔 것 */}
-                {myActions.map((action) => (
+                {actions.map((action) => (
                   <SpeedDialAction key={action.name} icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={action.eventFunc}/>
                 ))}
               </StyledSpeedDial>
