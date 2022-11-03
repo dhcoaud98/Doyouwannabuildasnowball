@@ -1,0 +1,50 @@
+.navbar_top_margin {
+  height: 5%;
+}
+.navbar {
+  height: 10%;
+}
+
+.board_body {
+  height: 85%;
+}
+
+.board_body_box {
+  position: relative;
+  background-image: url('../public/images/BoardBackground.png');
+  background-size: 100% 100%;
+  /* opacity: 0.9; */
+  /* width: 100; */
+}
+
+.board_card {
+  position: absolute;
+  margin: 15px;
+  /* background: rgb(245, 217, 217); */
+}
+
+.message_box_content {
+  margin : 5px;
+  
+}
+
+.board_content {
+  position: relative;
+  height: 85%;
+}
+
+.input_body{
+  height: 20%;
+  display: flex; 
+  position: relative;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.input_box {
+  width: 80%;
+}
+
+.send_button {
+  color: #A6D388;
+}

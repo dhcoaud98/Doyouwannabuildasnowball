@@ -1,0 +1,64 @@
+.navbar_top_margin {
+  height: 5%;
+}
+.navbar {
+  height: 10%;
+}
+
+.search {
+  height: 5%;
+  max-width: 100%;
+}
+
+
+/* .upper {
+  height: 15%;
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+} */
+
+.deco {
+  height: 10%;
+}
+
+.decoimag {
+  position: absolute;
+  display:flex;
+  width: 100%;
+  /* justify-content: center;
+  align-items: center; */
+}
+
+.friends {
+  height: 70%
+}
+
+
+.modal-text {
+  font-family:'MaruBuri-Regular';
+  font-weight: lighter;
+  font-size: 2em;
+  text-align: center;
+  color: #4E5D39;
+}
+
+.cntmenu_text1 {
+  font-family:'MaruBuri-Regular';
+  font-weight: lighter;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  color: #4E5D39;
+}
+
+.gift_delete_button{
+  display: flex;
+  justify-content: center;
+
+}
+
+.go{
+  color: #6A1206;
+  margin: 0;
+}
