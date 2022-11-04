@@ -117,21 +117,7 @@ public class SnowglobeService {
     //갖고있는 스노우볼 확인 (내 책장 / 메인 스노우볼 제외한 모든 스노우볼)
     @Transactional
     public List<SnowglobeShelfResponseDto> showAllSnowglobe(Long uid) {
-        Member member = memberRepository.findById(uid).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
-        SnowglobeShelfResponseDto mine = new SnowglobeShelfResponseDto().builder()
-                .snowglobeId(member.getSnowglobe().getSnowglobeId())
-                .screenshot(member.getSnowglobe().getScreenshot())
-                .build();
-
-        List<SnowglobeShelfResponseDto> result = new ArrayList<SnowglobeShelfResponseDto>(snowglobeRepository.findAllByMakerIdAndReceiverId(uid));
-        for (int i=0; i<result.size(); i++) {
-            if (result.get(i).getSnowglobeId().equals(mine.getSnowglobeId())) {
-                result.remove(i);
-                log.info("index"+i);
-            }
-        }
-
-        return result;
+        return snowglobeRepository.findAllByMakerIdAndReceiverId(uid);
     }
 
     //책장에서 스노우볼 삭제
@@ -163,8 +149,7 @@ public class SnowglobeService {
     @Transactional
     public List<MusicAllDto> musicAll() {
         List<MusicAllDto> result = new ArrayList<>();
-        List<Music> musicList = new ArrayList<>();
-        musicList = musicRepository.findAll();
+        List<Music> musicList = musicRepository.findAll();
         for (Music music : musicList) {
             result.add(MusicAllDto.builder()
                     .musicId(music.getMusicId())
