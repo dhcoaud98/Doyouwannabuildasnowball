@@ -1,37 +1,16 @@
-import styles from "./collection.module.css"
-import * as React from 'react';
-import { Grid } from '@mui/material';
-import Box from '@mui/material/Box'
-import Container from '@mui/material/Container';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
-import Button from '@mui/material/Button'
-import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import Badge from '@mui/material/Badge';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { styled } from '@mui/material/styles';
-// import { theme } from "@/styles/theme";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+// Systems
 
-// 컴포너트
+// Other components
 import Navbar from "../components/navbar/navbar";
-import SearchBar from "../components/search/searchbar";
-import MainContainer from "../components/three/MainContainer";
+import styles from "./collection.module.css"
+
+// MUI
+import { Grid } from '@mui/material';
+
+// ------------------------------------------------------------------------
 
 const Collection= () => {
-
-
   return (
-    
       <div id="container_div">
         <Grid container id="container_div">
           {/* 왼쪽 마진 */}
@@ -75,7 +54,6 @@ const Collection= () => {
               <div className={styles.collection_box_top}>
                 <img src="/images/woodbar2.png" className={styles.collection_mysnowball3}></img>
               </div>
-
             </div>
 
 

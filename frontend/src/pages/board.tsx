@@ -1,20 +1,17 @@
-import { Grid } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import Box from '@mui/material/Box'
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import SendIcon from '@mui/icons-material/Send';
+// Systems
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 
-// 컴포넌트
+// Other components
 import Navbar from '../components/navbar/navbar';
 import styles from "./board.module.css"
+
+// MUI
+import { Grid, Box, Container, Button, TextField } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import SendIcon from '@mui/icons-material/Send';
+
+// ------------------------------------------------------------------------
 
 // 버튼 색
 const theme = createTheme({

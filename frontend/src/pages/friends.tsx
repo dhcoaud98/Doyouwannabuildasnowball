@@ -1,34 +1,30 @@
+// Systems
 import * as React from 'react';
-import { Grid } from '@mui/material';
-import styles from "./friends.module.css"
-import Box from '@mui/material/Box'
-import Container from '@mui/material/Container';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
-import Button from '@mui/material/Button'
-import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import Badge from '@mui/material/Badge';
-import Modal from '@mui/material/Modal';
-import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-// import { theme } from "@/styles/theme";
+import {useSelector} from 'react-redux'
+import axios from 'axios';
+
+// Other components
+import "../index.css"
+import styles from "./friends.module.css"
+import Navbar from '../components/navbar/navbar';
+import SearchBar from '../components/search/searchbar';
+import { RootState } from '../app/store';
+
+// MUI
+import { Grid, Box, Container, List, ListItem, ListItemText, ListItemAvatar, Avatar, Button, Badge, Modal } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import ImageIcon from '@mui/icons-material/Image';
+import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import {useSelector} from 'react-redux'
+
+// ------------------------------------------------------------------------
 
 // 컴포넌트
-import Navbar from '../components/navbar/navbar';
-import SearchBar from '../components/search/searchbar';
-import axios from 'axios';
-import { EightKSharp } from '@mui/icons-material';
-import { RootState } from '../app/store';
 
 
 // 모달 스타일

@@ -1,9 +1,12 @@
 // Systems
-import { Link } from "react-router-dom"
 import { useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
 // Other components
+import kakaoLoginBtnImg from '../assets/images/kakao_login_btn.png'
+import decorationImg from '../assets/images/decoration.png'
+import mainLogoImg from '../assets/images/main_logo.png'
 import "../index.css"
 import styles from "./intro.module.css"
 
@@ -13,7 +16,6 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../features/userSlice";
 
 // ------------------------------------------------------------------------
-
 
 const Home = () => {
   // react hook
@@ -71,16 +73,18 @@ const Home = () => {
         {/* 메인 콘텐츠 */}
         <Grid xs={12} sm={8} md={6} xl={4} item id="main_div">
           {/* 메인로고 */}
-          <img src="../assets/images/main_logo.png" alt="" className={styles.main_logo}/>
+          <img src={mainLogoImg} alt="" className={styles.main_logo}/>
 
           {/* 카카오로그인버튼 - 고정 */}
           <a href={REDIRECT_URI}>
-            <div id="kakao-button" className={styles.kakao_login_btn}><img src="../assets/images/kakao_login_btn.png" alt="" className={styles.kakao_login_img} /></div>
+            <div id="kakao-button" className={styles.kakao_login_btn}>
+              <img src={kakaoLoginBtnImg} alt="" className={styles.kakao_login_img} />
+            </div>
           </a>
           {/* <Button className={styles.kakao_login_btn}><img src="/images/kakao_login_btn.png" alt="" className={styles.kakao_login_img} /></Button> */}
 
           {/* 하단 장식줄 - 고정 */}
-          <img src="../assets/images/decoration.png" alt="" className={styles.decoration}/>
+          <img src={decorationImg} alt="" className={styles.decoration}/>
         </Grid>
 
         {/* 오른쪽 마진 */}

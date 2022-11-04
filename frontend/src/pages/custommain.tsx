@@ -1,6 +1,5 @@
 // Systems
-import { Link, useNavigate, useParams } from "react-router-dom"
-// import { useRouter } from "next/router";
+import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import {useSelector} from 'react-redux'
 import { RootState } from "../app/store";

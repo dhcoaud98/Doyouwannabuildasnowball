@@ -2,7 +2,9 @@
 import { useState } from 'react';
 
 // Other components
+import "../index.css"
 import styles from "./tutorial.module.css"
+import tutorialBoxImg from "../assets/images/tutorial_box.png"
 
 // MUI
 import { Grid, Button, MobileStepper } from '@mui/material';
@@ -44,7 +46,7 @@ const Tutorial= () => {
           <div className={styles.tutorial_text}>
             {cntTutorialText}
           </div>
-          <img src='/images/tutorial_box.png' alt="" className={styles.tutorial_box}/>
+          <img src={tutorialBoxImg} alt="" className={styles.tutorial_box}/>
           {/* 튜토리얼 설명문구란 */}
 
           <MobileStepper
