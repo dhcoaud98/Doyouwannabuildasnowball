@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import '../../index.css'
 import styles from "./navbar.module.css"
-import wreath1Img from "../assets/images/wreath_1.png"
+import wreath1Img from "../../assets/images/wreath_1.png"
 
 import IconButton from '@mui/material/IconButton'
 import Avatar from '@mui/material/Avatar'
