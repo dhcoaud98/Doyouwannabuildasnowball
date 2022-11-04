@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import '../../index.css'
 import styles from "./navbar.module.css"
+import wreath1Img from "../assets/images/wreath_1.png"
+
 import IconButton from '@mui/material/IconButton'
 import Avatar from '@mui/material/Avatar'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -43,7 +45,7 @@ const Navbar= () => {
       {/* 뒤로가기 */}
       <Grid xs={2} item >
         <IconButton sx={{ m: 2.5, p:0 }} onClick={goback}>
-          <Avatar alt="" src="/images/wreath_1.png" className={styles.avatar}></Avatar>
+          <Avatar alt="" src={wreath1Img} className={styles.avatar}></Avatar>
           <ArrowBackIcon className={styles.arrow}/>
         </IconButton>
       </Grid>

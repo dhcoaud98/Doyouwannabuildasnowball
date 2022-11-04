@@ -11,6 +11,7 @@ import styles from "./friends.module.css"
 import Navbar from '../components/navbar/navbar';
 import SearchBar from '../components/search/searchbar';
 import { RootState } from '../app/store';
+import decorationImg from "../assets/images/decoration.png"
 
 // MUI
 import { Grid, Box, Container, List, ListItem, ListItemText, ListItemAvatar, Avatar, Button, Badge, Modal } from '@mui/material';
@@ -190,7 +191,7 @@ const Profile= () => {
 
             {/* 장식 */}
             <div className={styles.deco}>
-              <img src="/images/decoration.png" alt="" className={styles.decoimag}/>
+              <img src={decorationImg} alt="" className={styles.decoimag}/>
             </div>
             
             {/* 여기는 친구 목록 */}

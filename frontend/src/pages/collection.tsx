@@ -3,6 +3,8 @@
 // Other components
 import Navbar from "../components/navbar/navbar";
 import styles from "./collection.module.css"
+import deco1Img from "../assets/images/deco1.png"
+import woodbar2Img from "../assets/images/woodbar2.png"
 
 // MUI
 import { Grid } from '@mui/material';
@@ -37,22 +39,22 @@ const Collection= () => {
 
             {/* 여기는 컬렉션 박스 */}
             <div className={styles.collection_box}>
-              <img src="/images/deco1.png" alt="" className={styles.flower_deco}/>
+              <img src={deco1Img} alt="" className={styles.flower_deco}/>
       
               {/* <div className={styles.collection_box_top}></div> */}
 
               <div className={styles.collection_box_top}>
-                <img src="/images/woodbar2.png" className={styles.collection_mysnowball}></img>
+                <img src={woodbar2Img} className={styles.collection_mysnowball}></img>
               </div>
               <div className={styles.collection_box_top}>
                 {/* <Snow_globe/> */}
               </div>
               
               <div className={styles.collection_box_top}>
-                <img src="/images/woodbar2.png" className={styles.collection_mysnowball2}></img>
+                <img src={woodbar2Img} className={styles.collection_mysnowball2}></img>
               </div>
               <div className={styles.collection_box_top}>
-                <img src="/images/woodbar2.png" className={styles.collection_mysnowball3}></img>
+                <img src={woodbar2Img} className={styles.collection_mysnowball3}></img>
               </div>
             </div>
 
