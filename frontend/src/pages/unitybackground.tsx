@@ -1,6 +1,5 @@
 // unity
 import  { Unity, useUnityContext } from "react-unity-webgl"
-import MainContainer from "../components/three/MainContainer";
 import { useEffect } from "react";
 
 // axios
