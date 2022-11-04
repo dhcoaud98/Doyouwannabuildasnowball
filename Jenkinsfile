@@ -35,6 +35,7 @@ pipeline{
                 }
             }
         }
+
         stage('Deploy'){
             steps {
                 sh "docker run -d --name=${BACK_CONTAINER_NAME} -p 8080:8080 ${BACK_NAME}"
