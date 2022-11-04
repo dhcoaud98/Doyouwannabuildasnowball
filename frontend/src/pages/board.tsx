@@ -47,6 +47,7 @@ type Content = {
 // 이미지 업로드를 하지 않았을 경우 랜덤 이미지
 const backImageRandom = [
 'https://cdn.kormedi.com/wp-content/uploads/2020/12/gettyimages-1290149158-1-580x387.jpg',
+'https://www.gousa.or.kr/sites/default/files/styles/16_9_770x433/public/images/hero_media_image/2016-12/Fish%20Creek%20Main%20Street%20Holiday%20Scene.jpg?h=7685ba0d&itok=pP145ocO'
 ]
 
 // 랜덤 이미지 함수
@@ -70,22 +71,14 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 500,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
 
-// // 모달에 들어가는 메시지
-// let [content, setContent] = useState<Content>({
-//   boardId: -1,
-//   content: " ",
-//   createdTime: " ",
-//   imageUrl: " ",
-//   modifiedTime: " ",
-//   snowglobeId: -1,
-// })
+
 
 const Board= () => {
 
@@ -95,21 +88,38 @@ const Board= () => {
   // 메시지 배경색 랜덤 제공
   let randomBackImage = randomImage(backImageRandom)
 
+  // 모달에 들어가는 메시지
+  let [content, setContent] = useState<Content>({
+    boardId: -1,
+    content: " ",
+    createdTime: " ",
+    imageUrl: " ",
+    modifiedTime: " ",
+    snowglobeId: -1,
+  })
+
   // 모달
   const [open, setOpen] = useState(false);
   const handleOpen = (content:Content) => {
+    console.log(content)
     setOpen(true);
-    // setContent(content)
+    setContent((prev) => content)
   }
   const handleClose = () => setOpen(false);
+
 
   // 1. 메시지 전송
   const [contents, setContents] = useState([]);
   const [text, setText] = useState('');
+  const [edittext, setEditText] = useState('');
   const onChange = (e : any) => {
     setText(e.target.value);
     console.log(e.target.value)
   };
+
+  const onChangeEdit = (e:any) => {
+    setEditText(e.target.value)
+  }
   const sendMessage = () => {
     axios.post(`http://localhost:8080/api/board/write`, {
         "content" : text,
@@ -118,6 +128,7 @@ const Board= () => {
     })
       .then(res => {
         console.log(res.data)
+        fetchMessages();
       })
       .catch(err => {
         console.log(err)
@@ -126,21 +137,33 @@ const Board= () => {
   };
 
   // 2. 전체 메시지 조회
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/board/${nowUserId}/all`
-        );
-        setContents(response.data.boardList);
-        console.log('메시지 목록 = ', response.data.boardList)
-      } catch (err : any) {
-        console.log("에러 = ", err)
-      }
-    };
+  const fetchMessages = () => {
+    axios.get(`http://localhost:8080/api/board/${nowUserId}/all`)
+      .then((res) => {
+        setContents(res.data.boardList);
+        console.log('메시지 목록 = ', res.data.boardList)
+      }) 
+      .catch(err => {
+        console.log(err)
+      })
+  };
 
+  useEffect(() => {
     fetchMessages();
+    // const fetchMessages = async () => {
+    //   try {
+    //     const response = await axios.get(
+    //       `http://localhost:8080/api/board/${nowUserId}/all`
+    //     );
+    //     setContents(response.data.boardList);
+    //     console.log('메시지 목록 = ', response.data.boardList)
+    //   } catch (err : any) {
+    //     console.log("에러 = ", err)
+    //   }
+    // };
   }, [])
+  
+
 
   // 3. 메시지 삭제
   const deleteMessage = (boardId: number) => {
@@ -149,32 +172,39 @@ const Board= () => {
     axios.delete(`http://localhost:8080/api/board/${boardId}/delete`)
     .then(res => {
       console.log(res)
+      fetchMessages();
     })
     .catch(err => {
       console.log(err)
     })
+
   }
 
   // 4. 메시지 수정
-  const editMessage = () => {
+  const editMessage = (item : Content) => {
     console.log("메시지 수정하기")
-    axios.patch(`http://localhost:8080/api/board/modify`, {
-      "boardId" : 2,
-      "snowglobe" : 3,
-      "content" : {},
+    axios.put(`http://localhost:8080/api/board/modify`, {
+      "boardId" : item.boardId,
+      "snowglobe" : item.snowglobeId,
+      "content" : edittext,
       "picture" : null,
     })
     .then(res => {
       console.log(res)
+      handleClose();
+      fetchMessages();
+      setEditText('')
     })
     .catch(err => {
       console.log(err)
     })
+    
   }
 
   // 5. 이미지 업로드
   const uploadImg = () => {
     console.log("이미지 올리기")
+    fetchMessages();
   }
 
   return (
@@ -218,7 +248,7 @@ const Board= () => {
                         // const rows = item.featured ? 2 : 1;
 
                         return (
-                          <ImageListItem key={item.boardId}>
+                          <ImageListItem key={item.boardId} sx={{ margin: 1, borderRadius:'3px'}}>
                             <img
                               {...srcset(item.imageUrl ? item.imageUrl: randomBackImage, 250, 200)}
                               alt={item.content}
@@ -229,6 +259,7 @@ const Board= () => {
                                 background:
                                   'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
                                   'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+
                               }}
                               title={item.content}
                               position="top"
@@ -280,16 +311,16 @@ const Board= () => {
                       </Typography>
                       <Box component="div" className={styles.input_body}>
                       <TextField 
-                        onChange={onChange} 
-                        value={text} 
+                        onChange={onChangeEdit} 
+                        value={edittext} 
                         sx={{ mr: 1 }}
                         // label="내용을 입력하세요"
                         // color="success"
                         focused 
-                        placeholder="내용을 입력하세요" 
+                        placeholder={content.content}
                         className={styles.input_box}/>
                       <Button variant="contained" onClick={() => (uploadImg())} sx={{ mr: 1 }}><AddPhotoAlternateIcon/></Button>
-                      <Button variant="contained" onClick={() => (editMessage())}><SendIcon/></Button>
+                      <Button variant="contained" onClick={() => (editMessage(content))}><SendIcon/></Button>
                         {/* <div>
                           <b>값: {text}</b>
                         </div> */}
