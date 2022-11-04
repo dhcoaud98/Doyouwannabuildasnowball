@@ -21,7 +21,7 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-
+import '../assets/fonts/font.css'
 // ------------------------------------------------------------------------
 
 // 컴포넌트
