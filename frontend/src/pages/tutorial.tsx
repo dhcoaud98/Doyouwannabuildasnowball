@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 // Other components
-import styles from "./Tutorial.module.css"
+import styles from "./tutorial.module.css"
 
 // MUI
 import { Grid, Button, MobileStepper } from '@mui/material';

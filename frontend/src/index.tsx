@@ -2,18 +2,17 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider, } from 'react-redux';
 import { store } from './app/store';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { Board } from './pages/board'
-import { Collection } from './pages/collection'
-import { CustomMain } from './pages/custommain'
-import { Friends } from './pages/friends'
-import { Index } from './pages/index'
-import { Tutorial } from './pages/tutorial'
-import { UnityBackGround } from './pages/unitybackground'
+import Board from './pages/board'
+import Collection from './pages/collection'
+import CustomMain from './pages/custommain'
+import Friends from './pages/friends'
+import Index from './pages/intro'
+import Tutorial  from './pages/tutorial'
+import UnityBackGround  from './pages/unitybackground'
 
 
 const container = document.getElementById('root')!;
@@ -33,7 +32,6 @@ root.render(
         <Route path="/unitybackground" element={<UnityBackGround/>}></Route>
       </Routes>
       </BrowserRouter>
-      <App />
     </Provider>
   </React.StrictMode>
 );

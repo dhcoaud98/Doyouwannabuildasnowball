@@ -47,7 +47,7 @@ a {
 }
 
 #main_div {
-  background-image : url('../public/images/backImage.png');
+  background-image : url('./assets/images/backImage.png');
   background-size: cover;
   position: relative;
   height: 100%;
@@ -74,7 +74,7 @@ a {
 
 .MuiSpeedDial-fab {
   background-color: transparent; 
-  background-image: url('../public/images/wreath_2.png');
+  background-image: url('./assets/images/wreath_2.png');
   background-size: 105.7%;
   box-shadow: none;
 }

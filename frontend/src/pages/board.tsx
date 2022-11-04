@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 
 // 컴포넌트
-import Navbar from 'components/Navbar/Navbar';
+import Navbar from '../components/navbar/navbar';
 import styles from "./board.module.css"
 
 // 버튼 색

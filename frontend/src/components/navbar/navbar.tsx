@@ -1,34 +1,35 @@
 import * as React from 'react';
-import { useRouter, } from 'next/router';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import Grid from '@mui/material/Grid';
-import styles from "./Navbar.module.css"
+import '../../index.css'
+import styles from "./navbar.module.css"
 import IconButton from '@mui/material/IconButton'
 import Avatar from '@mui/material/Avatar'
-// import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const Navbar= () => {
 
-  // const navigate = useNavigate();
-  
+const Navbar= () => {
+  // 현재 페이지 확인
+  const router = useNavigate();
+  let location = useLocation();
+
+  // 뒤로가기
   const goback = () => {
     // navigate('/[userid]');
+    router(-1)
     alert('뒤로가기')
   }
 
-
-  // 현재 페이지 확인
-  const router = useRouter();
   // console.log(router.pathname);
   const [nowPage, setNowPage] = React.useState(' ');
 
   useEffect(() => {
-    if (router.pathname === '/Collection') {
+    if (location.pathname === '/collection') {
       setNowPage('나의 컬렉션')
-    } else if (router.pathname === '/Board') {
+    } else if (location.pathname === '/board') {    
       setNowPage('방명록')
-    } else if (router.pathname === '/CustomMain') {
+    } else if (location.pathname === '/custommain/:userid') {
       setNowPage('나의 스노우볼')
     } else {
       setNowPage('나의 친구 목록')

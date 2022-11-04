@@ -17,7 +17,7 @@
 .collection_box {
   position: relative;
   height: 80%;
-  background-image: url('../public/images/CollectionBackground.png');
+  background-image: url('../assets/images/CollectionBackground.png');
   /* background-image: url('../public/images/deco1.png'); */
 }
 

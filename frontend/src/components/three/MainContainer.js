@@ -4,7 +4,6 @@ import { Canvas } from "@react-three/fiber"
 import { Center, Environment } from "@react-three/drei"
 import Model from './Scene'
 import { MeshReflectorMaterial, OrbitControls } from "@react-three/drei"
-import { LayerMaterial, Base, Depth, Noise, Color } from 'lamina'
 import * as THREE from "three"
 import { Suspense, useEffect, useRef, useState } from "react"
 import S3 from 'react-aws-s3';

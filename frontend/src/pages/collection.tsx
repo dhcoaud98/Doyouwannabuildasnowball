@@ -1,4 +1,4 @@
-import styles from "./Collection.module.css"
+import styles from "./collection.module.css"
 import * as React from 'react';
 import { Grid } from '@mui/material';
 import Box from '@mui/material/Box'
@@ -23,10 +23,9 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 // 컴포너트
-import Navbar from 'components/Navbar/Navbar';
-import SearchBar from 'components/Search/SearchBar';
-import MainContainer from "components/Three/MainContainer";
-import Snow_globe from "components/Three/Snow_globe";
+import Navbar from "../components/navbar/navbar";
+import SearchBar from "../components/search/searchbar";
+import MainContainer from "../components/three/MainContainer";
 
 const Collection= () => {
 

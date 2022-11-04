@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 // Other components
-import styles from './CustomList.module.css'
+import styles from './customlist.module.css'
 
 // MUI
 import { Tabs, Tab, Box, Button, Grid } from '@mui/material';
@@ -19,7 +19,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
       },
     },
   });
-
 
 const CustomList= () => {
   // 현재 몇번째 탭인지

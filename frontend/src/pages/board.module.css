@@ -11,7 +11,7 @@
 
 .board_body_box {
   position: relative;
-  background-image: url('../public/images/BoardBackground.png');
+  background-image: url('../assets/images/BoardBackground.png');
   background-size: 100% 100%;
   /* opacity: 0.9; */
   /* width: 100; */

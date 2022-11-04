@@ -1,5 +1,5 @@
 // Systems
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 // import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {useSelector} from 'react-redux'
@@ -7,8 +7,8 @@ import { RootState } from "../app/store";
 import axios from 'axios';
 
 // Other components
-import MainContainer from "components/Three/MainContainer";
-import CustomList from "../../components/Custom/CustomList"
+import MainContainer from "../components/three/MainContainer";
+import CustomList from "../components/custom/customlist";
 import styles from "./custommain.module.css"
 
 // MUI
@@ -30,13 +30,11 @@ import AppsIcon from '@mui/icons-material/Apps';
 
 
 const CustomMain= () => {
-  // 라우터
-  // const router = useRouter();
-
   // 현재 CustomMain의 Owner ID
-  // const ownerQuery =router.query;
+  let ownerUserID = Number(useParams())
   // let ownerUserID
 
+  const router = useNavigate()
 
   // 현재 서비스 사용자아이디
   const nowUserID = useSelector((state : RootState)  => state.user.userId);
@@ -46,11 +44,6 @@ const CustomMain= () => {
   
   // 컴포넌트 실행시 가장 먼저 실행되는 함수
   useEffect(() => {
-    console.log(ownerQuery)
-    if (ownerQuery.userid)
-    {
-      // Owner 정보 가져오기
-    ownerUserID = ownerQuery.userid
     axios.get(`http://localhost:8080/api/member/info/${ownerUserID}`)
     .then((response) => {
       console.log(response.data)
@@ -59,9 +52,9 @@ const CustomMain= () => {
     .catch((error) => {
       console.log(error)
     })
-    }
     
-  },[ownerQuery]) 
+    
+  },[]) 
 
   // 스피드 다이얼 스타일
   const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
@@ -98,10 +91,10 @@ const CustomMain= () => {
       // ㄷ.친구목록으로 라우팅
       const showFriends = () => {
         // 현재는 사용자 정보가 없으므로...
-        router.push('/dddd')
+        router('/dddd')
       }
       const showCollection = () => {
-        router.push('Collection')
+        router('Collection')
       } 
 
     // 2.남의 메인페이지일 경우 스피드 다이얼 함수 구성
