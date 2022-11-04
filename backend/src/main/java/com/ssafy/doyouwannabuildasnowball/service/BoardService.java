@@ -89,6 +89,7 @@ public class BoardService {
     }
 
     public void removeContent(Long boardId) {
+        log.info("board id : " + boardId);
 
         boardRepository.deleteById(boardId);
     }
