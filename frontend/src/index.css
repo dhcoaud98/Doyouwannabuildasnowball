@@ -29,14 +29,16 @@ a {
 }
 
 #root_div {
-  min-height: 100vh;
-  min-height: -webkit-fill-available; 
+  height: 100vh;
+  /* min-height: 100vh; */
+  /* min-height: -webkit-fill-available;  */
   width: 100vw;
 }
 
 #container_div {
-  min-height: 100vh;
-  min-height: -webkit-fill-available; 
+  height: 100vh;
+  /* min-height: 100vh; */
+  /* min-height: -webkit-fill-available;  */
   width: 100vw;
 }
 
