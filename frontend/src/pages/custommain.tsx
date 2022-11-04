@@ -4,11 +4,16 @@ import { useEffect, useState } from "react";
 import {useSelector} from 'react-redux'
 import { RootState } from "../app/store";
 import axios from 'axios';
+import { useAppDispatch, useAppSelector } from '../app/hooks'
 
 // Other components
+import '../assets/fonts/font.css'
+import "../index.css"
 import MainContainer from "../components/three/MainContainer";
 import CustomList from "../components/custom/customlist";
 import styles from "./custommain.module.css"
+import wreath1Img from "../assets/images/wreath_1.png"
+import decoration from "../assets/images/decoration.png"
 
 // MUI
 import { styled } from '@mui/material/styles';
@@ -29,37 +34,34 @@ import AppsIcon from '@mui/icons-material/Apps';
 
 
 const CustomMain= () => {
-  // 현재 CustomMain의 Owner ID
-  let ownerUserID = Number(useParams())
-  // let ownerUserID
-
+  // 라우터
   const router = useNavigate()
 
+  // 현재 CustomMain의 Owner ID
+  let ownerUserID = Number(useParams().userid)
   // 현재 서비스 사용자아이디
-  const nowUserID = useSelector((state : RootState)  => state.user.userId);
+  const nowUserID = useAppSelector((state : RootState)  => state.user.userId);
+  // 페이지 주인 정보 초기값 설정
+  const [ownerUserNickName, setOwnerUserNickName] = useState("")
 
-  // 소유자 닉네임 딱 대기
-  let ownerUserNickName = ""
   
   // 컴포넌트 실행시 가장 먼저 실행되는 함수
   useEffect(() => {
     axios.get(`http://localhost:8080/api/member/info/${ownerUserID}`)
     .then((response) => {
       console.log(response.data)
-      ownerUserNickName = response.data.nickname
+      setOwnerUserNickName((prev) => response.data.nickname)
     })
     .catch((error) => {
       console.log(error)
     })
-    
-    
   },[]) 
-
+  
   // 스피드 다이얼 스타일
   const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
     position: 'absolute',
   }));
-
+  
   // 스노우볼 커스텀 리스트창 상태
   const [customListState, setCustomListState] = useState(false);
   // 커스텀리스트는 customListState에 따라 상태가 보임
@@ -68,7 +70,7 @@ const CustomMain= () => {
   const noneAtCustomListTrue = customListState ? styles.d_none : "";
   // 커스텀리스트 내려가면 안보이는 요소들의 클래스
   const noneAtCustomListFalse = customListState ? "" : styles.d_none;
-
+  
   // 저장버튼 함수
   const saveCustom = () => {
 
@@ -78,63 +80,54 @@ const CustomMain= () => {
   const cancelCustom = () => {
     setCustomListState((prev) => false)
   }
-
+  
   // 스피드 다이얼 버튼들 함수
     // 1.내 메인페이지일 경우 스피드 다이얼 함수 구성
-      // ㄱ.꾸미기
-      const customSnowBall = () => {
-        setCustomListState((prev) => true)
-      }
-      // ㄴ.공유하기
-      const shareSnowBall = () => {}
-      // ㄷ.친구목록으로 라우팅
-      const showFriends = () => {
-        // 현재는 사용자 정보가 없으므로...
-        router('/dddd')
-      }
-      const showCollection = () => {
-        router('Collection')
-      } 
-
+    // ㄱ.꾸미기
+    const customSnowBall = () => {
+      setCustomListState((prev) => true)
+    }
+    // ㄴ.공유하기
+    const shareSnowBall = () => {}
+    // ㄷ.친구목록으로 라우팅
+    const showFriends = () => {
+      // 현재는 사용자 정보가 없으므로...
+      router(`/friends/${nowUserID}'`)
+    }
+    const showCollection = () => {
+      router('Collection')
+    } 
+    
     // 2.남의 메인페이지일 경우 스피드 다이얼 함수 구성
-      // ㄱ.선물하기
-      const giftSnowBall = () => {   
-        setCustomListState((prev) => true)
-      }
-      // ㄴ.친구요청 보내기
-      const requestBeFriend = () => {}
-      // ㄷ.친구삭제
-      const deleteFriend= () => {}
-  
-
-  // 스피드 다이얼 구성요소
-    // 1.내 메인페이지일 경우 스피드 다이얼 구성
-    const myActions = [
-      { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
-      { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
-      { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
-      { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection}
-    ];
-
-    // 2.남의 메인페이지일 경우 스피드 다이얼 구성
-    // 친구 추가 요청과 친구삭제는 친구 여부에 따라서 하나만 뜨도록 구성 예정
-    const theOthersActions = [
+    // ㄱ.선물하기
+    const giftSnowBall = () => {   
+      setCustomListState((prev) => true)
+    }
+    // ㄴ.친구요청 보내기
+    const requestBeFriend = () => {}
+    // ㄷ.친구삭제
+    const deleteFriend= () => {}
+    
+    // 스피드다이얼 구성 초기값 설정
+    const [actions, setActions] = useState([
       { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
       { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
-      { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},
-    ]
+      { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},]
+    )
 
-
-  // 여기서부터는 현재 서비스 사용자와 현재 페이지 소유자가 같은지 여부에 따라 달라지는 변수들
-  let actions = theOthersActions
-  let whoseSnowGlobe:string = ownerUserNickName
-  let customMenuName:string = "선물하기"
+    // 여기서부터는 현재 서비스 사용자와 현재 페이지 소유자가 같은지 여부에 따라 달라지는 변수들
+    const [customMenuName, setCustomMenuName] = useState("선물하기")
   
-  if (ownerUserID === nowUserID) {
-    actions = myActions
-    whoseSnowGlobe = "나"
-    customMenuName = "꾸미기"
-  }
+  // if (ownerUserID === nowUserID) {
+  //   setActions((prev) => [
+  //     { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
+  //     { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
+  //     { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
+  //     { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection}
+  //   ])
+  //   setOwnerUserNickName((prev) => "나")
+  //   setCustomMenuName((prev) => "꾸미기")
+  // }
 
     return (
     <div id="container_div">
@@ -150,7 +143,7 @@ const CustomMain= () => {
             {/* 꾸미기 시 뒤로가기 버튼 */}
             <Grid xs={2} item>
               <IconButton sx={{ m: 2.5, p:0 }} onClick={cancelCustom} className={noneAtCustomListFalse}>
-                <Avatar alt="" src="/images/wreath_1.png" className={styles.avatar}></Avatar>
+                <Avatar alt="" src={wreath1Img} className={styles.avatar}></Avatar>
                 <ArrowBackIcon className={styles.arrow}/>
               </IconButton>
             </Grid>
@@ -158,7 +151,7 @@ const CustomMain= () => {
             {/* 상단 내브바 중간 */}
             {/* 현재 상태 이름 */}
             <Grid xs={8} item component="div" style={{justifyContent: 'end'}}>
-              <h1 className='cntmenu-text'>{customListState === true ? customMenuName : `${whoseSnowGlobe}의 스노우볼` }</h1>
+              <h1 className='cntmenu-text'>{customListState === true ? customMenuName : `${ownerUserNickName}의 스노우볼` }</h1>
             </Grid>
 
             {/* 상단 내브바 오른쪽 */}
@@ -218,7 +211,7 @@ const CustomMain= () => {
           {/* 하단 */}
           {/* 꾸미기 상태 비활성화 */}
           <Grid component="div" item xs={1} className={noneAtCustomListTrue}>
-            <img src="/images/decoration.png" alt="" className={styles.decoration}/>
+            <img src={decoration} alt="" className={styles.decoration}/>
           </Grid>      
 
           {/* 꾸미기 상태 활성화 */}

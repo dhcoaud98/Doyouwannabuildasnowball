@@ -54,7 +54,7 @@ const Tutorial= () => {
             variant="dots"
             steps={4}
             activeStep={activeStep}
-            sx={{ maxWidth: 400, flexGrow: 1 }}
+            sx={{ maxWidth: 400, flexGrow: 1, padding: 0 }}
             nextButton={
               <Button  onClick={handleNext} disabled={activeStep === 3}>
                 {theme.direction === 'rtl' ? (
