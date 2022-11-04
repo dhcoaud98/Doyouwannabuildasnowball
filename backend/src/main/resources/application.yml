@@ -45,15 +45,18 @@ spring:
 
   data:
     mongodb:
-#      username: ssafy
-#      password: mylittlesnowball601!
-#      host: k7a601.p.ssafy.io
-#      port: 27017
-#      database: snowball
-#      authentication-database: admin
-#      auto-index-creation:
-      uri: mongodb://localhost:27017/snowball
-#      uri: mongodb://ssafy2:mylittlesnowball601!@k7a601.p.ssafy.io:27017/snowball
+
+      # ec2 server setting
+      username: ssafy
+      password: mylittlesnowball601!
+      host: k7a601.p.ssafy.io
+      port: 27017
+      database: snowball
+      authentication-database: admin
+#     uri: mongodb://ssafy:mylittlesnowball601!@k7a601.p.ssafy.io:27017/snowball
+
+      # local setting
+#      uri: mongodb://localhost:27017/snowball
 
     web:
       pageable:
@@ -67,8 +70,8 @@ spring:
           kakao:
             client-id: 272ae474b08df0caa648c29a2cf58ff2
             client-secret: PE7rGTcwahIX2yHK8ZgYHDnLT6BMUHP3
-#            redirect-uri: https://mylittlesnowball.com/api/login/oauth2/code/kakao
-            redirect-uri: http://localhost:8080/api/login/oauth2/code/kakao
+            redirect-uri: https://mylittlesnowball.com/api/login/oauth2/code/kakao
+#            redirect-uri: http://localhost:8080/api/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             client-name: Kakao
