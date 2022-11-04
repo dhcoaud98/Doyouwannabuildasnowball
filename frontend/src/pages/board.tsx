@@ -20,6 +20,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import '../assets/fonts/font.css';
 import ClearIcon from '@mui/icons-material/Clear';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 // ------------------------------------------------------------------------
 
 // 버튼 색
@@ -56,6 +58,7 @@ function randomImage(array : any) {
   return array[random]
 }
 
+// 게시판 사진 크기
 function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
   return {
     src: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format`,
@@ -78,14 +81,13 @@ const style = {
   p: 4,
 };
 
-
-
+// 메인
 const Board= () => {
 
   // 유저 정보
   const nowUserId = useAppSelector((state)  => state.user.userId);
   
-  // 메시지 배경색 랜덤 제공
+  // 메시지 배경 랜덤 제공
   let randomBackImage = randomImage(backImageRandom)
 
   // 모달에 들어가는 메시지
@@ -107,23 +109,29 @@ const Board= () => {
   }
   const handleClose = () => setOpen(false);
 
-
-  // 1. 메시지 전송
+  // 메시지 데이터
   const [contents, setContents] = useState([]);
   const [text, setText] = useState('');
-  const [edittext, setEditText] = useState('');
+  const [imag, setImage] = useState(null);
+  const [editImag, setEditImag] = useState(null);
+  const [editText, setEditText] = useState('');
   const onChange = (e : any) => {
     setText(e.target.value);
-    console.log(e.target.value)
   };
-
   const onChangeEdit = (e:any) => {
     setEditText(e.target.value)
   }
+  const onChangeImage = (e:any) => {
+    console.log('이미지 업로드')
+    console.log(e)
+    setImage(e)
+  }
+
+  // 1. 메시지 전송
   const sendMessage = () => {
     axios.post(`http://localhost:8080/api/board/write`, {
         "content" : text,
-        "picture" : null,
+        "picture" : imag,
         "snowglobeId" : 1
     })
       .then(res => {
@@ -134,6 +142,7 @@ const Board= () => {
         console.log(err)
       })
     setText('');
+    setImage(null);
   };
 
   // 2. 전체 메시지 조회
@@ -150,25 +159,14 @@ const Board= () => {
 
   useEffect(() => {
     fetchMessages();
-    // const fetchMessages = async () => {
-    //   try {
-    //     const response = await axios.get(
-    //       `http://localhost:8080/api/board/${nowUserId}/all`
-    //     );
-    //     setContents(response.data.boardList);
-    //     console.log('메시지 목록 = ', response.data.boardList)
-    //   } catch (err : any) {
-    //     console.log("에러 = ", err)
-    //   }
-    // };
   }, [])
   
 
-
   // 3. 메시지 삭제
   const deleteMessage = (boardId: number) => {
-    console.log('삭제?')
-    console.log(boardId)
+    alert('삭제 하시겠습니까?')
+    // console.log('삭제?')
+    // console.log(boardId)
     axios.delete(`http://localhost:8080/api/board/${boardId}/delete`)
     .then(res => {
       console.log(res)
@@ -186,8 +184,8 @@ const Board= () => {
     axios.put(`http://localhost:8080/api/board/modify`, {
       "boardId" : item.boardId,
       "snowglobe" : item.snowglobeId,
-      "content" : edittext,
-      "picture" : null,
+      "content" : editText,
+      "picture" : imag,
     })
     .then(res => {
       console.log(res)
@@ -198,7 +196,6 @@ const Board= () => {
     .catch(err => {
       console.log(err)
     })
-    
   }
 
   // 5. 이미지 업로드
@@ -248,7 +245,7 @@ const Board= () => {
                         // const rows = item.featured ? 2 : 1;
 
                         return (
-                          <ImageListItem key={item.boardId} sx={{ margin: 1, borderRadius:'3px'}}>
+                          <ImageListItem key={item.boardId} sx={{ margin: 1 }}>
                             <img
                               {...srcset(item.imageUrl ? item.imageUrl: randomBackImage, 250, 200)}
                               alt={item.content}
@@ -259,7 +256,6 @@ const Board= () => {
                                 background:
                                   'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
                                   'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-
                               }}
                               title={item.content}
                               position="top"
@@ -274,6 +270,7 @@ const Board= () => {
                               }
                               actionPosition="left"
                             />
+                            {/* 방명록 하단 삭제 */}
                             <ImageListItemBar
                               sx={{
                                 background:
@@ -306,24 +303,22 @@ const Board= () => {
                     aria-describedby="modal-modal-description"
                   >
                     <Box component="div" sx={style}>
+                      <Button onClick = {()=>(handleClose())} sx={{m:0}}>
+                        <ArrowBackIcon />
+                      </Button>
                       <Typography id="modal-modal-title" variant="h6" component="h2">
                         메시지를 수정하세요
                       </Typography>
                       <Box component="div" className={styles.input_body}>
                       <TextField 
                         onChange={onChangeEdit} 
-                        value={edittext} 
+                        value={editText} 
                         sx={{ mr: 1 }}
-                        // label="내용을 입력하세요"
-                        // color="success"
                         focused 
                         placeholder={content.content}
                         className={styles.input_box}/>
                       <Button variant="contained" onClick={() => (uploadImg())} sx={{ mr: 1 }}><AddPhotoAlternateIcon/></Button>
                       <Button variant="contained" onClick={() => (editMessage(content))}><SendIcon/></Button>
-                        {/* <div>
-                          <b>값: {text}</b>
-                        </div> */}
                       </Box>
                     </Box>
                   </Modal>
@@ -341,11 +336,14 @@ const Board= () => {
                       className={styles.input_box}/>
                     <Button variant="contained" onClick={() => (uploadImg())} sx={{ mr: 1 }}><AddPhotoAlternateIcon/></Button>
                     <Button variant="contained" onClick={() => (sendMessage())}><SendIcon/></Button>
-                      {/* <div>
-                        <b>값: {text}</b>
-                      </div> */}
                     </Box>
-
+                    <Button>
+                      <input type='file' 
+                        accept='image/jpg,impge/png,image/jpeg,image/gif' 
+                        name='profile_img' 
+                        onChange={onChangeImage}>
+                      </input>
+                    </Button>
                 </Container>
               </div>
               
