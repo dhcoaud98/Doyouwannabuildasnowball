@@ -52,7 +52,8 @@ spring:
       host: k7a601.p.ssafy.io
       port: 27017
       database: snowball
-      authentication-database: admin
+      authentication-database: snowball
+
 #     uri: mongodb://ssafy:mylittlesnowball601!@k7a601.p.ssafy.io:27017/snowball
 
       # local setting
