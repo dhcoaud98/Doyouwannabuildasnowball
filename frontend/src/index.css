@@ -29,12 +29,14 @@ a {
 }
 
 #root_div {
-  height: 100vh;
+  min-height: 100vh;
+  min-height: -webkit-fill-available; 
   width: 100vw;
 }
 
 #container_div {
-  height: 100vh;
+  min-height: 100vh;
+  min-height: -webkit-fill-available; 
   width: 100vw;
 }
 

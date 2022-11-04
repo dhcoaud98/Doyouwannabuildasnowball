@@ -47,7 +47,7 @@ const CustomMain= () => {
   
   // 컴포넌트 실행시 가장 먼저 실행되는 함수
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/member/info/${ownerUserID}`)
+    axios.get(`http://mylittlesnowball.com/api/member/info/${ownerUserID}`)
     .then((response) => {
       console.log(response.data)
       setOwnerUserNickName((prev) => response.data.nickname)

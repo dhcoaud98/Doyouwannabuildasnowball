@@ -9,7 +9,7 @@ import Navbar from '../components/navbar/navbar';
 import styles from "./board.module.css"
 
 // MUI
-import { Grid, Box, Container, Button, TextField } from '@mui/material';
+import { Grid, Box, Container, Button, TextField, Typography, Modal } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import SendIcon from '@mui/icons-material/Send';
 import ImageList from '@mui/material/ImageList';
@@ -18,7 +18,8 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import '../assets/fonts/font.css'
+import '../assets/fonts/font.css';
+import ClearIcon from '@mui/icons-material/Clear';
 // ------------------------------------------------------------------------
 
 // 버튼 색
@@ -48,78 +49,11 @@ const backImageRandom = [
 'https://cdn.kormedi.com/wp-content/uploads/2020/12/gettyimages-1290149158-1-580x387.jpg',
 ]
 
-// 랜덤함수 
+// 랜덤 이미지 함수
 function randomImage(array : any) {
   const random = Math.floor(Math.random() * array.length);
   return array[random]
 }
-// const getRandomIndex = function(length:number) {
-//   return parseInt(Math.random() * length)
-// }
-// const itemData = [
-//   {
-//     img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-//     title: 'Breakfast',
-//     author: '@bkristastucchio',
-//     featured: true,
-//   },
-//   {
-//     img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-//     title: 'Burger',
-//     author: '@rollelflex_graphy726',
-//   },
-//   {
-//     img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-//     title: 'Camera',
-//     author: '@helloimnik',
-//   },
-//   {
-//     img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-//     title: 'Coffee',
-//     author: '@nolanissac',
-//   },
-//   {
-//     img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-//     title: 'Hats',
-//     author: '@hjrc33',
-//   },
-//   {
-//     img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-//     title: 'Honey',
-//     author: '@arwinneil',
-//     featured: true,
-//   },
-//   {
-//     img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-//     title: 'Basketball',
-//     author: '@tjdragotta',
-//   },
-//   {
-//     img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-//     title: 'Fern',
-//     author: '@katie_wasserman',
-//   },
-//   {
-//     img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-//     title: 'Mushrooms',
-//     author: '@silverdalex',
-//   },
-//   {
-//     img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-//     title: 'Tomato basil',
-//     author: '@shelleypauls',
-//   },
-//   {
-//     img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-//     title: 'Sea star',
-//     author: '@peterlaster',
-//   },
-//   {
-//     img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-//     title: 'Bike',
-//     author: '@southside_customs',
-//   },
-// ];
 
 function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
   return {
@@ -130,15 +64,44 @@ function srcset(image: string, width: number, height: number, rows = 1, cols = 1
   };
 }
 
+// 메시지 수정 모달
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+// // 모달에 들어가는 메시지
+// let [content, setContent] = useState<Content>({
+//   boardId: -1,
+//   content: " ",
+//   createdTime: " ",
+//   imageUrl: " ",
+//   modifiedTime: " ",
+//   snowglobeId: -1,
+// })
+
 const Board= () => {
 
   // 유저 정보
   const nowUserId = useAppSelector((state)  => state.user.userId);
   
   // 메시지 배경색 랜덤 제공
-  // const messageColor = ['#FA6767', '#C68CFF', '#FFACAC', '#FDE58E', '#FFBE5F']
   let randomBackImage = randomImage(backImageRandom)
 
+  // 모달
+  const [open, setOpen] = useState(false);
+  const handleOpen = (content:Content) => {
+    setOpen(true);
+    // setContent(content)
+  }
+  const handleClose = () => setOpen(false);
 
   // 1. 메시지 전송
   const [contents, setContents] = useState([]);
@@ -181,6 +144,8 @@ const Board= () => {
 
   // 3. 메시지 삭제
   const deleteMessage = (boardId: number) => {
+    console.log('삭제?')
+    console.log(boardId)
     axios.delete(`http://localhost:8080/api/board/${boardId}/delete`)
     .then(res => {
       console.log(res)
@@ -196,7 +161,7 @@ const Board= () => {
     axios.patch(`http://localhost:8080/api/board/modify`, {
       "boardId" : 2,
       "snowglobe" : 3,
-      "content" : "메리크리스마스",
+      "content" : {},
       "picture" : null,
     })
     .then(res => {
@@ -211,8 +176,6 @@ const Board= () => {
   const uploadImg = () => {
     console.log("이미지 올리기")
   }
-
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -271,36 +234,69 @@ const Board= () => {
                               position="top"
                               actionIcon={
                                 <IconButton
-                                  onClick={() =>(editMessage())}
+                                  onClick={() => (handleOpen(item))}
                                   sx={{ color: 'white' }}
                                   aria-label={`edit ${item.content}`}
                                 >
-                                  <EditIcon onClick={() => (editMessage())}/>
+                                  <EditIcon/>
                                 </IconButton>
                               }
                               actionPosition="left"
+                            />
+                            <ImageListItemBar
+                              sx={{
+                                background:
+                                  'linear-gradient(to bottom, rgba(0,0,0,0) 0%, ' +
+                                  'rgba(0,0,0,0) 0%, rgba(0,0,0,0) 0%)',
+                              }}
+                              position="bottom"
+                              actionIcon={
+                                <IconButton
+                                  onClick={()=> (deleteMessage(item.boardId))}
+                                  sx={{ color: 'white' }}
+                                  aria-label={`ClearIcon ${item.content}`}
+                                >
+                                  <ClearIcon/>
+                                </IconButton>
+                              }
+                              actionPosition="right"
                             />
                           </ImageListItem>
                         );
                       })}
                     </ImageList>
-
-                      {/* {contents.map((item:Content, index) => (
-                        <Box component="div" className={styles.board_card} sx={{ backgroundColor : '#fff', borderRadius: '16px', boxShadow: 1, width: 150}}>
-                          <div className={styles.message_box_content} key={index}>
-                            <Typography variant="body1">
-                              {item.content}
-                            </Typography>
-                              <br />
-                            <Button onClick={() =>(deleteMessage(item.boardId))}>
-                              <DeleteForeverIcon color="disabled" fontSize='small' />
-                            </Button>
-                          </div>
-                        </Box>
-                      ))} */}
-                  {/* </div> */}
                   </Box>
                   
+                  {/* 메시지 수정용 모달 */}
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box component="div" sx={style}>
+                      <Typography id="modal-modal-title" variant="h6" component="h2">
+                        메시지를 수정하세요
+                      </Typography>
+                      <Box component="div" className={styles.input_body}>
+                      <TextField 
+                        onChange={onChange} 
+                        value={text} 
+                        sx={{ mr: 1 }}
+                        // label="내용을 입력하세요"
+                        // color="success"
+                        focused 
+                        placeholder="내용을 입력하세요" 
+                        className={styles.input_box}/>
+                      <Button variant="contained" onClick={() => (uploadImg())} sx={{ mr: 1 }}><AddPhotoAlternateIcon/></Button>
+                      <Button variant="contained" onClick={() => (editMessage())}><SendIcon/></Button>
+                        {/* <div>
+                          <b>값: {text}</b>
+                        </div> */}
+                      </Box>
+                    </Box>
+                  </Modal>
+
                   {/* 글쓰기 버튼 */}
                   <Box component="div" className={styles.input_body}>
                     <TextField 
