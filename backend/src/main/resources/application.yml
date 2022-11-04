@@ -45,7 +45,7 @@ spring:
 
   data:
     mongodb:
-      username: ssafy2
+      username: ssafy
       password: mylittlesnowball601!
       host: k7a601.p.ssafy.io
       port: 27017
