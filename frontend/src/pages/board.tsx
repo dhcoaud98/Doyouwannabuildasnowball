@@ -128,12 +128,12 @@ const Board= () => {
     })
       .then(res => {
         console.log(res.data)
+        fetchMessages();
       })
       .catch(err => {
         console.log(err)
       })
     setText('');
-    fetchMessages();
   };
 
   // 2. 전체 메시지 조회
@@ -172,11 +172,12 @@ const Board= () => {
     axios.delete(`http://localhost:8080/api/board/${boardId}/delete`)
     .then(res => {
       console.log(res)
+      fetchMessages();
     })
     .catch(err => {
       console.log(err)
     })
-    fetchMessages();
+
   }
 
   // 4. 메시지 수정
