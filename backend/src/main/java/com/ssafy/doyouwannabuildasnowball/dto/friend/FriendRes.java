@@ -68,5 +68,13 @@ public class FriendRes {
     	return friendRes;
     }
    
-    
+    public static FriendRes findMember(FriendMemberDtoInterface friendMemberResInterface) {
+    	FriendRes friendRes = new FriendRes();
+    	friendRes.memberId = friendMemberResInterface.getMemberId();
+    	friendRes.nickname = friendMemberResInterface.getNickname();
+    	friendRes.profileImageUrl = friendMemberResInterface.getProfileImageUrl();
+    	friendRes.snowglobeId = friendMemberResInterface.getSnowglobeId();
+    	
+    	return friendRes;
+    }
 }

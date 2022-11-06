@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.doyouwannabuildasnowball.domain.Friend;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.domain.Request;
+import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendMemberDtoInterface;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendRes;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendResInterface;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.FriendRepository;
@@ -179,15 +180,27 @@ public class FriendService {
 	// 친구 검색
 	// 친구 목록에서 닉네임에 해당 키워드 포함된 친구들만
 	// 닉네임에 해당 키워드 포함된 유저들
-	public List<FriendRes> searchFriend(String keyword) {
+	public List<FriendRes> searchFriend(Long userId, String keyword) {
 		
-		// 검색 결과 내 친구
+		// 내 친구 memberId 리스트
+		List<Long> allFriendList = friendRepository.getAllFriendsMemberId(userId);
+		System.out.println(">> allFriendList.toString() : "+allFriendList.toString());
 		
+		System.out.println(">>> keyowrd : "+keyword);
+		List<FriendMemberDtoInterface> allNotFriendMemberList = memberRepository.getAllNotFriendMemberByNickname(keyword, allFriendList);
+		System.out.println(">> allNotFriendMemberList.toString() : "+allNotFriendMemberList.toString());
+		// 위 쿼리문 실행이 제대로 안 됨...  ★★★
 		
-		// 검색 결과 내 친구 아닌 유저
+		List<FriendRes> result = new ArrayList<FriendRes>();
+
+		// 검색 결과 내 친구 아닌 유저 정보 리스트
+		for(FriendMemberDtoInterface notFriendMember : allNotFriendMemberList) {
+			FriendRes friendRes = FriendRes.findMember(notFriendMember);
+			
+			result.add(friendRes);
+		}
 		
-		
-		return null;
+		return result;
 	}
 	
 	

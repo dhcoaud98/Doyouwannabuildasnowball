@@ -33,7 +33,7 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 	@Query(value="SELECT friend_id friendId, member_id memberId, nickname, profile_image_url profileImageUrl, snowglobe_id snowglobeId " + 
 			"FROM (SELECT friend_id, follow_id FROM friend WHERE followed_id = :followedId AND acceptance = false) f JOIN member m ON f.follow_id = m.member_id " + 
 			"ORDER BY nickname", nativeQuery = true)
-	public List<FriendResInterface> getAllRequests(@Param("followedId") Long followedId);
+	List<FriendResInterface> getAllRequests(@Param("followedId") Long followedId);
 	
 	
 	// 승낙 안 된 보낸 친구 요청 목록
@@ -49,7 +49,7 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 	@Query(value="SELECT friend_id friendId, member_id memberId, nickname, profile_image_url profileImageUrl, snowglobe_id snowglobeId " + 
 			"FROM (SELECT friend_id, followed_id FROM friend WHERE follow_id = :followId AND acceptance = false) f JOIN member m ON f.followed_id = m.member_id " + 
 			"ORDER BY nickname", nativeQuery = true)
-	public List<FriendResInterface> getAllSendRequests(@Param("followId") Long followId);
+	List<FriendResInterface> getAllSendRequests(@Param("followId") Long followId);
 	
 	
 	
@@ -60,7 +60,7 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 			"SELECT friend_id, followed_id memberId FROM friend WHERE follow_id = :userId AND acceptance = true) f JOIN member m ON f.memberId = m.member_id) fnm LEFT OUTER JOIN " + 
 			"(SELECT ask_id, count(*) snowglobeRequestCnt FROM request WHERE asked_id = :userId GROUP BY ask_id) r ON fnm.memberId = r.ask_id " + 
 			"ORDER BY nickname", nativeQuery = true)
-	public List<FriendResInterface> getAllFriends(@Param("userId") Long userId);
+	List<FriendResInterface> getAllFriends(@Param("userId") Long userId);
 	
 	
 	// 유저 검색
@@ -75,6 +75,11 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 	
 	// 검색 결과 내 친구 아닌 유저들
 //	public List<FriendResInterface> getAllUsersByKeyword(@Param("userId") Long userId, @Param("keyword") String keyword);
+	
+	
+	// 나와 친구 관계 있는 유저들의 memberId 찾기
+	@Query(value="SELECT IF(follow_id = :userId, followed_id, follow_id) AS member_id FROM friend WHERE follow_id = :userId OR followed_id = :userId", nativeQuery = true)
+	List<Long> getAllFriendsMemberId(@Param("userId") Long userId);
 	
 	
 }
