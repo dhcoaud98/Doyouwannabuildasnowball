@@ -20,14 +20,14 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
       #로컬 환경
-    url: jdbc:mysql://localhost:3306/snowball?useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
-    username: root
-    password: ssafy0742185*SMJ
+#    url: jdbc:mysql://localhost:3306/snowball?useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
+#    username: ssafy
+#    password: ssafy
 
     # ec2 DB에 연결
-#    url: jdbc:mysql://k7a601.p.ssafy.io:3306/snowball?useSSL=false&useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
-#    username: ssafy
-#    password: mylittlesnowball601!
+    url: jdbc:mysql://k7a601.p.ssafy.io:3306/snowball?useSSL=false&useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
+    username: ssafy
+    password: mylittlesnowball601!
 
 
   jpa:
@@ -45,15 +45,18 @@ spring:
 
   data:
     mongodb:
-#      username: ssafy2
-#      password: mylittlesnowball601!
-#      host: k7a601.p.ssafy.io
-#      port: 27017
-#      database: snowball
-#      authentication-database: admin
-#      auto-index-creation:
-      uri: mongodb://localhost:27017/snowball
-#      uri: mongodb://ssafy2:mylittlesnowball601!@k7a601.p.ssafy.io:27017/snowball
+
+      # ec2 server setting
+      username: ssafy
+      password: mylittlesnowball601!
+      host: k7a601.p.ssafy.io
+      port: 27017
+      database: snowball
+      authentication-database: admin
+#     uri: mongodb://ssafy:mylittlesnowball601!@k7a601.p.ssafy.io:27017/snowball
+
+      # local setting
+#      uri: mongodb://localhost:27017/snowball
 
     web:
       pageable:
@@ -67,7 +70,8 @@ spring:
           kakao:
             client-id: 272ae474b08df0caa648c29a2cf58ff2
             client-secret: PE7rGTcwahIX2yHK8ZgYHDnLT6BMUHP3
-            redirect-uri: http://localhost:8080/api/login/oauth2/code/kakao
+            redirect-uri: https://mylittlesnowball.com/api/login/oauth2/code/kakao
+#            redirect-uri: http://localhost:8080/api/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             client-name: Kakao
@@ -95,7 +99,7 @@ token:
 
 oauth2:
   # 클라이언트 주소
-    authorizedRedirectUri: http://localhost:3000
+    authorizedRedirectUri: https://mylittlesnowball.com
 #    authorizedRedirectUri: http://localhost:3000/code/callback
 #  authorizedRedirectUri: https://j7a603.p.ssafy.io/oauth2/redirect
 
