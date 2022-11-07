@@ -2,10 +2,15 @@
 // three
 import { Canvas } from "@react-three/fiber"
 import { Center, Environment } from "@react-three/drei"
-import Model from './Scene'
 import { MeshReflectorMaterial, OrbitControls } from "@react-three/drei"
 import * as THREE from "three"
+
+// Model
+import { Group } from "./Group"
+
+// React
 import { Suspense, useEffect, useRef, useState } from "react"
+// S3
 import S3 from 'react-aws-s3';
 
 
@@ -58,27 +63,16 @@ function MainContainer() {
       background: linear-gradient(0deg, rgba(246,60,60,1) 0%, rgba(255,120,120,1) 100%);
       }
     `}</style>
-        <Canvas width="100" height="400" camera={{ position: [0,0,5], fov: 35 }} gl={{ preserveDrawingBuffer: true }} dpr={[1,2]} id={'menu-canvas'} ref={target} onClick={() => saveImage('1423')}>
+        <Canvas width="100" height="400"  gl={{ preserveDrawingBuffer: true }} dpr={[1,2]} id={'menu-canvas'} ref={target} onClick={() => saveImage('1423')}>
           <OrbitControls/>
           <directionalLight intensity={2} position={[10, 6, 6]}> 
           </directionalLight>
           <Suspense fallback={null}>  
-            <Center>
-                <Model/>    
+            <Center onCentered={({ container, height }) => container.scale.setScalar(0.05)}>
+                <Group/>    
             </Center>
-            <Environment preset="dawn" />
+            <Environment preset="warehouse" background={false} />
           </Suspense>
-          {/* lanmina Material */}
-          {/* {env === 0 ? <Environment background resolution={64}>
-            <mesh scale={51}>
-              <sphereGeometry args={[1, 64, 64]} />
-              <LayerMaterial side={THREE.BackSide}>
-                <Color color="blue" alpha={1.4}/>
-                <Depth colorA="#00ffff" colorB="#ff8f00" alpha={0.5} mode="normal" near={0} far={300} origin={[100, 100, 100]} />
-                <Noise mapping="local" type="cell" scale={0.5} mode="softlight" />
-              </LayerMaterial>
-            </mesh>
-          </Environment> : null} */}
           
         </Canvas>
     </div>
