@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
-const Navbar= () => {
+export function Navbar() {
   // 현재 페이지 확인
   const router = useNavigate();
   let location = useLocation();
@@ -60,5 +60,3 @@ const Navbar= () => {
     </Grid>
   )
 }
-
-export default Navbar

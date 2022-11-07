@@ -4,6 +4,7 @@ import { useState } from 'react';
 // Other components
 import "../index.css"
 import styles from "./tutorial.module.css"
+import { API_URL } from "../apiurl"
 import tutorialBoxImg from "../assets/images/tutorial_box.png"
 
 // MUI
@@ -15,7 +16,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 // ------------------------------------------------------------------------
 
 
-const Tutorial= () => {
+function Tutorial() {
   // 튜토리얼 장
   const [activeStep, setActiveStep] = useState(0);
   

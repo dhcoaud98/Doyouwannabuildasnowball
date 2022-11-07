@@ -5,7 +5,8 @@ import axios from 'axios';
 import { useAppSelector } from '../app/hooks'
 
 // Other components
-import Navbar from '../components/navbar/navbar';
+import { Navbar } from '../components/navbar/navbar';
+import { API_URL } from "../apiurl"
 import styles from "./board.module.css"
 
 // MUI
@@ -23,6 +24,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // ------------------------------------------------------------------------
+
+const APIURL = API_URL
 
 // 버튼 색
 const theme = createTheme({
@@ -82,8 +85,7 @@ const style = {
 };
 
 // 메인
-const Board= () => {
-
+function Board() {
   // 유저 정보
   const nowUserId = useAppSelector((state)  => state.user.userId);
   
@@ -129,7 +131,7 @@ const Board= () => {
 
   // 1. 메시지 전송
   const sendMessage = () => {
-    axios.post(`http://localhost:8080/api/board/write`, {
+    axios.post(`${APIURL}api/board/write`, {
         "content" : text,
         "picture" : imag,
         "snowglobeId" : 1
@@ -147,7 +149,7 @@ const Board= () => {
 
   // 2. 전체 메시지 조회
   const fetchMessages = () => {
-    axios.get(`http://localhost:8080/api/board/${nowUserId}/all`)
+    axios.get(`${APIURL}api/board/${nowUserId}/all`)
       .then((res) => {
         setContents(res.data.boardList);
         console.log('메시지 목록 = ', res.data.boardList)
@@ -167,7 +169,7 @@ const Board= () => {
     alert('삭제 하시겠습니까?')
     // console.log('삭제?')
     // console.log(boardId)
-    axios.delete(`http://localhost:8080/api/board/${boardId}/delete`)
+    axios.delete(`${APIURL}${boardId}/delete`)
     .then(res => {
       console.log(res)
       fetchMessages();
@@ -181,7 +183,7 @@ const Board= () => {
   // 4. 메시지 수정
   const editMessage = (item : Content) => {
     console.log("메시지 수정하기")
-    axios.put(`http://localhost:8080/api/board/modify`, {
+    axios.put(`${APIURL}api/board/modify`, {
       "boardId" : item.boardId,
       "snowglobe" : item.snowglobeId,
       "content" : editText,

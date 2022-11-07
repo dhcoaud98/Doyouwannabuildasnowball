@@ -1,7 +1,7 @@
 // Systems
 
 // Other components
-import Navbar from "../components/navbar/navbar";
+import { Navbar } from "../components/navbar/navbar";
 import styles from "./collection.module.css"
 import deco1Img from "../assets/images/deco1.png"
 import woodbar2Img from "../assets/images/woodbar2.png"
@@ -11,7 +11,7 @@ import { Grid } from '@mui/material';
 
 // ------------------------------------------------------------------------
 
-const Collection= () => {
+function Collection() {
   return (
       <div id="container_div">
         <Grid container id="container_div">

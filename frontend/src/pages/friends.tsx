@@ -8,9 +8,10 @@ import axios from 'axios';
 // Other components
 import "../index.css"
 import styles from "./friends.module.css"
-import Navbar from '../components/navbar/navbar';
-import SearchBar from '../components/search/searchbar';
+import { Navbar } from '../components/navbar/navbar';
+import { SearchBar } from '../components/search/searchbar';
 import { RootState } from '../app/store';
+import { API_URL } from "../apiurl"
 import decorationImg from "../assets/images/decoration.png"
 
 // MUI
@@ -26,7 +27,7 @@ import '../assets/fonts/font.css'
 // ------------------------------------------------------------------------
 
 // 컴포넌트
-
+const APIURL = API_URL
 
 // 모달 스타일
 const style = {
@@ -65,7 +66,7 @@ type Member = {
   status: number,
 }
 
-const Profile= () => {
+function Profile() {
   // 라우터
   // const router = useRouter();
   // const accessToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiaXNzIjoic25vd2JhbGwiLCJpYXQiOjE2NjczNjMwMTAsImV4cCI6MTY2NzQ0OTQxMH0.Qy5pTKtpf_BTJxU4Qv6PWDmajOg_Ac1kGZArd3JcIfZ0bv2X60XgWXqWge1ZbjwwsV5tY6l9eHIEmox1eI2WjA'
@@ -80,7 +81,7 @@ const Profile= () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/friend/list/${nowUser}` 
+          `${APIURL}api/friend/list/${nowUser}` 
         )
         setfriends(response.data);
         console.log("친구목록 = ", response.data)
@@ -105,7 +106,7 @@ const Profile= () => {
 
   // 친구 삭제 함수
   const deleteFriend = (friendId : any) => {
-    axios.delete(`http://localhost:8080/api/friend/list/${friendId}?memberId=${nowUser}`)
+    axios.delete(`${APIURL}api/friend/list/${friendId}?memberId=${nowUser}`)
       .then(res => {
         // console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data);
@@ -114,7 +115,7 @@ const Profile= () => {
 
   // 친구 요청 받기
   const followFriend = (friendId : any) => {
-    axios.patch(`http://localhost:8080/api/friend/request/${friendId}?memberId=${nowUser}`)
+    axios.patch(`${APIURL}api/friend/request/${friendId}?memberId=${nowUser}`)
       .then(res => {
         // console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data);
@@ -124,7 +125,7 @@ const Profile= () => {
 
   // 스노우볼 요청
   const requestLetter = (memberId : any) => {
-    axios.post(`http://localhost:8080/api/friend/snowglobe/request`, {
+    axios.post(`${APIURL}api/friend/snowglobe/request`, {
         "receiveMemberId" : memberId,
         "sendMemberId" : nowUser
       })
@@ -142,7 +143,7 @@ const Profile= () => {
   // 스노우볼 요청 삭제
   const requestDelete = (memberId : any) => {
     console.log(memberId)
-    axios.delete(`http://localhost:8080/api/friend/snowglobe/request`, {
+    axios.delete(`${APIURL}api/friend/snowglobe/request`, {
       //헤더에 포함된 정보들 
     	data:{
         "sendMemberId" : memberId,

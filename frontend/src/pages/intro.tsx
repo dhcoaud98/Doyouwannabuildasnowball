@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // Other components
+import { API_URL } from "../apiurl"
 import kakaoLoginBtnImg from '../assets/images/kakao_login_btn.png'
 import decorationImg from '../assets/images/decoration.png'
 import mainLogoImg from '../assets/images/main_logo.png'
