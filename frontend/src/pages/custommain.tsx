@@ -14,6 +14,7 @@ import CustomList from "../components/custom/customlist";
 import styles from "./custommain.module.css"
 import wreath1Img from "../assets/images/wreath_1.png"
 import decoration from "../assets/images/decoration.png"
+import API_URL from "../apiurl";
 
 // MUI
 import { styled } from '@mui/material/styles';
@@ -32,9 +33,8 @@ import AppsIcon from '@mui/icons-material/Apps';
 
 // ------------------------------------------------------------------------
 
-
 const CustomMain = () => {
-  const axiosUrl = 'http://localhost:8080/'
+  const APIURL = API_URL
 
   // 라우터
   const router = useNavigate()
@@ -63,7 +63,7 @@ const CustomMain = () => {
 
   // 저장버튼 함수
   const saveCustom = () => {
-    axios.put(`${axiosUrl}api/snowglobe/${nowUserID}/modify`, {
+    axios.put(`${APIURL}api/snowglobe/${nowUserID}/modify`, {
       // “screenshot” : s3 url,
       // “deco”: array
     })
@@ -104,7 +104,7 @@ const CustomMain = () => {
     }
     // ㄴ.친구요청 보내기
     const requestBeFriend = () => {
-      axios.post(`${axiosUrl}api/friend/request/`, {
+      axios.post(`${APIURL}api/friend/request/`, {
         'sendMemberId' : nowUserID,
         'receiveMemberId' : ownerUserID
       })
@@ -117,7 +117,7 @@ const CustomMain = () => {
     } 
     // ㄷ.친구삭제
     const deleteFriend= () => {
-      axios.delete(`${axiosUrl}api/friend/list/${ownerUserID}`)
+      axios.delete(`${APIURL}api/friend/list/${ownerUserID}`)
       .then((response) => {
         console.log('삭제완료')
       })
@@ -140,7 +140,7 @@ const CustomMain = () => {
 
     // 컴포넌트 실행시 가장 먼저 실행되는 함수 
     useEffect(() => {
-      axios.get(`${axiosUrl}api/member/info/${ownerUserID}`)
+      axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {
         console.log(response.data)
         if (ownerUserID !== nowUserID) {
