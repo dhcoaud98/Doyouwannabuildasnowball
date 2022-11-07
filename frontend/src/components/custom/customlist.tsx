@@ -20,7 +20,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
     },
   });
 
-const CustomList= () => {
+export function CustomList() {
   // 현재 몇번째 탭인지
   const [tapValue, setTapValue] = React.useState(0);
 
@@ -74,5 +74,3 @@ const CustomList= () => {
     </div>
     )
 }
-
-export default CustomList

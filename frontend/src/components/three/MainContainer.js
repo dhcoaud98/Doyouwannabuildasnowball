@@ -17,7 +17,7 @@ import S3 from 'react-aws-s3';
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 
-function MainContainer() {
+export function MainContainer() {
   // 변수 선언
   const target = useRef()
   let [env,setEnv] = useState(0)
@@ -82,6 +82,3 @@ function MainContainer() {
     
   )
 }
-
-
-export default MainContainer

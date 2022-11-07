@@ -14,9 +14,6 @@ const Search = styled('div')(({ theme }) => ({
   marginLeft: 24,
   marginRight: 24,
   width: 'auto',
-  // [theme.breakpoints.up('sm')]: {
-    // width: 'auto',
-  // },
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -44,7 +41,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const SearchBar= () => {
+export function SearchBar() {
   const [text, setText] = useState('');
   
   const onChange = (e: any) => {
@@ -72,6 +69,3 @@ const SearchBar= () => {
     </Search>
     )
 }
-
-
-export default SearchBar

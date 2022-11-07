@@ -9,12 +9,12 @@ import { useAppDispatch, useAppSelector } from '../app/hooks'
 // Other components
 import '../assets/fonts/font.css'
 import "../index.css"
-import MainContainer from "../components/three/MainContainer";
-import CustomList from "../components/custom/customlist";
 import styles from "./custommain.module.css"
+import { MainContainer } from "../components/three/MainContainer";
+import { CustomList } from "../components/custom/customlist";
+import { API_URL } from "../apiurl"
 import wreath1Img from "../assets/images/wreath_1.png"
 import decoration from "../assets/images/decoration.png"
-import API_URL from "../apiurl";
 
 // MUI
 import { styled } from '@mui/material/styles';
@@ -33,7 +33,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 
 // ------------------------------------------------------------------------
 
-const CustomMain = () => {
+function CustomMain() {
   const APIURL = API_URL
 
   // 라우터
