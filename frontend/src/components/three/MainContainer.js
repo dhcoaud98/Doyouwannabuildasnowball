@@ -3,6 +3,7 @@
 import { Canvas } from "@react-three/fiber"
 import { Center, Environment } from "@react-three/drei"
 import Model from './Scene'
+import Snowglobe from './SnowGlobe'
 import { MeshReflectorMaterial, OrbitControls } from "@react-three/drei"
 import * as THREE from "three"
 import { Suspense, useEffect, useRef, useState } from "react"
@@ -64,21 +65,10 @@ function MainContainer() {
           </directionalLight>
           <Suspense fallback={null}>  
             <Center>
-                <Model/>    
+                <Snowglobe/>    
             </Center>
-            <Environment preset="dawn" />
+            <Environment preset="warehouse" background={false} />
           </Suspense>
-          {/* lanmina Material */}
-          {/* {env === 0 ? <Environment background resolution={64}>
-            <mesh scale={51}>
-              <sphereGeometry args={[1, 64, 64]} />
-              <LayerMaterial side={THREE.BackSide}>
-                <Color color="blue" alpha={1.4}/>
-                <Depth colorA="#00ffff" colorB="#ff8f00" alpha={0.5} mode="normal" near={0} far={300} origin={[100, 100, 100]} />
-                <Noise mapping="local" type="cell" scale={0.5} mode="softlight" />
-              </LayerMaterial>
-            </mesh>
-          </Environment> : null} */}
           
         </Canvas>
     </div>
