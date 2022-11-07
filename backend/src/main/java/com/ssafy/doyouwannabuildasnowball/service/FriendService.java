@@ -211,13 +211,9 @@ public class FriendService {
 		
 		// 내 친구 memberId 리스트
 		List<Long> allFriendList = friendRepository.getAllFriendsMemberId(userId);
-		System.out.println(">> allFriendList.toString() : "+allFriendList.toString());
 		
-		System.out.println(">>> keyowrd : "+keyword);
 		List<FriendMemberDtoInterface> allNotFriendMemberList = memberRepository.getAllNotFriendMemberByNickname(keyword, allFriendList);
-		System.out.println(">> allNotFriendMemberList.toString() : "+allNotFriendMemberList.toString());
-		// 위 쿼리문 실행이 제대로 안 됨...  ★★★
-		
+
 		List<FriendRes> result = new ArrayList<FriendRes>();
 
 		// 검색 결과 내 친구 아닌 유저 정보 리스트

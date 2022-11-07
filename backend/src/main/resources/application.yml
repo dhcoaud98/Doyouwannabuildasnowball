@@ -21,8 +21,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
       #로컬 환경
     url: jdbc:mysql://localhost:3306/snowball?useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
-    username: ssafy
-    password: ssafy
+    username: root
+    password: ssafy0742185*SMJ
 
     # ec2 DB에 연결
 #    url: jdbc:mysql://k7a601.p.ssafy.io:3306/snowball?useSSL=false&useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC

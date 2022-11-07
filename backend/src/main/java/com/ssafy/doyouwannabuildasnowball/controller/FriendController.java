@@ -56,6 +56,9 @@ public class FriendController {
 //        log.info("hehehehhe");
         return ResponseEntity.ok(friendService.approveRequest(friendId, member.getId()));
     }
+    
+    // 친구 유무
+    
 	
 	// 내 친구 관련 정보 목록
     @GetMapping("/list/{userId}")
@@ -90,7 +93,7 @@ public class FriendController {
 //    @GetMapping("/search/{keyword}")
 //    public ResponseEntity searchFriend(@PathVariable String keyword, @ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
     public ResponseEntity searchFriend(@PathVariable String keyword, @PathVariable Long memberId) {	
-    	System.out.println(">> keyword : "+keyword);
+
 //    	friendService.searchFriend(member.getId(), keyword);
 //        System.out.println("he");
 //        log.info("hehehehhe");
