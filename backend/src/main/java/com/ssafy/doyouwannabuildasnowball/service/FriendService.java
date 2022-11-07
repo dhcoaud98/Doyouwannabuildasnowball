@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.doyouwannabuildasnowball.domain.Friend;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.domain.Request;
+import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendDtoInterface;
+import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendMemberDtoInterface;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendRes;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendResInterface;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.FriendRepository;
@@ -76,6 +78,32 @@ public class FriendService {
 		return getAllFriendInfo(memberId);
 		
 	}
+	
+	
+	// 친구 관련 정보 리스트  리팩토링
+	// 받은 친구 요청 목록 + 승낙 안 된 보낸 친구 요청 목록 + 내 친구 목록 (받은 스노우볼 요청 상태)
+	public List<FriendRes> getAllFriendInfo02(Long userId) {
+		
+		List<FriendDtoInterface> allFriendsList= friendRepository.getAllFriendsInfo(userId);
+		
+		List<Long> memberIdList= new ArrayList<Long>();
+		for(FriendDtoInterface friend : allFriendsList) {
+			memberIdList.add(friend.getMemberId());
+		}
+		System.out.println(">> memberIdList : "+memberIdList.toString());
+		
+		
+		List<FriendMemberDtoInterface> allFriendMemberList = memberRepository.getAllFriendInfo(memberIdList);
+		
+		
+		List<FriendRes> friendInfoList = new ArrayList<FriendRes>();
+//		friendInfoList
+		
+		return friendInfoList;
+	}
+	
+	
+	
 	
 	
 	// 친구 관련 정보 리스트
@@ -179,15 +207,23 @@ public class FriendService {
 	// 친구 검색
 	// 친구 목록에서 닉네임에 해당 키워드 포함된 친구들만
 	// 닉네임에 해당 키워드 포함된 유저들
-	public List<FriendRes> searchFriend(String keyword) {
+	public List<FriendRes> searchFriend(Long userId, String keyword) {
 		
-		// 검색 결과 내 친구
+		// 내 친구 memberId 리스트
+		List<Long> allFriendList = friendRepository.getAllFriendsMemberId(userId);
 		
+		List<FriendMemberDtoInterface> allNotFriendMemberList = memberRepository.getAllNotFriendMemberByNickname(keyword, allFriendList);
+
+		List<FriendRes> result = new ArrayList<FriendRes>();
+
+		// 검색 결과 내 친구 아닌 유저 정보 리스트
+		for(FriendMemberDtoInterface notFriendMember : allNotFriendMemberList) {
+			FriendRes friendRes = FriendRes.findMember(notFriendMember);
+			
+			result.add(friendRes);
+		}
 		
-		// 검색 결과 내 친구 아닌 유저
-		
-		
-		return null;
+		return result;
 	}
 	
 	
