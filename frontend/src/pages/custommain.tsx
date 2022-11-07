@@ -33,7 +33,9 @@ import AppsIcon from '@mui/icons-material/Apps';
 // ------------------------------------------------------------------------
 
 
-const CustomMain= () => {
+const CustomMain = () => {
+  const axiosUrl = 'http://localhost:8080/'
+
   // 라우터
   const router = useNavigate()
 
@@ -43,8 +45,6 @@ const CustomMain= () => {
   const nowUserID = useAppSelector((state : RootState)  => state.user.userId);
   // 페이지 주인 정보 초기값 설정
   const [ownerUserNickName, setOwnerUserNickName] = useState("나")
-
-
 
   
   // 스피드 다이얼 스타일
@@ -60,10 +60,19 @@ const CustomMain= () => {
   const noneAtCustomListTrue = customListState ? styles.d_none : "";
   // 커스텀리스트 내려가면 안보이는 요소들의 클래스
   const noneAtCustomListFalse = customListState ? "" : styles.d_none;
-  
+
   // 저장버튼 함수
   const saveCustom = () => {
-
+    axios.put(`${axiosUrl}api/snowglobe/${nowUserID}/modify`, {
+      // “screenshot” : s3 url,
+      // “deco”: array
+    })
+    .then(()=>{
+      console.log('성공')
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
   }
   
   // 꾸미기 취소 함수
@@ -82,10 +91,10 @@ const CustomMain= () => {
     // ㄷ.친구목록으로 라우팅
     const showFriends = () => {
       // 현재는 사용자 정보가 없으므로...
-      router(`/friends/${nowUserID}'`)
+      router(`/friends/${nowUserID}`)
     }
     const showCollection = () => {
-      router('Collection')
+      router('/collection')
     } 
     
     // 2.남의 메인페이지일 경우 스피드 다이얼 함수 구성
@@ -94,9 +103,28 @@ const CustomMain= () => {
       setCustomListState((prev) => true)
     }
     // ㄴ.친구요청 보내기
-    const requestBeFriend = () => {}
+    const requestBeFriend = () => {
+      axios.post(`${axiosUrl}api/friend/request/`, {
+        'sendMemberId' : nowUserID,
+        'receiveMemberId' : ownerUserID
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    } 
     // ㄷ.친구삭제
-    const deleteFriend= () => {}
+    const deleteFriend= () => {
+      axios.delete(`${axiosUrl}api/friend/list/${ownerUserID}`)
+      .then((response) => {
+        console.log('삭제완료')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
     
     // 스피드다이얼 구성 초기값 설정
     const [actions, setActions] = useState([
@@ -112,7 +140,7 @@ const CustomMain= () => {
 
     // 컴포넌트 실행시 가장 먼저 실행되는 함수 
     useEffect(() => {
-      axios.get(`http://localhost:8080/api/member/info/${ownerUserID}`)
+      axios.get(`${axiosUrl}api/member/info/${ownerUserID}`)
       .then((response) => {
         console.log(response.data)
         if (ownerUserID !== nowUserID) {
