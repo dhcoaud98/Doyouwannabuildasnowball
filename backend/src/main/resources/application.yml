@@ -53,7 +53,6 @@ spring:
       port: 27017
       database: snowball
       authentication-database: snowball
-#     uri: mongodb://ssafy:mylittlesnowball601!@k7a601.p.ssafy.io:27017/snowball
 
       # local setting
 #      uri: mongodb://localhost:27017/snowball
@@ -100,7 +99,7 @@ token:
 oauth2:
   # 클라이언트 주소
     authorizedRedirectUri: https://mylittlesnowball.com
-#    authorizedRedirectUri: http://localhost:3000/code/callback
+#    authorizedRedirectUri: http://localhost:3000
 #  authorizedRedirectUri: https://j7a603.p.ssafy.io/oauth2/redirect
 
 cloud:
