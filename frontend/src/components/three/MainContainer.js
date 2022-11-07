@@ -14,6 +14,9 @@ import { Suspense, useEffect, useRef, useState } from "react"
 import S3 from 'react-aws-s3';
 
 
+window.Buffer = window.Buffer || require("buffer").Buffer;
+
+
 function MainContainer() {
   // 변수 선언
   const target = useRef()
