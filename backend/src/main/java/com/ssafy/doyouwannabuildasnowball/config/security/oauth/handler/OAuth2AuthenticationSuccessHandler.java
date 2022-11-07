@@ -4,6 +4,7 @@ import com.ssafy.doyouwannabuildasnowball.common.exception.BadRequestException;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.util.CookieUtil;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.JWT.JwtTokenProvider;
 import com.ssafy.doyouwannabuildasnowball.config.security.repository.CookieAuthorizationRequestRepository;
+import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final JwtTokenProvider tokenProvider;
     private final CookieAuthorizationRequestRepository authorizationRequestRepository;
 
+    private final MemberRepository memberRepository;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("[OAut2AuthenticationSuccessHandler] on Authentication Success");
