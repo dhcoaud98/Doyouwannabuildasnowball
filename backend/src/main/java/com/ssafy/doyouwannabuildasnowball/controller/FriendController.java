@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.CustomUserDetails;
 import com.ssafy.doyouwannabuildasnowball.domain.Friend;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendRes;
@@ -49,11 +50,15 @@ public class FriendController {
 	
 	// 친구 요청 승낙
     @PatchMapping("/request/{friendId}")
-    public ResponseEntity<List<FriendRes>> approveRequest(@PathVariable Long friendId, Member member) {
-        System.out.println("he");
-        log.info("hehehehhe");
-        return ResponseEntity.ok(friendService.approveRequest(friendId, member.getMemberId()));
+//    public ResponseEntity<List<FriendRes>> approveRequest(@PathVariable Long friendId, Member member) {
+    public ResponseEntity<List<FriendRes>> approveRequest(@PathVariable Long friendId, @ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
+//        System.out.println("he");
+//        log.info("hehehehhe");
+        return ResponseEntity.ok(friendService.approveRequest(friendId, member.getId()));
     }
+    
+    // 친구 유무
+    
 	
 	// 내 친구 관련 정보 목록
     @GetMapping("/list/{userId}")
@@ -73,24 +78,26 @@ public class FriendController {
     }
 	
 	// 내 친구 삭제
-    // 친구 목록 반환
+    // 친구 목록 반환@ApiIgnore @AuthenticationPrincipal CustomUserDetails member
     @DeleteMapping("/list/{friendId}")
-    public ResponseEntity<List<FriendRes>> deleteFriend(@PathVariable Long friendId, Member member) {
+    public ResponseEntity<List<FriendRes>> deleteFriend(@PathVariable Long friendId, @ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
+//    public ResponseEntity<List<FriendRes>> deleteFriend(@PathVariable Long friendId, Member member) {
 
     	
-        return ResponseEntity.ok(friendService.deleteFriend(friendId, member.getMemberId()));
+        return ResponseEntity.ok(friendService.deleteFriend(friendId, member.getId()));
     }
 	
 	
 	// 친구 검색
-    @GetMapping("/search/{keyword}")
-    public ResponseEntity searchFriend(@PathVariable String keyword) {
-    	
-    	friendService.searchFriend(keyword);
-    	
-        System.out.println("he");
-        log.info("hehehehhe");
-        return ResponseEntity.ok("테스트");
+    @GetMapping("/search/{keyword}/{memberId}")
+//    @GetMapping("/search/{keyword}")
+//    public ResponseEntity searchFriend(@PathVariable String keyword, @ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
+    public ResponseEntity searchFriend(@PathVariable String keyword, @PathVariable Long memberId) {	
+
+//    	friendService.searchFriend(member.getId(), keyword);
+//        System.out.println("he");
+//        log.info("hehehehhe");
+        return ResponseEntity.ok(friendService.searchFriend(memberId, keyword));
     }
 	
     
