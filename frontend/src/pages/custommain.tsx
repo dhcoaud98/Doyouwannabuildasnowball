@@ -33,7 +33,9 @@ import AppsIcon from '@mui/icons-material/Apps';
 // ------------------------------------------------------------------------
 
 
-const CustomMain= () => {
+const CustomMain = () => {
+  const axiosUrl = 'http://localhost:8080/'
+
   // 라우터
   const router = useNavigate()
 
@@ -42,20 +44,8 @@ const CustomMain= () => {
   // 현재 서비스 사용자아이디
   const nowUserID = useAppSelector((state : RootState)  => state.user.userId);
   // 페이지 주인 정보 초기값 설정
-  const [ownerUserNickName, setOwnerUserNickName] = useState("")
+  const [ownerUserNickName, setOwnerUserNickName] = useState("나")
 
-  
-  // 컴포넌트 실행시 가장 먼저 실행되는 함수
-  useEffect(() => {
-    axios.get(`http://mylittlesnowball.com/api/member/info/${ownerUserID}`)
-    .then((response) => {
-      console.log(response.data)
-      setOwnerUserNickName((prev) => response.data.nickname)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  },[]) 
   
   // 스피드 다이얼 스타일
   const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
@@ -70,10 +60,19 @@ const CustomMain= () => {
   const noneAtCustomListTrue = customListState ? styles.d_none : "";
   // 커스텀리스트 내려가면 안보이는 요소들의 클래스
   const noneAtCustomListFalse = customListState ? "" : styles.d_none;
-  
+
   // 저장버튼 함수
   const saveCustom = () => {
-
+    axios.put(`${axiosUrl}api/snowglobe/${nowUserID}/modify`, {
+      // “screenshot” : s3 url,
+      // “deco”: array
+    })
+    .then(()=>{
+      console.log('성공')
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
   }
   
   // 꾸미기 취소 함수
@@ -92,10 +91,10 @@ const CustomMain= () => {
     // ㄷ.친구목록으로 라우팅
     const showFriends = () => {
       // 현재는 사용자 정보가 없으므로...
-      router(`/friends/${nowUserID}'`)
+      router(`/friends/${nowUserID}`)
     }
     const showCollection = () => {
-      router('Collection')
+      router('/collection')
     } 
     
     // 2.남의 메인페이지일 경우 스피드 다이얼 함수 구성
@@ -104,30 +103,60 @@ const CustomMain= () => {
       setCustomListState((prev) => true)
     }
     // ㄴ.친구요청 보내기
-    const requestBeFriend = () => {}
+    const requestBeFriend = () => {
+      axios.post(`${axiosUrl}api/friend/request/`, {
+        'sendMemberId' : nowUserID,
+        'receiveMemberId' : ownerUserID
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    } 
     // ㄷ.친구삭제
-    const deleteFriend= () => {}
+    const deleteFriend= () => {
+      axios.delete(`${axiosUrl}api/friend/list/${ownerUserID}`)
+      .then((response) => {
+        console.log('삭제완료')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
     
     // 스피드다이얼 구성 초기값 설정
     const [actions, setActions] = useState([
-      { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
-      { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
-      { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},]
-    )
+      { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
+      { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
+      { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
+      { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection}
 
+    ]
+    )
     // 여기서부터는 현재 서비스 사용자와 현재 페이지 소유자가 같은지 여부에 따라 달라지는 변수들
-    const [customMenuName, setCustomMenuName] = useState("선물하기")
-  
-  // if (ownerUserID === nowUserID) {
-  //   setActions((prev) => [
-  //     { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
-  //     { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
-  //     { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
-  //     { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection}
-  //   ])
-  //   setOwnerUserNickName((prev) => "나")
-  //   setCustomMenuName((prev) => "꾸미기")
-  // }
+    const [customMenuName, setCustomMenuName] = useState("꾸미기")
+
+    // 컴포넌트 실행시 가장 먼저 실행되는 함수 
+    useEffect(() => {
+      axios.get(`${axiosUrl}api/member/info/${ownerUserID}`)
+      .then((response) => {
+        console.log(response.data)
+        if (ownerUserID !== nowUserID) {
+          setOwnerUserNickName((prev) => response.data.nickname)
+          setActions((prev) => [
+            { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+            { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
+            { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},
+          ])
+          setCustomMenuName((prev) => "선물하기")
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },[]) 
 
     return (
     <div id="container_div">
@@ -142,7 +171,7 @@ const CustomMain= () => {
             {/* 상단 내브바 왼쪽 */}
             {/* 꾸미기 시 뒤로가기 버튼 */}
             <Grid xs={2} item>
-              <IconButton sx={{ m: 2.5, p:0 }} onClick={cancelCustom} className={noneAtCustomListFalse}>
+              <IconButton sx={{ m: 2.5, p:0 }} onClick={() => cancelCustom()} className={noneAtCustomListFalse}>
                 <Avatar alt="" src={wreath1Img} className={styles.avatar}></Avatar>
                 <ArrowBackIcon className={styles.arrow}/>
               </IconButton>
@@ -170,7 +199,7 @@ const CustomMain= () => {
                 {/* 내 메인페이지인지에 따라 바뀜 */}
                 {/* 여기가 추후에 myActions가 아닌 actions로 바뀔 것 */}
                 {actions.map((action) => (
-                  <SpeedDialAction key={action.name} icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={action.eventFunc}/>
+                  <SpeedDialAction key={action.name} icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={() => action.eventFunc()}/>
                 ))}
               </StyledSpeedDial>
                 
