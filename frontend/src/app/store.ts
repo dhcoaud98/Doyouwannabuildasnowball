@@ -5,10 +5,12 @@ import { persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
 // reducer
 import userReducer from '../features/userSlice';
+import snowballReducer from '../features/snowballSlice'
 
 
 const reducers = combineReducers({
-    user:userReducer
+    user:userReducer,
+    snowball: snowballReducer,
 })
 
 const persistConfig = {
