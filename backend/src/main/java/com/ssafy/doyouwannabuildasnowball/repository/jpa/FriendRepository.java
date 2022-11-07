@@ -105,4 +105,10 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 	List<Long> getAllFriendsMemberId(@Param("userId") Long userId);
 	
 	
+	// 친구 유무  :yourMemberId memberId, 
+	@Query(value = "SELECT friend_id friendId, IF(acceptance = true, 3, IF(followed_id = :myMemberId, 1, 2)) AS status FROM friend " + 
+			"WHERE (follow_id = :myMemberId AND followed_id = :yourMemberId) OR (follow_id = :yourMemberId AND followed_id = :myMemberId);", nativeQuery = true)
+	FriendDtoInterface getFriendStatus(@Param("myMemberId") Long myMemberId, @Param("yourMemberId") Long yourMemberId);
+	
+	
 }

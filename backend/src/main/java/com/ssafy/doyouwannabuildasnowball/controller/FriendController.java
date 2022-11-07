@@ -27,7 +27,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.CustomUserDetails;
 import com.ssafy.doyouwannabuildasnowball.domain.Friend;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
+import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendDtoInterface;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendRes;
+import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendStatusRes;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.common.AllRequestReq;
 import com.ssafy.doyouwannabuildasnowball.service.FriendService;
 
@@ -58,6 +60,14 @@ public class FriendController {
     }
     
     // 친구 유무
+    @GetMapping("status/{myMemberId}/{yourMemberId}")
+    public ResponseEntity<FriendStatusRes> getFriendStatus(@PathVariable Long myMemberId, @PathVariable Long yourMemberId) {
+    	
+    	
+        return ResponseEntity.ok(friendService.getFriendStatus(myMemberId, yourMemberId));
+//        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+    
     
 	
 	// 내 친구 관련 정보 목록

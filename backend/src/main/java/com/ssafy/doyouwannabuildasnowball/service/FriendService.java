@@ -16,6 +16,7 @@ import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendDtoInterface;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendMemberDtoInterface;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendRes;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendResInterface;
+import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendStatusRes;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.FriendRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.RequestRepository;
@@ -77,6 +78,15 @@ public class FriendService {
 		// 친구 요청 목록 반환
 		return getAllFriendInfo(memberId);
 		
+	}
+	
+	
+	// 친구 유무 
+	public FriendStatusRes getFriendStatus(Long myMemberId, Long yourMemberId) {
+		FriendStatusRes friendStatusRes = FriendStatusRes.find(friendRepository.getFriendStatus(myMemberId, yourMemberId));
+//		friendRepository.getFriendStatus(myMemberId, yourMemberId);
+//		System.out.println(">> friendStatusRes : "+friendStatusRes);
+		return friendStatusRes;
 	}
 	
 	
