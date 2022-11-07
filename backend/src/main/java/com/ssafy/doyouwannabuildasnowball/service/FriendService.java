@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.doyouwannabuildasnowball.domain.Friend;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.domain.Request;
+import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendDtoInterface;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendMemberDtoInterface;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendRes;
 import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendResInterface;
@@ -77,6 +78,32 @@ public class FriendService {
 		return getAllFriendInfo(memberId);
 		
 	}
+	
+	
+	// 친구 관련 정보 리스트  리팩토링
+	// 받은 친구 요청 목록 + 승낙 안 된 보낸 친구 요청 목록 + 내 친구 목록 (받은 스노우볼 요청 상태)
+	public List<FriendRes> getAllFriendInfo02(Long userId) {
+		
+		List<FriendDtoInterface> allFriendsList= friendRepository.getAllFriendsInfo(userId);
+		
+		List<Long> memberIdList= new ArrayList<Long>();
+		for(FriendDtoInterface friend : allFriendsList) {
+			memberIdList.add(friend.getMemberId());
+		}
+		System.out.println(">> memberIdList : "+memberIdList.toString());
+		
+		
+		List<FriendMemberDtoInterface> allFriendMemberList = memberRepository.getAllFriendInfo(memberIdList);
+		
+		
+		List<FriendRes> friendInfoList = new ArrayList<FriendRes>();
+//		friendInfoList
+		
+		return friendInfoList;
+	}
+	
+	
+	
 	
 	
 	// 친구 관련 정보 리스트

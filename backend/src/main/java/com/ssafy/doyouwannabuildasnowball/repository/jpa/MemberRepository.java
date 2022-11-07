@@ -40,8 +40,16 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 키워드 포함된 해당 memberId 갖지 않은 유저 리스트 
     @Query(value="SELECT member_id memberId, profile_image_url profileImageUrl, nickname, snowglobe_id snowglobeId " + 
     		"FROM member " + 
-    		"WHERE nickname like '%:keyword%' " + 
-    		"AND member_id NOT IN (:memberIdList)" + 
+    		"WHERE nickname like %:keyword% " + 
+    		"AND member_id NOT IN (:memberIdList) " + 
     		"ORDER BY nickname", nativeQuery = true)
     List<FriendMemberDtoInterface> getAllNotFriendMemberByNickname(@Param("keyword") String keyword, @Param("memberIdList") List<Long> memberIdList);
+    
+    
+    // 친구 목록 
+    // 해당 memberId 갖는 유저의 정보 가져오기
+    @Query(value="SELECT member_id memberId, profile_image_url profileImageUrl, nickname, snowglobe_id snowglobeId " + 
+    		"FROM member " + 
+    		"WHERE member_id IN (:memberIdList)", nativeQuery = true)
+    List<FriendMemberDtoInterface> getAllFriendInfo(@Param("memberIdList")  List<Long> memberIdList);
 }
