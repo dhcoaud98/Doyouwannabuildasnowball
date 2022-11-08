@@ -162,10 +162,10 @@ function CustomMain() {
     <div id="container_div">
       <Grid container id="container_div">
         {/* 왼쪽 마진 */}
-        <Grid xs={0} sm={2} md={3} xl={4} item id="left_div"></Grid>
+        <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="left_div"></Grid>
 
         {/* 메인 콘텐츠 */}
-        <Grid xs={12} sm={8} md={6} xl={4} item id="main_div" container direction="column" justifyContent="space-between">                                
+        <Grid xs={12} sm={8} md={6} lg={4} xl={3} item id="main_div" container direction="column" justifyContent="space-between">                                
           {/* 상단 */}
           <Grid component="div" item container xs={2} className={styles.upper}>
             {/* 상단 내브바 왼쪽 */}
@@ -254,7 +254,7 @@ function CustomMain() {
         </Grid>
 
         {/* 오른쪽 마진 */}
-        <Grid xs={0} sm={2} md={3} xl={4} item id="right_div"></Grid>
+        <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="right_div"></Grid>
       </Grid>
     </div>
     )

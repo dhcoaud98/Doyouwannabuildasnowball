@@ -11,7 +11,6 @@ import { Navbar } from '../components/navbar/navbar';
 // MUI
 import { Grid, Button, Stack } from "@mui/material"
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { fontSize } from "@mui/system"
 
 // ------------------------------------------------------------------------
 
@@ -32,10 +31,10 @@ function Welcome() {
     <div id="container_div">
       <Grid container id="container_div">
         {/* 왼쪽 마진 */}
-        <Grid xs={0} sm={2} md={3} xl={4} item id="left_div"></Grid>
+        <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="left_div"></Grid>
 
         {/* 메인 콘텐츠 */}
-        <Grid xs={12} sm={8} md={6} xl={4} pt={8} item id="main_div">
+        <Grid xs={12} sm={8} md={6} lg={4} xl={3} pt={8} item id="main_div">
           <div className={styles.navbar}>
             <Navbar/>
           </div>
@@ -67,7 +66,7 @@ function Welcome() {
         </Grid>
 
         {/* 오른쪽 마진 */}
-        <Grid xs={0} sm={2} md={3} xl={4} item id="right_div"></Grid>
+        <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="right_div"></Grid>
       </Grid>
     </div>
   )
