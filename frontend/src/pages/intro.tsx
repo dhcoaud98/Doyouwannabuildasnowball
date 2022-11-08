@@ -72,10 +72,10 @@ const Home = () => {
     <div id="container_div">
       <Grid container id="container_div">
         {/* 왼쪽 마진 */}
-        <Grid xs={0} sm={2} md={3} xl={4} item id="left_div"></Grid>
+        <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="left_div"></Grid>
 
         {/* 메인 콘텐츠 */}
-        <Grid xs={12} sm={8} md={6} xl={4} item id="main_div">
+        <Grid xs={12} sm={8} md={6} lg={4} xl={3} item id="main_div">
           {/* 메인로고 */}
           <img src={mainLogoImg} alt="" className={styles.main_logo}/>
 
@@ -88,7 +88,7 @@ const Home = () => {
         </Grid>
 
         {/* 오른쪽 마진 */}
-        <Grid xs={0} sm={2} md={3} xl={4} item id="right_div"></Grid>
+        <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="right_div"></Grid>
       </Grid>
     </div>
   )

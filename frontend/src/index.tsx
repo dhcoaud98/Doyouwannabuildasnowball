@@ -15,6 +15,7 @@ import Index from './pages/intro'
 import Tutorial  from './pages/tutorial'
 import Welcome from './pages/welcome'
 import Setnickname from './pages/setnickname'
+import AskForShare from './pages/askforshare';
 import UnityBackGround  from './pages/unitybackground'
 import persistStore from 'redux-persist/es/persistStore';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -39,6 +40,7 @@ root.render(
             <Route path="/tutorial" element={<Tutorial/>}></Route>
             <Route path="/welcome" element={<Welcome/>}></Route>
             <Route path="/setnickname" element={<Setnickname/>}></Route>
+            <Route path="/askforshare" element={<AskForShare/>}></Route>
             <Route path="/unitybackground" element={<UnityBackGround/>}></Route>
           </Routes>
           </BrowserRouter>
