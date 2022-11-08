@@ -12,7 +12,7 @@ import "../index.css"
 import styles from "./custommain.module.css"
 import { MainContainer } from "../components/three/MainContainer";
 import { CustomList } from "../components/custom/customlist";
-import { API_URL } from "../apiurl"
+import { API_URL } from "../switchurl"
 import wreath1Img from "../assets/images/wreath_1.png"
 import decoration from "../assets/images/decoration.png"
 

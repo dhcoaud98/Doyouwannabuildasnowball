@@ -6,7 +6,7 @@ import { useAppSelector } from '../app/hooks'
 
 // Other components
 import { Navbar } from '../components/navbar/navbar';
-import { API_URL } from "../apiurl"
+import { API_URL } from "../switchurl"
 import styles from "./board.module.css"
 
 // MUI

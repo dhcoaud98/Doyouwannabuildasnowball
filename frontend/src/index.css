@@ -101,3 +101,13 @@ a {
 ::-webkit-scrollbar-track {
   background: rgba(216, 248, 176, 0.4); /*스크롤바 뒷 배경 색상*/
 }
+
+.font-bold{
+  font-weight: bold;
+}
+.font-{
+  font-weight: normal;
+}
+.font-{
+  font-weight: lighter;
+}

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // Other components
-import { API_URL } from "../apiurl"
+import { API_URL } from "../switchurl"
 import kakaoLoginBtnImg from '../assets/images/kakao_login_btn.png'
 import decorationImg from '../assets/images/decoration.png'
 import mainLogoImg from '../assets/images/main_logo.png'
@@ -80,11 +80,7 @@ const Home = () => {
           <img src={mainLogoImg} alt="" className={styles.main_logo}/>
 
           {/* 카카오로그인버튼 - 고정 */}
-          <a href={REDIRECT_URI}>
-            <div id="kakao-button" className={styles.kakao_login_btn}>
-              <img src={kakaoLoginBtnImg} alt="" className={styles.kakao_login_img} />
-            </div>
-          </a>
+ 
           {/* <Button className={styles.kakao_login_btn}><img src="/images/kakao_login_btn.png" alt="" className={styles.kakao_login_img} /></Button> */}
 
           {/* 하단 장식줄 - 고정 */}

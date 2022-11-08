@@ -33,6 +33,8 @@ export function Navbar() {
       setNowPage('방명록')
     } else if (location.pathname === '/custommain/:userid') {
       setNowPage('나의 스노우볼')
+    } else if (location.pathname === '/welcome') {
+      setNowPage('선물하기')
     } else {
       setNowPage('나의 친구 목록')
     }

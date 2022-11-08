@@ -4,7 +4,7 @@ import { useState } from 'react';
 // Other components
 import "../index.css"
 import styles from "./tutorial.module.css"
-import { API_URL } from "../apiurl"
+import { API_URL } from "../switchurl"
 import tutorialBoxImg from "../assets/images/tutorial_box.png"
 
 // MUI
@@ -14,7 +14,6 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';  
 
 // ------------------------------------------------------------------------
-
 
 function Tutorial() {
   // 튜토리얼 장

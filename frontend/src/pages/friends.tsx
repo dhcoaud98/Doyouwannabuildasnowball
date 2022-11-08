@@ -11,7 +11,7 @@ import styles from "./friends.module.css"
 import { Navbar } from '../components/navbar/navbar';
 import { SearchBar } from '../components/search/searchbar';
 import { RootState } from '../app/store';
-import { API_URL } from "../apiurl"
+import { API_URL } from "../switchurl"
 import decorationImg from "../assets/images/decoration.png"
 
 // MUI
