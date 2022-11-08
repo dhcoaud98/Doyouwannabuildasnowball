@@ -80,7 +80,11 @@ const Home = () => {
           <img src={mainLogoImg} alt="" className={styles.main_logo}/>
 
           {/* 카카오로그인버튼 - 고정 */}
- 
+          <a href={REDIRECT_URI} style={{ width:'100%'}}>
+            <div id="kakao-button" className={`${styles.kakao_login_btn}`}>
+              <img src={kakaoLoginBtnImg} alt="" className={`${styles.kakao_login_img}`} />
+            </div>
+          </a>
           {/* <Button className={styles.kakao_login_btn}><img src="/images/kakao_login_btn.png" alt="" className={styles.kakao_login_img} /></Button> */}
 
           {/* 하단 장식줄 - 고정 */}
