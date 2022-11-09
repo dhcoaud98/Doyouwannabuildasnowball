@@ -1,7 +1,7 @@
 // Systems
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from "../app/store";
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../app/hooks'
@@ -38,6 +38,8 @@ function CustomMain() {
 
   // 라우터
   const router = useNavigate()
+  
+  const dispatch = useAppDispatch()
 
   // 현재 CustomMain의 Owner ID
   let ownerUserID = Number(useParams().userid)
