@@ -43,6 +43,7 @@ public class JwtTokenProvider {
     }
 
     public String createAccessToken(Authentication authentication) {
+        log.info("[createAccessToken]");
         Date now = new Date();
         Date validity = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_LENGTH);
 
@@ -64,6 +65,7 @@ public class JwtTokenProvider {
     }
 
     public String createRefreshToken(Authentication authentication, HttpServletResponse response) {
+        log.info("[createRefreshToken]");
         Date now = new Date();
         Date validity = new Date(now.getTime() + REFRESH_TOKEN_EXPIRE_LENGTH);
 
