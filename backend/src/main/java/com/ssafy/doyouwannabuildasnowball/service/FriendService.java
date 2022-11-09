@@ -1,14 +1,16 @@
 package com.ssafy.doyouwannabuildasnowball.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.doyouwannabuildasnowball.controller.FriendController;
 import com.ssafy.doyouwannabuildasnowball.domain.Friend;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.domain.Request;
@@ -24,6 +26,7 @@ import com.ssafy.doyouwannabuildasnowball.repository.jpa.RequestRepository;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 //@Transactional(readOnly = true)
 public class FriendService {
 	
@@ -51,7 +54,7 @@ public class FriendService {
 
 			
 		} catch (Exception e) {
-			System.out.println(">> [friend] request Exception : "+e);
+			log.info(">> [friend] request Exception : "+e);
 			result = FAIL;
 			
 		}
@@ -72,7 +75,7 @@ public class FriendService {
 			
 
 		} catch (Exception e) {
-			System.out.println(">> [friend] approveRequest Exception : "+e);
+			log.info(">> [friend] approveRequest Exception : "+e);
 			
 		}
 		// 친구 요청 목록 반환
@@ -90,30 +93,40 @@ public class FriendService {
 	}
 	
 	
-	// 친구 관련 정보 리스트  리팩토링
-	// 받은 친구 요청 목록 + 승낙 안 된 보낸 친구 요청 목록 + 내 친구 목록 (받은 스노우볼 요청 상태)
-	public List<FriendRes> getAllFriendInfo02(Long userId) {
+	// 친구 관련 정보 리스트  *리팩토링 01
+	public List<FriendRes> getAllFriendInfo01(Long userId) {
 		
-		List<FriendDtoInterface> allFriendsList= friendRepository.getAllFriendsInfo(userId);
+		List<FriendDtoInterface> allFriendsList = friendRepository.getAllFriendsInfo(userId);
+		
 		
 		List<Long> memberIdList= new ArrayList<Long>();
 		for(FriendDtoInterface friend : allFriendsList) {
 			memberIdList.add(friend.getMemberId());
 		}
-		System.out.println(">> memberIdList : "+memberIdList.toString());
+//		System.out.println(">> memberIdList : "+memberIdList.toString());
+		
+		memberRepository.findAllById(memberIdList);
+		// memberRepository.getAllFriendInfo 대신 아래 걸로 찾아와도 될 듯
+//		System.out.println(memberRepository.findAllById(memberIdList).toString());
+		
 		
 		
 		List<FriendMemberDtoInterface> allFriendMemberList = memberRepository.getAllFriendInfo(memberIdList);
+//		System.out.println(">> allFriendsList.size() "+allFriendsList.size()+" // allFriendMemberList.size() "+allFriendMemberList.size());
 		
-		
+		int cnt = allFriendsList.size();
 		List<FriendRes> friendInfoList = new ArrayList<FriendRes>();
-//		friendInfoList
+		for(int idx=0; idx<cnt; idx++) {
+			
+			friendInfoList.add(FriendRes.combine(allFriendsList.get(idx), allFriendMemberList.get(idx)));
+			
+		}
+		
+		// 정렬 - FriendRes에 사용자 정의 정렬 조건(status 오름차순 정렬 + 닉네임 오름차순 정렬) 작성
+		Collections.sort(friendInfoList);
 		
 		return friendInfoList;
 	}
-	
-	
-	
 	
 	
 	// 친구 관련 정보 리스트
@@ -183,8 +196,8 @@ public class FriendService {
 			FriendRes friendRes = FriendRes.find(sendRequest);
 			// 프론트에서 구분할 수 있도록 어떤 상태인지 숫자로 표시하기
 			friendRes = FriendRes.mark(friendRes, 3);
-			
-			System.out.println(friendRes);
+//			
+//			System.out.println(friendRes);
 			
 			result.add(friendRes);
 		}
@@ -206,7 +219,7 @@ public class FriendService {
 
 			
 		} catch (Exception e) {
-			System.out.println(">> [friend] deleteFriend Exception : "+e);
+			log.info(">> [friend] deleteFriend Exception : "+e);
 			result = FAIL;
 		}
 		return getAllFriendInfo(memberId);
@@ -250,7 +263,7 @@ public class FriendService {
 			requestRepository.save(Request.create(ask, asked));
 			
 		} catch (Exception e) {
-			System.out.println(">> [friend] requestSnowglobe Exception : "+e);
+			log.info(">> [friend] requestSnowglobe Exception : "+e);
 			result = FAIL;
 		}
 		
@@ -273,7 +286,7 @@ public class FriendService {
 //			requestRepository.deleteSnowglobeRequest(askId, askedId);
 			
 		} catch (Exception e) {
-			System.out.println(">> [friend] deleteSnowglobeRequest Exception : "+e);
+			log.info(">> [friend] deleteSnowglobeRequest Exception : "+e);
 
 		}
 		

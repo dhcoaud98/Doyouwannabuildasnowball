@@ -53,7 +53,6 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 	List<FriendResInterface> getAllSendRequests(@Param("followId") Long followId);
 	
 	
-	
 	// 내 친구 목록
 	@Query(value="SELECT friendId, memberId, nickname, profileImageUrl, snowglobeId, snowglobeRequestCnt " + 
 			"FROM (SELECT friend_id friendId, memberId, nickname, profile_image_url profileImageUrl, snowglobe_id snowglobeId " + 
@@ -65,7 +64,8 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 	
 	
 	
-	// 친구 목록 리팩토링
+	
+	// 친구 목록 *리팩토링 01
 	// 나와 관련 있는 유저 memberId, friendId, status 가져오기
 	@Query(value="SELECT member_id memberId, friend_id friendId, status, IFNULL(snowgloberequestCnt, 0) snowgloberequestCnt " + 
 			"FROM (SELECT IF(follow_id = :userId, followed_id, follow_id) AS member_id, friend_id, " + 
@@ -81,7 +81,8 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 			"LEFT OUTER JOIN (SELECT ask_id, count(*) snowgloberequestCnt " + 
 			"FROM request " + 
 			"WHERE asked_id = :userId " + 
-			"GROUP BY ask_id) r ON f.member_id = r.ask_id", nativeQuery = true)
+			"GROUP BY ask_id) r ON f.member_id = r.ask_id " + 
+			"ORDER BY memberId", nativeQuery = true)
 	List<FriendDtoInterface> getAllFriendsInfo(@Param("userId") Long userId);
 	
 	

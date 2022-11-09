@@ -46,33 +46,30 @@ public class FriendController {
     @PostMapping("/request")
     public ResponseEntity<List<FriendRes>> request(@RequestBody AllRequestReq allRequestDto) {
     	
-    	
         return ResponseEntity.ok(friendService.request(allRequestDto.getSendMemberId(), allRequestDto.getReceiveMemberId()));
     }
 	
 	// 친구 요청 승낙
     @PatchMapping("/request/{friendId}")
-//    public ResponseEntity<List<FriendRes>> approveRequest(@PathVariable Long friendId, Member member) {
     public ResponseEntity<List<FriendRes>> approveRequest(@PathVariable Long friendId, @ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
-//        System.out.println("he");
-//        log.info("hehehehhe");
+
         return ResponseEntity.ok(friendService.approveRequest(friendId, member.getId()));
     }
     
     // 친구 유무
-    @GetMapping("status/{myMemberId}/{yourMemberId}")
-    public ResponseEntity<FriendStatusRes> getFriendStatus(@PathVariable Long myMemberId, @PathVariable Long yourMemberId) {
+    @GetMapping("status/{checkMemberId}")
+    public ResponseEntity<FriendStatusRes> getFriendStatus(@ApiIgnore @AuthenticationPrincipal CustomUserDetails member, @PathVariable Long checkMemberId) {
     	
-    	
-        return ResponseEntity.ok(friendService.getFriendStatus(myMemberId, yourMemberId));
+    	return ResponseEntity.ok(friendService.getFriendStatus(member.getId(), checkMemberId));
+//        return ResponseEntity.ok(friendService.getFriendStatus(myMemberId, yourMemberId));
 //        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     
     
 	
 	// 내 친구 관련 정보 목록
-    @GetMapping("/list/{userId}")
-    public ResponseEntity<List<FriendRes>> getAllFriendInfo(@PathVariable Long userId) {
+    @GetMapping("/list")
+    public ResponseEntity<List<FriendRes>> getAllFriendInfo(@ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
     	
     	// 받은 친구 요청 목록
 //    	friendService.getAllRequests(userId);
@@ -80,34 +77,29 @@ public class FriendController {
 //    	friendService.getAllSendRequests(userId);
     	// 내 친구 목록
 //    	friendService.getAllFriends(userId);
+
+//        return ResponseEntity.ok(friendService.getAllFriendInfo(userId));
     	
-//        System.out.println("he");
-//        log.info("hehehehhe");
-        return ResponseEntity.ok(friendService.getAllFriendInfo(userId));
+//        return ResponseEntity.ok(friendService.getAllFriendInfo01(userId));
+    	return ResponseEntity.ok(friendService.getAllFriendInfo01(member.getId()));
 //        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 	
 	// 내 친구 삭제
-    // 친구 목록 반환@ApiIgnore @AuthenticationPrincipal CustomUserDetails member
+    // 친구 목록 반환
     @DeleteMapping("/list/{friendId}")
     public ResponseEntity<List<FriendRes>> deleteFriend(@PathVariable Long friendId, @ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
-//    public ResponseEntity<List<FriendRes>> deleteFriend(@PathVariable Long friendId, Member member) {
 
-    	
         return ResponseEntity.ok(friendService.deleteFriend(friendId, member.getId()));
     }
 	
 	
 	// 친구 검색
-    @GetMapping("/search/{keyword}/{memberId}")
-//    @GetMapping("/search/{keyword}")
-//    public ResponseEntity searchFriend(@PathVariable String keyword, @ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
-    public ResponseEntity searchFriend(@PathVariable String keyword, @PathVariable Long memberId) {	
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<List<FriendRes>> searchFriend(@PathVariable String keyword, @ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
 
-//    	friendService.searchFriend(member.getId(), keyword);
-//        System.out.println("he");
-//        log.info("hehehehhe");
-        return ResponseEntity.ok(friendService.searchFriend(memberId, keyword));
+
+    	return ResponseEntity.ok(friendService.searchFriend(member.getId(), keyword));
     }
 	
     
@@ -127,8 +119,7 @@ public class FriendController {
     public ResponseEntity<List<FriendRes>> deleteSnowglobeRequest(@RequestBody AllRequestReq allRequestDto) {
     	
     	return ResponseEntity.ok(friendService.deleteSnowglobeRequest(allRequestDto.getSendMemberId(), allRequestDto.getReceiveMemberId()));
-//        log.info("스노우볼 요청 삭제 ");
-//        return ResponseEntity.ok("받은 스노우볼 요청 삭제 테스트");
+
     }
 	
 }
