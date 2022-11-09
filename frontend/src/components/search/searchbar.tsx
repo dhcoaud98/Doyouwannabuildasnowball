@@ -5,6 +5,7 @@ import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button'
 import ClearIcon from '@mui/icons-material/Clear';
 import Grid from '@mui/material/Grid';
+import styles from "./search.module.css"
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -45,33 +46,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const SearchBar = (props : any) => {
   const [text, setText] = useState('');
-  
   const onChange = (e: any) => {
     setText(e.target.value);
-    // console.log('지금 검색 이름 = ', e.target.value)
   };
 
   return (
-    <Search id='css-xkcxz9'>
-
-
-      {/* <input onChange={onChange} value={text}  /> */}
-      <Grid>
-
-      <StyledInputBase
-        className='css-3zl9sa-MuiInputBase-root MuiInputBase-input'
-        placeholder="친구를 검색하세요"
-        inputProps={{ 'aria-label': 'search' }}
-        onChange={onChange}
-        value={text}
-        />
-      </Grid>
-      <Button onClick={() => props.setData(text) } >
-        <SearchIcon />
-      </Button>
-      <Button>
-        <ClearIcon onClick={() => props.setData('')} />
-      </Button>
+    <Search id='css-xkcxz9' className={styles.searchbarBody}>
+        <StyledInputBase
+          className='css-3zl9sa-MuiInputBase-root MuiInputBase-input'
+          placeholder="친구를 검색하세요"
+          inputProps={{ 'aria-label': 'search' }}
+          onChange={onChange}
+          value={text}
+          />
+        <Button>
+          <ClearIcon onClick={() => {props.setData(''); setText('')}} />
+        </Button>
+        <Button onClick={() => props.setData(text) } >
+          <SearchIcon />
+        </Button>
     </Search>
     )
 }
