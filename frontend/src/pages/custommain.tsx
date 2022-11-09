@@ -34,7 +34,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 // ------------------------------------------------------------------------
 
 function CustomMain() {
-  const APIURL = API_URL
+  const APIURL = API_URL()
 
   // 라우터
   const router = useNavigate()
