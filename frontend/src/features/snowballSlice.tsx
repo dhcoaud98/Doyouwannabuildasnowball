@@ -44,11 +44,32 @@ export const SnowballSlice = createSlice({
       state.objet3_id = action.payload.deco[5].indicator
       state.pets_id = action.payload.deco[6].indicator
       state.music_id = action.payload.musicId
-
-
-
-
     },
+    changeThreeItem: (state: SnowballType, action) => {
+      switch(action.payload.tapValue) {
+        case 0:
+          state.c_tree_id = action.payload.indicator
+          break
+        case 1:
+          state.building_id = action.payload.indicator
+          break
+        case 2:
+          state.snowman_id = action.payload.indicator
+          break
+        case 3:
+          state.objet1_id = action.payload.indicator
+          break
+        case 4:
+          state.objet2_id = action.payload.indicator
+          break
+        case 5:
+          state.objet3_id = action.payload.indicator
+          break
+        case 6:
+          state.pets_id = action.payload.indicator
+          break
+      }
+    }
     // minusCounter: (state: StateType, action: PayloadAction<number>) => {
     //   state.value -= action.payload;
     // }
@@ -56,7 +77,7 @@ export const SnowballSlice = createSlice({
 });
 
 // 액션을 export 해준다.
-export const { setCurrentSb } = SnowballSlice.actions;
+export const { setCurrentSb, changeThreeItem } = SnowballSlice.actions;
 
 // 슬라이스를 export 해준다.
 export default SnowballSlice.reducer;

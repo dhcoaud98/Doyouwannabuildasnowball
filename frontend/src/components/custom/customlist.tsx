@@ -7,6 +7,8 @@ import styles from './customlist.module.css'
 // MUI
 import { Tabs, Tab, Box, Button, Grid } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { useAppDispatch } from '../../app/hooks';
+import { changeThreeItem, setCurrentSb } from '../../features/snowballSlice';
 
 // ------------------------------------------------------------------------
 
@@ -23,6 +25,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 export function CustomList() {
   // 현재 몇번째 탭인지
   const [tapValue, setTapValue] = React.useState(0);
+  // react hook
+  const dispatch = useAppDispatch()
 
   // 각 탭에 들어갈 버튼 이미지들과 그 값들
   const tapImagesArr = [
@@ -40,6 +44,12 @@ export function CustomList() {
     console.log(newValue)
   };
 
+  // 버튼 클릭시 three 변화 함수
+  const changeThreeComponent = (idx : number) => {
+    const payload = {tapValue: tapValue, indicator: idx}
+    dispatch(changeThreeItem(payload))
+  }
+
   return (
     <div>
       <Box component="div" className={styles.drawer_box}>
@@ -52,20 +62,20 @@ export function CustomList() {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label="One" />
-            <Tab label="Two" />
-            <Tab label="Three" />
-            <Tab label="Four" />
-            <Tab label="Five" />
-            <Tab label="Six" />
-            <Tab label="Seven" />
+            <Tab label="tree" />
+            <Tab label="build" />
+            <Tab label="snow" />
+            <Tab label="ob1" />
+            <Tab label="ob2" />
+            <Tab label="ob3" />
+            <Tab label="pet" />
           </Tabs>
 
           {/* 탭별 하단요소들 */}
           <Grid component="div" container justifyContent="space-around" alignContent="space-evenly" className={styles.btn_container}>
             {tapImagesArr[tapValue].map((tapImage, idx) => (
               <Grid item key={idx} xs={2.4}>
-                <Button variant="outlined">{tapImage.image_path}</Button>
+                <Button variant="outlined" onClick={() => changeThreeComponent(idx)}>{tapImage.image_path}</Button>
               </Grid>
               ))}
           </Grid>
