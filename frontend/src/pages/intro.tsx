@@ -59,6 +59,7 @@ const Home = () => {
         }
       })
       .then((res) => {
+        console.log(res.data)
           dispatch(setUser(res.data))
           axios({
             method: "GET",
@@ -68,10 +69,13 @@ const Home = () => {
             }
           })
           .then((rs) => {
+            console.log(rs.data)
             dispatch(setCurrentSb(rs.data))
-            router(`/custommain/${res.data.memberId}`)
           })
+          router(`/custommain/${res.data.memberId}`)
+
       })
+      
       // setTimeout(() => {
       //   navigate('/')
       // }, 1000);

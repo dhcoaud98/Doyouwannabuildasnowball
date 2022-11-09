@@ -29,6 +29,7 @@ import { C_Tree_09 } from "./C_Tree/C_Tree_09"
 export function Group() {
   const c_tree_id = useSelector((state) => state.snowball.c_tree_id)
   const pets_id = useSelector((state) => state.snowball.pets_id)
+  console.log(useSelector((state) => state.snowball.c_tree_id))
 
   return (
     <group>
