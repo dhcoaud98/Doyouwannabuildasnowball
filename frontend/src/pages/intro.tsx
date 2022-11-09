@@ -15,6 +15,7 @@ import styles from "./intro.module.css"
 import { Grid } from '@mui/material';
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/userSlice";
+import { setCurrentSb } from '../features/snowballSlice';
 
 // ------------------------------------------------------------------------
 
@@ -23,12 +24,12 @@ const Home = () => {
   const dispatch = useDispatch()
 
   // 로그인
-  // const API_SERVER = "http://localhost:8080/api"
+  const API_SERVER = "http://localhost:8080/api"
   // const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
-  // const CLIENT_URL = "http://localhost:3000"
-  const API_SERVER = "https://mylittlesnowball.com/api"
+  const CLIENT_URL = "http://localhost:3000"
+  // const API_SERVER = "https://mylittlesnowball.com/api"
   const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
-  const CLIENT_URL = "https://mylittlesnowball.com"
+  // const CLIENT_URL = "https://mylittlesnowball.com"
   const OAUTH2_REDIRECT_URI = `?redirect_uri=${CLIENT_URL}`
   const REDIRECT_URI = AUTH_URL + OAUTH2_REDIRECT_URI
   // const REDIRECT_URI = 'http://localhost:8080/api/oauth2/authorize/kakao'
@@ -37,7 +38,7 @@ const Home = () => {
   
   // const navigate = useNavigate()
   const router = useNavigate();
-
+  const APIURL = API_URL()
   useEffect(() => {
     const code = window.location.search
     let param = new URLSearchParams(code);
@@ -52,13 +53,23 @@ const Home = () => {
       console.log("localStorage = ", window.localStorage)
       axios({
         method: "GET",
-        url: `http://localhost:8080/api/member/me`,
+        url: `${APIURL}api/member/me`,
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       })
       .then((res) => {
           dispatch(setUser(res.data))
+          axios({
+            method: "GET",
+            url: `${APIURL}api/snowglobe/${res.data.memberId}`,
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          })
+          .then((rs) => {
+            dispatch(setCurrentSb(rs.data))
+          })
           router(`/custommain/${res.data.memberId}`)
       })
       // setTimeout(() => {
