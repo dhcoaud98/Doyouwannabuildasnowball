@@ -17,6 +17,7 @@ import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.MusicRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.SnowglobeRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.mongo.DecorationRepository;
+import javafx.embed.swing.SwingNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -84,7 +85,7 @@ public class SnowglobeService {
     public void presentSnowglobe(Long rid, SnowglobeRequestDto snowglobeRequestDto) {
         Member maker = memberRepository.findById(snowglobeRequestDto.getMakerId()).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
         Member receiver = memberRepository.findById(rid).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
-        Snowglobe snowglobe = new Snowglobe().builder()
+        Snowglobe snowglobe = Snowglobe.builder()
                 .maker(maker)
                 .screenshot(snowglobeRequestDto.getScreenshot())
                 .receiver(receiver)
@@ -94,10 +95,11 @@ public class SnowglobeService {
 
         snowglobeRepository.save(snowglobe);
 
-        Decoration decoration = new Decoration().builder()
+        Decoration decoration = Decoration.builder()
                 .id(snowglobe.getSnowglobeId())
                 .deco(snowglobeRequestDto.getDeco())
                 .build();
+
         decorationRepository.save(decoration);
     }
 
@@ -114,22 +116,10 @@ public class SnowglobeService {
         snowglobeRepository.save(snowglobe);
     }
 
-    //갖고있는 스노우볼 확인 (내 책장 / 메인 스노우볼 제외한 모든 스노우볼)
+    //갖고있는 스노우볼 확인 (내 책장 / 메인 스노우볼 포함)
     @Transactional
     public List<SnowglobeShelfResponseDto> showAllSnowglobe(Long uid) {
-        Member member = memberRepository.findById(uid).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
-        SnowglobeShelfResponseDto mine = new SnowglobeShelfResponseDto().builder()
-                .snowglobeId(member.getSnowglobe().getSnowglobeId())
-                .screenshot(member.getSnowglobe().getScreenshot())
-                .build();
-
         List<SnowglobeShelfResponseDto> result = new ArrayList<SnowglobeShelfResponseDto>(snowglobeRepository.findAllByMakerIdAndReceiverId(uid));
-        for (int i=0; i<result.size(); i++) {
-            if (result.get(i).getSnowglobeId().equals(mine.getSnowglobeId())) {
-                result.remove(i);
-                log.info("index"+i);
-            }
-        }
 
         return result;
     }

@@ -1,6 +1,7 @@
 package com.ssafy.doyouwannabuildasnowball.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.CustomUserDetails;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.domain.Music;
 import com.ssafy.doyouwannabuildasnowball.dto.music.common.MusicAllDto;
@@ -16,7 +17,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -71,9 +74,8 @@ public class SnowglobeController {
 
     //책장에서 스노우볼 삭제*
     @PatchMapping("/{snowglobe_id}/delete")
-    //Member member
-    public ResponseEntity<Void> deleteSnowglobe(@PathVariable(value = "snowglobe_id") Long sid, Member member) {
-        snowglobeService.deleteSnowglobe(sid, member.getMemberId());
+    public ResponseEntity<Void> deleteSnowglobe(@PathVariable(value = "snowglobe_id") Long sid, @ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
+        snowglobeService.deleteSnowglobe(sid, member.getId());
         return ResponseEntity.ok().build();
     }
 
