@@ -7,9 +7,9 @@ interface SnowballType {
   c_tree_id: number
   building_id: number
   snowman_id: number
-  plants_id: number
-  light_id: number
-  objet_id: number
+  objet1_id: number
+  objet2_id: number
+  objet3_id: number
   pets_id: number
   music_id: number
 
@@ -21,9 +21,9 @@ const initialState: SnowballType = {
     c_tree_id: 0,
     building_id: 0,
     snowman_id: 0,
-    plants_id: 0,
-    light_id: 0,
-    objet_id: 0,
+    objet1_id: 0,
+    objet2_id: 0,
+    objet3_id: 0,
     pets_id: 0,
     music_id: 0,
     }
@@ -37,6 +37,16 @@ export const SnowballSlice = createSlice({
     setCurrentSb: (state: SnowballType, action) => {
       state.current_sb_id = action.payload.snowglobeId
       state.c_tree_id = action.payload.deco[0].indicator
+      state.building_id = action.payload.deco[1].indicator
+      state.snowman_id = action.payload.deco[2].indicator
+      state.objet1_id = action.payload.deco[3].indicator
+      state.objet2_id = action.payload.deco[4].indicator
+      state.objet3_id = action.payload.deco[5].indicator
+      state.pets_id = action.payload.deco[6].indicator
+      state.music_id = action.payload.musicId
+
+
+
 
     },
     // minusCounter: (state: StateType, action: PayloadAction<number>) => {
