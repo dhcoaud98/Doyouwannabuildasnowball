@@ -69,8 +69,8 @@ const Home = () => {
           })
           .then((rs) => {
             dispatch(setCurrentSb(rs.data))
+            router(`/custommain/${res.data.memberId}`)
           })
-          router(`/custommain/${res.data.memberId}`)
       })
       // setTimeout(() => {
       //   navigate('/')

@@ -35,6 +35,8 @@ export function Navbar() {
       setNowPage('나의 스노우볼')
     } else if (location.pathname === '/welcome') {
       setNowPage('선물하기')
+    } else if (location.pathname === '/setnickname') {
+      setNowPage('닉네임 설정하기')
     } else {
       setNowPage('나의 친구 목록')
     }
