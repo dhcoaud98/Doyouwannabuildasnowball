@@ -1,0 +1,54 @@
+.tutorial_box{
+  width: 100%;
+  max-height: 80%;
+}
+
+.decoration {
+  width: 100%;
+  position: absolute;
+  z-index: 5;
+  bottom: 0;
+}
+
+.description_box {
+  position: relative;
+}
+
+.description {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 5;
+  padding-top: 30%;
+  top: 1%;
+}
+
+.welcome_text {
+  font-family: 'MaruBuri-Regular';
+  margin: 1%;
+  text-align: center;
+}
+
+
+.red_text {
+  color: #CE3929;
+}
+
+.welcome_button {
+  width: 35%;
+  height: 40%;
+  padding: 0;
+  margin: 3%;
+}
+
+.welcome_button_text {
+  font-family: 'MaruBuri-Regular';
+  margin: 0;
+  color: #6A1206;
+  font-size: 1.5rem;
+  font-weight: normal;
+}
+
+.green_text {
+ color: #4E5D39;
+}

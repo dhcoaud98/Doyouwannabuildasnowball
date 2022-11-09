@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
-const Navbar= () => {
+export function Navbar() {
   // 현재 페이지 확인
   const router = useNavigate();
   let location = useLocation();
@@ -33,6 +33,8 @@ const Navbar= () => {
       setNowPage('방명록')
     } else if (location.pathname === '/custommain/:userid') {
       setNowPage('나의 스노우볼')
+    } else if (location.pathname === '/welcome') {
+      setNowPage('선물하기')
     } else {
       setNowPage('나의 친구 목록')
     }
@@ -60,5 +62,3 @@ const Navbar= () => {
     </Grid>
   )
 }
-
-export default Navbar
