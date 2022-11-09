@@ -3,7 +3,7 @@ import  { Unity, useUnityContext } from "react-unity-webgl"
 import { useEffect } from "react";
 
 // axios
-// import { axiosGet } from "./api/axios"
+import "./unitybackground.css"
 
 
 function UnityBackground() {
@@ -41,8 +41,7 @@ function UnityBackground() {
   return (
       <div>
         {/* <MainContainer/> */}
-        <Unity unityProvider = {unityProvider}/>
-        <button onClick={() => SendRequest()}>do</button>
+        <Unity unityProvider = {unityProvider} devicePixelRatio={window.devicePixelRatio}/>
       </div>
     )
 }

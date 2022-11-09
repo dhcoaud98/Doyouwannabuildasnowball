@@ -1,7 +1,7 @@
 // Systems
 
 // Other components
-import Navbar from "../components/navbar/navbar";
+import { Navbar } from "../components/navbar/navbar";
 import styles from "./collection.module.css"
 import deco1Img from "../assets/images/deco1.png"
 import woodbar2Img from "../assets/images/woodbar2.png"
@@ -11,15 +11,15 @@ import { Grid } from '@mui/material';
 
 // ------------------------------------------------------------------------
 
-const Collection= () => {
+function Collection() {
   return (
       <div id="container_div">
         <Grid container id="container_div">
           {/* 왼쪽 마진 */}
-          <Grid xs={0} sm={2} md={3} xl={4} item id="left_div"></Grid>
+          <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="left_div"></Grid>
 
           {/* 메인 콘텐츠 */}
-          <Grid xs={12} sm={8} md={6} xl={4} item id="main_div">
+          <Grid xs={12} sm={8} md={6} lg={4} xl={3} item id="main_div">
             
             {/*모바일 위 여백*/}
             <div className={styles.navbar_top_margin}>
@@ -61,7 +61,7 @@ const Collection= () => {
 
           </Grid>
           {/* 오른쪽 마진 */}
-          <Grid xs={0} sm={2} md={3} xl={4} item id="right_div"></Grid>
+          <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="right_div"></Grid>
         </Grid>
       </div>
     )
