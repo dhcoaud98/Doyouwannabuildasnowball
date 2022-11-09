@@ -20,13 +20,10 @@ window.Buffer = window.Buffer || require("buffer").Buffer;
 export function MainContainer() {
   // 변수 선언
   const target = useRef()
-  let [env,setEnv] = useState(0)
 
 
   // 이미지 업로드 함수
   const saveImage = (sb_id) => {  
-    setEnv(1)
-
     // canvas to blob
     const imgBase64 = target.current.toDataURL('image/png')
     const decodeImg = atob(imgBase64.split(',')[1])
@@ -51,7 +48,6 @@ export function MainContainer() {
       .uploadFile(file, filename)
       .then(data => {
         console.log(data)
-        setEnv(0)
       })
       .catch(err => console.log(err))
   }

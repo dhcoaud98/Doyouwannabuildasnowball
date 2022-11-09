@@ -1,6 +1,6 @@
 // Systems
 import { useNavigate, useParams } from "react-router-dom"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {useSelector} from 'react-redux'
 import { RootState } from "../app/store";
 import axios from 'axios';
@@ -203,7 +203,7 @@ function CustomMain() {
                 ))}
               </StyledSpeedDial>
                 
-              <Button color="error" size='large' variant='outlined' className={`${noneAtCustomListFalse} ${styles.save_button}`}>저장</Button>
+              <Button color="error" size='large' variant='outlined' className={`${noneAtCustomListFalse} ${styles.save_button}`} onClick={() => saveCustom()}>저장</Button>
             </Grid>
           </Grid>
 

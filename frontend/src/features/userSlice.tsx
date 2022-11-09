@@ -25,6 +25,7 @@ export const userSlice = createSlice({
   reducers: {
     // action의 타입은 PayloadAction<제네릭> 으로 정의해준다.
     setUser: (state: UserType, action) => {
+      console.log(action.payload)
       state.userId = action.payload.memberId
       state.userName = action.payload.name
       state.nickname = action.payload.nickname
