@@ -1,5 +1,5 @@
 // Systems
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -35,6 +35,8 @@ const Home = () => {
   // const REDIRECT_URI = 'http://localhost:8080/api/oauth2/authorize/kakao'
   // const CLIENT_URL = "http://localhost:3000"
   // const OAUTH2_REDIRECT_URI = `?redirect_uri=${CLIENT_URL}`
+
+  const [isNewMember, setIsNewMember] = useState(false)
   
   // const navigate = useNavigate()
   const router = useNavigate();
@@ -43,10 +45,15 @@ const Home = () => {
     const code = window.location.search
     let param = new URLSearchParams(code);
     const accessToken = param.get('accessToken');
+    const newMember = param.get('newMember')
     console.log('code = ', code)
     console.log('accessToken = ', accessToken)
+    console.log('newMember = ', isNewMember)
 
-    if(accessToken) {
+    if (newMember === "true") {
+      setIsNewMember((prev) => true)
+    }
+    if (accessToken) {
       // console.log("현재 login됨")
       // console.log(accessToken)
       localStorage.setItem("accessToken", accessToken); // 토큰을 로컬 스토리지에 저장 === 로그인 함.
@@ -72,8 +79,11 @@ const Home = () => {
             console.log(rs.data)
             dispatch(setCurrentSb(rs.data))
           })
-          router(`/custommain/${res.data.memberId}`)
-
+          if (isNewMember === true) {
+            router('/tutorial')
+          } else {
+            router(`/custommain/${res.data.memberId}`)
+          }
       })
       
       // setTimeout(() => {
