@@ -100,7 +100,6 @@ oauth2:
   # 클라이언트 주소
     authorizedRedirectUri: https://mylittlesnowball.com
 #    authorizedRedirectUri: http://localhost:3000
-#  authorizedRedirectUri: https://j7a603.p.ssafy.io/oauth2/redirect
 
 cloud:
   aws:
@@ -123,6 +122,3 @@ logging:
           mongodb:
             core:
               MongoTemplate: debug
-
-kakao:
-  restapikey:

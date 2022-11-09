@@ -1,5 +1,6 @@
 package com.ssafy.doyouwannabuildasnowball.dto.friend;
 
+import java.util.Comparator;
 import java.util.List;
 
 import com.ssafy.doyouwannabuildasnowball.domain.Friend;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FriendRes {
+public class FriendRes implements Comparable<FriendRes>{
 	private Long memberId;
 	private String profileImageUrl;
 	private String nickname;
@@ -22,24 +23,6 @@ public class FriendRes {
     private int status;
     private int snowglobeRequestCnt;
     
-    
-//    public static FriendRes convert(Friend friend) {
-//    	
-//    	FriendRes friendInfo = new FriendRes();
-////    	friendInfo.memberId = friend.get
-////    	friendInfo.profileImageUrl = 
-////    	friendInfo.nickname
-////    	friendInfo.snowglobeId
-////    	friendInfo.friendId
-//    	
-//    	// status, snowglobeRequestCnt는 어느 목록 가져오느냐에 다라서 달라짐
-//    	friendInfo.status
-//    	
-//    	friend.follow = follow;
-//    	friend.followed = followed;
-//    	
-//        return friendInfo;
-//    }
     
     
     public static FriendRes find(FriendResInterface friendResInterface) {
@@ -77,4 +60,46 @@ public class FriendRes {
     	
     	return friendRes;
     }
+    
+    
+    
+    // 친구 목록 *리팩토링 01 
+    public static FriendRes combine(FriendDtoInterface friendDtoInterface, FriendMemberDtoInterface friendMemberDtoInterface) {
+    	FriendRes friendRes = new FriendRes();
+    	
+    	// FriendDtoInterface
+    	friendRes.memberId = friendDtoInterface.getMemberId();
+    	friendRes.friendId = friendDtoInterface.getFriendId();
+    	friendRes.status = friendDtoInterface.getStatus();
+    	friendRes.snowglobeRequestCnt = friendDtoInterface.getSnowglobeRequestCnt();
+    	
+    	// FriendMemberDtoInterface
+    	friendRes.nickname = friendMemberDtoInterface.getNickname();
+    	friendRes.profileImageUrl = friendMemberDtoInterface.getProfileImageUrl();
+    	friendRes.snowglobeId = friendMemberDtoInterface.getSnowglobeId();
+    	
+    	return friendRes;
+    }
+
+    
+    // 친구 목록 *리팩토링01 사용 시 status순으로 정렬, status 같을 경우 가나다순으로 정렬해주기 위해
+	@Override
+	public int compareTo(FriendRes friendRes) {
+		// TODO Auto-generated method stub
+		// status 기준 오름차순
+		if(friendRes.status < this.status) {
+			return 1;
+		} else if(friendRes.status > this.status) {
+			return -1;
+		} else { // status가 같으면
+			// nickname순으로 오름차순
+			return nickname.compareTo(friendRes.nickname);	
+			// nickname순으로 내림차순
+//			return friendRes.nickname.compareTo(nickname);	
+		}
+	}
+
+
+    
+    
 }
