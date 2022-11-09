@@ -3,11 +3,13 @@ package com.ssafy.doyouwannabuildasnowball.service;
 import com.ssafy.doyouwannabuildasnowball.common.exception.DuplicateException;
 import com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
+import com.ssafy.doyouwannabuildasnowball.domain.Music;
 import com.ssafy.doyouwannabuildasnowball.domain.Snowglobe;
 import com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration;
 import com.ssafy.doyouwannabuildasnowball.dto.member.request.MemberUpdateRequest;
 import com.ssafy.doyouwannabuildasnowball.dto.member.response.MemberMeResponse;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
+import com.ssafy.doyouwannabuildasnowball.repository.jpa.MusicRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.SnowglobeRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.mongo.DecorationRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException.MEMBER_NOT_FOUND;
+import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException.MUSIC_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final SnowglobeRepository snowglobeRepository;
     private final DecorationRepository decorationRepository;
+    private final MusicRepository musicRepository;
 
     @Transactional(readOnly = true)
     public MemberMeResponse findByLoginMember(Long memberId) {
@@ -71,11 +75,8 @@ public class MemberService {
     @Transactional
     public Snowglobe makeDefaultSnowglobe(Long memberId) {
 
-        Optional<Member> memberOptional = memberRepository.findById(memberId);
-        Member member;
-        if (memberOptional.isPresent())
-            member = memberOptional.get();
-        else throw new NotFoundException(MEMBER_NOT_FOUND);
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundException(MEMBER_NOT_FOUND));
 
         // 새로운 스노우볼 생성
         Snowglobe defaultSnowball = snowglobeRepository.save(
@@ -85,14 +86,14 @@ public class MemberService {
                         .receiver(member)
                         .receiverSaved(true)
                         .screenshot(null)
-                        .music(null)
+                        .music(musicRepository.findById(1L).orElseThrow(()->new NotFoundException(MUSIC_NOT_FOUND)))
                         .build());
         // 스노우볼 아이디를 회원에게 저장
         memberRepository.updateSnowglobeIdById(member.getMemberId(), defaultSnowball.getSnowglobeId());
 
-
         return defaultSnowball;
     }
+
     public MemberMeResponse userInfo(Long memberId) {
         Optional<Member> memberOptional = memberRepository.findById(memberId);
         if(memberOptional.isPresent()) {

@@ -50,6 +50,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 해당 memberId 갖는 유저의 정보 가져오기
     @Query(value="SELECT member_id memberId, profile_image_url profileImageUrl, nickname, snowglobe_id snowglobeId " + 
     		"FROM member " + 
-    		"WHERE member_id IN (:memberIdList)", nativeQuery = true)
-    List<FriendMemberDtoInterface> getAllFriendInfo(@Param("memberIdList")  List<Long> memberIdList);
+    		"WHERE member_id IN (:memberIdList) " + 
+    		"ORDER BY memberId", nativeQuery = true)
+    List<FriendMemberDtoInterface> getAllFriendInfo(@Param("memberIdList") List<Long> memberIdList);
 }

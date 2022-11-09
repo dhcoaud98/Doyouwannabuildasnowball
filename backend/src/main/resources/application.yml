@@ -25,7 +25,11 @@ spring:
 #    password: ssafy
 
     # ec2 DB에 연결
+<<<<<<< HEAD
     url: jdbc:mysql://k7a601.p.ssafy.io:3306/snowball?useSSL=false&useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+=======
+    url: jdbc:mysql://k7a601.p.ssafy.io:3306/snowball?useSSL=false&useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
+>>>>>>> backend
     username: ssafy
     password: mylittlesnowball601!
 
@@ -48,7 +52,7 @@ spring:
 
       # ec2 server setting
       username: ssafy
-      password: mylittlesnowball601!
+      password: !601mylittlesnowball
       host: k7a601.p.ssafy.io
       port: 27017
       database: snowball
@@ -100,7 +104,10 @@ oauth2:
   # 클라이언트 주소
     authorizedRedirectUri: https://mylittlesnowball.com
 #    authorizedRedirectUri: http://localhost:3000
+<<<<<<< HEAD
 #  authorizedRedirectUri: https://j7a603.p.ssafy.io/oauth2/redirect
+=======
+>>>>>>> backend
 
 cloud:
   aws:
@@ -123,6 +130,3 @@ logging:
           mongodb:
             core:
               MongoTemplate: debug
-
-kakao:
-  restapikey:

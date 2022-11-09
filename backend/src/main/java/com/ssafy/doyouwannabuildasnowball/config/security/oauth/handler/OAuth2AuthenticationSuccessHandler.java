@@ -1,13 +1,16 @@
 package com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler;
 
 import com.ssafy.doyouwannabuildasnowball.common.exception.BadRequestException;
+import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.CustomUserDetails;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.util.CookieUtil;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.JWT.JwtTokenProvider;
 import com.ssafy.doyouwannabuildasnowball.config.security.repository.CookieAuthorizationRequestRepository;
+import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.SimpleAliasRegistry;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -39,7 +42,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("[OAut2AuthenticationSuccessHandler] on Authentication Success");
         String targetUrl = determineTargetUrl(request, response, authentication);
-        System.out.println("targetUrl = " + targetUrl);
+        log.info("target url : " + targetUrl);
         if (response.isCommitted()) {
             log.debug("Response has already been committed");
             return;
@@ -49,7 +52,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        log.info("[Authentication Success handler] determine target url");
+        log.info("[determineTargetUrl] determine target url");
         Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
 
@@ -57,13 +60,29 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             throw new BadRequestException("redirect URIs are not matched");
         }
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
-        System.out.println("targetUrl 2 = " + targetUrl);
         // JWT 생성
         String accessToken = tokenProvider.createAccessToken(authentication);
+
+
+        boolean isNewMember = true;
+        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+        Long id = Long.valueOf(user.getName());
+        Optional<Member> registeredMemberOptional = memberRepository.findById(id);
+        if(registeredMemberOptional.isPresent() && registeredMemberOptional.get().getRefreshToken() != null)
+            isNewMember = false;
+
         tokenProvider.createRefreshToken(authentication, response);
-        System.out.println("accessToken = " + accessToken);
+//        log.info("[authentication log]");
+//        log.info("name : " + authentication.getName());
+//        log.info("authorities : " + authentication.getAuthorities().toString());
+//        log.info("authentication detail : " + authentication.getDetails().toString());
+//        log.info("access token: {} ", accessToken);
+
+
+        log.info("[determineTargetUrl] access token : " + accessToken);
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("accessToken", accessToken)
+                .queryParam("newMember", isNewMember)
                 .build().toUriString();
     }
 
