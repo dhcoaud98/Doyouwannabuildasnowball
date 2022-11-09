@@ -30,6 +30,7 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import AppsIcon from '@mui/icons-material/Apps';
+import HandshakeIcon from '@mui/icons-material/Handshake';
 
 // ------------------------------------------------------------------------
 
@@ -115,7 +116,18 @@ function CustomMain() {
         console.log(error)
       })
     } 
-    // ㄷ.친구삭제
+    // ㄷ.친구요청 받기
+    const recieveRequest = () => {
+      axios.patch(`${APIURL}api/friend/request/${ownerUserID}?memberId=${nowUserID}`)
+      .then((response) => {
+        // console.log("새로 받은 데이터 = ", res.data);
+        console.log('우리 이제 칭긔칭긔!')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+    // ㄹ.친구삭제
     const deleteFriend= () => {
       axios.delete(`${APIURL}api/friend/list/${ownerUserID}`)
       .then((response) => {
@@ -132,25 +144,46 @@ function CustomMain() {
       { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
       { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
       { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection}
-
-    ]
-    )
+    ])
     // 여기서부터는 현재 서비스 사용자와 현재 페이지 소유자가 같은지 여부에 따라 달라지는 변수들
     const [customMenuName, setCustomMenuName] = useState("꾸미기")
 
     // 컴포넌트 실행시 가장 먼저 실행되는 함수 
     useEffect(() => {
+      // 지금 여기 누구 페이지야? 묻는 액시오스
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {
         console.log(response.data)
         if (ownerUserID !== nowUserID) {
           setOwnerUserNickName((prev) => response.data.nickname)
-          setActions((prev) => [
-            { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
-            { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
-            { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},
-          ])
           setCustomMenuName((prev) => "선물하기")
+
+          // 어? 내 페이지 아니네, 그럼 이 페이지 주인 나랑 친구야? 묻는 액시오스
+          axios.get(`${APIURL}api/friend/status/${ownerUserID}`)
+          .then((response) => {
+            console.log(response.data)
+            if (response.data.status === 0) {
+              setActions((prev) => [
+                { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+                { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
+              ])
+            } else if (response.data.status === 1) {
+              setActions((prev) => [
+                { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+                { icon: <HandshakeIcon />, name: '친구추가받기', eventFunc: recieveRequest},
+              ])
+            } else if (response.data.status === 2) {
+              setActions((prev) => [
+                { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+                { icon: <PersonAddAlt1Icon />, name: '친구요청됨', eventFunc: requestBeFriend},
+              ])
+            } else {
+              setActions((prev) => [
+                { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+                { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},
+              ])
+            }
+          })
         }
       })
       .catch((error) => {
@@ -199,7 +232,7 @@ function CustomMain() {
                 {/* 내 메인페이지인지에 따라 바뀜 */}
                 {/* 여기가 추후에 myActions가 아닌 actions로 바뀔 것 */}
                 {actions.map((action) => (
-                  <SpeedDialAction key={action.name} icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={() => action.eventFunc()}/>
+                  <SpeedDialAction key={action.name} open={action.name==="친구요청됨" ? true : false }  icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={() => action.eventFunc()}/>
                 ))}
               </StyledSpeedDial>
                 
