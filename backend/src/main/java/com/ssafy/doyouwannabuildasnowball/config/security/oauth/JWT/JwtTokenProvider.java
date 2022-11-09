@@ -28,8 +28,9 @@ public class JwtTokenProvider {
     private final String SECRET_KEY;
     private final String COOKIE_REFRESH_TOKEN_KEY;
 
-    private long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 60 * 60 * 24;
-    private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L * 60 * 60 * 24 * 7;    // 1week
+    private long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L;
+//    private long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 60 * 60 * 24;
+    private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L *  7;    // 1week
     private final String AUTHORITIES_KEY = "role";
 
 

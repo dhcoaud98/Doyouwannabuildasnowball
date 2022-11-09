@@ -17,7 +17,7 @@ import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.MusicRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.SnowglobeRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.mongo.DecorationRepository;
-import javafx.embed.swing.SwingNode;
+//import javafx.embed.swing.SwingNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
