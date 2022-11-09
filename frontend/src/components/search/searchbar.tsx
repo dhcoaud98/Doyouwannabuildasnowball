@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-
+import Button from '@mui/material/Button'
+import ClearIcon from '@mui/icons-material/Clear';
+import Grid from '@mui/material/Grid';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -41,31 +43,37 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export function SearchBar() {
+const SearchBar = (props : any) => {
   const [text, setText] = useState('');
   
   const onChange = (e: any) => {
     setText(e.target.value);
-    console.log('지금 검색 이름 = ', e.target.value)
+    // console.log('지금 검색 이름 = ', e.target.value)
   };
-
-
-  // 친구 목록 검색 axios
-  
 
   return (
     <Search id='css-xkcxz9'>
-      <SearchIconWrapper >
-        <SearchIcon sx={{ ml: 1 }}/>
-      </SearchIconWrapper>
+
+
       {/* <input onChange={onChange} value={text}  /> */}
+      <Grid>
+
       <StyledInputBase
         className='css-3zl9sa-MuiInputBase-root MuiInputBase-input'
         placeholder="친구를 검색하세요"
         inputProps={{ 'aria-label': 'search' }}
         onChange={onChange}
         value={text}
-      />
+        />
+      </Grid>
+      <Button onClick={() => props.setData(text) } >
+        <SearchIcon />
+      </Button>
+      <Button>
+        <ClearIcon onClick={() => props.setData('')} />
+      </Button>
     </Search>
     )
 }
+
+export default SearchBar;
