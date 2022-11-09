@@ -59,9 +59,11 @@ const SearchBar = (props : any) => {
         onChange={onChange}
         value={text}
         />
+      {/* 검색어 삭제 */}
       <Button>
         <ClearIcon onClick={() => {props.setData(''); setText('')}} />
       </Button>
+      {/* 검색어 입력 */}
       <Button onClick={() => props.setData(text) } >
         <SearchIcon />
       </Button>
