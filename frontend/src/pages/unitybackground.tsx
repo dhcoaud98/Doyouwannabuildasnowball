@@ -3,13 +3,13 @@ import  { Unity, useUnityContext } from "react-unity-webgl"
 import { useEffect } from "react";
 
 // axios
-import "./unitybackground.css"
+// import "./unitybackground.css"
 
 
 function UnityBackground() {
 
   // Unity Embed
-  const { unityProvider, sendMessage, addEventListener, removeEventListener } = useUnityContext({
+  const { unityProvider, sendMessage, addEventListener, removeEventListener, requestFullscreen } = useUnityContext({
     loaderUrl: "Build/Project.loader.js",
     dataUrl: "Build/Project.data",
     frameworkUrl: "Build/Project.framework.js",
@@ -41,7 +41,8 @@ function UnityBackground() {
   return (
       <div>
         {/* <MainContainer/> */}
-        <Unity unityProvider = {unityProvider} devicePixelRatio={window.devicePixelRatio}/>
+        <Unity unityProvider = {unityProvider}/>
+        <button onClick={() => requestFullscreen(true)}>click</button>
       </div>
     )
 }
