@@ -52,19 +52,19 @@ const SearchBar = (props : any) => {
 
   return (
     <Search id='css-xkcxz9' className={styles.searchbarBody}>
-        <StyledInputBase
-          className='css-3zl9sa-MuiInputBase-root MuiInputBase-input'
-          placeholder="친구를 검색하세요"
-          inputProps={{ 'aria-label': 'search' }}
-          onChange={onChange}
-          value={text}
-          />
-        <Button>
-          <ClearIcon onClick={() => {props.setData(''); setText('')}} />
-        </Button>
-        <Button onClick={() => props.setData(text) } >
-          <SearchIcon />
-        </Button>
+      <StyledInputBase
+        className='css-3zl9sa-MuiInputBase-root MuiInputBase-input'
+        placeholder="친구를 검색하세요"
+        inputProps={{ 'aria-label': 'search' }}
+        onChange={onChange}
+        value={text}
+        />
+      <Button>
+        <ClearIcon onClick={() => {props.setData(''); setText('')}} />
+      </Button>
+      <Button onClick={() => props.setData(text) } >
+        <SearchIcon />
+      </Button>
     </Search>
     )
 }
