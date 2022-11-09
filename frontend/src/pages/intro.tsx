@@ -58,6 +58,7 @@ const Home = () => {
       // console.log(accessToken)
       localStorage.setItem("accessToken", accessToken); // 토큰을 로컬 스토리지에 저장 === 로그인 함.
       console.log("localStorage = ", window.localStorage)
+
       axios({
         method: "GET",
         url: `${APIURL}api/member/me`,
