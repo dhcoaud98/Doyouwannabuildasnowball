@@ -183,12 +183,14 @@ function Profile (props:any) {
 
   // 친구 검색
   const searchFriend = (data:string) => {
+    console.log(data);
+    
     axios.get(`${APIURL}api/friend/search/${data}`, {     
       headers: {
         Authorization: `Bearer ${accessToken}`
     }})
       .then(res => {
-        console.log(res.data)
+        console.log("확인",res.data)
         setSearchFriends(res.data)
       })
   }

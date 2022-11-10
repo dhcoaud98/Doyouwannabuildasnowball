@@ -3,6 +3,15 @@ import * as React from 'react';
 
 // Other components
 import styles from './customlist.module.css'
+import Tree_1 from '../../assets/images/tree_btn_images/tree_1.png' 
+import Tree_2 from '../../assets/images/tree_btn_images/tree_2.png' 
+import Tree_3 from '../../assets/images/tree_btn_images/tree_3.png' 
+import Tree_4 from '../../assets/images/tree_btn_images/tree_4.png' 
+import Tree_5 from '../../assets/images/tree_btn_images/tree_5.png' 
+import Tree_6 from '../../assets/images/tree_btn_images/tree_6.png' 
+import Tree_7 from '../../assets/images/tree_btn_images/tree_7.png' 
+import Tree_8 from '../../assets/images/tree_btn_images/tree_8.png' 
+import Tree_9 from '../../assets/images/tree_btn_images/tree_9.png' 
 
 // MUI
 import { Tabs, Tab, Box, Button, Grid } from '@mui/material';
