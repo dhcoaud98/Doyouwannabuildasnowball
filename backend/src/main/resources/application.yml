@@ -48,7 +48,7 @@ spring:
 
       # ec2 server setting
       username: ssafy
-      password: !601mylittlesnowball
+      password: 601mylittlesnowball!
       host: k7a601.p.ssafy.io
       port: 27017
       database: snowball
