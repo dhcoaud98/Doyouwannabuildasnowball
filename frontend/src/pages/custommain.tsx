@@ -35,11 +35,19 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 // ------------------------------------------------------------------------
 
 function CustomMain() {
+  // 타입선언
+  interface saveHandle {
+    saveImage: (sb_id : number) => void
+  }
+
   const APIURL = API_URL()
 
   // 라우터
   const router = useNavigate()
-
+  // 자식 컴포넌트 Ref
+  const containerRef = useRef<saveHandle>()
+  // 현재 띄우는 스노우볼 id
+  const currentSbId = useSelector((state: RootState) => state.snowball.current_sb_id)
   // 현재 CustomMain의 Owner ID
   let ownerUserID = Number(useParams().userid)
   // 현재 서비스 사용자아이디
@@ -70,6 +78,7 @@ function CustomMain() {
     })
     .then(()=>{
       console.log('성공')
+      containerRef?.current?.saveImage(currentSbId)
     })
     .catch((error)=>{
       console.log(error);
@@ -244,7 +253,7 @@ function CustomMain() {
           {/* Three.js */}
           {/* 꾸미기 상태 비활성화 */}
           <Grid component="div" item xs={9} className={noneAtCustomListTrue}>
-            <MainContainer/>
+            <MainContainer ref={containerRef}/>
             {/* 마을 놀러가기 버튼 */}
             <div className={styles.container}>
               <div className={`${styles.button} ${styles.btn_clickable}`}>

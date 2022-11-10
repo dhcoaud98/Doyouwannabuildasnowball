@@ -9,7 +9,7 @@ import * as THREE from "three"
 import { Group } from "./Group"
 
 // React
-import { Suspense, useEffect, useRef, useState } from "react"
+import { Suspense, useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react"
 // S3
 import S3 from 'react-aws-s3';
 
@@ -17,9 +17,12 @@ import S3 from 'react-aws-s3';
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 
-export function MainContainer() {
+export const MainContainer = forwardRef((props, ref) => {
   // 변수 선언
   const target = useRef()
+  useImperativeHandle(ref, () => ({
+    saveImage
+  }))
 
 
   // 이미지 업로드 함수
@@ -77,4 +80,4 @@ export function MainContainer() {
     </div>
     
   )
-}
+})
