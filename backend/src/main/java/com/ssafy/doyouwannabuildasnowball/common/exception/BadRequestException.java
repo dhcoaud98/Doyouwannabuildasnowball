@@ -10,6 +10,7 @@ public class BadRequestException extends RuntimeException{
     public static final String SNOWGLOBE_BAD_REQUEST = "유효하지 않은 스노우볼입니다.";
     public static final String DECORATION_BAD_REQUEST = "유효하지 않은 요소입니다.";
     public static final String MUSIC_BAD_REQUEST = "유효하지 않은 음악입니다.";
+    public static final String FRIEND_BAD_REQUEST = "유효하지 않은 친구 관계입니다.";
 
     public BadRequestException(String message) {
         super(message);

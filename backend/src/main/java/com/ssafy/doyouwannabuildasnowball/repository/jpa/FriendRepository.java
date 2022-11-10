@@ -14,6 +14,17 @@ import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendResInterface;
 
 
 public interface FriendRepository extends JpaRepository<Friend, Long> {
+	
+	
+	// 친구 요청 전 해당 friend 데이터 있는지 확인
+	// JPQL 코드 에러남
+	@Query("SELECT f FROM Friend AS f WHERE (f.follow.memberId = :myMemberId AND f.followed.memberId = :yourMemberId) OR (f.follow.memberId = :yourMemberId AND f.followed.memberId = :myMemberId)")
+//	@Query(value="SELECT * FROM Friend WHERE (follow_id = :myMemberId AND followed_id = :yourMemberId) OR (follow_id = :yourMemberId AND followed_id = :myMemberId)", nativeQuery = true)
+	Friend findFriend(@Param("myMemberId") Long myMemberId, @Param("yourMemberId") Long yourMemberId);
+	
+	
+	
+	
 
 	// 방법 1, 방법 2 보류
 	
@@ -96,9 +107,6 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 //			"(SELECT ask_id, count(*) snowglobeRequestCnt FROM request WHERE asked_id = :userId GROUP BY ask_id) r ON fnm.memberId = r.ask_id " + 
 //			"WHERE nickname like "%:keyword%" ORDER BY nickname", nativeQuery = true)
 //	public List<FriendResInterface> getAllFriends(@Param("userId") Long userId, @Param("keyword") String keyword);
-	
-	// 검색 결과 내 친구 아닌 유저들
-//	public List<FriendResInterface> getAllUsersByKeyword(@Param("userId") Long userId, @Param("keyword") String keyword);
 	
 	
 	// 나와 친구 관계 있는 유저들의 memberId 찾기
