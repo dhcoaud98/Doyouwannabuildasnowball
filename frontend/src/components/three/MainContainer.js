@@ -70,7 +70,7 @@ export function MainContainer() {
             <Center onCentered={({ container, height }) => container.scale.setScalar(0.05)}>
                 <Group/>    
             </Center>
-            <Environment preset="warehouse" background={false} />
+            <Environment preset="dawn" background={false} />
           </Suspense>
           
         </Canvas>
