@@ -36,7 +36,7 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 
 function CustomMain() {
   const APIURL = API_URL()
-
+  const accessToken = localStorage.getItem("accessToken")
   // 라우터
   const router = useNavigate()
 
@@ -101,7 +101,11 @@ function CustomMain() {
     // 2.남의 메인페이지일 경우 스피드 다이얼 함수 구성
     // ㄱ.선물하기
     const giftSnowBall = () => {   
-      setCustomListState((prev) => true)
+      if (nowUserID === 0) {
+        router('/welcome')
+      } else {
+        setCustomListState((prev) => true)
+      }
     }
     // ㄴ.친구요청 보내기
     const requestBeFriend = () => {
@@ -159,9 +163,13 @@ function CustomMain() {
           setCustomMenuName((prev) => "선물하기")
 
           // 어? 내 페이지 아니네, 그럼 이 페이지 주인 나랑 친구야? 묻는 액시오스
-          axios.get(`${APIURL}api/friend/status/${ownerUserID}`)
+          axios.get(`${APIURL}api/friend/status/${ownerUserID}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          })
           .then((response) => {
-            console.log(response.data)
+            console.log('friend status = ', response.data)
             if (response.data.status === 0) {
               setActions((prev) => [
                 { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
