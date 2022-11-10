@@ -9,7 +9,7 @@ export function C_Tree_05(props) {
   const { nodes, materials } = useGLTF('/C_tree/C_Tree_05.glb')
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.Christmas_Tree_2.geometry} material={materials['Mat.5']} />
+      <mesh geometry={nodes.Christmas_Tree_2.geometry} material={materials.Mat} />
     </group>
   )
 }

@@ -26,7 +26,7 @@ export function Snowglobe(props) {
     actions.animation_0.play()
   });
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} {...props} dispose={null} rotation={[0,360,0]}>
       <group>
         <group name="Null">
           <group name="Group001" position={[-0.19, -5.61, -1.6]} rotation={[-Math.PI / 2, 0, 3.05]}>

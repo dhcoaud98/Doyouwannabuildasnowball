@@ -9,7 +9,7 @@ export function C_Tree_03(props) {
   const { nodes, materials } = useGLTF('/C_tree/C_Tree_03.glb')
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.christmastree.geometry} material={materials['Mat.4']} position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <mesh geometry={nodes.christmastree.geometry} material={materials['Mat.6']} position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <group position={[0.24, 1.38, 6.45]} scale={0.84}>
           <mesh geometry={nodes.sphere_red004_1.geometry} material={materials.christmas} />
         </group>
@@ -54,15 +54,15 @@ export function C_Tree_03(props) {
         </group>
         <mesh geometry={nodes.sphere_red004.geometry} material={materials.christmas} position={[-0.46, 0.62, 8.34]} scale={0.98} />
         <mesh geometry={nodes.sphere_blue004.geometry} material={materials.christmas} position={[-2.27, 0.89, 4.38]} scale={1.17} />
-        <mesh geometry={nodes.star.geometry} material={materials['Mat.7']} position={[-0.05, 0.36, 11.33]} rotation={[-0.59, 1.55, 0.39]}>
-          <mesh geometry={nodes.star_topper.geometry} material={materials['Mat.6']} position={[0.88, -0.06, -0.01]} rotation={[-1.52, -1.52, -1.51]} />
+        <mesh geometry={nodes.star.geometry} material={materials['Mat.3']} position={[-0.05, 0.36, 11.33]} rotation={[-0.59, 1.55, 0.39]}>
+          <mesh geometry={nodes.star_topper.geometry} material={materials['Mat.2']} position={[0.88, -0.06, -0.01]} rotation={[-1.52, -1.52, -1.51]} />
         </mesh>
         <mesh geometry={nodes.sphere_purple003.geometry} material={materials.christmas} position={[-2.42, 1.78, 2.32]} scale={1.38} />
         <mesh geometry={nodes.sphere_yellow002.geometry} material={materials.christmas} position={[-2.22, -1.59, 4.71]} scale={0.84} />
-        <mesh geometry={nodes.treetop001.geometry} material={materials['Mat.1']} position={[0.01, -0.14, 4.96]} />
-        <mesh geometry={nodes.treetop002.geometry} material={materials['Mat.2']} position={[0.01, -0.14, 5.85]} />
+        <mesh geometry={nodes.treetop001.geometry} material={materials['Mat.5']} position={[0.01, -0.14, 4.96]} />
+        <mesh geometry={nodes.treetop002.geometry} material={materials['Mat.4']} position={[0.01, -0.14, 5.85]} />
         <mesh geometry={nodes.treetop003.geometry} material={materials.Mat} position={[0.01, -0.14, 7.22]} />
-        <mesh geometry={nodes.treetop004.geometry} material={materials['Mat.5']} position={[-0.01, -0.06, 9.34]} />
+        <mesh geometry={nodes.treetop004.geometry} material={materials['Mat.1']} position={[-0.01, -0.06, 9.34]} />
       </mesh>
     </group>
   )
