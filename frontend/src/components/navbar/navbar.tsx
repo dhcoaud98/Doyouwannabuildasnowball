@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import '../../index.css'
 import styles from "./navbar.module.css"
@@ -24,7 +24,7 @@ export function Navbar() {
   }
 
   // console.log(router.pathname);
-  const [nowPage, setNowPage] = React.useState(' ');
+  const [nowPage, setNowPage] = useState(' ');
 
   useEffect(() => {
     if (location.pathname === '/collection') {

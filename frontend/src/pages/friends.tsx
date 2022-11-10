@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom';
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import axios from 'axios';
 import { useDispatch } from "react-redux";
 
@@ -28,8 +28,6 @@ import '../assets/fonts/font.css'
 import { DataArray } from '@mui/icons-material';
 // ------------------------------------------------------------------------
 
-// 컴포넌트
-const APIURL = API_URL
 
 // 모달 스타일
 const style = {
@@ -69,20 +67,21 @@ type Member = {
 }
 
 function Profile (props:any) {
-  // 라우터
-  // const router = useRouter();
-  // const accessToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiaXNzIjoic25vd2JhbGwiLCJpYXQiOjE2NjczNjMwMTAsImV4cCI6MTY2NzQ0OTQxMH0.Qy5pTKtpf_BTJxU4Qv6PWDmajOg_Ac1kGZArd3JcIfZ0bv2X60XgWXqWge1ZbjwwsV5tY6l9eHIEmox1eI2WjA'
-  // console.log("access token  : " , accessToken)
+  
+  // 토큰
   const accessToken = localStorage.getItem("accessToken")
+  // API
   const APIURL = API_URL()
-  
+  // 현재 유저 id
   const nowUser = useSelector((state : RootState)  => state.user.userId);
+  // 친구 목록
   const [friends, setfriends] = useState([]);
+  // 검색 목록
   const [searchFriends, setSearchFriends] = useState([]);
-  
+  // 검색어
   const [data, setData] = useState('');
 
-  // 친구 목록
+  // 친구 목록 axios
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
@@ -99,11 +98,12 @@ function Profile (props:any) {
       }
     }
 
-  // 시작할 때 친구 목록 불러오기
+  // 시작할 때 친구 목록 불러오기 
   useEffect(() => {
     fetchUsers();
   }, [])
 
+  // 검색 실행
   useEffect(() => {
     if (data !== '') {
       searchFriend(data)
@@ -155,7 +155,7 @@ function Profile (props:any) {
       },)
         .then(res => {
           // console.log("새로 받은 데이터 = ", res.data);
-          if (res.data==='fail') {
+          if (res.data ==='fail') {
             alert('요청이 불확실합니다.')
           }
         })
@@ -208,9 +208,8 @@ function Profile (props:any) {
       })
   }
 
-    
   // modal창 만들기
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = (member:Member) => {
     setOpen(true);
     setMember(member)
@@ -274,7 +273,7 @@ function Profile (props:any) {
                           <ListItemText primary={`${item.nickname}`} />
 
                           {/* 친구 검색을 통해 얻은 친구 목록에서 친구 요청 보내기 */}
-                          { item.status == 0 ? 
+                          { item.status === 0 ? 
                           <Button onClick={() =>(SearchFriendRequest(item.memberId))}>
                             <PersonAddIcon color="inherit" fontSize='large' />
                           </Button>
@@ -311,32 +310,32 @@ function Profile (props:any) {
                           <ListItemText primary={`${item.nickname}`} />
 
                           {/* 1. 편지 요청 버튼 => 3*/}
-                          { item.status == 3 ? 
+                          { item.status === 3 ? 
                             <Button onClick={() =>(requestLetter(item.memberId))}>  
                               <ForwardToInboxIcon color="error" fontSize='large' />
                             </Button>
                           : null }
                           {/* 2. 친구 신청 후 상대방이 받을 때까지 기다리는 버튼 => 2 */}
-                          { item.status == 2 ? 
+                          { item.status === 2 ? 
                           <Button>
                             <AutorenewIcon color="disabled" fontSize='large' />
                           </Button>
                           : null }
                           {/* 3. 상대방이 나에게 친구 신청했는데 내가 안 받은 버튼 + 친구 신청 버튼 => 1 */}
-                          { item.status == 1 ? 
+                          { item.status === 1 ? 
                           <Button onClick={() =>(followFriend(item.friendId))}>
                             <PersonAddIcon color="inherit" fontSize='large' />
                           </Button>
                             : null }
                           {/* 친구 검색을 통해 얻은 친구 목록에서 친구 요청 보내기 */}
-                          { item.status == 0 ? 
+                          { item.status === 0 ? 
                           <Button onClick={() =>(SearchFriendRequest(item.memberId))}>
                             <PersonAddIcon color="inherit" fontSize='large' />
                           </Button>
                             : null }
                           {/* 4. 친구 삭제 버튼 => 1, 2, 3 */}
                           {/* onClick={deleteFriend(item.friendId)} */}
-                          { item.status == 1 || item.status == 2 || item.status == 3 ? 
+                          { item.status === 1 || item.status === 2 || item.status === 3 ? 
                           <Button onClick={() =>(deleteFriend(item.friendId))}>
                             <PersonRemoveIcon color="disabled" fontSize='large' />
                           </Button>
@@ -355,7 +354,7 @@ function Profile (props:any) {
 
         {/* 모달, 모달에 테마 적용 */}
         <ThemeProvider theme={theme}>
-        { member.snowglobeRequestCnt != 0 ? 
+        { member.snowglobeRequestCnt !== 0 ? 
           <Modal
             open={open}
             onClose={handleClose}
