@@ -1,15 +1,16 @@
 // Systems
 import * as React from 'react';
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom';
 import {useSelector} from 'react-redux'
 import axios from 'axios';
+import { useDispatch } from "react-redux";
 
 // Other components
 import "../index.css"
 import styles from "./friends.module.css"
 import { Navbar } from '../components/navbar/navbar';
-import { SearchBar } from '../components/search/searchbar';
+import SearchBar from '../components/search/searchbar';
 import { RootState } from '../app/store';
 import { API_URL } from "../switchurl"
 import decorationImg from "../assets/images/decoration.png"
@@ -24,6 +25,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import '../assets/fonts/font.css'
+import { DataArray } from '@mui/icons-material';
 // ------------------------------------------------------------------------
 
 // 컴포넌트
@@ -66,31 +68,47 @@ type Member = {
   status: number,
 }
 
-function Profile() {
+function Profile (props:any) {
   // 라우터
   // const router = useRouter();
   // const accessToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiaXNzIjoic25vd2JhbGwiLCJpYXQiOjE2NjczNjMwMTAsImV4cCI6MTY2NzQ0OTQxMH0.Qy5pTKtpf_BTJxU4Qv6PWDmajOg_Ac1kGZArd3JcIfZ0bv2X60XgWXqWge1ZbjwwsV5tY6l9eHIEmox1eI2WjA'
   // console.log("access token  : " , accessToken)
-
-  // const [nowUser, setNowUser] = useState(0);
-
+  const accessToken = localStorage.getItem("accessToken")
+  const APIURL = API_URL()
+  
   const nowUser = useSelector((state : RootState)  => state.user.userId);
   const [friends, setfriends] = useState([]);
+  const [searchFriends, setSearchFriends] = useState([]);
+  
+  const [data, setData] = useState('');
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-          `${APIURL}api/friend/list/${nowUser}` 
-        )
-        setfriends(response.data);
-        console.log("친구목록 = ", response.data)
-      } catch (err: any) {
-          console.log('errer = ', err)
-        }
+  // 친구 목록
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get(
+        `${APIURL}api/friend/list`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        } 
+      )
+      setfriends(response.data);
+      console.log("친구목록 = ", response.data)
+    } catch (err: any) {
+        console.log('errer = ', err)
       }
+    }
+
+  // 시작할 때 친구 목록 불러오기
+  useEffect(() => {
     fetchUsers();
   }, [])
+
+  useEffect(() => {
+    if (data !== '') {
+      searchFriend(data)
+    }
+  }, [data])
 
   // 모달에 들어가는 한명의 데이터
   let [member, setMember] = useState<Member>({
@@ -103,23 +121,29 @@ function Profile() {
     status: -1,
   })
 
-
   // 친구 삭제 함수
   const deleteFriend = (friendId : any) => {
-    axios.delete(`${APIURL}api/friend/list/${friendId}?memberId=${nowUser}`)
+    axios.delete(`${APIURL}api/friend/list/${friendId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
       .then(res => {
-        // console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data);
     })
   }
 
   // 친구 요청 받기
   const followFriend = (friendId : any) => {
-    axios.patch(`${APIURL}api/friend/request/${friendId}?memberId=${nowUser}`)
+    console.log(friendId)
+    axios.patch(`${APIURL}api/friend/request/${friendId}`, null, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
       .then(res => {
-        // console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data);
-
+        fetchUsers();
       })
   }
 
@@ -128,14 +152,14 @@ function Profile() {
     axios.post(`${APIURL}api/friend/snowglobe/request`, {
         "receiveMemberId" : memberId,
         "sendMemberId" : nowUser
-      })
+      },)
         .then(res => {
           // console.log("새로 받은 데이터 = ", res.data);
           if (res.data==='fail') {
             alert('요청이 불확실합니다.')
           }
         })
-        .catch(err => {
+        .catch(() => {
           alert('요청이 불확실합니다.')
         })
   }
@@ -156,7 +180,35 @@ function Profile() {
         handleClose();
       })
   }
-  
+
+  // 친구 검색
+  const searchFriend = (data:string) => {
+    axios.get(`${APIURL}api/friend/search/${data}`, {     
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+    }})
+      .then(res => {
+        console.log(res.data)
+        setSearchFriends(res.data)
+      })
+  }
+
+  // 검색한 친구에서 친구 요청하기
+  const SearchFriendRequest = (memberId : any) => {
+    axios.post(`${APIURL}api/friend/request`, 
+      {
+        "sendMemberId" : nowUser,
+        "receiveMemberId" : memberId
+      }
+    )
+      .then(res => {
+        // 다시 검색 요청
+        searchFriend(data);
+        fetchUsers();
+      })
+  }
+
+    
   // modal창 만들기
   const [open, setOpen] = React.useState(false);
   const handleOpen = (member:Member) => {
@@ -164,8 +216,6 @@ function Profile() {
     setMember(member)
   }
   const handleClose = () => setOpen(false);
-
-
 
   return (
       <div id="container_div">
@@ -187,9 +237,9 @@ function Profile() {
             
             {/* 여기는 서치바 */}
             <div className={styles.search}>
-              <SearchBar/>
+              <SearchBar setData={setData}/>
             </div>
-
+  
             {/* 장식 */}
             <div className={styles.deco}>
               <img src={decorationImg} alt="" className={styles.decoimag}/>
@@ -198,7 +248,45 @@ function Profile() {
             {/* 여기는 친구 목록 */}
             <div className={styles.friends}>
               <Container>
-                <Box component="div" sx={{ bgcolor: '#FFF8F3', height: '65vh' }}>
+              {/* 친구를 검색했을 경우 */}
+                <Box component="div" sx={{ bgcolor: '#FFF8F3', height: '30vh' }} className={data === '' ? styles.searchFriendList2 : styles.searchFriendList}>
+                    <List
+                      sx={{
+                        position: 'relative',
+                        width: '100%',
+                        bgcolor: '#FFF8F3',
+                        overflow: 'auto',
+                        maxHeight: '100%',
+                        '& ul': { padding: 0 },
+                      }}
+                    >
+                      {searchFriends.map((item:Member, index) => (
+                        <ListItem sx={{height: 100}} key={index}>
+                          
+                          <ListItemAvatar sx={{ mr:2 }}>
+                            <Badge color="error" badgeContent={item.snowglobeRequestCnt} max={100} onClick={() => handleOpen(item)}>
+                            <Avatar>
+                              <ImageIcon />
+                            </Avatar>
+                            </Badge>
+                            
+                          </ListItemAvatar>
+                          <ListItemText primary={`${item.nickname}`} />
+
+                          {/* 친구 검색을 통해 얻은 친구 목록에서 친구 요청 보내기 */}
+                          { item.status == 0 ? 
+                          <Button onClick={() =>(SearchFriendRequest(item.memberId))}>
+                            <PersonAddIcon color="inherit" fontSize='large' />
+                          </Button>
+                            : null }
+
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Box>
+                  
+                  {/* 내 친구 목록 */}
+                  <Box component="div" sx={{ bgcolor: '#FFF8F3' }} className={data === '' ? styles.myFriend2 : styles.myFriend}>
                     <List
                       sx={{
                         position: 'relative',
@@ -240,12 +328,19 @@ function Profile() {
                             <PersonAddIcon color="inherit" fontSize='large' />
                           </Button>
                             : null }
+                          {/* 친구 검색을 통해 얻은 친구 목록에서 친구 요청 보내기 */}
+                          { item.status == 0 ? 
+                          <Button onClick={() =>(SearchFriendRequest(item.memberId))}>
+                            <PersonAddIcon color="inherit" fontSize='large' />
+                          </Button>
+                            : null }
                           {/* 4. 친구 삭제 버튼 => 1, 2, 3 */}
                           {/* onClick={deleteFriend(item.friendId)} */}
+                          { item.status == 1 || item.status == 2 || item.status == 3 ? 
                           <Button onClick={() =>(deleteFriend(item.friendId))}>
                             <PersonRemoveIcon color="disabled" fontSize='large' />
                           </Button>
-
+                            : null }
                         </ListItem>
                       ))}
                     </List>
