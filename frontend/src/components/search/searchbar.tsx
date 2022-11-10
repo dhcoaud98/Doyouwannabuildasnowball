@@ -60,7 +60,7 @@ const SearchBar = (props : any) => {
         value={text}
         />
       {/* 검색어 삭제 */}
-      <Button>
+      <Button sx={{width: "1px"}}>
         <ClearIcon onClick={() => {props.setData(''); setText('')}} />
       </Button>
       {/* 검색어 입력 */}

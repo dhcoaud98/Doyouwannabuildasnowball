@@ -25,7 +25,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // ------------------------------------------------------------------------
 
-const APIURL = API_URL
+
 
 // 버튼 색
 const theme = createTheme({
@@ -88,11 +88,17 @@ const style = {
 function Board() {
   // 유저 정보
   const nowUserId = useAppSelector((state)  => state.user.userId);
-  
+  const snowglobeId = useAppSelector((state) => state.user.snowglobeId);
+  // 토큰
+  const accessToken = localStorage.getItem("accessToken")
+  // API
+  const APIURL = API_URL()
+  const formData = new FormData()
+
   // 메시지 배경 랜덤 제공
   let randomBackImage = randomImage(backImageRandom)
 
-  // 모달에 들어가는 메시지
+  // 모달에 들어가는 메시지 타입
   let [content, setContent] = useState<Content>({
     boardId: -1,
     content: " ",
@@ -134,7 +140,7 @@ function Board() {
     axios.post(`${APIURL}api/board/write`, {
         "content" : text,
         "picture" : imag,
-        "snowglobeId" : 1
+        "snowglobeId" : snowglobeId
     })
       .then(res => {
         console.log(res.data)
@@ -167,17 +173,18 @@ function Board() {
   // 3. 메시지 삭제
   const deleteMessage = (boardId: number) => {
     alert('삭제 하시겠습니까?')
-    // console.log('삭제?')
-    // console.log(boardId)
-    axios.delete(`${APIURL}${boardId}/delete`)
+    axios.delete(`${APIURL}api/board/${boardId}/delete`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
     .then(res => {
-      console.log(res)
       fetchMessages();
+      console.log(res)
     })
     .catch(err => {
       console.log(err)
     })
-
   }
 
   // 4. 메시지 수정
@@ -206,156 +213,163 @@ function Board() {
     fetchMessages();
   }
 
+  const handleFileInput = (e:any) => {
+    const fileArr = e.target.files;
+    console.log("이미지 확인 = ",fileArr[0]);
+    setImage(fileArr[0]);
+  }
+
   return (
     <ThemeProvider theme={theme}>
-        <div id="container_div">
-          <Grid container id="container_div">
-            {/* 왼쪽 마진 */}
-            <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="left_div"></Grid>
+      <div id="container_div">
+        <Grid container id="container_div">
+          {/* 왼쪽 마진 */}
+          <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="left_div"></Grid>
 
-            {/* 메인 콘텐츠 */}
-            <Grid xs={12} sm={8} md={6} lg={4} xl={3} item id="main_div">
-              
-              {/*모바일 위 여백*/}
-              <div className={styles.navbar_top_margin}>
-              </div>
+          {/* 메인 콘텐츠 */}
+          <Grid xs={12} sm={8} md={6} lg={4} xl={3} item id="main_div">
+            
+            {/*모바일 위 여백*/}
+            <div className={styles.navbar_top_margin}>
+            </div>
 
-              {/* 여기는 네브바 */}
-              <div className={styles.navbar}>
-                <Navbar/>
-              </div>
+            {/* 여기는 네브바 */}
+            <div className={styles.navbar}>
+              <Navbar/>
+            </div>
 
-              {/* 여기는 게시판 메인 */}
-              <div className={styles.board_body}>
-                <Container>
-                  <Box component="div" className={styles.board_body_box}>
-                    
-                    {/* 메시지 카드 */}
-                    <ImageList
-                      className={styles.board_card}
-                      sx={{
-                        // width: 500,
-                        // height: 450,
-                        height: '70vh',
-                        transform: 'translateZ(0)',
-                      }}
-                      rowHeight={200}
-                      gap={2}
-                    >
-                      {contents.map((item:Content) => {
-                        // const cols = item.featured ? 2 : 1;
-                        // const rows = item.featured ? 2 : 1;
-
-                        return (
-                          <ImageListItem key={item.boardId} sx={{ margin: 1 }}>
-                            <img
-                              {...srcset(item.imageUrl ? item.imageUrl: randomBackImage, 250, 200)}
-                              alt={item.content}
-                              loading="lazy"
-                            />
-                            <ImageListItemBar
-                              sx={{
-                                background:
-                                  'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-                                  'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-                              }}
-                              title={item.content}
-                              position="top"
-                              actionIcon={
-                                <IconButton
-                                  onClick={() => (handleOpen(item))}
-                                  sx={{ color: 'white' }}
-                                  aria-label={`edit ${item.content}`}
-                                >
-                                  <EditIcon/>
-                                </IconButton>
-                              }
-                              actionPosition="left"
-                            />
-                            {/* 방명록 하단 삭제 */}
-                            <ImageListItemBar
-                              sx={{
-                                background:
-                                  'linear-gradient(to bottom, rgba(0,0,0,0) 0%, ' +
-                                  'rgba(0,0,0,0) 0%, rgba(0,0,0,0) 0%)',
-                              }}
-                              position="bottom"
-                              actionIcon={
-                                <IconButton
-                                  onClick={()=> (deleteMessage(item.boardId))}
-                                  sx={{ color: 'white' }}
-                                  aria-label={`ClearIcon ${item.content}`}
-                                >
-                                  <ClearIcon/>
-                                </IconButton>
-                              }
-                              actionPosition="right"
-                            />
-                          </ImageListItem>
-                        );
-                      })}
-                    </ImageList>
-                  </Box>
+            {/* 여기는 게시판 메인 */}
+            <div className={styles.board_body}>
+              <Container>
+                <Box component="div" className={styles.board_body_box}>
                   
-                  {/* 메시지 수정용 모달 */}
-                  <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
+                  {/* 메시지 카드 */}
+                  <ImageList
+                    className={styles.board_card}
+                    sx={{
+                      // width: 500,
+                      // height: 450,
+                      height: '70vh',
+                      transform: 'translateZ(0)',
+                    }}
+                    rowHeight={200}
+                    gap={2}
                   >
-                    <Box component="div" sx={style}>
-                      <Button onClick = {()=>(handleClose())} sx={{m:0}}>
-                        <ArrowBackIcon />
-                      </Button>
-                      <Typography id="modal-modal-title" variant="h6" component="h2">
-                        메시지를 수정하세요
-                      </Typography>
-                      <Box component="div" className={styles.input_body}>
-                      <TextField 
-                        onChange={onChangeEdit} 
-                        value={editText} 
-                        sx={{ mr: 1 }}
-                        focused 
-                        placeholder={content.content}
-                        className={styles.input_box}/>
-                      <Button variant="contained" onClick={() => (uploadImg())} sx={{ mr: 1 }}><AddPhotoAlternateIcon/></Button>
-                      <Button variant="contained" onClick={() => (editMessage(content))}><SendIcon/></Button>
-                      </Box>
-                    </Box>
-                  </Modal>
+                    {contents.map((item:Content) => {
+                      // const cols = item.featured ? 2 : 1;
+                      // const rows = item.featured ? 2 : 1;
 
-                  {/* 글쓰기 버튼 */}
-                  <Box component="div" className={styles.input_body}>
-                    <TextField 
-                      onChange={onChange} 
-                      value={text} 
-                      sx={{ mr: 1 }}
-                      // label="내용을 입력하세요"
-                      // color="success"
-                      focused 
-                      placeholder="내용을 입력하세요" 
-                      className={styles.input_box}/>
-                    <Button variant="contained" onClick={() => (uploadImg())} sx={{ mr: 1 }}><AddPhotoAlternateIcon/></Button>
-                    <Button variant="contained" onClick={() => (sendMessage())}><SendIcon/></Button>
-                    </Box>
-                    <Button>
-                      <input type='file' 
-                        accept='image/jpg,impge/png,image/jpeg,image/gif' 
-                        name='profile_img' 
-                        onChange={onChangeImage}>
-                      </input>
+                      return (
+                        <ImageListItem key={item.boardId} sx={{ margin: 1 }}>
+                          <img
+                            {...srcset(item.imageUrl ? item.imageUrl: randomBackImage, 250, 200)}
+                            alt={item.content}
+                            loading="lazy"
+                          />
+                          <ImageListItemBar
+                            sx={{
+                              background:
+                                'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+                                'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                            }}
+                            title={item.content}
+                            position="top"
+                            actionIcon={
+                              <IconButton
+                                onClick={() => (handleOpen(item))}
+                                sx={{ color: 'white' }}
+                                aria-label={`edit ${item.content}`}
+                              >
+                                <EditIcon/>
+                              </IconButton>
+                            }
+                            actionPosition="left"
+                          />
+                          {/* 방명록 하단 삭제 */}
+                          <ImageListItemBar
+                            sx={{
+                              background:
+                                'linear-gradient(to bottom, rgba(0,0,0,0) 0%, ' +
+                                'rgba(0,0,0,0) 0%, rgba(0,0,0,0) 0%)',
+                            }}
+                            position="bottom"
+                            actionIcon={
+                              <IconButton
+                                onClick={()=> (deleteMessage(item.boardId))}
+                                sx={{ color: 'white' }}
+                                aria-label={`ClearIcon ${item.content}`}
+                              >
+                                <ClearIcon/>
+                              </IconButton>
+                            }
+                            actionPosition="right"
+                          />
+                        </ImageListItem>
+                      );
+                    })}
+                  </ImageList>
+                </Box>
+                
+                {/* 메시지 수정용 모달 */}
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box component="div" sx={style}>
+                    <Button onClick = {()=>(handleClose())} sx={{m:0}}>
+                      <ArrowBackIcon />
                     </Button>
-                </Container>
-              </div>
-              
-            </Grid>
-            {/* 오른쪽 마진 */}
-            <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="right_div"></Grid>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                      메시지를 수정하세요
+                    </Typography>
+                    <Box component="div" className={styles.input_body}>
+                    <TextField 
+                      onChange={onChangeEdit} 
+                      value={editText} 
+                      sx={{ mr: 1 }}
+                      focused 
+                      placeholder={content.content}
+                      className={styles.input_box}/>
+                    <Button variant="contained" onClick={() => (uploadImg())} onChange={e => handleFileInput(e)} sx={{ mr: 1 }}><AddPhotoAlternateIcon/></Button>
+                    <Button variant="contained" onClick={() => (editMessage(content))}><SendIcon/></Button>
+                    </Box>
+                  </Box>
+                </Modal>
+
+                {/* 글쓰기 버튼 */}
+                <Box component="div" className={styles.input_body}>
+                  <TextField 
+                    onChange={onChange} 
+                    value={text} 
+                    sx={{ mr: 1 }}
+                    // label="내용을 입력하세요"
+                    // color="success"
+                    focused 
+                    placeholder="내용을 입력하세요" 
+                    className={styles.input_box}/>
+                  <Button variant="contained" onClick={() => (uploadImg())} sx={{ mr: 1 }}><AddPhotoAlternateIcon/></Button>
+                  <Button variant="contained" onClick={() => (sendMessage())}><SendIcon/></Button>
+                  </Box>
+                  {/* <Button> */}
+                    <input type='file' 
+                      accept='image/jpg,impge/png,image/jpeg,image/gif' 
+                      name='profile_img' 
+                      onChange={e => handleFileInput(e)}
+                      >
+                    </input>
+                  {/* </Button> */}
+              </Container>
+            </div>
+            
           </Grid>
-        </div>
-      </ThemeProvider>
-    )
+          {/* 오른쪽 마진 */}
+          <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="right_div"></Grid>
+        </Grid>
+      </div>
+    </ThemeProvider>
+  )
 }
 
 export default Board
