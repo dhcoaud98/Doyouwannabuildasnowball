@@ -97,6 +97,7 @@ token:
   secret: secretcode
   refresh-cookie-key: refresh
 
+
 oauth2:
   # 클라이언트 주소
     authorizedRedirectUri: https://mylittlesnowball.com
