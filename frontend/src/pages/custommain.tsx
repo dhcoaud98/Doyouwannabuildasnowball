@@ -164,6 +164,7 @@ function CustomMain() {
     // 컴포넌트 실행시 가장 먼저 실행되는 함수 
     useEffect(() => {
       // 지금 여기 누구 페이지야? 묻는 액시오스
+      console.log('ownerUserID',  ownerUserID)
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {
         console.log(response.data)
