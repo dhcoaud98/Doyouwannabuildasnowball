@@ -61,7 +61,6 @@ public class FriendController {
     public ResponseEntity<FriendStatusRes> getFriendStatus(@ApiIgnore @AuthenticationPrincipal CustomUserDetails member, @PathVariable Long checkMemberId) {
     	
     	return ResponseEntity.ok(friendService.getFriendStatus(member.getId(), checkMemberId));
-//        return ResponseEntity.ok(friendService.getFriendStatus(myMemberId, yourMemberId));
 //        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     
@@ -71,17 +70,10 @@ public class FriendController {
     @GetMapping("/list")
     public ResponseEntity<List<FriendRes>> getAllFriendInfo(@ApiIgnore @AuthenticationPrincipal CustomUserDetails member) {
     	
-    	// 받은 친구 요청 목록
-//    	friendService.getAllRequests(userId);
-    	// 승낙 안 된 보낸 친구 요청 목록
-//    	friendService.getAllSendRequests(userId);
-    	// 내 친구 목록
-//    	friendService.getAllFriends(userId);
-
 //        return ResponseEntity.ok(friendService.getAllFriendInfo(userId));
     	
 //        return ResponseEntity.ok(friendService.getAllFriendInfo01(userId));
-    	return ResponseEntity.ok(friendService.getAllFriendInfo01(member.getId()));
+    	return ResponseEntity.ok(friendService.getAllFriendInfo(member.getId()));
 //        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 	
