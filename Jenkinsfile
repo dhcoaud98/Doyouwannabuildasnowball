@@ -1,11 +1,11 @@
 pipeline{
     agent any
     environment {
-       BACK_CONTAINER_NAME="mylittlesnowball_back_container"
-       BACK_NAME = "mylittlesnowball_back"
+       BACK_CONTAINER_NAME="back_container"
+       BACK_NAME = "back"
 
-       FRONT_CONTAINER_NAME="mylittlesnowball_front_container"
-       FRONT_NAME = "mylittlesnowball_front"
+       FRONT_CONTAINER_NAME="front_container"
+       FRONT_NAME = "front"
     }
     stages {
         stage('Clean'){
