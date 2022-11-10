@@ -9,7 +9,7 @@ import * as THREE from "three"
 import { Group } from "./Group"
 
 // React
-import { Suspense, useEffect, useRef, useState } from "react"
+import { Suspense, useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react"
 // S3
 import S3 from 'react-aws-s3';
 
@@ -17,9 +17,12 @@ import S3 from 'react-aws-s3';
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 
-export function MainContainer() {
+export const MainContainer = forwardRef((props, ref) => {
   // 변수 선언
   const target = useRef()
+  useImperativeHandle(ref, () => ({
+    saveImage
+  }))
 
 
   // 이미지 업로드 함수
@@ -62,19 +65,18 @@ export function MainContainer() {
       background: linear-gradient(0deg, rgba(246,60,60,1) 0%, rgba(255,120,120,1) 100%);
       }
     `}</style>
-        <Canvas width="100" height="400"  gl={{ preserveDrawingBuffer: true }} dpr={[1,2]} id={'menu-canvas'} ref={target} onClick={() => saveImage('1423')}>
+        <Canvas width="100" height="400"  gl={{ preserveDrawingBuffer: true }} dpr={[1,2]} id={'menu-canvas'} ref={target}>
           <OrbitControls/>
           <directionalLight intensity={2} position={[10, 6, 6]}> 
           </directionalLight>
           <Suspense fallback={null}>  
-            <Center onCentered={({ container, height }) => container.scale.setScalar(0.05)}>
+            <Center onCentered={({ container, height }) => container.scale.setScalar(0.045)}>
                 <Group/>    
             </Center>
             <Environment preset="dawn" background={false} />
           </Suspense>
-          
         </Canvas>
     </div>
     
   )
-}
+})
