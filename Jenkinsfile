@@ -31,6 +31,7 @@ pipeline{
             steps {
                 script{
                     echo "PATH is: $PATH"
+                    sh "/usr/bin/docker-compose -v"
                     sh "/usr/bin/docker-compose up --build --name ${BACK_NAME} ./backend/."
 	                sh "/usr/bin/docker-compose up --build --name ${FRONT_NAME} ./frontend/."
                 }
