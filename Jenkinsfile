@@ -38,7 +38,9 @@ pipeline{
 
         stage('Deploy'){
             steps {
-                sh "docker run -d --name=${BACK_CONTAINER_NAME} -p 8080:8080 -p 8081:8080 -p 8082:8080 ${BACK_NAME}"
+                sh "docker run -d --name=${BACK_CONTAINER_NAME}1 -p 8080:8080 ${BACK_NAME}"
+                sh "docker run -d --name=${BACK_CONTAINER_NAME}2 -p 8081:8081 ${BACK_NAME}"
+                sh "docker run -d --name=${BACK_CONTAINER_NAME}3 -p 8082:8082 ${BACK_NAME}"
                 sh "docker run -d --name=${FRONT_CONTAINER_NAME} -p 3000:80 ${FRONT_NAME}"
             }
         }
