@@ -9,7 +9,7 @@ import StyledEngineProvider from '@mui/material/StyledEngineProvider';
 
 // import Board from './pages/board'
 // import Collection from './pages/collection'
-// import CustomMain from './pages/custommain'
+import CustomMain from './pages/custommain'
 // import Friends from './pages/friends'
 // import Index from './pages/intro'
 // import Tutorial  from './pages/tutorial'
@@ -25,7 +25,7 @@ const container = document.getElementById('root')!;
 const root = createRoot(container);
 const Board = React.lazy(() => import('./pages/board'))
 const Collection = React.lazy(() => import('./pages/collection'))
-const CustomMain = React.lazy(() => import('./pages/custommain'))
+// const CustomMain = React.lazy(() => import('./pages/custommain'))
 const Friends = React.lazy(() => import('./pages/friends'))
 const Index = React.lazy(() => import('./pages/intro'))
 const Tutorial = React.lazy(() => import('./pages/tutorial'))
