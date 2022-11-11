@@ -14,6 +14,7 @@ public class WriteBoardRequest {
     private Long snowglobeId;
     private String content;
 
-    @Nullable
-    private MultipartFile picture;
+    private String picture;
+//    @Nullable
+//    private MultipartFile picture;
 }
