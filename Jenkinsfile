@@ -6,6 +6,7 @@ pipeline{
 
        FRONT_CONTAINER_NAME="front_container"
        FRONT_NAME = "front"
+       PATH = "$PATH:/usr/bin"
     }
     stages {
         stage('Clean'){
@@ -30,8 +31,8 @@ pipeline{
             steps {
                 script{
                     echo "PATH is: $PATH"
-                    sh "docker-compose up --build --name ${BACK_NAME} ./backend/."
-	                sh "docker-compose up --build --name ${FRONT_NAME} ./frontend/."
+                    sh "/usr/bin/docker-compose up --build --name ${BACK_NAME} ./backend/."
+	                sh "/usr/bin/docker-compose up --build --name ${FRONT_NAME} ./frontend/."
                 }
             }
         }
