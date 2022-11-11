@@ -1,5 +1,10 @@
 // Systems
 import * as React from 'react';
+import { RootState } from '../../app/store';
+import { useSelector } from 'react-redux';
+import { changeThreeItem, setCurrentSb } from '../../features/snowballSlice';
+import { useAppDispatch } from '../../app/hooks';
+
 
 // Other components
 import styles from './customlist.module.css'
@@ -16,8 +21,9 @@ import Tree_9 from '../../assets/images/tree_btn_images/tree_9.png'
 // MUI
 import { Tabs, Tab, Box, Button, Grid } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { useAppDispatch } from '../../app/hooks';
-import { changeThreeItem, setCurrentSb } from '../../features/snowballSlice';
+
+
+
 
 // ------------------------------------------------------------------------
 
@@ -36,6 +42,7 @@ export function CustomList() {
   const [tapValue, setTapValue] = React.useState(0);
   // react hook
   const dispatch = useAppDispatch()
+  const deco = useSelector((state:RootState) => state.snowball.deco)
 
   // 각 탭에 들어갈 버튼 이미지들과 그 값들
   const tapImagesArr = [
@@ -52,10 +59,12 @@ export function CustomList() {
     setTapValue(newValue);
     console.log(newValue)
   };
+  
 
   // 버튼 클릭시 three 변화 함수
   const changeThreeComponent = (idx : number) => {
     const payload = {tapValue: tapValue, indicator: idx}
+    console.log(idx, payload)
     dispatch(changeThreeItem(payload))
   }
 
