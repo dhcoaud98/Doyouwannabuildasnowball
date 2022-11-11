@@ -37,10 +37,10 @@ export function Group() {
   const Pets_08 = React.lazy(() => import("./Pets/Pets_08"))
   const Pets_09 = React.lazy(() => import("./Pets/Pets_09"))
 
-  const c_tree_id = useSelector((state) => state.snowball.c_tree_id)
-  const pets_id = useSelector((state) => state.snowball.pets_id)
-  const building_id = useSelector((state) => state.snowball.building_id)
-  console.log(useSelector((state) => state.snowball.c_tree_id))
+  const c_tree_id = useSelector((state) => state.snowball.deco[0].indicator)
+  const pets_id = useSelector((state) => state.snowball.deco[6].indicator)
+  const building_id = useSelector((state) => state.snowball.deco[1].indicator)
+  console.log(c_tree_id)
 
   return (
     <group>

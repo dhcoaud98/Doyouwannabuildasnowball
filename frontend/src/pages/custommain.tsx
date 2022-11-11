@@ -36,7 +36,6 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 
 function CustomMain() {
   // lazyloading
-  // const MainContainer = React.lazy(() => import("../components/three/MainContainer"))
   // 타입선언
   interface saveHandle {
     saveImage: (sb_id : number) => void
@@ -71,12 +70,14 @@ function CustomMain() {
   const noneAtCustomListTrue = customListState ? styles.d_none : "";
   // 커스텀리스트 내려가면 안보이는 요소들의 클래스
   const noneAtCustomListFalse = customListState ? "" : styles.d_none;
+  // snowball deco select
+  const deco = useSelector((state: RootState) => state.snowball.deco)
 
   // 저장버튼 함수
   const saveCustom = () => {
     axios.put(`${APIURL}api/snowglobe/${nowUserID}/modify`, {
-      // “screenshot” : s3 url,
-      // “deco”: array
+      screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${currentSbId}.png`,
+      deco: deco
     })
     .then(()=>{
       console.log('성공')
