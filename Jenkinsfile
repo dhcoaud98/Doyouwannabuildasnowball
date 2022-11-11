@@ -30,10 +30,8 @@ pipeline{
         stage('Build') {
             steps {
                 script{
-                    echo "PATH is: $PATH"
-                    sh "$PATH/docker-compose -v"
-                    sh "$PATH/docker-compose up --build --name ${BACK_NAME} ./backend/."
-	                sh "$PATH/docker-compose up --build --name ${FRONT_NAME} ./frontend/."
+                    sh "docker build -t ${BACK_NAME} ./backend/."
+	                sh "docker build -t ${FRONT_NAME} ./frontend/."
                 }
             }
         }
@@ -42,7 +40,6 @@ pipeline{
             steps {
                 sh "docker run -d --name=${BACK_CONTAINER_NAME} -p 8080:8080 ${BACK_NAME}"
                 sh "docker run -d --name=${FRONT_CONTAINER_NAME} -p 3000:80 ${FRONT_NAME}"
-                sh "docker-compose up -d"
             }
         }
         stage('Docker run') {
