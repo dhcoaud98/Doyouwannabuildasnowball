@@ -1,6 +1,6 @@
 // Systems
 import { useNavigate, useParams } from "react-router-dom"
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Suspense } from "react";
 import {useSelector} from 'react-redux'
 import { RootState } from "../app/store";
 import axios from 'axios';
@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks'
 import '../assets/fonts/font.css'
 import "../index.css"
 import styles from "./custommain.module.css"
-import { MainContainer } from "../components/three/MainContainer";
+import MainContainer from "../components/three/MainContainer";
 import { CustomList } from "../components/custom/customlist";
 import { API_URL } from "../switchurl"
 import wreath1Img from "../assets/images/wreath_1.png"
@@ -35,6 +35,8 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 // ------------------------------------------------------------------------
 
 function CustomMain() {
+  // lazyloading
+  // const MainContainer = React.lazy(() => import("../components/three/MainContainer"))
   // 타입선언
   interface saveHandle {
     saveImage: (sb_id : number) => void
@@ -285,7 +287,9 @@ function CustomMain() {
 
           {/* 꾸미기 상태 활성화 */}
           <Grid component="div" item xs={6} className={noneAtCustomListFalse}>
-            <MainContainer/>
+            <Suspense fallback={<div>loading...</div>}>
+              <MainContainer/>
+            </Suspense>
           </Grid> 
 
           {/* 하단 */}
@@ -300,7 +304,7 @@ function CustomMain() {
           {/* 커스텀 드로워 */}
           {/* 꾸미기 상태 활성화시 시작 */}
           <div className={customListStyles}>
-            <CustomList/>
+              <CustomList/>
           </div>
         </Grid>
 
