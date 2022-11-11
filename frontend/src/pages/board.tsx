@@ -1,5 +1,5 @@
 // Systems
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from "react-redux";
 import axios from 'axios';
 import { useAppSelector } from '../app/hooks'
@@ -22,10 +22,21 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import '../assets/fonts/font.css';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+// S3
+import ReactS3Client from 'react-aws-s3-typescript';
 // ------------------------------------------------------------------------
 
 
+// S3 Config
+const config = {
+  bucketName: '601snowball',
+  dirName: 'boardImage',
+  region: 'ap-northeast-2',
+  accessKeyId: 'AKIA3FTVN73LLSOXAIHF',
+  secretAccessKey: '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',
+}
+
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
 // 버튼 색
 const theme = createTheme({
@@ -51,9 +62,10 @@ type Content = {
 
 // 이미지 업로드를 하지 않았을 경우 랜덤 이미지
 const backImageRandom = [
-'https://cdn.kormedi.com/wp-content/uploads/2020/12/gettyimages-1290149158-1-580x387.jpg',
+// 'https://cdn.kormedi.com/wp-content/uploads/2020/12/gettyimages-1290149158-1-580x387.jpg',
 'https://www.gousa.or.kr/sites/default/files/styles/16_9_770x433/public/images/hero_media_image/2016-12/Fish%20Creek%20Main%20Street%20Holiday%20Scene.jpg?h=7685ba0d&itok=pP145ocO'
 ]
+
 
 // 랜덤 이미지 함수
 function randomImage(array : any) {
@@ -93,7 +105,7 @@ function Board() {
   const accessToken = localStorage.getItem("accessToken")
   // API
   const APIURL = API_URL()
-  const formData = new FormData()
+
 
   // 메시지 배경 랜덤 제공
   let randomBackImage = randomImage(backImageRandom)
@@ -120,8 +132,7 @@ function Board() {
   // 메시지 데이터
   const [contents, setContents] = useState([]);
   const [text, setText] = useState('');
-  const [imag, setImage] = useState(null);
-  const [editImag, setEditImag] = useState(null);
+  const [imag, setImage] = useState('');
   const [editText, setEditText] = useState('');
   const onChange = (e : any) => {
     setText(e.target.value);
@@ -129,18 +140,13 @@ function Board() {
   const onChangeEdit = (e:any) => {
     setEditText(e.target.value)
   }
-  const onChangeImage = (e:any) => {
-    console.log('이미지 업로드')
-    console.log(e)
-    setImage(e)
-  }
 
   // 1. 메시지 전송
   const sendMessage = () => {
     axios.post(`${APIURL}api/board/write`, {
-        "content" : text,
-        "picture" : imag,
-        "snowglobeId" : snowglobeId
+      "content" : text,
+      "picture" : imag,
+      "snowglobeId" : snowglobeId
     })
       .then(res => {
         console.log(res.data)
@@ -150,11 +156,11 @@ function Board() {
         console.log(err)
       })
     setText('');
-    setImage(null);
   };
 
   // 2. 전체 메시지 조회
   const fetchMessages = () => {
+
     axios.get(`${APIURL}api/board/${nowUserId}/all`)
       .then((res) => {
         setContents(res.data.boardList);
@@ -189,6 +195,7 @@ function Board() {
 
   // 4. 메시지 수정
   const editMessage = (item : Content) => {
+    
     console.log("메시지 수정하기")
     axios.put(`${APIURL}api/board/modify`, {
       "boardId" : item.boardId,
@@ -206,17 +213,31 @@ function Board() {
       console.log(err)
     })
   }
+  const callback = useCallback(() => imag , [imag])
 
   // 5. 이미지 업로드
   const uploadImg = () => {
-    console.log("이미지 올리기")
-    fetchMessages();
+    console.log('이미지')
   }
 
-  const handleFileInput = (e:any) => {
-    const fileArr = e.target.files;
-    console.log("이미지 확인 = ",fileArr[0]);
-    setImage(fileArr[0]);
+  // 이미지 저장하기
+  
+  // 이미지 받아서 s3에 넣고 가져오기
+  const handleFileInput = async(e:any) => {
+    const data = e.target.files[0];
+    console.log("파일", data)
+    const s3 = new ReactS3Client(config);
+    const currentTime = new Date(+new Date() + 3240 * 10000).toISOString().replaceAll('T', '-').replaceAll(':', '').replaceAll('.', '-') 
+    console.log(currentTime)
+    const fileName =  `${currentTime}${nowUserId}`
+    
+    const res = await s3.uploadFile(data, fileName);
+    console.log("이미지업로드 = ", res)
+    console.log(res.location)
+    const ImagUrl:any = String(res.location)
+    console.log(ImagUrl)
+    setImage(ImagUrl)
+    callback();
   }
 
   return (
@@ -262,7 +283,7 @@ function Board() {
                       return (
                         <ImageListItem key={item.boardId} sx={{ margin: 1 }}>
                           <img
-                            {...srcset(item.imageUrl ? item.imageUrl: randomBackImage, 250, 200)}
+                            {...srcset(item.imageUrl === '' ? randomBackImage : item.imageUrl, 250, 200)}
                             alt={item.content}
                             loading="lazy"
                           />
@@ -332,7 +353,13 @@ function Board() {
                       focused 
                       placeholder={content.content}
                       className={styles.input_box}/>
-                    <Button variant="contained" onClick={() => (uploadImg())} onChange={e => handleFileInput(e)} sx={{ mr: 1 }}><AddPhotoAlternateIcon/></Button>
+                    <Button variant="contained" onClick={() => (uploadImg())} sx={{ mr: 1 }}>                    
+                      <input type='file' 
+                        accept='image/jpg,impge/png,image/jpeg,image/gif' 
+                        name='profile_img' 
+                        onChange={e => handleFileInput(e)}
+                        >
+                      </input><AddPhotoAlternateIcon/></Button>
                     <Button variant="contained" onClick={() => (editMessage(content))}><SendIcon/></Button>
                     </Box>
                   </Box>
@@ -349,17 +376,15 @@ function Board() {
                     focused 
                     placeholder="내용을 입력하세요" 
                     className={styles.input_box}/>
-                  <Button variant="contained" onClick={() => (uploadImg())} sx={{ mr: 1 }}><AddPhotoAlternateIcon/></Button>
-                  <Button variant="contained" onClick={() => (sendMessage())}><SendIcon/></Button>
-                  </Box>
-                  {/* <Button> */}
+                  <Button variant="contained" sx={{ mr: 1 }}>
                     <input type='file' 
                       accept='image/jpg,impge/png,image/jpeg,image/gif' 
                       name='profile_img' 
                       onChange={e => handleFileInput(e)}
                       >
-                    </input>
-                  {/* </Button> */}
+                    </input><AddPhotoAlternateIcon/></Button>
+                  <Button variant="contained" onClick={() => (sendMessage())}><SendIcon/></Button>
+                  </Box>
               </Container>
             </div>
             
