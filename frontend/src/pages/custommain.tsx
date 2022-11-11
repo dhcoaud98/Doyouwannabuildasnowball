@@ -1,6 +1,6 @@
 // Systems
 import { useNavigate, useParams } from "react-router-dom"
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Suspense } from "react";
 import {useSelector} from 'react-redux'
 import { RootState } from "../app/store";
 import axios from 'axios';
@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks'
 import '../assets/fonts/font.css'
 import "../index.css"
 import styles from "./custommain.module.css"
-import { MainContainer } from "../components/three/MainContainer";
+import MainContainer from "../components/three/MainContainer";
 import { CustomList } from "../components/custom/customlist";
 import { API_URL } from "../switchurl"
 import wreath1Img from "../assets/images/wreath_1.png"
@@ -35,11 +35,21 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 // ------------------------------------------------------------------------
 
 function CustomMain() {
+  // lazyloading
+  // const MainContainer = React.lazy(() => import("../components/three/MainContainer"))
+  // 타입선언
+  interface saveHandle {
+    saveImage: (sb_id : number) => void
+  }
+
   const APIURL = API_URL()
   const accessToken = localStorage.getItem("accessToken")
   // 라우터
   const router = useNavigate()
-
+  // 자식 컴포넌트 Ref
+  const containerRef = useRef<saveHandle>()
+  // 현재 띄우는 스노우볼 id
+  const currentSbId = useSelector((state: RootState) => state.snowball.current_sb_id)
   // 현재 CustomMain의 Owner ID
   let ownerUserID = Number(useParams().userid)
   // 현재 서비스 사용자아이디
@@ -70,6 +80,7 @@ function CustomMain() {
     })
     .then(()=>{
       console.log('성공')
+      containerRef?.current?.saveImage(currentSbId)
     })
     .catch((error)=>{
       console.log(error);
@@ -155,6 +166,7 @@ function CustomMain() {
     // 컴포넌트 실행시 가장 먼저 실행되는 함수 
     useEffect(() => {
       // 지금 여기 누구 페이지야? 묻는 액시오스
+      console.log('ownerUserID',  ownerUserID)
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {
         console.log(response.data)
@@ -252,7 +264,7 @@ function CustomMain() {
           {/* Three.js */}
           {/* 꾸미기 상태 비활성화 */}
           <Grid component="div" item xs={9} className={noneAtCustomListTrue}>
-            <MainContainer/>
+            <MainContainer ref={containerRef}/>
             {/* 마을 놀러가기 버튼 */}
             <div className={styles.container}>
               <div className={`${styles.button} ${styles.btn_clickable}`}>
@@ -275,7 +287,9 @@ function CustomMain() {
 
           {/* 꾸미기 상태 활성화 */}
           <Grid component="div" item xs={6} className={noneAtCustomListFalse}>
-            <MainContainer/>
+            <Suspense fallback={<div>loading...</div>}>
+              <MainContainer/>
+            </Suspense>
           </Grid> 
 
           {/* 하단 */}
@@ -290,7 +304,7 @@ function CustomMain() {
           {/* 커스텀 드로워 */}
           {/* 꾸미기 상태 활성화시 시작 */}
           <div className={customListStyles}>
-            <CustomList/>
+              <CustomList/>
           </div>
         </Grid>
 
