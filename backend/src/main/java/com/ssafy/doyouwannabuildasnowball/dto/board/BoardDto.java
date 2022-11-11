@@ -17,6 +17,7 @@ public class BoardDto {
     private Long boardId;
     private Long snowglobeId;
     private String content;
-    private MultipartFile picture;
+    private String picture;
+//    private MultipartFile picture;
 
 }

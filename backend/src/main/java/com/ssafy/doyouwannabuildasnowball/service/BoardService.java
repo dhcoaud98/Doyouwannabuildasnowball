@@ -64,11 +64,13 @@ public class BoardService {
         Snowglobe snowglobe = snowglobeRepository.findById(writeBoardRequest.getSnowglobeId())
                 .orElseThrow(()->new NotFoundException(SNOWGLOBE_NOT_FOUND));
 
-        String imageURL = null;
-
-        // request에 파일이 존재하는 경우
-        if(writeBoardRequest.getPicture() != null)
-            imageURL = s3Upload.uploadImageToS3(writeBoardRequest.getPicture());
+//        String imageURL = null;
+//
+//         request에 파일이 존재하는 경우
+//        if(writeBoardRequest.getPicture() != null)
+//            imageURL = s3Upload.uploadImageToS3(writeBoardRequest.getPicture());
+//
+        String imageURL = writeBoardRequest.getPicture();
 
         boardRepository.save(Board.builder()
                         .content(writeBoardRequest.getContent())
@@ -82,7 +84,8 @@ public class BoardService {
 
         Board board = boardRepository.findById(boardDto.getBoardId())
                 .orElseThrow(() -> new NotFoundException(BOARD_NOT_FOUND));
-        String imageURL = s3Upload.uploadImageToS3(boardDto.getPicture());
+//        String imageURL = s3Upload.uploadImageToS3(boardDto.getPicture());
+        String imageURL = boardDto.getPicture();
         board.contentUpdate(boardDto.getContent(), imageURL);
         boardRepository.updateBoardContent(board.getContent(), board.getPicture(), board.getBoardId());
 
