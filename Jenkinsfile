@@ -30,7 +30,7 @@ pipeline{
             steps {
                 script{
                     sh "docker build -t ${BACK_NAME} ./backend/."
-	        sh "docker build -t ${FRONT_NAME} ./frontend/."
+	                sh "docker build -t ${FRONT_NAME} ./frontend/."
 
                 }
             }
