@@ -1,5 +1,6 @@
 // Systems
 import { useNavigate } from "react-router-dom"
+import { useState } from 'react'
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { RootState } from "../app/store";
@@ -42,10 +43,12 @@ function Setnickname() {
 
   // 현재 서비스 사용자아이디
   const nowUserID = useAppSelector((state : RootState)  => state.user.userId);
-  const nowUserNickName = useAppSelector((state: RootState) => state.user.nickname)
+  let nowUserNickName = useAppSelector((state: RootState) => state.user.nickname)
 
-  const changingNickName = () => {
+  const [insertingNickName, setInsertingNickName] = useState(nowUserNickName)
 
+  const changingNickName = (event:any) => {
+    setInsertingNickName(event.target.value)
   }
 
   // 중복확인 함수
@@ -83,7 +86,7 @@ function Setnickname() {
 
               <div style={{ width: '70%', marginBottom: '5%'}}>
                 <ThemeProvider theme={theme}>
-                  <TextField onChange={() => changingNickName()} fullWidth color="secondary" label="NickName" id="fullWidth" placeholder="" />
+                  <TextField onChange={changingNickName} fullWidth color="secondary" label="NickName" id="fullWidth" placeholder={nowUserNickName} />
                 </ThemeProvider>
               </div>
 

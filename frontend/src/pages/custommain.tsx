@@ -253,7 +253,7 @@ function CustomMain() {
                 {/* 내 메인페이지인지에 따라 바뀜 */}
                 {/* 여기가 추후에 myActions가 아닌 actions로 바뀔 것 */}
                 {actions.map((action) => (
-                  <SpeedDialAction key={action.name} open={action.name==="친구요청됨" ? true : false }  icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={() => action.eventFunc()}/>
+                  <SpeedDialAction key={action.name} open={action.name==='친구요청됨' ? false : true }  icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={() => action.eventFunc()}/>
                 ))}
               </StyledSpeedDial>
                 
