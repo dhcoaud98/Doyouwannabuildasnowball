@@ -5,6 +5,8 @@ import {useSelector} from 'react-redux'
 import { RootState } from "../app/store";
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { useCookies, Cookies } from 'react-cookie';
+import { CookiesProvider } from 'react-cookie';
 
 // Other components
 import '../assets/fonts/font.css'
@@ -31,6 +33,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import AppsIcon from '@mui/icons-material/Apps';
 import HandshakeIcon from '@mui/icons-material/Handshake';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 // ------------------------------------------------------------------------
 
@@ -72,6 +75,8 @@ function CustomMain() {
   const noneAtCustomListFalse = customListState ? "" : styles.d_none;
   // snowball deco select
   const deco = useSelector((state: RootState) => state.snowball.deco)
+  // 쿠키 지우기
+  const [cookies, setCookie, removeCookie ] = useCookies();
 
   // 저장버튼 함수
   const saveCustom = () => {
@@ -109,6 +114,12 @@ function CustomMain() {
     const showCollection = () => {
       router('/collection')
     } 
+    const logout = () => {
+      alert('로그아웃 하기')
+      removeCookie('refresh', { path: '/' })
+      // localStorage.setItem("accessToken", '');
+    }
+
     
     // 2.남의 메인페이지일 경우 스피드 다이얼 함수 구성
     // ㄱ.선물하기
@@ -159,7 +170,8 @@ function CustomMain() {
       { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
       { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
       { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
-      { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection}
+      { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection},
+      { icon: <LogoutIcon/>, name: '로그아웃', eventFunc: logout}
     ])
     // 여기서부터는 현재 서비스 사용자와 현재 페이지 소유자가 같은지 여부에 따라 달라지는 변수들
     const [customMenuName, setCustomMenuName] = useState("꾸미기")

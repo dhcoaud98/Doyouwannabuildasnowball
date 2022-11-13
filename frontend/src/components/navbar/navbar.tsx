@@ -1,6 +1,5 @@
-import * as React from 'react';
+import react, { useState, useMemo, useCallback, useEffect } from "react";
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import '../../index.css'
 import styles from "./navbar.module.css"
@@ -23,25 +22,24 @@ export function Navbar() {
     alert('뒤로가기')
   }
 
-  // console.log(router.pathname);
+  console.log(location.pathname);
   const [nowPage, setNowPage] = useState(' ');
 
   useEffect(() => {
-    if (location.pathname === '/collection') {
+    if (location.pathname === '/Collection') {
       setNowPage('나의 컬렉션')
-    } else if (location.pathname === '/board') {    
+    } else if (location.pathname === '/Board') {    
       setNowPage('방명록')
-    } else if (location.pathname === '/custommain/:userid') {
+    } else if (location.pathname === '/Custommain/:userid') {
       setNowPage('나의 스노우볼')
-    } else if (location.pathname === '/welcome') {
+    } else if (location.pathname === '/Welcome') {
       setNowPage('선물하기')
-    } else if (location.pathname === '/setnickname') {
+    } else if (location.pathname === '/Setnickname') {
       setNowPage('닉네임 설정하기')
     } else {
       setNowPage('나의 친구 목록')
     }
-  }, []);
-
+  });
 
   return (
     <Grid container>   
