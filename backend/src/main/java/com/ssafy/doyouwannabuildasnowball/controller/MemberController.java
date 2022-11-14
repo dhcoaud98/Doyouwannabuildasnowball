@@ -8,6 +8,7 @@ import com.ssafy.doyouwannabuildasnowball.dto.member.response.MemberMeResponse;
 import com.ssafy.doyouwannabuildasnowball.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -61,12 +62,10 @@ public class MemberController {
         return ResponseEntity.ok(isDuplicated);
     }
 
-    @DeleteMapping(value="/cookie")
-    public ResponseEntity<Void> eraseCookie(HttpServletResponse response){
 
-        Cookie kc = new Cookie("refresh", null); // refresh(쿠키 이름)에 대한 값을 null로 지정
-        kc.setMaxAge(0); // 유효시간을 0으로 설정
-        response.addCookie(kc);
+    @PostMapping("/logout/{memberId}")
+    public ResponseEntity<Void> logout(@PathVariable Long memberId) {
+        memberService.logout(memberId);
         return ResponseEntity.ok().build();
     }
 }

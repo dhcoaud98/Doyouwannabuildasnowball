@@ -13,6 +13,7 @@ import com.ssafy.doyouwannabuildasnowball.repository.jpa.MusicRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.SnowglobeRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.mongo.DecorationRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundExcept
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
 
 
@@ -105,5 +107,9 @@ public class MemberService {
     }
 
 
-
+    @Transactional
+    public void logout(Long memberId) {
+        log.info(String.valueOf(memberId));
+        memberRepository.deleteRefreshTokenByMemberId(memberId);
+    }
 }
