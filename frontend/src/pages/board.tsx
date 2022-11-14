@@ -142,10 +142,6 @@ function Board() {
     setEditText(e.target.value)
   }
 
-  // 버튼클릭시 input태그에 클릭이벤트를 걸어준다. 
-  // const onCickImageUpload = () => {
-  //   imageInput.current.click();
-  // };
 
   // 1. 메시지 전송
   const sendMessage = () => {
@@ -221,13 +217,7 @@ function Board() {
   }
   const callback = useCallback(() => imag , [imag])
 
-  // 5. 이미지 업로드
-  const uploadImg = () => {
-    console.log('이미지')
-  }
 
-  // 이미지 저장하기
-  
   // 이미지 받아서 s3에 넣고 가져오기
   const handleFileInput = async(e:any) => {
     const data = e.target.files[0];

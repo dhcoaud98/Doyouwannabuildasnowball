@@ -41,6 +41,11 @@
   margin-top: 150px;
 }
 
+.snowList {
+  position: relative;
+  z-index: 2;
+}
+
 .collection_mysnowball2 {
   position: relative;
   width: 100%;
