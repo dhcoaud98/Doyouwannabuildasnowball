@@ -2,14 +2,13 @@
 // three
 import { Canvas } from "@react-three/fiber"
 import { Center, Environment } from "@react-three/drei"
-import { MeshReflectorMaterial, OrbitControls } from "@react-three/drei"
-import * as THREE from "three"
+import { OrbitControls } from "@react-three/drei"
 
 // Model
 import { Group } from "./Group"
 
 // React
-import { Suspense, useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react"
+import { Suspense, useRef, forwardRef, useImperativeHandle } from "react"
 // S3
 import S3 from 'react-aws-s3';
 

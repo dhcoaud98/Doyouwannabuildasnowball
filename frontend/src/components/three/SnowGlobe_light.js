@@ -24,12 +24,12 @@ export function Snowglobe_light(props) {
   }
   return (
     <group {...props} dispose={null} rotation={[0,360,0]}>
-      <Sparkles count={150} scale={55} size={4.5} speed={0.4} color={"white"} noise={[-10,-10,5]} />
+      <Sparkles count={100} scale={[60,49,60]} size={4.5} speed={0.4} color={"white"} noise={[-10,-10,5]} />
       <group position={[-0.19, -5.61, -1.6]} rotation={[-Math.PI / 2, 0, 3.05]}>
         <mesh geometry={nodes.ground.geometry} material={materials.terrain} position={[-0.09, 0, -18.56]} />
       </group>
       <mesh geometry={nodes.glass.geometry} material={materials.glass} position={[-0.61, -5.65, -1.77]} rotation={[-Math.PI / 2, 0, 0]}>
-      <meshPhysicalMaterial {...Glass}></meshPhysicalMaterial>
+        <meshPhysicalMaterial {...Glass}></meshPhysicalMaterial>
       </mesh>
       <mesh geometry={nodes['outer-sphere-ground'].geometry} material={materials['22 - Default']} position={[-0.11, -24.17, -1.59]} rotation={[-Math.PI / 2, 0, 0]} />
     </group>
