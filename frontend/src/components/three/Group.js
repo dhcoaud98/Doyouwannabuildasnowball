@@ -55,7 +55,7 @@ export function Group() {
   const Objet1_07 = React.lazy(() => import("./Objet1/Objet1_07"))
   const Objet1_08 = React.lazy(() => import("./Objet1/Objet1_08"))
   const Objet1_09 = React.lazy(() => import("./Objet1/Objet1_09"))
-  const Objet1_10 = React.lazy(() => import("./Objet1/Objet1_10"))
+  // const Objet1_10 = React.lazy(() => import("./Objet1/Objet1_10"))
 
 
   const c_tree_id = useSelector((state) => state.snowball.deco[0].indicator)
@@ -78,7 +78,7 @@ export function Group() {
 
           {snowman_id == 0 ? <Snowman_01 scale={0.17} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : snowman_id == 1 ? <Snowman_02 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : snowman_id == 2 ? <Snowman_03 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : snowman_id == 3 ? <Snowman_04 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : snowman_id == 4 ? <Snowman_05 scale={0.085} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : snowman_id == 5 ? <Snowman_06 scale={0.11} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : snowman_id == 6 ? <Snowman_07 scale={0.11} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : snowman_id == 7 ? <Snowman_08 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : <Pets_09 scale={0.08} position={[-34,-18, 15]} rotation={[0,19.5,0]}/>}
 
-          {objet1_id == 0 ? <Objet1_01 scale={0.02} position={[34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 1 ? <Objet1_02 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 2 ? <Objet1_03 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 3 ? <Objet1_04 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 4 ? <Objet1_05 scale={0.085} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 5 ? <Objet1_06 scale={0.11} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 6 ? <Objet1_07 scale={0.11} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 7 ? <Objet1_08 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> :  objet1_id == 8 ? <Objet1_09 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : <Objet1_10 scale={0.08} position={[-34,-18, 15]} rotation={[0,19.5,0]}/>}
+          {objet1_id == 0 ? <Objet1_01 scale={0.02} position={[34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 1 ? <Objet1_02 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 2 ? <Objet1_03 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 3 ? <Objet1_04 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 4 ? <Objet1_05 scale={0.085} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 5 ? <Objet1_06 scale={0.11} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 6 ? <Objet1_07 scale={0.11} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : objet1_id == 7 ? <Objet1_08 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> :  objet1_id == 8 ? <Objet1_09 scale={0.06} position={[-34,-18, 15]} rotation={[0,19.5,0]}/> : null}
         </Suspense>
     </group>
   )

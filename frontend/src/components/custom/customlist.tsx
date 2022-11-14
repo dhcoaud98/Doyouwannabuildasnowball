@@ -43,6 +43,7 @@ export function CustomList() {
   // react hook
   const dispatch = useAppDispatch()
   const deco = useSelector((state:RootState) => state.snowball.deco)
+  const c_tree_id = useSelector((state: RootState) => state.snowball.deco[0].indicator)
 
   // 각 탭에 들어갈 버튼 이미지들과 그 값들
   const tapImagesArr = [
@@ -83,9 +84,9 @@ export function CustomList() {
             <Tab label="tree" />
             <Tab label="build" />
             <Tab label="snow" />
-            <Tab label="ob1" />
-            <Tab label="ob2" />
-            <Tab label="ob3" />
+            <Tab label="ob1" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
+            <Tab label="ob2" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
+            <Tab label="ob3" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
             <Tab label="pet" />
           </Tabs>
 
