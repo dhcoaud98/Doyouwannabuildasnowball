@@ -28,7 +28,11 @@ public class Decoration {
         Element defaultElement = new Element(0,0,0,0);
         this.deco = new ArrayList<>();
         for(int index=0; index<7; index++)
-            deco.add(defaultElement);
+            this.deco.add(defaultElement);
+        int[] defaultSettingIndex = {3,4,5};
+        for(int defaultIndex : defaultSettingIndex) {
+            this.deco.set(defaultIndex, new Element(9,0,0,0));
+        }
 
     }
 
