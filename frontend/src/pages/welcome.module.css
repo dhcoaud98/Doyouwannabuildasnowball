@@ -27,7 +27,7 @@
 }
 
 .welcome_text {
-  font-family: 'MaruBuri-Regular';
+  font-family: 'GangwonEdu_OTFBoldA';
   margin: 1%;
 }
 
@@ -61,6 +61,6 @@
   font-family: 'MaruBuri-Regular';
   margin: 0;
   color: #6A1206;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: normal;
 }

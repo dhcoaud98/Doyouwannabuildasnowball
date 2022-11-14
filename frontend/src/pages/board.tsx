@@ -1,5 +1,5 @@
 // Systems
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useRef } from 'react'
 import { useSelector } from "react-redux";
 import axios from 'axios';
 import { useAppSelector } from '../app/hooks'
@@ -8,7 +8,7 @@ import { useAppSelector } from '../app/hooks'
 import { Navbar } from '../components/navbar/navbar';
 import { API_URL } from "../switchurl"
 import styles from "./board.module.css"
-
+import BoardBackground from '../assets/images/BoardBackground.png';
 // MUI
 import { Grid, Box, Container, Button, TextField, Typography, Modal } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
@@ -74,7 +74,7 @@ function randomImage(array : any) {
 }
 
 // 게시판 사진 크기
-function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
+function srcset(image: string, width: number, height: number, rows = 2, cols = 1) {
   return {
     src: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format`,
     srcSet: `${image}?w=${width * cols}&h=${
@@ -90,8 +90,9 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 500,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: '#FED6D6',
+  border: '0px solid #000',
+  borderRadius: '4px',
   boxShadow: 24,
   p: 4,
 };
@@ -105,7 +106,7 @@ function Board() {
   const accessToken = localStorage.getItem("accessToken")
   // API
   const APIURL = API_URL()
-
+  const imageInput = useRef();
 
   // 메시지 배경 랜덤 제공
   let randomBackImage = randomImage(backImageRandom)
@@ -141,6 +142,11 @@ function Board() {
     setEditText(e.target.value)
   }
 
+  // 버튼클릭시 input태그에 클릭이벤트를 걸어준다. 
+  // const onCickImageUpload = () => {
+  //   imageInput.current.click();
+  // };
+
   // 1. 메시지 전송
   const sendMessage = () => {
     axios.post(`${APIURL}api/board/write`, {
@@ -157,11 +163,11 @@ function Board() {
       })
     setText('');
   };
+  // console.log(snowglobeId)
 
   // 2. 전체 메시지 조회
   const fetchMessages = () => {
-
-    axios.get(`${APIURL}api/board/${nowUserId}/all`)
+    axios.get(`${APIURL}api/board/${snowglobeId}/all`)
       .then((res) => {
         setContents(res.data.boardList);
         console.log('메시지 목록 = ', res.data.boardList)
@@ -240,6 +246,14 @@ function Board() {
     callback();
   }
 
+  const ref = useRef<HTMLInputElement>(null);
+  const handleClick = () => {
+    console.log('dd')
+    if (ref.current !== null) {
+      ref.current.click()
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <div id="container_div">
@@ -274,17 +288,21 @@ function Board() {
                       transform: 'translateZ(0)',
                     }}
                     rowHeight={200}
-                    gap={2}
+                    // gap={2}
+                    // variant="quilted"
+                    variant="woven"
+                    // variant="masonry"
+                    cols={1}
+                    // gap={8}
                   >
                     {contents.map((item:Content) => {
-                      // const cols = item.featured ? 2 : 1;
-                      // const rows = item.featured ? 2 : 1;
 
                       return (
                         <ImageListItem key={item.boardId} sx={{ margin: 1 }}>
                           <img
-                            {...srcset(item.imageUrl === '' ? randomBackImage : item.imageUrl, 250, 200)}
-                            alt={item.content}
+                            src={`${item.imageUrl}?w=161&fit=crop&auto=format`}
+                            srcSet={`${item.imageUrl === '' ? randomBackImage : item.imageUrl}?w=161&fit=crop&auto=format&dpr=2 2x`}
+                            alt={item.imageUrl}
                             loading="lazy"
                           />
                           <ImageListItemBar
@@ -342,8 +360,16 @@ function Board() {
                     <Button onClick = {()=>(handleClose())} sx={{m:0}}>
                       <ArrowBackIcon />
                     </Button>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                      메시지를 수정하세요
+                    <Box component="div" className={styles.modalImgBox} >
+                      <img className={styles.modalImag}
+                        src={`${content.imageUrl}?w=161&fit=crop&auto=format`}
+                        srcSet={`${content.imageUrl === '' ? randomBackImage : content.imageUrl}?w=161&fit=crop&auto=format&dpr=2 2x`}
+                        alt={content.imageUrl}
+                        loading="lazy"
+                        />
+                    </Box>
+                    <Typography id="modal-modal-title" variant="body1" sx={{m:1}} className={styles.modalContent}>
+                      {content.content}
                     </Typography>
                     <Box component="div" className={styles.input_body}>
                     <TextField 
@@ -353,13 +379,17 @@ function Board() {
                       focused 
                       placeholder={content.content}
                       className={styles.input_box}/>
-                    <Button variant="contained" onClick={() => (uploadImg())} sx={{ mr: 1 }}>                    
-                      <input type='file' 
+                    <Button variant="contained" onClick={handleClick} sx={{ mr: 1 }}>                    
+                      <AddPhotoAlternateIcon/></Button>
+                      <input 
+                        ref={ref} 
+                        type='file' 
                         accept='image/jpg,impge/png,image/jpeg,image/gif' 
                         name='profile_img' 
+                        style={{ display: "none" }}
                         onChange={e => handleFileInput(e)}
                         >
-                      </input><AddPhotoAlternateIcon/></Button>
+                      </input>
                     <Button variant="contained" onClick={() => (editMessage(content))}><SendIcon/></Button>
                     </Box>
                   </Box>
@@ -376,13 +406,18 @@ function Board() {
                     focused 
                     placeholder="내용을 입력하세요" 
                     className={styles.input_box}/>
-                  <Button variant="contained" sx={{ mr: 1 }}>
-                    <input type='file' 
+                  <Button variant="contained" sx={{ mr: 1 }} onClick={handleClick} >
+                    <AddPhotoAlternateIcon />
+                  </Button>
+                    <input 
+                      ref={ref} 
+                      type="file"
                       accept='image/jpg,impge/png,image/jpeg,image/gif' 
                       name='profile_img' 
+                      style={{ display: "none" }}
                       onChange={e => handleFileInput(e)}
                       >
-                    </input><AddPhotoAlternateIcon/></Button>
+                    </input>
                   <Button variant="contained" onClick={() => (sendMessage())}><SendIcon/></Button>
                   </Box>
               </Container>

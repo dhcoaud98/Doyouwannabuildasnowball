@@ -1,5 +1,5 @@
 // Systems
-
+import { API_URL } from "../switchurl";
 // Other components
 import { Navbar } from "../components/navbar/navbar";
 import styles from "./collection.module.css"
@@ -8,10 +8,30 @@ import woodbar2Img from "../assets/images/woodbar2.png"
 
 // MUI
 import { Grid } from '@mui/material';
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import { useEffect } from "react";
+import axios from "axios";
+import { setShelf } from "../features/shelfSlice";
 
 // ------------------------------------------------------------------------
 
 function Collection() {
+  const user_id = useSelector((state:RootState) => state.user.userId)
+  // shelf list = [{snowglobeId: 2, screenshot: 'https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/2.png'}, snowglobeId: 1, screenshot: 'https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/1.png']
+  const shelf_list = useSelector((state:RootState) => state.shelf.shelfList)
+  const APIURL = API_URL()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url:`${APIURL}api/snowglobe/${user_id}/shelf`
+    })
+    .then((res) => {
+      console.log(res.data)
+      dispatch(setShelf(res.data))
+    })
+  },[])
   return (
       <div id="container_div">
         <Grid container id="container_div">
