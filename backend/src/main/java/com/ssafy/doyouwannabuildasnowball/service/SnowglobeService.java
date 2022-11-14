@@ -82,7 +82,7 @@ public class SnowglobeService {
 
     //친구 메인 페이지에서 스노우볼 선물하기
     @Transactional
-    public void presentSnowglobe(Long rid, SnowglobeRequestDto snowglobeRequestDto) {
+    public Long presentSnowglobe(Long rid, SnowglobeRequestDto snowglobeRequestDto) {
         Member maker = memberRepository.findById(snowglobeRequestDto.getMakerId()).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
         Member receiver = memberRepository.findById(rid).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
         Snowglobe snowglobe = Snowglobe.builder()
@@ -101,6 +101,9 @@ public class SnowglobeService {
                 .build();
 
         decorationRepository.save(decoration);
+
+        Long sid = snowglobe.getSnowglobeId();
+        return sid;
     }
 
 

@@ -62,16 +62,11 @@ public class MemberController {
     }
 
     @DeleteMapping(value="/cookie")
-    public ResponseEntity<Void> eraseCookie(HttpServletRequest request, HttpServletResponse response){
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if("refresh".equals(cookie.getName())) {
-                cookie.setMaxAge(0);
-                response.addCookie(cookie); // 응답 헤더에 추가해서 없어지도록 함
-                log.info("cookie 제거 완료");
-                break;
-            }
-        }
+    public ResponseEntity<Void> eraseCookie(HttpServletResponse response){
+
+        Cookie kc = new Cookie("refresh", null); // refresh(쿠키 이름)에 대한 값을 null로 지정
+        kc.setMaxAge(0); // 유효시간을 0으로 설정
+        response.addCookie(kc);
         return ResponseEntity.ok().build();
     }
 }
