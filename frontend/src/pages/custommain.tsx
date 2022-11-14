@@ -116,8 +116,15 @@ function CustomMain() {
     } 
     const logout = () => {
       alert('로그아웃 하기')
-      removeCookie('refresh', { path: '/' })
-      // localStorage.setItem("accessToken", '');
+      localStorage.setItem("accessToken", '');
+      axios.delete(`${APIURL}api/member/cookie`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+        .then(res => {
+          console.log("로그아웃 성공")
+        })
     }
 
     
