@@ -54,9 +54,9 @@ public class SnowglobeController {
 
     //친구 메인 페이지에서 스노우볼 선물하기*
     @PostMapping("{receiver_id}/present")
-    public ResponseEntity<Void> presentSnowglobe(@PathVariable(value = "receiver_id") Long rid, @Valid @RequestBody SnowglobeRequestDto snowglobeRequestDto) {
+    public ResponseEntity<Long> presentSnowglobe(@PathVariable(value = "receiver_id") Long rid, @Valid @RequestBody SnowglobeRequestDto snowglobeRequestDto) {
         snowglobeService.presentSnowglobe(rid, snowglobeRequestDto);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<Long>(snowglobeService.presentSnowglobe(rid, snowglobeRequestDto), HttpStatus.OK);
     }
 
     //선물한 스노우볼 내 책장에 저장하기*
