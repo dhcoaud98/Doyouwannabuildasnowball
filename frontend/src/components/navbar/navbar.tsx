@@ -27,7 +27,7 @@ export function Navbar() {
   useEffect(() => {
     if (location.pathname === '/collection') {
       setNowPage('나의 컬렉션')
-    } else if (location.pathname === '/board') {    
+    } else if (location.pathname === '/Board') {    
       setNowPage('방명록')
     } else if (location.pathname === '/custommain/:userid') {
       setNowPage('나의 스노우볼')
