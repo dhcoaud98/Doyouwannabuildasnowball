@@ -31,6 +31,11 @@ export const SnowballSlice = createSlice({
       switch(action.payload.tapValue) {
         case 0:
           state.deco[0].indicator = action.payload.indicator
+          if (action.payload.indicator === 0 || action.payload.indicator === 1) {
+            state.deco[3].indicator = 9
+            state.deco[4].indicator = 9
+            state.deco[5].indicator = 9
+          }
           break
         case 1:
           state.deco[1].indicator = action.payload.indicator
