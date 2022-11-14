@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import React, { Suspense } from "react"
 
 // three models
-import { Snowglobe } from "./SnowGlobe"
+import { Snowglobe_light } from "./SnowGlobe_light"
 
 
 
@@ -55,7 +55,7 @@ export function Group() {
 
   return (
     <group>
-        <Snowglobe/>
+        <Snowglobe_light/>
         <Suspense fallback={null}>
           {pets_id == 0 ? <Pets_01 scale={0.08} position={[22,-26,0]}/> : pets_id == 1 ? <Pets_02 scale={0.08} position={[22,-26,0]}/> : pets_id == 2 ? <Pets_03 scale={0.08} position={[22,-26,0]}/> : pets_id == 3 ? <Pets_04 scale={0.08} position={[22,-26,0]}/> : pets_id == 4 ? <Pets_05 scale={0.08} position={[22,-26,0]}/> : pets_id == 5 ? <Pets_06 scale={0.08} position={[22,-26,0]}/> : pets_id == 6 ? <Pets_07 scale={0.08} position={[22,-26,0]}/> : pets_id == 7 ? <Pets_08 scale={0.08} position={[22,-26,0]}/> : <Pets_09 scale={0.08} position={[22,-26,0]}/>}
         

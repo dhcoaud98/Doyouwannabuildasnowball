@@ -61,8 +61,9 @@ const MainContainer = forwardRef((props, ref) => {
       .canvas-container {
       width:100%;
       height:100%;
-      background: rgb(246,60,60);
-      background: linear-gradient(0deg, rgba(246,60,60,1) 0%, rgba(255,120,120,1) 100%);
+      background: rgb(2,0,36);
+      background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(0,2,59,1) 100%);
+
       }
     `}</style>
         <Canvas width="100" height="400"  gl={{ preserveDrawingBuffer: true }} dpr={[1,2]} id={'menu-canvas'} ref={target}>
@@ -70,10 +71,10 @@ const MainContainer = forwardRef((props, ref) => {
           <directionalLight intensity={2} position={[10, 6, 6]}> 
           </directionalLight>
           <Suspense fallback={null}>  
-            <Center onCentered={({ container, height }) => container.scale.setScalar(0.045)}>
+            <Center onCentered={({ container, height }) => container.scale.setScalar(0.040)}>
                 <Group/>    
             </Center>
-            <Environment preset="dawn" background={false} />
+            <Environment preset="sunset" background={false} />
           </Suspense>
         </Canvas>
     </div>
