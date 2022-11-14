@@ -22,9 +22,8 @@ export function Navbar() {
     alert('뒤로가기')
   }
 
-  console.log(location.pathname);
   const [nowPage, setNowPage] = useState(' ');
-
+  
   useEffect(() => {
     if (location.pathname === '/Collection') {
       setNowPage('나의 컬렉션')
@@ -39,7 +38,7 @@ export function Navbar() {
     } else {
       setNowPage('나의 친구 목록')
     }
-  });
+  }, [location.pathname]);
 
   return (
     <Grid container>   

@@ -101,6 +101,7 @@ function Profile (props:any) {
   // 시작할 때 친구 목록 불러오기 
   useEffect(() => {
     fetchUsers();
+    console.log(friends)
   }, [])
 
   // 검색 실행

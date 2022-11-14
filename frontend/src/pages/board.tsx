@@ -100,6 +100,7 @@ const style = {
 function Board() {
   // 유저 정보
   const nowUserId = useAppSelector((state)  => state.user.userId);
+  
   const snowglobeId = useAppSelector((state) => state.user.snowglobeId);
   // 토큰
   const accessToken = localStorage.getItem("accessToken")
@@ -142,7 +143,7 @@ function Board() {
   }
 
   // 1. 메시지 전송
-  const sendMessage = () => {
+  const sendMessage = useCallback(() => {
     axios.post(`${APIURL}api/board/write`, {
       "content" : text,
       "picture" : imag,
@@ -156,11 +157,10 @@ function Board() {
         console.log(err)
       })
     setText('');
-  };
+  }, [imag]);
 
   // 2. 전체 메시지 조회
   const fetchMessages = () => {
-
     axios.get(`${APIURL}api/board/${nowUserId}/all`)
       .then((res) => {
         setContents(res.data.boardList);
@@ -213,6 +213,7 @@ function Board() {
       console.log(err)
     })
   }
+  
   const callback = useCallback(() => imag , [imag])
 
   // 5. 이미지 업로드
