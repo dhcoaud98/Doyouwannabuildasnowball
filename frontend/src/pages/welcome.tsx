@@ -1,4 +1,5 @@
 // Systems
+import { useNavigate } from "react-router-dom"
 
 // Other components
 import "../index.css"
@@ -27,6 +28,18 @@ const theme = createTheme({
 });
 
 function Welcome() {
+  const router = useNavigate()
+  // 뒤로가기
+  const goback = () => {
+    router(-1)
+  }
+
+  const API_SERVER = "https://mylittlesnowball.com/api"
+  const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
+  const CLIENT_URL = "https://mylittlesnowball.com"
+  const OAUTH2_REDIRECT_URI = `?redirect_uri=${CLIENT_URL}`
+  const REDIRECT_URI = AUTH_URL + OAUTH2_REDIRECT_URI
+
   return (
     <div id="container_div">
       <Grid container id="container_div">
@@ -46,13 +59,14 @@ function Welcome() {
               <p className={`font-light ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.6rem'}}>본인만의 스노우볼을</p>
               <p className={`font-light ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.6rem'}}>갖고 싶지 않으세요?</p>
 
-              <a href="" style={{ width:'100%'}}>
+              <a href={REDIRECT_URI} style={{ width:'100%'}}>
                 <div id="kakao-button" className={`${styles.kakao_login_btn}`}>
                   <img src={kakaoLoginBtnImg} alt="" className={`${styles.kakao_login_img}`} />
                 </div>
               </a>
+
               <ThemeProvider theme={theme}>
-                <Button variant="contained" color="success" className={styles.welcome_button}>
+                <Button onClick={() => goback()} variant="contained" color="success" className={styles.welcome_button}>
                   <p className={styles.welcome_button_text}>선물만 해줄래요</p>
                 </Button>
               </ThemeProvider>

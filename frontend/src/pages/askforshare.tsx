@@ -88,11 +88,13 @@ function AskForShare() {
             <Grid container direction="row" className={styles.description} justifyContent="center">
               <Grid item spacing={3}>
                 <p className={`font-bold ${styles.welcome_text} ${styles.green_text}`} style={{fontSize: '1.8rem', margin:0}}>정말 예쁜 스노우볼이네요!</p>
-                <p className={`font-light ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.6rem', margin:0}}>{ownerUserNickName}님도 분명 좋아하실거에요</p>
+                <p className={`font-light ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.6rem', margin:0}}>{ownerUserNickName}님도</p>
+                <p className={`font-light ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.6rem', margin:0}}>분명 좋아하실거에요</p>
               </Grid>
 
               <Grid item>
-                <p className={`font-bold ${styles.welcome_text} ${styles.red_text}`} style={{fontSize: '1.8rem', margin:0}}>{ownerUserNickName}님과 스노우볼을</p>
+                <p className={`font-bold ${styles.welcome_text} ${styles.red_text}`} style={{fontSize: '1.8rem', margin:0}}>{ownerUserNickName}님과</p>
+                <p className={`font-bold ${styles.welcome_text} ${styles.red_text}`} style={{fontSize: '1.8rem', margin:0}}>스노우볼을</p>
                 <p className={`font-bold ${styles.welcome_text} ${styles.red_text}`} style={{fontSize: '1.8rem', margin:0}}>함께 가지고 싶으신가요?</p>
               </Grid>
 
