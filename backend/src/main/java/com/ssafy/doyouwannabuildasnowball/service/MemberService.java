@@ -32,7 +32,7 @@ public class MemberService {
     private final SnowglobeRepository snowglobeRepository;
     private final DecorationRepository decorationRepository;
     private final MusicRepository musicRepository;
-
+    private final String DEFAULT_SCREENSHOT_URL = "https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/DEFAULT.png";
     @Transactional(readOnly = true)
     public MemberMeResponse findByLoginMember(Long memberId) {
         Member findMember = findById(memberId);
@@ -87,7 +87,7 @@ public class MemberService {
                         .makerSaved(true)
                         .receiver(member)
                         .receiverSaved(true)
-                        .screenshot(null)
+                        .screenshot(DEFAULT_SCREENSHOT_URL)
                         .music(musicRepository.findById(1L).orElseThrow(()->new NotFoundException(MUSIC_NOT_FOUND)))
                         .build());
         // 스노우볼 아이디를 회원에게 저장
