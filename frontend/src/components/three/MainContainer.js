@@ -2,14 +2,13 @@
 // three
 import { Canvas } from "@react-three/fiber"
 import { Center, Environment } from "@react-three/drei"
-import { MeshReflectorMaterial, OrbitControls } from "@react-three/drei"
-import * as THREE from "three"
+import { OrbitControls } from "@react-three/drei"
 
 // Model
 import { Group } from "./Group"
 
 // React
-import { Suspense, useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react"
+import { Suspense, useRef, forwardRef, useImperativeHandle } from "react"
 // S3
 import S3 from 'react-aws-s3';
 
@@ -61,19 +60,20 @@ const MainContainer = forwardRef((props, ref) => {
       .canvas-container {
       width:100%;
       height:100%;
-      background: rgb(246,60,60);
-      background: linear-gradient(0deg, rgba(246,60,60,1) 0%, rgba(255,120,120,1) 100%);
+      background: rgb(2,0,36);
+      background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(0,2,59,1) 100%);
+
       }
     `}</style>
         <Canvas width="100" height="400"  gl={{ preserveDrawingBuffer: true }} dpr={[1,2]} id={'menu-canvas'} ref={target}>
-          <OrbitControls/>
-          <directionalLight intensity={2} position={[10, 6, 6]}> 
+          <OrbitControls enableZoom={false} enablePan={false}/>
+          <directionalLight intensity={1} position={[10, 6, 6]}> 
           </directionalLight>
           <Suspense fallback={null}>  
-            <Center onCentered={({ container, height }) => container.scale.setScalar(0.045)}>
+            <Center onCentered={({ container, height }) => container.scale.setScalar(0.040)}>
                 <Group/>    
             </Center>
-            <Environment preset="dawn" background={false} />
+            <Environment blur={1} files={"/venice_dawn_2_1k.hdr"} background={false} />
           </Suspense>
         </Canvas>
     </div>

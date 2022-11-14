@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import StyledEngineProvider from '@mui/material/StyledEngineProvider';
+import { CookiesProvider } from 'react-cookie';
 
 // import Board from './pages/board'
 // import Collection from './pages/collection'
@@ -39,22 +40,24 @@ root.render(
     <Provider store={store}>
       <StyledEngineProvider injectFirst>
         <PersistGate persistor={persistor}>
-          <BrowserRouter>
-          <Suspense fallback={<div>loading</div>}>
-            <Routes>
-              <Route path="/" element={<Index/>}></Route>
-              <Route path="/board" element={<Board/>}></Route>
-              <Route path="/collection" element={<Collection/>}></Route>
-              <Route path="/custommain/:userid" element={<CustomMain/>}></Route>
-              <Route path="/friends/:userid" element={<Friends/>}></Route>
-              <Route path="/tutorial" element={<Tutorial/>}></Route>
-              <Route path="/welcome" element={<Welcome/>}></Route>
-              <Route path="/setnickname" element={<Setnickname/>}></Route>
-              <Route path="/askforshare" element={<AskForShare/>}></Route>
-              <Route path="/unitybackground" element={<UnityBackGround/>}></Route>
-            </Routes>
-          </Suspense>
-          </BrowserRouter>
+          <CookiesProvider> 
+            <BrowserRouter>
+            <Suspense fallback={<div>loading</div>}>
+              <Routes>
+                <Route path="/" element={<Index/>}></Route>
+                <Route path="/board" element={<Board/>}></Route>
+                <Route path="/collection" element={<Collection/>}></Route>
+                <Route path="/custommain/:userid" element={<CustomMain/>}></Route>
+                <Route path="/friends/:userid" element={<Friends/>}></Route>
+                <Route path="/tutorial" element={<Tutorial/>}></Route>
+                <Route path="/welcome" element={<Welcome/>}></Route>
+                <Route path="/setnickname" element={<Setnickname/>}></Route>
+                <Route path="/askforshare" element={<AskForShare/>}></Route>
+                <Route path="/unitybackground" element={<UnityBackGround/>}></Route>
+              </Routes>
+            </Suspense>
+            </BrowserRouter>
+          </CookiesProvider>  
         </PersistGate>
       </StyledEngineProvider>
     </Provider>

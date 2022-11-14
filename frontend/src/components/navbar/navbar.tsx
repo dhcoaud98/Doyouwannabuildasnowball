@@ -1,6 +1,5 @@
-import * as React from 'react';
+import react, { useState, useMemo, useCallback, useEffect } from "react";
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import '../../index.css'
 import styles from "./navbar.module.css"
@@ -23,7 +22,6 @@ export function Navbar() {
     alert('뒤로가기')
   }
 
-  // console.log(router.pathname);
   const [nowPage, setNowPage] = useState(' ');
 
   useEffect(() => {
@@ -40,8 +38,7 @@ export function Navbar() {
     } else {
       setNowPage('나의 친구 목록')
     }
-  }, []);
-
+  });
 
   return (
     <Grid container>   
