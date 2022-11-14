@@ -13,8 +13,15 @@ import { RootState } from "../app/store";
 import { useEffect } from "react";
 import axios from "axios";
 import { setShelf } from "../features/shelfSlice";
-
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 // ------------------------------------------------------------------------
+
+// Collect 타입 지정
+type Collect = {
+  screenshot : string,
+  snowglobeId : number
+}
 
 function Collection() {
   const user_id = useSelector((state:RootState) => state.user.userId)
@@ -22,6 +29,7 @@ function Collection() {
   const shelf_list = useSelector((state:RootState) => state.shelf.shelfList)
   const APIURL = API_URL()
   const dispatch = useDispatch()
+
   useEffect(() => {
     axios({
       method: "GET",
@@ -68,6 +76,21 @@ function Collection() {
               </div>
               <div className={styles.collection_box_top}>
                 {/* <Snow_globe/> */}
+                {/* <ImageList sx={{ width: 500, height: 450 }} cols={1} rowHeight={164} className={styles.snowList}>
+                  {shelf_list.map((item:Collect) => {
+                    return (
+                      <ImageListItem key={item.screenshot}>
+                      <img
+                        src={`${item.screenshot}?w=164&h=164&fit=crop&auto=format`}
+                        srcSet={`${item.screenshot}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+
+                      />
+                      </ImageListItem>
+                      )
+                    }
+                  )}
+                </ImageList> */}
+
               </div>
               
               <div className={styles.collection_box_top}>
