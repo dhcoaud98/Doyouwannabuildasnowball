@@ -23,11 +23,13 @@ spring:
 #    url: jdbc:mysql://localhost:3306/snowball?useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
 #    username: ssafy
 #    password: ssafy
-
+#
     # ec2 DB에 연결
-    url: jdbc:mysql://k7a601.p.ssafy.io:3306/snowball?useSSL=false&useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+
+    url: jdbc:mysql://k7a601.p.ssafy.io:3306/snowball?useSSL=false&useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
     username: ssafy
     password: mylittlesnowball601!
+
 
 
   jpa:
@@ -46,7 +48,7 @@ spring:
   data:
     mongodb:
 
-      # ec2 server setting
+       ec2 server setting
       username: ssafy
       password: 601mylittlesnowball!
       host: k7a601.p.ssafy.io
