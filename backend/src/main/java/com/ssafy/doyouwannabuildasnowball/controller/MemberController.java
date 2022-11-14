@@ -14,6 +14,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -58,6 +62,20 @@ public class MemberController {
 
         Boolean isDuplicated = memberService.confirmDuplicateNickname(nickname);
         return ResponseEntity.ok(isDuplicated);
+    }
+
+    @DeleteMapping(value="/cookie")
+    public ResponseEntity<Void> eraseCookie(HttpServletRequest request, HttpServletResponse response){
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if("refresh".equals(cookie.getName())) {
+                cookie.setMaxAge(0);
+                response.addCookie(cookie); // 응답 헤더에 추가해서 없어지도록 함
+                log.info("cookie 제거 완료");
+                break;
+            }
+        }
+        return ResponseEntity.ok().build();
     }
 }
 
