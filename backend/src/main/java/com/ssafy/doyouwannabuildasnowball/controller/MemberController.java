@@ -45,8 +45,9 @@ public class MemberController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<Void> updateUserInfo(@RequestBody MemberUpdateRequest memberUpdateRequest) {
+    public ResponseEntity<Void> updateUserInfo(@PathVariable Long memberId, @PathVariable String nickname) {
         try {
+            MemberUpdateRequest memberUpdateRequest = new MemberUpdateRequest(memberId, nickname);
             memberService.updateUserInfo(memberUpdateRequest);
         } catch (DuplicateException | NotFoundException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
