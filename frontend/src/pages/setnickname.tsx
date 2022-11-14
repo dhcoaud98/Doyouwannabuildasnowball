@@ -2,7 +2,8 @@
 import { useNavigate } from "react-router-dom"
 import { useState } from 'react'
 import axios from 'axios';
-import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { useAppSelector, useAppDispatch } from '../app/hooks'
+import { useDispatch } from "react-redux";
 import { RootState } from "../app/store";
 
 // Other components
@@ -12,6 +13,7 @@ import "../index.css"
 import styles from "./setnickname.module.css"
 import { Navbar } from '../components/navbar/navbar';
 import { API_URL } from "../switchurl"
+import { setNickname } from "../features/userSlice";
 
 // MUI
 import { Grid, Button, TextField } from '@mui/material';
@@ -45,28 +47,46 @@ function Setnickname() {
   const nowUserID = useAppSelector((state : RootState)  => state.user.userId);
   let nowUserNickName = useAppSelector((state: RootState) => state.user.nickname)
 
-  const [insertingNickName, setInsertingNickName] = useState(nowUserNickName)
+  const [insertedNickName, setInsertedNickName] = useState(nowUserNickName)
+
+  const [isOverLap, setIsOverLap] = useState(0)
 
   const changingNickName = (event:any) => {
-    setInsertingNickName(event.target.value)
+    setInsertedNickName(event.target.value)
   }
 
   // 중복확인 함수
   const checkNickName = () => {
-    axios.get(`${APIURL}api/member/confirm/`)
+    axios.get(`${APIURL}api/member/confirm/${insertedNickName}`)
       .then((response) => {
-        console.log(response.data)
+        if (insertedNickName === null) {
+          alert ("설정할 닉네임을 입력해주세요.")
+        } else {
+          if (response.data === true) {
+            alert("중복되는 닉네임입니다. 다른 닉네임을 입력해주세요")
+            setIsOverLap((prev) => 1)
+          } else if (response.data === false) {
+            alert("사용가능한 닉네임입니다.")
+            setIsOverLap((prev) => 2)
+          }
+        }
       })
       .catch((error) => {
-        console.log(error)
       })
   }
   
   // 닉네임 설정 함수
   const updateNickName = () => {
-    // axios.post()
+    axios.patch(`${APIURL}api/member/update/${nowUserID}/${insertedNickName}`)
+    .then((response) => {
+      console.log('성공')
+      alert('닉네임이 변경되었습니다.')
+      dispatch(setNickname(insertedNickName))
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
-
 
   return (
     <div id="container_div">
@@ -82,7 +102,8 @@ function Setnickname() {
           <div className={styles.description_box}>
             <img src={tutorialBoxImg} alt="" className={styles.tutorial_box}/>
             <div className={styles.description}>
-              <p className={`font-bold ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.8rem', marginBottom:'15%'}}>사용할 닉네임을 설정해주세요.</p>
+              <p className={`font-bold ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.8rem'}}>사용할 닉네임을</p>
+              <p className={`font-bold ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.8rem', marginBottom:'15%'}}>설정해주세요.</p>
 
               <div style={{ width: '70%', marginBottom: '5%'}}>
                 <ThemeProvider theme={theme}>
@@ -97,7 +118,7 @@ function Setnickname() {
               </ThemeProvider>
 
               <ThemeProvider theme={theme}>
-                <Button onClick={() => updateNickName()} variant="contained" color="primary" className={styles.setnickname_button}>
+                <Button disabled={isOverLap !== 2 ? true : false} onClick={() => updateNickName()} variant="contained" color="primary" className={styles.setnickname_button}>
                   <p className={`${styles.green_text} ${styles.setnickname_button_text}`}>닉네임 설정하기</p>
                 </Button>
               </ThemeProvider>
