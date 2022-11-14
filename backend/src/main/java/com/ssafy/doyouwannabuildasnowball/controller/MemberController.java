@@ -55,11 +55,7 @@ public class MemberController {
     }
 
     @GetMapping("/confirm/{nickname}")
-    public ResponseEntity<Boolean> confirmDuplicateNickname(@ApiIgnore @AuthenticationPrincipal CustomUserDetails member, @PathVariable String nickname) {
-        log.info("member : " + member.toString());
-        log.info(member.getName());
-        log.info(member.getEmail());
-
+    public ResponseEntity<Boolean> confirmDuplicateNickname(@PathVariable String nickname) {
         Boolean isDuplicated = memberService.confirmDuplicateNickname(nickname);
         return ResponseEntity.ok(isDuplicated);
     }
