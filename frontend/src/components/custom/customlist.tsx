@@ -8,15 +8,15 @@ import { useAppDispatch } from '../../app/hooks';
 
 // Other components
 import styles from './customlist.module.css'
-import Tree_1 from '../../assets/images/tree_btn_images/tree_1.png' 
-import Tree_2 from '../../assets/images/tree_btn_images/tree_2.png' 
-import Tree_3 from '../../assets/images/tree_btn_images/tree_3.png' 
-import Tree_4 from '../../assets/images/tree_btn_images/tree_4.png' 
-import Tree_5 from '../../assets/images/tree_btn_images/tree_5.png' 
-import Tree_6 from '../../assets/images/tree_btn_images/tree_6.png' 
-import Tree_7 from '../../assets/images/tree_btn_images/tree_7.png' 
-import Tree_8 from '../../assets/images/tree_btn_images/tree_8.png' 
-import Tree_9 from '../../assets/images/tree_btn_images/tree_9.png' 
+import Tree_1 from '../../assets/images/illustrations/trees/tree_1.png' 
+import Tree_2 from '../../assets/images/illustrations/trees/tree_2.png' 
+import Tree_3 from '../../assets/images/illustrations/trees/tree_3.png' 
+import Tree_4 from '../../assets/images/illustrations/trees/tree_4.png' 
+import Tree_5 from '../../assets/images/illustrations/trees/tree_5.png' 
+import Tree_6 from '../../assets/images/illustrations/trees/tree_6.png' 
+import Tree_7 from '../../assets/images/illustrations/trees/tree_7.png' 
+import Tree_8 from '../../assets/images/illustrations/trees/tree_8.png' 
+import Tree_9 from '../../assets/images/illustrations/trees/tree_9.png' 
 
 // MUI
 import { Tabs, Tab, Box, Button, Grid } from '@mui/material';
@@ -43,6 +43,7 @@ export function CustomList() {
   // react hook
   const dispatch = useAppDispatch()
   const deco = useSelector((state:RootState) => state.snowball.deco)
+  const c_tree_id = useSelector((state: RootState) => state.snowball.deco[0].indicator)
 
   // 각 탭에 들어갈 버튼 이미지들과 그 값들
   const tapImagesArr = [
@@ -83,9 +84,9 @@ export function CustomList() {
             <Tab label="tree" />
             <Tab label="build" />
             <Tab label="snow" />
-            <Tab label="ob1" />
-            <Tab label="ob2" />
-            <Tab label="ob3" />
+            <Tab label="ob1" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
+            <Tab label="ob2" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
+            <Tab label="ob3" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
             <Tab label="pet" />
           </Tabs>
 
