@@ -2,9 +2,9 @@
 import { API_URL } from "../switchurl";
 // Other components
 import { Navbar } from "../components/navbar/navbar";
-import styles from "./collection.module.css"
-import deco1Img from "../assets/images/deco1.png"
-import woodbar2Img from "../assets/images/woodbar2.png"
+import styles from "./collection.module.css";
+import deco1Img from "../assets/images/deco1.png";
+import woodbar2Img from "../assets/images/woodbar2.png";
 
 // MUI
 import { Grid } from '@mui/material';
@@ -15,6 +15,7 @@ import axios from "axios";
 import { setShelf } from "../features/shelfSlice";
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import Carousel from 'react-material-ui-carousel';
 // ------------------------------------------------------------------------
 
 // Collect 타입 지정
@@ -67,38 +68,19 @@ function Collection() {
 
             {/* 여기는 컬렉션 박스 */}
             <div className={styles.collection_box}>
-              <img src={deco1Img} alt="" className={styles.flower_deco}/>
-      
-              {/* <div className={styles.collection_box_top}></div> */}
-
-              <div className={styles.collection_box_top}>
-                <img src={woodbar2Img} className={styles.collection_mysnowball}></img>
-              </div>
-              <div className={styles.collection_box_top}>
-                {/* <Snow_globe/> */}
-                {/* <ImageList sx={{ width: 500, height: 450 }} cols={1} rowHeight={164} className={styles.snowList}>
-                  {shelf_list.map((item:Collect) => {
-                    return (
-                      <ImageListItem key={item.screenshot}>
-                      <img
-                        src={`${item.screenshot}?w=164&h=164&fit=crop&auto=format`}
-                        srcSet={`${item.screenshot}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-
-                      />
-                      </ImageListItem>
-                      )
-                    }
-                  )}
-                </ImageList> */}
-
-              </div>
-              
-              <div className={styles.collection_box_top}>
-                <img src={woodbar2Img} className={styles.collection_mysnowball2}></img>
-              </div>
-              <div className={styles.collection_box_top}>
-                <img src={woodbar2Img} className={styles.collection_mysnowball3}></img>
-              </div>
+            <Carousel className={styles.collection_carousel}
+             navButtonsProps={{         
+              style: {
+                  // backgroundColor: 'cornflowerblue',
+                  borderRadius: 10, 
+              }
+            }} 
+            height={"90%"}
+            autoPlay={false}>
+              {
+                shelf_list.map( (item, i) => <div key={i} className={styles.collection_carousel_div}><img  src={item.screenshot} className={styles.collection_carousel_img}/></div> )
+              }
+              </Carousel>
             </div>
 
 
