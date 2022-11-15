@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // initalState 타입 정의
 interface ShelfType {
-  shelfList: Array<Object>
+  shelfList: Array<any>
 }
 
 // initalState 생성
