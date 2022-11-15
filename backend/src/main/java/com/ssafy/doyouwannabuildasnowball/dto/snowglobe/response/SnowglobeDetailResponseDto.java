@@ -14,5 +14,6 @@ import java.util.List;
 @Builder
 public class SnowglobeDetailResponseDto {
     private Long snowglobeId;
+    private Long musicId;
     private List<Element> deco;
 }

@@ -145,9 +145,11 @@ public class SnowglobeService {
     //스노우볼 상세 (마을로 넘어가기)
     @Transactional
     public SnowglobeDetailResponseDto showDetail(Long sid) {
+        Snowglobe snowglobe = snowglobeRepository.findById(sid).orElseThrow(() -> new BadRequestException(SNOWGLOBE_BAD_REQUEST));
         Decoration decoration = decorationRepository.findById(sid).orElseThrow(() -> new BadRequestException(DECORATION_BAD_REQUEST));
         return SnowglobeDetailResponseDto.builder()
                 .snowglobeId(sid)
+                .musicId(snowglobe.getMusic().getMusicId())
                 .deco(decoration.getDeco())
                 .build();
     }
