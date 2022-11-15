@@ -139,14 +139,16 @@ function CustomMain() {
     const logout = () => {
       alert('로그아웃 하기')
       localStorage.setItem("accessToken", '');
-      axios.delete(`${APIURL}api/member/cookie`, {
+      axios.post(`${APIURL}api/member/logout/${nowUserID}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       })
         .then(res => {
           console.log("로그아웃 성공")
-        })
+          removeCookie("refresh", { path: '/' }); 
+          router('/');
+      })
     }
 
     
@@ -207,9 +209,6 @@ function CustomMain() {
 
     // 컴포넌트 실행시 가장 먼저 실행되는 함수 
     useEffect(() => {
-      const preURL = document.referrer
-      console.log('preURL = ', preURL)
-
       // 지금 여기 누구 페이지야? 묻는 액시오스
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {
