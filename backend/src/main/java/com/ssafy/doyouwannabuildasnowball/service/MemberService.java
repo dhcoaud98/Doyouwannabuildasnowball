@@ -13,6 +13,7 @@ import com.ssafy.doyouwannabuildasnowball.repository.jpa.MusicRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.SnowglobeRepository;
 import com.ssafy.doyouwannabuildasnowball.repository.mongo.DecorationRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundExcept
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
 
 
@@ -30,7 +32,7 @@ public class MemberService {
     private final SnowglobeRepository snowglobeRepository;
     private final DecorationRepository decorationRepository;
     private final MusicRepository musicRepository;
-
+    private final String DEFAULT_SCREENSHOT_URL = "https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/DEFAULT.png";
     @Transactional(readOnly = true)
     public MemberMeResponse findByLoginMember(Long memberId) {
         Member findMember = findById(memberId);
@@ -85,7 +87,7 @@ public class MemberService {
                         .makerSaved(true)
                         .receiver(member)
                         .receiverSaved(true)
-                        .screenshot(null)
+                        .screenshot(DEFAULT_SCREENSHOT_URL)
                         .music(musicRepository.findById(1L).orElseThrow(()->new NotFoundException(MUSIC_NOT_FOUND)))
                         .build());
         // 스노우볼 아이디를 회원에게 저장
@@ -105,5 +107,9 @@ public class MemberService {
     }
 
 
-
+    @Transactional
+    public void logout(Long memberId) {
+        log.info(String.valueOf(memberId));
+        memberRepository.deleteRefreshTokenByMemberId(memberId);
+    }
 }

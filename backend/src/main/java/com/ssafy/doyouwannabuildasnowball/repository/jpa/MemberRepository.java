@@ -53,4 +53,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     		"WHERE member_id IN (:memberIdList) " + 
     		"ORDER BY memberId", nativeQuery = true)
     List<FriendMemberDtoInterface> getAllFriendInfo(@Param("memberIdList") List<Long> memberIdList);
+
+
+    @Transactional
+    @Modifying
+    @Query("update Member m set m.refreshToken = null where m.memberId =:memberId")
+    void deleteRefreshTokenByMemberId(@Param("memberId") Long memberId);
 }
