@@ -23,7 +23,7 @@ const Home = () => {
   // react hook
   const dispatch = useDispatch()
 
-  // 로그인
+  // // 로그인
   // const API_SERVER = "http://localhost:8080/api"
   // const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
   // const CLIENT_URL = "http://localhost:3000"
@@ -81,7 +81,7 @@ const Home = () => {
             dispatch(setCurrentSb(rs.data))
           })
           if (isNewMember === true) {
-            router('/tutorial')
+            router('/setnickname')
           } else {
             router(`/custommain/${res.data.memberId}`)
           }

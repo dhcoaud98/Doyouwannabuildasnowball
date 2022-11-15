@@ -17,7 +17,8 @@
 .collection_box {
   position: relative;
   height: 80%;
-  background-image: url('../assets/images/CollectionBackground.png');
+  background: rgb(2,0,36);
+  background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(0,2,59,1) 100%);
   /* background-image: url('../public/images/deco1.png'); */
 }
 
@@ -41,6 +42,11 @@
   margin-top: 150px;
 }
 
+.snowList {
+  position: relative;
+  z-index: 2;
+}
+
 .collection_mysnowball2 {
   position: relative;
   width: 100%;
@@ -55,4 +61,20 @@
   height: 15vh;
   z-index: 2;
   margin-top: 70px;
+}
+
+.collection_carousel_div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.collection_carousel_img {
+  width: 80%;
+}
+
+.collection_carousel {
+  height: 100%;
 }

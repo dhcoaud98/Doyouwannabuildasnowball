@@ -1,17 +1,46 @@
 // Systems
-
+import { API_URL } from "../switchurl";
 // Other components
 import { Navbar } from "../components/navbar/navbar";
-import styles from "./collection.module.css"
-import deco1Img from "../assets/images/deco1.png"
-import woodbar2Img from "../assets/images/woodbar2.png"
+import styles from "./collection.module.css";
+import deco1Img from "../assets/images/deco1.png";
+import woodbar2Img from "../assets/images/woodbar2.png";
 
 // MUI
 import { Grid } from '@mui/material';
-
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import { useEffect } from "react";
+import axios from "axios";
+import { setShelf } from "../features/shelfSlice";
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import Carousel from 'react-material-ui-carousel';
 // ------------------------------------------------------------------------
 
+// Collect 타입 지정
+type Collect = {
+  screenshot : string,
+  snowglobeId : number
+}
+
 function Collection() {
+  const user_id = useSelector((state:RootState) => state.user.userId)
+  // shelf list = [{snowglobeId: 2, screenshot: 'https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/2.png'}, snowglobeId: 1, screenshot: 'https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/1.png']
+  const shelf_list = useSelector((state:RootState) => state.shelf.shelfList)
+  const APIURL = API_URL()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url:`${APIURL}api/snowglobe/${user_id}/shelf`
+    })
+    .then((res) => {
+      console.log(res.data)
+      dispatch(setShelf(res.data))
+    })
+  },[])
   return (
       <div id="container_div">
         <Grid container id="container_div">
@@ -39,23 +68,19 @@ function Collection() {
 
             {/* 여기는 컬렉션 박스 */}
             <div className={styles.collection_box}>
-              <img src={deco1Img} alt="" className={styles.flower_deco}/>
-      
-              {/* <div className={styles.collection_box_top}></div> */}
-
-              <div className={styles.collection_box_top}>
-                <img src={woodbar2Img} className={styles.collection_mysnowball}></img>
-              </div>
-              <div className={styles.collection_box_top}>
-                {/* <Snow_globe/> */}
-              </div>
-              
-              <div className={styles.collection_box_top}>
-                <img src={woodbar2Img} className={styles.collection_mysnowball2}></img>
-              </div>
-              <div className={styles.collection_box_top}>
-                <img src={woodbar2Img} className={styles.collection_mysnowball3}></img>
-              </div>
+            <Carousel className={styles.collection_carousel}
+             navButtonsProps={{         
+              style: {
+                  // backgroundColor: 'cornflowerblue',
+                  borderRadius: 10, 
+              }
+            }} 
+            height={"90%"}
+            autoPlay={false}>
+              {
+                shelf_list.map( (item, i) => <div key={i} className={styles.collection_carousel_div}><img  src={item.screenshot} className={styles.collection_carousel_img}/></div> )
+              }
+              </Carousel>
             </div>
 
 

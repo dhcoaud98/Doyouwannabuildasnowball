@@ -17,6 +17,7 @@ import { CustomList } from "../components/custom/customlist";
 import { API_URL } from "../switchurl"
 import wreath1Img from "../assets/images/wreath_1.png"
 import decoration from "../assets/images/decoration.png"
+import { setCurrentSb } from "../features/snowballSlice";
 
 // MUI
 import { styled } from '@mui/material/styles';
@@ -43,7 +44,7 @@ function CustomMain() {
   interface saveHandle {
     saveImage: (sb_id : number) => void
   }
-
+  const dispatch = useAppDispatch()
   const APIURL = API_URL()
   const accessToken = localStorage.getItem("accessToken")
   // 라우터
@@ -59,7 +60,6 @@ function CustomMain() {
   // 페이지 주인 정보 초기값 설정
   const [ownerUserNickName, setOwnerUserNickName] = useState("나")
 
-  
   // 스피드 다이얼 스타일
   const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
     position: 'absolute',
@@ -80,17 +80,39 @@ function CustomMain() {
 
   // 저장버튼 함수
   const saveCustom = () => {
-    axios.put(`${APIURL}api/snowglobe/${nowUserID}/modify`, {
-      screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${currentSbId}.png`,
-      deco: deco
-    })
-    .then(()=>{
-      console.log('성공')
-      containerRef?.current?.saveImage(currentSbId)
-    })
-    .catch((error)=>{
-      console.log(error);
-    })
+    // 내 스노우볼 저장
+    if (nowUserID === ownerUserID) {
+      axios.put(`${APIURL}api/snowglobe/${nowUserID}/modify`, {
+        screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${currentSbId}.png`,
+        deco: deco
+      })
+      .then(()=>{
+        console.log('성공')
+        containerRef?.current?.saveImage(currentSbId)
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+    } 
+    // 다른사람에게 선물 
+    else {
+      if (nowUserID === 0) {
+        // do something
+      } else {
+        axios.put(`${APIURL}api/snowglobe/${nowUserID}/modify`, {
+          screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${currentSbId}.png`,
+          deco: deco
+        })
+        .then((response)=>{
+          console.log('성공')
+          containerRef?.current?.saveImage(currentSbId)
+          router(`askforshare/${ownerUserID}/${response.data.snowglobeId}`)
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+      }   
+    }
   }
   
   // 꾸미기 취소 함수
@@ -117,14 +139,16 @@ function CustomMain() {
     const logout = () => {
       alert('로그아웃 하기')
       localStorage.setItem("accessToken", '');
-      axios.delete(`${APIURL}api/member/cookie`, {
+      axios.post(`${APIURL}api/member/logout/${nowUserID}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       })
         .then(res => {
           console.log("로그아웃 성공")
-        })
+          removeCookie("refresh", { path: '/' }); 
+          router('/');
+      })
     }
 
     
@@ -185,45 +209,67 @@ function CustomMain() {
 
     // 컴포넌트 실행시 가장 먼저 실행되는 함수 
     useEffect(() => {
+      const preURL = document.referrer
+      console.log('preURL = ', preURL)
+
+      // 현재 페이지 주인 스노우볼 정보 가져와서 디스패치
+        axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
+        .then((response) => {
+          console.log('스노우볼 정보', response)
+          dispatch(setCurrentSb(response.data))
+        })
+
       // 지금 여기 누구 페이지야? 묻는 액시오스
-      console.log('ownerUserID',  ownerUserID)
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {
         console.log(response.data)
         if (ownerUserID !== nowUserID) {
+          // 현재 페이지 주인 스노우볼 정보 가져와서 디스패치
+          axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
+          .then((response) => {
+            console.log('스노우볼 정보', response)
+            dispatch(setCurrentSb(response.data))
+          })
+
           setOwnerUserNickName((prev) => response.data.nickname)
           setCustomMenuName((prev) => "선물하기")
 
-          // 어? 내 페이지 아니네, 그럼 이 페이지 주인 나랑 친구야? 묻는 액시오스
-          axios.get(`${APIURL}api/friend/status/${ownerUserID}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`
-            }
-          })
-          .then((response) => {
-            console.log('friend status = ', response.data)
-            if (response.data.status === 0) {
-              setActions((prev) => [
-                { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
-                { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
-              ])
-            } else if (response.data.status === 1) {
-              setActions((prev) => [
-                { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
-                { icon: <HandshakeIcon />, name: '친구추가받기', eventFunc: recieveRequest},
-              ])
-            } else if (response.data.status === 2) {
-              setActions((prev) => [
-                { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
-                { icon: <PersonAddAlt1Icon />, name: '친구요청됨', eventFunc: requestBeFriend},
-              ])
-            } else {
-              setActions((prev) => [
-                { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
-                { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},
-              ])
-            }
-          })
+          if (!accessToken) {
+            setActions((prev) => [
+              { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+            ])
+          } else {
+            // 어? 내 페이지 아니네, 그럼 이 페이지 주인 나랑 친구야? 묻는 액시오스
+            axios.get(`${APIURL}api/friend/status/${ownerUserID}`, {
+              headers: {
+                Authorization: `Bearer ${accessToken}`
+              }
+            })
+            .then((response) => {
+              console.log('friend status = ', response.data)
+              if (response.data.status === 0) {
+                setActions((prev) => [
+                  { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+                  { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
+                ])
+              } else if (response.data.status === 1) {
+                setActions((prev) => [
+                  { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+                  { icon: <HandshakeIcon />, name: '친구추가받기', eventFunc: recieveRequest},
+                ])
+              } else if (response.data.status === 2) {
+                setActions((prev) => [
+                  { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+                  { icon: <PersonAddAlt1Icon />, name: '친구요청됨', eventFunc: requestBeFriend},
+                ])
+              } else {
+                setActions((prev) => [
+                  { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+                  { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},
+                ])
+              }
+            })
+          }
         }
       })
       .catch((error) => {
@@ -276,7 +322,7 @@ function CustomMain() {
                 ))}
               </StyledSpeedDial>
                 
-              <Button color="error" size='large' variant='outlined' className={`${noneAtCustomListFalse} ${styles.save_button}`} onClick={() => saveCustom()}>저장</Button>
+              <Button color="error" size='large' variant='outlined' className={`${noneAtCustomListFalse} ${styles.save_button}`} onClick={() => saveCustom()}>{nowUserID===ownerUserID?'저장':'선물'}</Button>
             </Grid>
           </Grid>
 

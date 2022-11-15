@@ -8,16 +8,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import StyledEngineProvider from '@mui/material/StyledEngineProvider';
 import { CookiesProvider } from 'react-cookie';
 
-// import Board from './pages/board'
-// import Collection from './pages/collection'
 import CustomMain from './pages/custommain'
-// import Friends from './pages/friends'
-// import Index from './pages/intro'
-// import Tutorial  from './pages/tutorial'
-// import Welcome from './pages/welcome'
-// import Setnickname from './pages/setnickname'
-// import AskForShare from './pages/askforshare';
-// import UnityBackGround  from './pages/unitybackground'
 import persistStore from 'redux-persist/es/persistStore';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -52,7 +43,7 @@ root.render(
                 <Route path="/tutorial" element={<Tutorial/>}></Route>
                 <Route path="/welcome" element={<Welcome/>}></Route>
                 <Route path="/setnickname" element={<Setnickname/>}></Route>
-                <Route path="/askforshare" element={<AskForShare/>}></Route>
+                <Route path="/askforshare/:userid/:snowballid" element={<AskForShare/>}></Route>
                 <Route path="/unitybackground" element={<UnityBackGround/>}></Route>
               </Routes>
             </Suspense>

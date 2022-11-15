@@ -33,6 +33,23 @@
   height: 85%;
 }
 
+.modalImgBox{
+  display: flex;
+  justify-content: center;
+}
+
+.modalImag {
+  position: relative;
+  width: 20vw;
+  background-size: contain;
+  border-radius: 10;
+}
+
+.modalContent{
+  display: flex;
+  justify-content: center;
+}
+
 .input_body{
   height: 20%;
   display: flex; 
