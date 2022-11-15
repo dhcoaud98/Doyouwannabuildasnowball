@@ -210,13 +210,6 @@ function CustomMain() {
       const preURL = document.referrer
       console.log('preURL = ', preURL)
 
-      // 현재 페이지 주인 스노우볼 정보 가져와서 디스패치
-        axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
-        .then((response) => {
-          console.log('스노우볼 정보', response)
-          dispatch(setCurrentSb(response.data))
-        })
-
       // 지금 여기 누구 페이지야? 묻는 액시오스
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {
