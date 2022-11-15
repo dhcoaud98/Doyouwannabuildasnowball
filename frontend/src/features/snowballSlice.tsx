@@ -24,7 +24,9 @@ export const SnowballSlice = createSlice({
     // action의 타입은 PayloadAction<제네릭> 으로 정의해준다.
     setCurrentSb: (state: SnowballType, action) => {
       state.current_sb_id = action.payload.snowglobeId
-      state.music_id = action.payload.musicId
+      if (action.payload.musicId != null) {
+        state.music_id = action.payload.musicId
+      }
       state.deco = action.payload.deco
     },
     changeThreeItem: (state: SnowballType, action) => {
