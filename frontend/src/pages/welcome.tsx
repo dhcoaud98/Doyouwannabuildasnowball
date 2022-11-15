@@ -1,5 +1,6 @@
 // Systems
 import { useNavigate } from "react-router-dom"
+import { useAppDispatch } from "../app/hooks"
 
 // Other components
 import "../index.css"
@@ -8,6 +9,7 @@ import tutorialBoxImg from "../assets/images/tutorial_box.png"
 import decorationImg from "../assets/images/decoration.png"
 import kakaoLoginBtnImg from '../assets/images/kakao_login_btn.png'
 import { Navbar } from '../components/navbar/navbar';
+import { setUserId } from "../features/userSlice"
 
 // MUI
 import { Grid, Button, Stack } from "@mui/material"
@@ -28,9 +30,11 @@ const theme = createTheme({
 });
 
 function Welcome() {
+  const dispatch = useAppDispatch()
   const router = useNavigate()
   // 뒤로가기
   const goback = () => {
+    dispatch(setUserId(-1))
     router(-1)
   }
 
