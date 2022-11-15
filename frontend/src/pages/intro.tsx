@@ -81,7 +81,7 @@ const Home = () => {
             dispatch(setCurrentSb(rs.data))
           })
           if (isNewMember === true) {
-            router('/tutorial')
+            router('/setnickname')
           } else {
             router(`/custommain/${res.data.memberId}`)
           }
