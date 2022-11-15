@@ -89,6 +89,7 @@ function CustomMain() {
       .then(()=>{
         console.log('성공')
         containerRef?.current?.saveImage(currentSbId)
+        setCustomListState(false)
       })
       .catch((error)=>{
         console.log(error);
