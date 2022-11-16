@@ -8,7 +8,6 @@ pipeline{
        FRONT_NAME = "mylittlesnowball_front"
     }
     
-    
     stages {
         stage('Clean'){
             steps{
