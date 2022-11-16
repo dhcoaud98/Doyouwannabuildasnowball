@@ -267,7 +267,8 @@ function Profile (props:any) {
                           <ListItemAvatar sx={{ mr:2 }}>
                             <Badge color="error" badgeContent={item.snowglobeRequestCnt} max={100} onClick={() => handleOpen(item)}>
                             <Avatar>
-                              <ImageIcon />
+                              {/* <ImageIcon /> */}
+                              <Avatar alt="profile" src={item.profileImageUrl} />
                             </Avatar>
                             </Badge>
                             
