@@ -32,7 +32,6 @@ def ssh_publisher(SERVER_CONFIG) {
     )
 }
 
-
 pipeline{
     agent any
     environment {
