@@ -32,14 +32,8 @@ def ssh_publisher(SERVER_CONFIG) {
     )
 }
 
-
-<<<<<<< HEAD
-// (1)
-pipeline {
-=======
 pipeline{
     agent any
->>>>>>> backend
     environment {
         BACK_CONTAINER_NAME="back_container"
         BACK_NAME = "back"
