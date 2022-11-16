@@ -1,3 +1,40 @@
+<<<<<<< HEAD
+=======
+def ssh_publisher(SERVER_CONFIG) {
+    sshPublisher(
+        continueOnError: false,
+        failOnError: true,
+        publishers:[
+            sshPublisherDesc(
+                configName: "${SERVER_CONFIG}",
+                verbose: true,
+                transfers: [
+                    // (5.1) Copy script files
+                    sshTransfer(
+                        sourceFiles: "deploy/develop/script/*.sh",
+                        removePrefix: "deploy/develop/script",
+                        remoteDirectory: "build/script"
+                    ),
+                    // (5.2) Copy build files
+                    sshTransfer(
+                        sourceFiles: "build/libs/*.jar",
+                        removePrefix: "build/libs",
+                        remoteDirectory: "/build/lib",
+                        // Absolute path.
+                        execCommand: "sh /home/build/script/deploy_server.sh"
+                    ),
+                    // (5.3) Health check
+					sshTransfer(
+                    	// Absolute path.
+                        execCommand: "sh /home/build/script/health_check.sh"
+                    )
+                ]
+            )
+        ]
+    )
+}
+
+>>>>>>> 32df3e932f5033eef372ab7533fda0b9ae0bad81
 pipeline{
     agent any
     environment {
