@@ -97,7 +97,7 @@ function CustomMain() {
     } 
     // 다른사람에게 선물 
     else {
-      axios.put(`${APIURL}api/snowglobe/${nowUserID}/modify`, {
+      axios.put(`${APIURL}api/snowglobe/${ownerUserID}/modify`, {
         screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${currentSbId}.png`,
         deco: deco
       })
