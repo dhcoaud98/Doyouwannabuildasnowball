@@ -22,6 +22,7 @@ export function Navbar() {
   }
 
   const [nowPage, setNowPage] = useState(' ');
+  const [isXMasPage, setIsXMasPage] = useState(false)
 
   useEffect(() => {
     if (location.pathname === '/collection') {
@@ -36,6 +37,9 @@ export function Navbar() {
       setNowPage('닉네임 설정하기')
     } else {
       setNowPage('선물하기')
+      if (location.pathname === '/merrychristmas') {
+        setIsXMasPage(true)
+      }
     }
   });
 
@@ -43,8 +47,8 @@ export function Navbar() {
     <Grid container>   
       
       {/* 뒤로가기 */}
-      <Grid xs={2} item >
-        <IconButton sx={{ m: 2.5, p:0 }} onClick={goback}>
+      <Grid xs={2} item>
+        <IconButton sx={{ m: 2.5, p:0 }} onClick={goback} disabled={isXMasPage ? true : false}>
           <Avatar alt="" src={wreath1Img} className={styles.avatar}></Avatar>
           <ArrowBackIcon className={styles.arrow}/>
         </IconButton>
