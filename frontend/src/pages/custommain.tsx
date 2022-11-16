@@ -106,9 +106,9 @@ function CustomMain() {
       .then((res)=>{
         console.log(res)
         containerRef?.current?.saveImage(res.data)
-        axios.put(`${APIURL}api/snowglobe/${ownerUserID}/modify`, {
+        axios.patch(`${APIURL}api/snowglobe/changeScreenshot`, {
           screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${res.data}.png`,
-          deco: deco
+          sid: res.data
         })
         .then(()=>{
           console.log('성공')
