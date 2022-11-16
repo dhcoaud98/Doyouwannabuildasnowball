@@ -33,6 +33,7 @@ def ssh_publisher(SERVER_CONFIG) {
     )
 }
 
+
 // (1)
 pipeline {
     environment {
