@@ -8,6 +8,7 @@ pipeline{
        FRONT_NAME = "front"
        PATH = "$PATH:/usr/bin"
     }
+    
     stages {
         stage('Clean'){
             steps{
