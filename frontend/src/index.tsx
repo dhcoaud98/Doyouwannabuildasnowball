@@ -24,6 +24,7 @@ const Tutorial = React.lazy(() => import('./pages/tutorial'))
 const Welcome = React.lazy(() => import('./pages/welcome'))
 const Setnickname = React.lazy(() => import('./pages/setnickname'))
 const AskForShare = React.lazy(() => import('./pages/askforshare'))
+const MerryChristmas = React.lazy(() => import('./pages/merrychristmas'))
 const UnityBackGround = React.lazy(() => import('./pages/unitybackground'))
 const persistor = persistStore(store)
 root.render(
@@ -44,6 +45,7 @@ root.render(
                 <Route path="/welcome" element={<Welcome/>}></Route>
                 <Route path="/setnickname" element={<Setnickname/>}></Route>
                 <Route path="/askforshare/:userid/:snowballid" element={<AskForShare/>}></Route>
+                <Route path="/merrychristmas" element={<MerryChristmas/>}></Route>
                 <Route path="/unitybackground" element={<UnityBackGround/>}></Route>
               </Routes>
             </Suspense>

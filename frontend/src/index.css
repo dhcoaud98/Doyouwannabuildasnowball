@@ -8,6 +8,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   /* background-image : url('../public/images/backImage.png'); */
   width: 100%;
+  color: black;
   min-height: 100vh;
   min-height: -webkit-fill-available;
 }
