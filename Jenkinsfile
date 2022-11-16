@@ -48,6 +48,7 @@ pipeline{
         SERVER_LIST = "server1,server2"
         //////////////////////////////////
     }
+    
     stages {
         stage('Clean'){
             steps{
