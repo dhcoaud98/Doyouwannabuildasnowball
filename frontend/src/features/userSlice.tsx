@@ -35,6 +35,9 @@ export const userSlice = createSlice({
     },
     setNickname: (state: UserType, action) => {
       state.nickname = action.payload
+    },
+    setUserId: (state: UserType, action) => {
+      state.userId = action.payload
     }
     // minusCounter: (state: StateType, action: PayloadAction<number>) => {
     //   state.value -= action.payload;
@@ -45,6 +48,7 @@ export const userSlice = createSlice({
 // 액션을 export 해준다.
 export const { setUser } = userSlice.actions;
 export const { setNickname } = userSlice.actions;
+export const { setUserId } = userSlice.actions;
 
 // 슬라이스를 export 해준다.
 export default userSlice.reducer;

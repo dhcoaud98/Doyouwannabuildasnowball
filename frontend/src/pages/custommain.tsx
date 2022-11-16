@@ -89,6 +89,7 @@ function CustomMain() {
       .then(()=>{
         console.log('성공')
         containerRef?.current?.saveImage(currentSbId)
+        setCustomListState(false)
       })
       .catch((error)=>{
         console.log(error);
@@ -209,16 +210,6 @@ function CustomMain() {
 
     // 컴포넌트 실행시 가장 먼저 실행되는 함수 
     useEffect(() => {
-      const preURL = document.referrer
-      console.log('preURL = ', preURL)
-
-      // 현재 페이지 주인 스노우볼 정보 가져와서 디스패치
-        axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
-        .then((response) => {
-          console.log('스노우볼 정보', response)
-          dispatch(setCurrentSb(response.data))
-        })
-
       // 지금 여기 누구 페이지야? 묻는 액시오스
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {

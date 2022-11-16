@@ -1,9 +1,8 @@
 // Systems
-import { useNavigate, useParams } from "react-router-dom"
-import { useAppSelector } from "../app/hooks"
+import { useNavigate, useParams, Link } from "react-router-dom"
+import { useAppSelector, useAppDispatch } from "../app/hooks"
 import { useEffect, useState } from "react";
 import axios from 'axios';
-
 
 // Other components
 import "../index.css"
@@ -15,7 +14,7 @@ import { API_URL } from "../switchurl"
 import { RootState } from "../app/store";
 
 // MUI
-import { Grid, Button, Stack } from "@mui/material"
+import { Grid, Button } from "@mui/material"
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 // ------------------------------------------------------------------------
@@ -38,6 +37,7 @@ function AskForShare() {
   const ownerUserID = Number(useParams().userid)
   const snowglobeID = Number(useParams().snowballid)
   const router = useNavigate()
+  const dispatch = useAppDispatch()
   const [ownerUserNickName, setOwnerUserNickName] = useState("")
 
   const yesShare = () => {
@@ -105,7 +105,7 @@ function AskForShare() {
                   </Button>
 
                   <Button onClick={() => noThanks()}variant="contained" color="success" className={styles.welcome_button}>
-                    <p className={styles.welcome_button_text}>괜찮아요.</p>
+                    <p className={styles.welcome_button_text}>괜찮아요.</p>                      
                   </Button>
                 </ThemeProvider>
               </Grid>
