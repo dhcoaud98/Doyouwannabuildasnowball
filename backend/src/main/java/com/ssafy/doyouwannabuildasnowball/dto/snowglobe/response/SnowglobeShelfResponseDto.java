@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class SnowglobeShelfResponseDto {
     private Long snowglobeId;
     private String screenshot;
+    private Long makerId;
 }
