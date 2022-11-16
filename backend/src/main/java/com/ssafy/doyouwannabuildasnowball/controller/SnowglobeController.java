@@ -9,6 +9,7 @@ import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicRecommendationR
 import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicSelectRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.common.MainSnowglobeDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
+import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeScreenshotRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeUpdateRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeDetailResponseDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeShelfResponseDto;
@@ -47,8 +48,14 @@ public class SnowglobeController {
 
     //메인 스노우볼 수정*
     @PutMapping("/{member_id}/modify")
-    public ResponseEntity<Void> modifySnowglobe(@PathVariable(value = "member_id") Long uid, @JsonProperty @RequestBody SnowglobeUpdateRequestDto snowglobeUpdateRequestDto) {
+    public ResponseEntity<Void> modifySnowglobe(@PathVariable(value = "member_id") Long uid, @RequestBody SnowglobeUpdateRequestDto snowglobeUpdateRequestDto) {
         snowglobeService.updateSnowglobe(uid, snowglobeUpdateRequestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/changeScreenshot")
+    public ResponseEntity<Void> changeScreenshot(@RequestBody SnowglobeScreenshotRequestDto snowglobeScreenshotRequestDto) {
+        snowglobeService.changeScreenshot(snowglobeScreenshotRequestDto);
         return ResponseEntity.ok().build();
     }
 
