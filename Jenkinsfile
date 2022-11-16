@@ -1,4 +1,10 @@
-// (5) 
+<<<<<<< HEAD
+pipeline{
+    agent any
+    environment {
+       BACK_CONTAINER_NAME="mylittlesnowball_back_container"
+       BACK_NAME = "mylittlesnowball_back"
+=======
 def ssh_publisher(SERVER_CONFIG) {
     sshPublisher(
         continueOnError: false,
@@ -33,36 +39,119 @@ def ssh_publisher(SERVER_CONFIG) {
     )
 }
 
-// (1)
-pipeline {
+
+pipeline{
+    agent any
     environment {
-        // (2) Registered in Jenkins
+        BACK_CONTAINER_NAME="back_container"
+        BACK_NAME = "back"
+
+        FRONT_CONTAINER_NAME="front_container"
+        FRONT_NAME = "front"
+        PATH = "$PATH:/usr/bin"
+
+        //////////////////////////////////
         SERVER_LIST = "server1,server2"
+        //////////////////////////////////
     }
     
-    agent any
+>>>>>>> 7e3dc05e053b3505dea28fda0da20c5c1e15bc5a
 
+       FRONT_CONTAINER_NAME="mylittlesnowball_front_container"
+       FRONT_NAME = "mylittlesnowball_front"
+    }
     stages {
-        stage("Build") {
-        	// (3)
+<<<<<<< HEAD
+        stage('Clean'){
+            steps{
+                script {
+                    try{
+                        sh "docker stop ${BACK_CONTAINER_NAME}"
+
+                        sleep 1
+                        sh "docker rm ${BACK_CONTAINER_NAME}"
+
+                        sh "docker stop ${FRONT_CONTAINER_NAME}"
+                        sleep 1
+                        sh "docker rm ${FRONT_CONTAINER_NAME}"
+                    }catch(e){
+                        sh 'exit 0'
+=======
+
+        stage('Clean'){
+            steps{
+                script {
+                    try{
+                        sh "docker stop ${BACK_CONTAINER_NAME}"
+
+                        sleep 1
+                        sh "docker rm ${BACK_CONTAINER_NAME}"
+
+                        sh "docker stop ${FRONT_CONTAINER_NAME}"
+                        sleep 1
+                        sh "docker rm ${FRONT_CONTAINER_NAME}"
+                    }catch(e){
+                        sh 'exit 0'
+                    }
+                }
+            }
+            
+        }
+        stage('Build') {
             steps {
-                sh "chmod +x gradlew"
-                sh "./gradlew clean build -x test"
+                script{
+                    sh "docker build -t ${BACK_NAME} ./backend/."
+	                sh "docker build -t ${FRONT_NAME} ./frontend/."
+                }
             }
         }
+
+        stage('Deploy'){
+         
         
-        stage("Deploy") {
             steps {
+                /////////////////////////////////////
                 echo "deploy.."
                 echo "${SERVER_LIST}"
                 
                 script {
-                	// (4)
+                    // (4)
                     SERVER_LIST.tokenize(',').each {
                         echo "SERVER: ${it}"
                         ssh_publisher("${it}")
+>>>>>>> 7e3dc05e053b3505dea28fda0da20c5c1e15bc5a
                     }
                 }
+                ////////////////////////////////////
+
+                sh "docker run -d --name=${BACK_CONTAINER_NAME} -p 8080:8080 ${BACK_NAME}"
+                sh "docker run -d --name=${FRONT_CONTAINER_NAME} -p 3000:80 ${FRONT_NAME}"
+            }
+        }
+        stage('Docker run') {
+            steps {
+                sh "docker image prune --force"
+            }
+        }
+        stage('Build') {
+            steps {
+                script{
+                    sh "docker build -t ${BACK_NAME} ./backend/."
+	                sh "docker build -t ${FRONT_NAME} ./frontend/."
+
+                }
+            }
+        }
+
+        stage('Deploy'){
+            steps {
+                sh "docker run -d --name=${BACK_CONTAINER_NAME} -p 8080:8080 ${BACK_NAME}"
+                sh "docker run -d --name=${FRONT_CONTAINER_NAME} -p 3000:80 ${FRONT_NAME}"
+            }
+        }
+        stage('Docker run') {
+            steps {
+                sh "docker image prune --force"
             }
         }
     }
