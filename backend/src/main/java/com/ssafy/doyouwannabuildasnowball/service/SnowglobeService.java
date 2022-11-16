@@ -10,6 +10,7 @@ import com.ssafy.doyouwannabuildasnowball.dto.music.common.MusicAllDto;
 import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicSelectRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.common.MainSnowglobeDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
+import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeScreenshotRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeUpdateRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeDetailResponseDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeShelfResponseDto;
@@ -80,17 +81,26 @@ public class SnowglobeService {
         snowglobeRepository.save(snowglobe);
     }
 
+    @Transactional
+    public void changeScreenshot(SnowglobeScreenshotRequestDto snowglobeScreenshotRequestDto) {
+        Snowglobe snowglobe = snowglobeRepository.findById(snowglobeScreenshotRequestDto.getSid()).orElseThrow(() -> new BadRequestException(SNOWGLOBE_BAD_REQUEST));
+        snowglobe.updateScreenshot(snowglobeScreenshotRequestDto.getUrl());
+        snowglobeRepository.save(snowglobe);
+    }
+
     //친구 메인 페이지에서 스노우볼 선물하기
     @Transactional
     public Long presentSnowglobe(Long rid, SnowglobeRequestDto snowglobeRequestDto) {
         Member maker = memberRepository.findById(snowglobeRequestDto.getMakerId()).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
         Member receiver = memberRepository.findById(rid).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
+        Music music = musicRepository.findById(snowglobeRequestDto.getMusicId()).orElseThrow(() -> new BadRequestException((MUSIC_BAD_REQUEST)));
         Snowglobe snowglobe = Snowglobe.builder()
                 .maker(maker)
                 .screenshot(snowglobeRequestDto.getScreenshot())
                 .receiver(receiver)
                 .makerSaved(false)
                 .receiverSaved(true)
+                .music(music)
                 .build();
 
         snowglobeRepository.save(snowglobe);

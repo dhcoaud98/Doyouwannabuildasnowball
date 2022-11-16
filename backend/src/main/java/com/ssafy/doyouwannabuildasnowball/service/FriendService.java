@@ -228,7 +228,8 @@ public class FriendService {
 		
 		// 내 친구 memberId 리스트
 		List<Long> allFriendList = friendRepository.getAllFriendsMemberId(userId);
-		
+		allFriendList.add(userId);
+
 		List<FriendMemberDtoInterface> allNotFriendMemberList = memberRepository.getAllNotFriendMemberByNickname(keyword, allFriendList);
 
 		List<FriendRes> result = new ArrayList<FriendRes>();
