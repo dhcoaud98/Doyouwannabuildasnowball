@@ -34,7 +34,7 @@ function Welcome() {
   const router = useNavigate()
   // 뒤로가기
   const goback = () => {
-    dispatch(setUserId(-1))
+    dispatch(setUserId(1))
     router(-1)
   }
 
