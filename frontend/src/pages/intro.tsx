@@ -32,9 +32,6 @@ const Home = () => {
   const CLIENT_URL = "https://mylittlesnowball.com"
   const OAUTH2_REDIRECT_URI = `?redirect_uri=${CLIENT_URL}`
   const REDIRECT_URI = AUTH_URL + OAUTH2_REDIRECT_URI
-  // const REDIRECT_URI = 'http://localhost:8080/api/oauth2/authorize/kakao'
-  // const CLIENT_URL = "http://localhost:3000"
-  // const OAUTH2_REDIRECT_URI = `?redirect_uri=${CLIENT_URL}`
 
   const [isNewMember, setIsNewMember] = useState(false)
   
