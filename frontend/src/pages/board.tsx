@@ -90,7 +90,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 500,
-  bgcolor: '#FED6D6',
+  bgcolor: '#FFFFFF',
   border: '0px solid #000',
   borderRadius: '4px',
   boxShadow: 24,

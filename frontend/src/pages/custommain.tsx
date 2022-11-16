@@ -35,7 +35,7 @@ import PersonOffIcon from '@mui/icons-material/PersonOff';
 import AppsIcon from '@mui/icons-material/Apps';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import SmsIcon from '@mui/icons-material/Sms';
 // ------------------------------------------------------------------------
 
 function CustomMain() {
@@ -97,7 +97,7 @@ function CustomMain() {
     } 
     // 다른사람에게 선물 
     else {
-      axios.put(`${APIURL}api/snowglobe/${nowUserID}/modify`, {
+      axios.put(`${APIURL}api/snowglobe/${ownerUserID}/modify`, {
         screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${currentSbId}.png`,
         deco: deco
       })
@@ -152,6 +152,9 @@ function CustomMain() {
           router('/');
       })
     }
+    const board = () => {
+      router('/board')
+    }
 
     
     // 2.남의 메인페이지일 경우 스피드 다이얼 함수 구성
@@ -204,7 +207,8 @@ function CustomMain() {
       { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
       { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
       { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection},
-      { icon: <LogoutIcon/>, name: '로그아웃', eventFunc: logout}
+      { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
+      { icon: <LogoutIcon/>, name: '로그아웃', eventFunc: logout},
     ])
     // 여기서부터는 현재 서비스 사용자와 현재 페이지 소유자가 같은지 여부에 따라 달라지는 변수들
     const [customMenuName, setCustomMenuName] = useState("꾸미기")
