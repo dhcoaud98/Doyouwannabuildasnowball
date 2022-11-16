@@ -97,23 +97,24 @@ function CustomMain() {
     } 
     // 다른사람에게 선물 
     else {
-      if (nowUserID === 0) {
-        // do something
-      } else {
-        axios.put(`${APIURL}api/snowglobe/${nowUserID}/modify`, {
-          screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${currentSbId}.png`,
-          deco: deco
-        })
-        .then((response)=>{
-          console.log('성공')
-          containerRef?.current?.saveImage(currentSbId)
-          router(`askforshare/${ownerUserID}/${response.data.snowglobeId}`)
-        })
-        .catch((error)=>{
-          console.log(error);
-        })
-      }   
-    }
+      axios.put(`${APIURL}api/snowglobe/${nowUserID}/modify`, {
+        screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${currentSbId}.png`,
+        deco: deco
+      })
+      .then((response)=>{
+        console.log('성공')
+        containerRef?.current?.saveImage(currentSbId)
+        if (nowUserID === -1) {
+          router('/merrychristmas')
+        }
+        else {
+          router(`/askforshare/${ownerUserID}/${response.data.snowglobeId}`)
+        }
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+    }   
   }
   
   // 꾸미기 취소 함수
