@@ -184,7 +184,8 @@ function Profile (props:any) {
   // 친구 검색
   const searchFriend = (data:string) => {
     console.log(data);
-    
+    console.log(nowUser);
+    console.log("accessToken"+accessToken);
     axios.get(`${APIURL}api/friend/search/${data}`, {     
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -267,7 +268,8 @@ function Profile (props:any) {
                           <ListItemAvatar sx={{ mr:2 }}>
                             <Badge color="error" badgeContent={item.snowglobeRequestCnt} max={100} onClick={() => handleOpen(item)}>
                             <Avatar>
-                              <ImageIcon />
+                              {/* <ImageIcon /> */}
+                              <Avatar alt="profile" src={item.profileImageUrl} />
                             </Avatar>
                             </Badge>
                             
