@@ -77,6 +77,14 @@ import Pet_7 from '../../assets/images/illustrations/pets/pet_7.png'
 import Pet_8 from '../../assets/images/illustrations/pets/pet_8.png'
 import Pet_9 from '../../assets/images/illustrations/pets/pet_9.png'
 import Pet_10 from '../../assets/images/illustrations/pets/pet_10.png'
+import Music_1 from '../../assets/images/illustrations/musics/music_1.png'
+import Music_2 from '../../assets/images/illustrations/musics/music_2.png'
+import Music_3 from '../../assets/images/illustrations/musics/music_3.png'
+import Music_4 from '../../assets/images/illustrations/musics/music_4.png'
+import Music_5 from '../../assets/images/illustrations/musics/music_5.png'
+import Music_6 from '../../assets/images/illustrations/musics/music_6.png'
+import NoElement from '../../assets/images/illustrations/no_element.png'
+
 
 // MUI
 import { Tabs, Tab, Box, Button, Grid } from '@mui/material';
@@ -103,13 +111,14 @@ export function CustomList() {
 
   // 각 탭에 들어갈 버튼 이미지들과 그 값들
   const tapImagesArr = [
-    [{image_path:Tree_1,},{image_path:Tree_2,},{image_path:Tree_3,},{image_path:Tree_4,},{image_path:Tree_5,},{image_path:Tree_6,},{image_path:Tree_7,},{image_path:Tree_8,},{image_path:Tree_9,},{image_path:"1-10",}],
-    [{image_path:Building_1,},{image_path:Building_2,},{image_path:Building_3,},{image_path:Building_4,},{image_path:Building_5,},{image_path:Building_6,},{image_path:"2-7",},{image_path:"2-8",},{image_path:"2-9",},{image_path:"2-10",}],
-    [{image_path:Snowman_1,},{image_path:Snowman_2,},{image_path:Snowman_3,},{image_path:Snowman_4,},{image_path:Snowman_5,},{image_path:Snowman_6,},{image_path:Snowman_7,},{image_path:Snowman_8,},{image_path:"3-9",},{image_path:"3-10"}],
+    [{image_path:Tree_1,},{image_path:Tree_2,},{image_path:Tree_3,},{image_path:Tree_4,},{image_path:Tree_5,},{image_path:Tree_6,},{image_path:Tree_7,},{image_path:Tree_8,},{image_path:Tree_9,},{image_path:NoElement,}],
+    [{image_path:Building_1,},{image_path:Building_2,},{image_path:Building_3,},{image_path:Building_4,},{image_path:Building_5,},{image_path:Building_6,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement,}],
+    [{image_path:Snowman_1,},{image_path:Snowman_2,},{image_path:Snowman_3,},{image_path:Snowman_4,},{image_path:Snowman_5,},{image_path:Snowman_6,},{image_path:Snowman_7,},{image_path:Snowman_8,},{image_path:NoElement,},{image_path:NoElement}],
     [{image_path:Obj1_1,},{image_path:Obj1_2,},{image_path:Obj1_3,},{image_path:Obj1_4,},{image_path:Obj1_5,},{image_path:Obj1_6,},{image_path:Obj1_7,},{image_path:Obj1_8,},{image_path:Obj1_9,},{image_path:Obj1_10,}],
     [{image_path:Obj2_1,},{image_path:Obj2_2,},{image_path:Obj2_3,},{image_path:Obj2_4,},{image_path:Obj2_5,},{image_path:Obj2_6,},{image_path:Obj2_7,},{image_path:Obj2_8,},{image_path:Obj2_9,},{image_path:Obj2_10,}],
     [{image_path:Obj3_1,},{image_path:Obj3_2,},{image_path:Obj3_3,},{image_path:Obj3_4,},{image_path:Obj3_5,},{image_path:Obj3_6,},{image_path:Obj3_7,},{image_path:Obj3_8,},{image_path:Obj3_9,},{image_path:Obj3_10,}],
-    [{image_path:Pet_1,},{image_path:Pet_2,},{image_path:Pet_3,},{image_path:Pet_4,},{image_path:Pet_5,},{image_path:Pet_6,},{image_path:Pet_7,},{image_path:Pet_8,},{image_path:Pet_9,},{image_path:Pet_10}]
+    [{image_path:Pet_1,},{image_path:Pet_2,},{image_path:Pet_3,},{image_path:Pet_4,},{image_path:Pet_5,},{image_path:Pet_6,},{image_path:Pet_7,},{image_path:Pet_8,},{image_path:Pet_9,},{image_path:Pet_10}],
+    [{image_path:Music_1,},{image_path:Music_2,},{image_path:Music_3,},{image_path:Music_4,},{image_path:Music_5,},{image_path:Music_6,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement}]
   ]
   // 탭 변환 함수
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -144,6 +153,7 @@ export function CustomList() {
             <Tab label="장식2" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
             <Tab label="장식3" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
             <Tab label="동물" />
+            <Tab label="노래" />
           </Tabs>
 
           {/* 탭별 하단요소들 */}

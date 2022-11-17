@@ -287,7 +287,7 @@ function Profile (props:any) {
                   </Box>
                   
                   {/* 내 친구 목록 */}
-                  <Box component="div" sx={{ bgcolor: '#FFF8F3', borderRadius:15}} className={data === '' ? styles.myFriend2 : styles.myFriend}>
+                  <Box component="div" sx={{ bgcolor: '#FFF8F3'}} className={data === '' ? styles.myFriend2 : styles.myFriend}>
                     <List
                       sx={{
                         position: 'relative',
