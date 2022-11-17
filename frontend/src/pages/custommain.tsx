@@ -36,6 +36,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SmsIcon from '@mui/icons-material/Sms';
+import SettingsIcon from '@mui/icons-material/Settings';
 // ------------------------------------------------------------------------
 
 function CustomMain() {
@@ -139,6 +140,11 @@ function CustomMain() {
     }   
   }
   
+  // 닉네임 변경 함수
+  const changeNickName = () => {
+    router('/setnickname')
+  }
+
   // 꾸미기 취소 함수
   const cancelCustom = () => {
     axios.get(`${APIURL}api/snowglobe/${currentSbId}/detail`)
@@ -235,6 +241,7 @@ function CustomMain() {
       { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
       { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection},
       { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
+      { icon: <SettingsIcon/>, name: '닉네임변경', eventFunc: changeNickName},
       { icon: <LogoutIcon/>, name: '로그아웃', eventFunc: logout},
     ])
     // 여기서부터는 현재 서비스 사용자와 현재 페이지 소유자가 같은지 여부에 따라 달라지는 변수들
