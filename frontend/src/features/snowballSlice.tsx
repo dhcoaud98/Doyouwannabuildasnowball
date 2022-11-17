@@ -58,6 +58,10 @@ export const SnowballSlice = createSlice({
           state.deco[6].indicator = action.payload.indicator
           break
       }
+    },
+
+    changeMusic: (state: SnowballType, action) => {
+      state.music_id = action.payload
     }
     // minusCounter: (state: StateType, action: PayloadAction<number>) => {
     //   state.value -= action.payload;
@@ -66,7 +70,7 @@ export const SnowballSlice = createSlice({
 });
 
 // 액션을 export 해준다.
-export const { setCurrentSb, changeThreeItem } = SnowballSlice.actions;
+export const { setCurrentSb, changeThreeItem, changeMusic } = SnowballSlice.actions;
 
 // 슬라이스를 export 해준다.
 export default SnowballSlice.reducer;

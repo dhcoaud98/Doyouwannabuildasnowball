@@ -137,6 +137,11 @@ function CustomMain() {
   
   // 꾸미기 취소 함수
   const cancelCustom = () => {
+    axios.get(`${APIURL}api/snowglobe/${currentSbId}/detail`)
+    .then((res) => {
+      dispatch(setCurrentSb(res.data))
+    })
+      
     setCustomListState((prev) => false)
   }
   
@@ -292,9 +297,12 @@ function CustomMain() {
     },[]) 
 
     useEffect(() => {
-      const audio = new Audio('https://601snowball.s3.ap-northeast-2.amazonaws.com/music/We+Wish+You+a+Merry+Christmas.wav')
+      console.log('dd')
+      const audioList = ['https://601snowball.s3.ap-northeast-2.amazonaws.com/music/We+Wish+You+a+Merry+Christmas.wav', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/O+Holy+Night(A.Sax).wav', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/Joy+To+The+World(EDM).mp3', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/%EC%B2%9C%EC%82%AC%EB%93%A4%EC%9D%98+%EB%85%B8%EB%9E%98%EA%B0%80(Angels+We+Have+Heard+on+High).wav', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/%EC%A7%95%EA%B8%80%EB%B2%A8(Jingle+Bell).wav','https://601snowball.s3.ap-northeast-2.amazonaws.com/music/%EC%98%A4+%EB%B2%A0%EB%93%A4%EB%A0%88%ED%97%B4+%EC%9E%91%EC%9D%80+%EB%A7%88%EC%9D%84(O+Little+Town+Of+Bethlehem).wav']
+      const audio = new Audio(audioList[currentMusicId])
       audio.play()
     },[])
+
 
     return (
     <div id="container_div">
