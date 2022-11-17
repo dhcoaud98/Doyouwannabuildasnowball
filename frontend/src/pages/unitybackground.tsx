@@ -4,10 +4,14 @@ import { useEffect } from "react";
 
 // axios
 import "./unitybackground.css"
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
 
 function UnityBackground() {
 
+  const currentSbId = useSelector((state: RootState) => state.snowball.current_sb_id)
+  const deco = useSelector((state: RootState) => state.snowball.deco)
   // Unity Embed
   const { unityProvider, sendMessage, addEventListener, removeEventListener, requestFullscreen } = useUnityContext({
     loaderUrl: "Build/Project.loader.js",
@@ -27,10 +31,11 @@ function UnityBackground() {
     };
   }, [addEventListener, removeEventListener,SendRequest])
 
+
   // javascript => unity setMap
   function SendRequest() {
     console.log('sta')
-    sendMessage("UserObject", "DispatchPos", JSON.stringify({snowglobeid: 14, deco: [{indicator: 0, coordinateX: -14, coordinateY: -6.68, coordinateZ: -8.76},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, z: 0}]}))
+    sendMessage("UserObject", "DispatchPos", JSON.stringify({snowglobeid: currentSbId, deco: deco }))
     
   }
 
