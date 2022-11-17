@@ -8,6 +8,7 @@ import wreath1Img from "../../assets/images/wreath_1.png"
 import IconButton from '@mui/material/IconButton'
 import Avatar from '@mui/material/Avatar'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { LocationCityOutlined } from "@mui/icons-material";
 
 
 export function Navbar() {
@@ -27,11 +28,11 @@ export function Navbar() {
   useEffect(() => {
     if (location.pathname === '/collection') {
       setNowPage('나의 컬렉션')
-    } else if (location.pathname === '/Board') {    
+    } else if (location.pathname === '/board') {    
       setNowPage('방명록')
-    } else if (location.pathname === '/custommain/:userid') {
+    } else if (location.pathname.includes('/custommain/')) {
       setNowPage('나의 스노우볼')
-    } else if (location.pathname === '/friends/:userid') {
+    } else if (location.pathname.includes('/friends/')) {
       setNowPage('나의 친구 목록')
     } else if (location.pathname === '/setnickname') {
       setNowPage('닉네임 설정하기')

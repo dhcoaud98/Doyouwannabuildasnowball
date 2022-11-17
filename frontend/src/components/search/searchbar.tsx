@@ -76,24 +76,25 @@ const SearchBar = (props : any) => {
   <ThemeProvider theme={theme}>
    <Search id='css-xkcxz9' className={styles.searchbarBody}>
       <StyledInputBase
-      className='css-3zl9sa-MuiInputBase-root MuiInputBase-input'
+      className={`css-3zl9sa-MuiInputBase-root MuiInputBase-input ${styles.green_text}`}
       placeholder="친구를 검색하세요"
       inputProps={{ 'aria-label': 'search' }}
       onChange={onChange}
       value={text}
       />
-      {/* 검색어 삭제 */}
-      <Button sx={{width: "1px"}}>
-      <ClearIcon onClick={() => {props.setData(''); setText('')}} />
-      </Button>
-      {/* 검색어 입력 */}
-      <Button onClick={() => props.setData(text) }>
-      <SearchIcon />
-    </Button>
+      <div>
+        {/* 검색어 삭제 */}
+        <Button sx={{width: "1px"}}>
+          <ClearIcon onClick={() => {props.setData(''); setText('')}} />
+        </Button>
+        {/* 검색어 입력 */}
+        <Button onClick={() => props.setData(text) }>
+          <SearchIcon />
+        </Button>
+      </div>
    </Search>
   </ThemeProvider>
   )
 }
-
 
 export default SearchBar;
