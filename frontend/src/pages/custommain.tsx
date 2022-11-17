@@ -137,6 +137,11 @@ function CustomMain() {
   
   // 꾸미기 취소 함수
   const cancelCustom = () => {
+    axios.get(`${APIURL}api/snowglobe/${currentSbId}/detail`)
+    .then((res) => {
+      dispatch(setCurrentSb(res.data))
+    })
+      
     setCustomListState((prev) => false)
   }
   
@@ -295,6 +300,7 @@ function CustomMain() {
       const audio = new Audio('https://601snowball.s3.ap-northeast-2.amazonaws.com/music/We+Wish+You+a+Merry+Christmas.wav')
       audio.play()
     },[])
+
 
     return (
     <div id="container_div">
