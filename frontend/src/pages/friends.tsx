@@ -124,6 +124,7 @@ function Profile (props:any) {
 
   // 친구 삭제 함수
   const deleteFriend = (friendId : any) => {
+    alert("친구를 삭제 하시겠습니까?")
     axios.delete(`${APIURL}api/friend/list/${friendId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -145,6 +146,11 @@ function Profile (props:any) {
       .then(res => {
         setfriends(res.data);
         fetchUsers();
+      })
+      .catch(err => {
+        if(err.response.status === 400) {
+          alert("확인되지 않은 친구 요청입니다.")
+        }
       })
   }
 
