@@ -1,16 +1,17 @@
 package com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request;
 
 import com.ssafy.doyouwannabuildasnowball.domain.collection.Element;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class SnowglobeUpdateRequestDto {
-    private String screenshot;
+@Getter
+public class SnowglobeCoordinateModifyRequestDto {
     private List<Element> deco;
-    private Long musicId;
 }

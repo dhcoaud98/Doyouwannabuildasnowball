@@ -9,6 +9,7 @@ import com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration;
 import com.ssafy.doyouwannabuildasnowball.dto.music.common.MusicAllDto;
 import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicSelectRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.common.MainSnowglobeDto;
+import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeCoordinateModifyRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeScreenshotRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeUpdateRequestDto;
@@ -69,8 +70,10 @@ public class SnowglobeService {
     public void updateSnowglobe(Long uid, SnowglobeUpdateRequestDto snowglobeUpdateRequestDto) {
         //메인 스노우볼 아이디 main_id > mid
         Member member = memberRepository.findById(uid).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
+        Music music = musicRepository.findById(snowglobeUpdateRequestDto.getMusicId()).orElseThrow(() -> new BadRequestException(MUSIC_BAD_REQUEST));
         Snowglobe snowglobe = member.getSnowglobe();
         snowglobe.updateScreenshot(snowglobeUpdateRequestDto.getScreenshot());
+        snowglobe.updateMusic(music);
 
         List<Element> deco = snowglobeUpdateRequestDto.getDeco();
 
@@ -80,7 +83,15 @@ public class SnowglobeService {
         decorationRepository.save(decoById);
         snowglobeRepository.save(snowglobe);
     }
+    //스노우볼 좌표만 수정
+    @Transactional
+    public void modifyCoordinate(Long sid, SnowglobeCoordinateModifyRequestDto snowglobeCoordinateModifyRequestDto) {
+        Decoration decoration = decorationRepository.findById(sid).orElseThrow(() -> new BadRequestException(SNOWGLOBE_BAD_REQUEST));
+        decoration.updateDeco(sid, snowglobeCoordinateModifyRequestDto.getDeco());
+        decorationRepository.save(decoration);
+    }
 
+    //스크린샷 수정
     @Transactional
     public void changeScreenshot(SnowglobeScreenshotRequestDto snowglobeScreenshotRequestDto) {
         Snowglobe snowglobe = snowglobeRepository.findById(snowglobeScreenshotRequestDto.getSid()).orElseThrow(() -> new BadRequestException(SNOWGLOBE_BAD_REQUEST));
