@@ -61,6 +61,10 @@ function CustomMain() {
   const nowUserID = useAppSelector((state : RootState)  => state.user.userId);
   // 페이지 주인 정보 초기값 설정
   const [ownerUserNickName, setOwnerUserNickName] = useState("나")
+  // audio list
+  const audioList = ['https://601snowball.s3.ap-northeast-2.amazonaws.com/music/We+Wish+You+a+Merry+Christmas.wav', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/O+Holy+Night(A.Sax).wav', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/Joy+To+The+World(EDM).mp3', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/%EC%B2%9C%EC%82%AC%EB%93%A4%EC%9D%98+%EB%85%B8%EB%9E%98%EA%B0%80(Angels+We+Have+Heard+on+High).wav', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/%EC%A7%95%EA%B8%80%EB%B2%A8(Jingle+Bell).wav','https://601snowball.s3.ap-northeast-2.amazonaws.com/music/%EC%98%A4+%EB%B2%A0%EB%93%A4%EB%A0%88%ED%97%B4+%EC%9E%91%EC%9D%80+%EB%A7%88%EC%9D%84(O+Little+Town+Of+Bethlehem).wav']
+  // audio ref
+  const audioref = useRef<HTMLAudioElement>(null)
 
   // 스피드 다이얼 스타일
   const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
@@ -297,18 +301,19 @@ function CustomMain() {
     },[]) 
 
     useEffect(() => {
-      console.log('dd')
-      const audioList = ['https://601snowball.s3.ap-northeast-2.amazonaws.com/music/We+Wish+You+a+Merry+Christmas.wav', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/O+Holy+Night(A.Sax).wav', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/Joy+To+The+World(EDM).mp3', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/%EC%B2%9C%EC%82%AC%EB%93%A4%EC%9D%98+%EB%85%B8%EB%9E%98%EA%B0%80(Angels+We+Have+Heard+on+High).wav', 'https://601snowball.s3.ap-northeast-2.amazonaws.com/music/%EC%A7%95%EA%B8%80%EB%B2%A8(Jingle+Bell).wav','https://601snowball.s3.ap-northeast-2.amazonaws.com/music/%EC%98%A4+%EB%B2%A0%EB%93%A4%EB%A0%88%ED%97%B4+%EC%9E%91%EC%9D%80+%EB%A7%88%EC%9D%84(O+Little+Town+Of+Bethlehem).wav']
-      const audio = new Audio(audioList[currentMusicId])
-      audio.play()
-    },[])
+      const audio = audioref.current
+      if (audio != null) {
+        audio.load()
+        audio.play()
+      }    
+    },[currentMusicId])
 
 
     return (
     <div id="container_div">
-      {/* <audio autoPlay controls>
-        <source src="https://601snowball.s3.ap-northeast-2.amazonaws.com/O+Holy+Night.mp3"></source>
-      </audio> */}
+      <audio ref={audioref}>
+        <source src={audioList[currentMusicId]}></source>
+      </audio>
       <Grid container id="container_div">
         {/* 왼쪽 마진 */}
         <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="left_div"></Grid>
