@@ -4,6 +4,7 @@ import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.CustomU
 import com.ssafy.doyouwannabuildasnowball.dto.music.common.MusicAllDto;
 import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicSelectRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.common.MainSnowglobeDto;
+import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeCoordinateModifyRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeScreenshotRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeUpdateRequestDto;
@@ -49,6 +50,14 @@ public class SnowglobeController {
         return ResponseEntity.ok().build();
     }
 
+    //스노우볼 좌표만 수정*
+    @PatchMapping("/{snowglobe_id}/modifyCoordinate")
+    public ResponseEntity<Void> modifyCoordinate(@PathVariable(value = "snowglobe_id") Long sid, @RequestBody SnowglobeCoordinateModifyRequestDto snowglobeCoordinateModifyRequestDto) {
+        snowglobeService.modifyCoordinate(sid, snowglobeCoordinateModifyRequestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    //스크린샷 수정*
     @PatchMapping("/changeScreenshot")
     public ResponseEntity<Void> changeScreenshot(@RequestBody SnowglobeScreenshotRequestDto snowglobeScreenshotRequestDto) {
         snowglobeService.changeScreenshot(snowglobeScreenshotRequestDto);
