@@ -14,7 +14,6 @@ import javax.persistence.*;
 public class Music extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "music_id")
     private Long musicId;
 
