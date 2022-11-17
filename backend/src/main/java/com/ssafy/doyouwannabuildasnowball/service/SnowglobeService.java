@@ -175,8 +175,6 @@ public class SnowglobeService {
                     .musicId(music.getMusicId())
                     .title(music.getTitle())
                     .url(music.getUrl())
-                    .categoryId(music.getCategory().getCategoryId())
-                    .categoryName(music.getCategory().getCategoryName())
                     .build());
         }
         return result;
@@ -190,11 +188,5 @@ public class SnowglobeService {
         snowglobe.updateMusic(music);
         snowglobeRepository.save(snowglobe);
     }
-
-//    //음악 추천
-//    @Transactional
-//    public MusicAllDto musicRecommend(MusicRecommendationRequestDto musicRecommendationRequestDto) {
-//
-//    }
 
 }

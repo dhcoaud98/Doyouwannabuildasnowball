@@ -24,8 +24,5 @@ public class Music extends BaseEntity {
     @Column(length = 200)
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
 
 }
