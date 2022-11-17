@@ -7,9 +7,7 @@ pipeline{
        FRONT_CONTAINER_NAME="mylittlesnowball_front_container"
        FRONT_NAME = "mylittlesnowball_front"
     }
-    
 
-    
     stages {
         stage('Clean'){
             steps{
