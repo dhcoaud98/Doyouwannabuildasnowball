@@ -53,6 +53,8 @@ function CustomMain() {
   const containerRef = useRef<saveHandle>()
   // 현재 띄우는 스노우볼 id
   const currentSbId = useSelector((state: RootState) => state.snowball.current_sb_id)
+  // 현재 스노우볼 music Id
+  const currentMusicId = useSelector((state:RootState) => state.snowball.music_id)
   // 현재 CustomMain의 Owner ID
   let ownerUserID = Number(useParams().userid)
   // 현재 서비스 사용자아이디
@@ -84,7 +86,8 @@ function CustomMain() {
     if (nowUserID === ownerUserID) {
       axios.put(`${APIURL}api/snowglobe/${nowUserID}/modify`, {
         screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${currentSbId}.png`,
-        deco: deco
+        deco: deco,
+        musicId: currentMusicId
       })
       .then(()=>{
         console.log('성공')
@@ -97,18 +100,33 @@ function CustomMain() {
     } 
     // 다른사람에게 선물 
     else {
-      axios.put(`${APIURL}api/snowglobe/${ownerUserID}/modify`, {
-        screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${currentSbId}.png`,
-        deco: deco
+      console.log(ownerUserID)
+      axios.post(`${APIURL}api/snowglobe/${ownerUserID}/present`, {
+        makerId: nowUserID,
+        screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/$DEFAULT.png`,
+        deco: deco,
+        musicId: 1
       })
-      .then((response)=>{
-        console.log('성공')
-        containerRef?.current?.saveImage(currentSbId)
-        if (nowUserID === -1) {
+      .then((res)=>{
+        console.log("포스트",res, nowUserID)
+        containerRef?.current?.saveImage(res.data)
+        axios.patch(`${APIURL}api/snowglobe/changeScreenshot`, {
+          url: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${res.data}.png`,
+          sid: res.data
+        })
+        .then((res)=>{
+          console.log('성공', res)
+          setCustomListState(false)
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+
+        if (nowUserID === 1) {
           router('/merrychristmas')
         }
         else {
-          router(`/askforshare/${ownerUserID}/${response.data.snowglobeId}`)
+          router(`/askforshare/${ownerUserID}/${res.data}`)
         }
       })
       .catch((error)=>{
@@ -273,8 +291,16 @@ function CustomMain() {
       })
     },[]) 
 
+    useEffect(() => {
+      const audio = new Audio('https://601snowball.s3.ap-northeast-2.amazonaws.com/music/We+Wish+You+a+Merry+Christmas.wav')
+      audio.play()
+    },[])
+
     return (
     <div id="container_div">
+      {/* <audio autoPlay controls>
+        <source src="https://601snowball.s3.ap-northeast-2.amazonaws.com/O+Holy+Night.mp3"></source>
+      </audio> */}
       <Grid container id="container_div">
         {/* 왼쪽 마진 */}
         <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="left_div"></Grid>

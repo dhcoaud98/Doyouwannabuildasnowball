@@ -13,3 +13,9 @@
   display: flex;
   justify-content: space-between;
 }
+
+.green_text{
+  color: #4E5D39;
+  font-family: 'Cafe24Oneprettynight';
+  font-weight: bold;
+}
