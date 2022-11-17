@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { RootState } from '../../app/store';
 import { useSelector } from 'react-redux';
-import { changeThreeItem, setCurrentSb } from '../../features/snowballSlice';
+import { changeMusic, changeThreeItem, setCurrentSb } from '../../features/snowballSlice';
 import { useAppDispatch } from '../../app/hooks'
 
 // Other components
@@ -129,9 +129,13 @@ export function CustomList() {
 
   // 버튼 클릭시 three 변화 함수
   const changeThreeComponent = (idx : number) => {
-    const payload = {tapValue: tapValue, indicator: idx}
-    console.log(idx, payload)
-    dispatch(changeThreeItem(payload))
+    if (tapValue === 7) {
+      dispatch(changeMusic(idx))
+    }
+    else{
+      const payload = {tapValue: tapValue, indicator: idx}
+      dispatch(changeThreeItem(payload))
+    }
   }
 
   return (
