@@ -98,6 +98,7 @@ public class SnowglobeController {
         return new ResponseEntity<List<MusicAllDto>>(snowglobeService.musicAll(), HttpStatus.OK);
     }
 
+
     //음악 변경*
     @PatchMapping("/{snowglobe_id}/music/select")
     public ResponseEntity<Void> musicChange(@PathVariable(value = "snowglobe_id") Long sid, @Valid @RequestBody MusicSelectRequestDto musicSelectRequestDto) {
