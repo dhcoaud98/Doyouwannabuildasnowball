@@ -150,7 +150,7 @@ export function CustomList() {
           <Grid component="div" container justifyContent="space-around" alignContent="space-evenly" className={styles.btn_container}>
             {tapImagesArr[tapValue].map((tapImage, idx) => (
               <Grid item key={idx} xs={2.4}>
-                <Button variant="outlined" onClick={() => changeThreeComponent(idx)}>
+                <Button onClick={() => changeThreeComponent(idx)}>
                   <img className={styles.button_img} src={tapImage.image_path} alt={tapImage.image_path} />
                 </Button>
               </Grid> 
