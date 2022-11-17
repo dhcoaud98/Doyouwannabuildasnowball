@@ -69,8 +69,10 @@ public class SnowglobeService {
     public void updateSnowglobe(Long uid, SnowglobeUpdateRequestDto snowglobeUpdateRequestDto) {
         //메인 스노우볼 아이디 main_id > mid
         Member member = memberRepository.findById(uid).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
+        Music music = musicRepository.findById(snowglobeUpdateRequestDto.getMusicId()).orElseThrow(() -> new BadRequestException(MUSIC_BAD_REQUEST));
         Snowglobe snowglobe = member.getSnowglobe();
         snowglobe.updateScreenshot(snowglobeUpdateRequestDto.getScreenshot());
+        snowglobe.updateMusic(music);
 
         List<Element> deco = snowglobeUpdateRequestDto.getDeco();
 

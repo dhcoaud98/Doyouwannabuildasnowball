@@ -56,14 +56,14 @@ public class SnowglobeController {
     }
 
     //친구 메인 페이지에서 스노우볼 선물하기*
-    @PostMapping("{receiver_id}/present")
+    @PostMapping("/{receiver_id}/present")
     public ResponseEntity<Long> presentSnowglobe(@PathVariable(value = "receiver_id") Long rid, @Valid @RequestBody SnowglobeRequestDto snowglobeRequestDto) {
         return new ResponseEntity<Long>(snowglobeService.presentSnowglobe(rid, snowglobeRequestDto), HttpStatus.OK);
     }
 
     //선물한 스노우볼 내 책장에 저장하기*
-    @PatchMapping("/save")
-    public ResponseEntity<Void> savePresent(Long snowglobeId) {
+    @PatchMapping("/{snowglobe_id}/save")
+    public ResponseEntity<Void> savePresent(@PathVariable(value = "snowglobe_id") Long snowglobeId) {
         snowglobeService.savePresent(snowglobeId);
         return ResponseEntity.ok().build();
     }
@@ -92,7 +92,6 @@ public class SnowglobeController {
     public ResponseEntity<List<MusicAllDto>> musicList() {
         return new ResponseEntity<List<MusicAllDto>>(snowglobeService.musicAll(), HttpStatus.OK);
     }
-
 
     //음악 변경*
     @PatchMapping("/{snowglobe_id}/music/select")

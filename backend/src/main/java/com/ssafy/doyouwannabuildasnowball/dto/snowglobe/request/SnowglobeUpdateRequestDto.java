@@ -12,4 +12,5 @@ import java.util.List;
 public class SnowglobeUpdateRequestDto {
     private String screenshot;
     private List<Element> deco;
+    private Long musicId;
 }
