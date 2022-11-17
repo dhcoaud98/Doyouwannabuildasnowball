@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 
 // Other components
 import "../index.css"
+import '../assets/fonts/font.css'
 import styles from "./friends.module.css"
 import { Navbar } from '../components/navbar/navbar';
 import SearchBar from '../components/search/searchbar';
@@ -266,14 +267,13 @@ function Profile (props:any) {
                           
                           <ListItemAvatar sx={{ mr:2 }}>
                             <Badge color="error" badgeContent={item.snowglobeRequestCnt} max={100} onClick={() => handleOpen(item)}>
-                            <Avatar>
+                            {/* <Avatar> */}
                               {/* <ImageIcon /> */}
-                              <Avatar alt="profile" src={item.profileImageUrl} />
-                            </Avatar>
-                            </Badge>
-                            
+                              <Avatar alt="profile" src={item.profileImageUrl}/>
+                            {/* </Avatar> */}
+                            </Badge>                            
                           </ListItemAvatar>
-                          <ListItemText primary={`${item.nickname}`} />
+                          <ListItemText primary={`${item.nickname}`} className={styles.green_text}/>
 
                           {/* 친구 검색을 통해 얻은 친구 목록에서 친구 요청 보내기 */}
                           { item.status === 0 ? 
@@ -281,14 +281,13 @@ function Profile (props:any) {
                             <PersonAddIcon color="inherit" fontSize='large' />
                           </Button>
                             : null }
-
                         </ListItem>
                       ))}
                     </List>
                   </Box>
                   
                   {/* 내 친구 목록 */}
-                  <Box component="div" sx={{ bgcolor: '#FFF8F3' }} className={data === '' ? styles.myFriend2 : styles.myFriend}>
+                  <Box component="div" sx={{ bgcolor: '#FFF8F3', borderRadius:15}} className={data === '' ? styles.myFriend2 : styles.myFriend}>
                     <List
                       sx={{
                         position: 'relative',
@@ -310,7 +309,7 @@ function Profile (props:any) {
                             </Badge>
                             
                           </ListItemAvatar>
-                          <ListItemText primary={`${item.nickname}`} />
+                          <ListItemText primary={`${item.nickname}`} className={styles.green_text} />
 
                           {/* 1. 편지 요청 버튼 => 3*/}
                           { item.status === 3 ? 
