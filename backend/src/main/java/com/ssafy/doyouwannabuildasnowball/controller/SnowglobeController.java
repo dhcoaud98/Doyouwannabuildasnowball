@@ -1,11 +1,7 @@
 package com.ssafy.doyouwannabuildasnowball.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.CustomUserDetails;
-import com.ssafy.doyouwannabuildasnowball.domain.Member;
-import com.ssafy.doyouwannabuildasnowball.domain.Music;
 import com.ssafy.doyouwannabuildasnowball.dto.music.common.MusicAllDto;
-import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicRecommendationRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.music.request.MusicSelectRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.common.MainSnowglobeDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
@@ -97,6 +93,7 @@ public class SnowglobeController {
         return new ResponseEntity<List<MusicAllDto>>(snowglobeService.musicAll(), HttpStatus.OK);
     }
 
+
     //음악 변경*
     @PatchMapping("/{snowglobe_id}/music/select")
     public ResponseEntity<Void> musicChange(@PathVariable(value = "snowglobe_id") Long sid, @Valid @RequestBody MusicSelectRequestDto musicSelectRequestDto) {
@@ -104,11 +101,5 @@ public class SnowglobeController {
         snowglobeService.musicSelect(sid, musicSelectRequestDto);
         return ResponseEntity.ok().build();
     }
-
-//    //음악 추천
-//    @GetMapping("/snowglobe/music/recommend")
-//    public ResponseEntity<MusicAllDto> musicRecommend(@Valid @RequestBody MusicRecommendationRequestDto musicRecommendationRequestDto) {
-//        return new ResponseEntity<MusicAllDto>(snowglobeService.musicRecommend(musicRecommendationRequestDto), HttpStatus.OK);
-//    }
 
 }
