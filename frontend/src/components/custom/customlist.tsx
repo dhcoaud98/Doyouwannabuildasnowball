@@ -7,13 +7,6 @@ import { useAppDispatch } from '../../app/hooks'
 
 // Other components
 import styles from './customlist.module.css'
-// import Tap_Tree from '../../assets/images/illustrations/tap_buttons/tree_btn.png'
-// import Tap_Building from '../../assets/images/illustrations/tap_buttons/building_btn.png'
-// import Tap_Snowman from '../../assets/images/illustrations/tap_buttons/snowman_btn.png'
-// import Tap_Obj1 from '../../assets/images/illustrations/tap_buttons/obj1_btn.png'
-// import Tap_Obj2 from '../../assets/images/illustrations/tap_buttons/obj2_btn.png'
-// import Tap_Obj3 from '../../assets/images/illustrations/tap_buttons/obj3_btn.png'
-// import Tap_Pet from '../../assets/images/illustrations/tap_buttons/pet_btn.png'
 import Tree_1 from '../../assets/images/illustrations/trees/tree_1.png' 
 import Tree_2 from '../../assets/images/illustrations/trees/tree_2.png' 
 import Tree_3 from '../../assets/images/illustrations/trees/tree_3.png' 
@@ -149,21 +142,22 @@ export function CustomList() {
             variant="scrollable"
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
+            className={styles.tap_text}
           >
-            <Tab label="나무"/>
-            <Tab label="건물" />
-            <Tab label="눈사람" />
-            <Tab label="장식1" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
-            <Tab label="장식2" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
-            <Tab label="장식3" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
-            <Tab label="동물" />
-            <Tab label="노래" />
+            <Tab label="나무" className={styles.tap_text}/>
+            <Tab label="건물" className={styles.tap_text}/>
+            <Tab label="눈사람" className={styles.tap_text}/>
+            <Tab label="장식1" className={styles.tap_text} disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
+            <Tab label="장식2" className={styles.tap_text} disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
+            <Tab label="장식3" className={styles.tap_text} disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
+            <Tab label="동물" className={styles.tap_text}/>
+            <Tab label="노래" className={styles.tap_text}/>
           </Tabs>
 
           {/* 탭별 하단요소들 */}
           <Grid component="div" container justifyContent="space-around" alignContent="space-evenly" className={styles.btn_container}>
             {tapImagesArr[tapValue].map((tapImage, idx) => (
-              <Grid item key={idx} xs={2.4}>
+              <Grid item key={idx} xs={2.4} sx={{ justifyContent: 'center', alignContent:"center" }}>
                 <Button onClick={() => changeThreeComponent(idx)}>
                   <img className={styles.button_img} src={tapImage.image_path} alt={tapImage.image_path} />
                 </Button>
