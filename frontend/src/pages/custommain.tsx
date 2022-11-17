@@ -97,18 +97,32 @@ function CustomMain() {
     } 
     // 다른사람에게 선물 
     else {
-      axios.put(`${APIURL}api/snowglobe/${nowUserID}/modify`, {
-        screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${currentSbId}.png`,
+      console.log(ownerUserID)
+      axios.post(`${APIURL}api/snowglobe/${ownerUserID}/present`, {
+        makerId: nowUserID,
+        screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/$DEFAULT.png`,
         deco: deco
       })
-      .then((response)=>{
-        console.log('성공')
-        containerRef?.current?.saveImage(currentSbId)
-        if (nowUserID === -1) {
+      .then((res)=>{
+        console.log(res)
+        containerRef?.current?.saveImage(res.data)
+        axios.patch(`${APIURL}api/snowglobe/changeScreenshot`, {
+          screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${res.data}.png`,
+          sid: res.data
+        })
+        .then(()=>{
+          console.log('성공')
+          setCustomListState(false)
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+
+        if (nowUserID === 1) {
           router('/merrychristmas')
         }
         else {
-          router(`/askforshare/${ownerUserID}/${response.data.snowglobeId}`)
+          router(`/askforshare/${ownerUserID}/${res.data.snowglobeId}`)
         }
       })
       .catch((error)=>{
