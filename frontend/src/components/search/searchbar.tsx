@@ -82,16 +82,14 @@ const SearchBar = (props : any) => {
       onChange={onChange}
       value={text}
       />
-      <div>
-        {/* 검색어 삭제 */}
-        <Button sx={{width: "1px"}}>
-          <ClearIcon onClick={() => {props.setData(''); setText('')}} />
-        </Button>
-        {/* 검색어 입력 */}
-        <Button onClick={() => props.setData(text) }>
-          <SearchIcon />
-        </Button>
-      </div>
+      {/* 검색어 삭제 */}
+      <Button sx={{width: "1px"}}>
+        <ClearIcon onClick={() => {props.setData(''); setText('')}} />
+      </Button>
+      {/* 검색어 입력 */}
+      <Button onClick={() => props.setData(text) }>
+        <SearchIcon />
+      </Button>
    </Search>
   </ThemeProvider>
   )

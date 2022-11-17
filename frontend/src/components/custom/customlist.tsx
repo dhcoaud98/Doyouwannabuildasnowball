@@ -2,18 +2,11 @@
 import * as React from 'react';
 import { RootState } from '../../app/store';
 import { useSelector } from 'react-redux';
-import { changeThreeItem, setCurrentSb } from '../../features/snowballSlice';
+import { changeMusic, changeThreeItem, setCurrentSb } from '../../features/snowballSlice';
 import { useAppDispatch } from '../../app/hooks'
 
 // Other components
 import styles from './customlist.module.css'
-// import Tap_Tree from '../../assets/images/illustrations/tap_buttons/tree_btn.png'
-// import Tap_Building from '../../assets/images/illustrations/tap_buttons/building_btn.png'
-// import Tap_Snowman from '../../assets/images/illustrations/tap_buttons/snowman_btn.png'
-// import Tap_Obj1 from '../../assets/images/illustrations/tap_buttons/obj1_btn.png'
-// import Tap_Obj2 from '../../assets/images/illustrations/tap_buttons/obj2_btn.png'
-// import Tap_Obj3 from '../../assets/images/illustrations/tap_buttons/obj3_btn.png'
-// import Tap_Pet from '../../assets/images/illustrations/tap_buttons/pet_btn.png'
 import Tree_1 from '../../assets/images/illustrations/trees/tree_1.png' 
 import Tree_2 from '../../assets/images/illustrations/trees/tree_2.png' 
 import Tree_3 from '../../assets/images/illustrations/trees/tree_3.png' 
@@ -77,6 +70,14 @@ import Pet_7 from '../../assets/images/illustrations/pets/pet_7.png'
 import Pet_8 from '../../assets/images/illustrations/pets/pet_8.png'
 import Pet_9 from '../../assets/images/illustrations/pets/pet_9.png'
 import Pet_10 from '../../assets/images/illustrations/pets/pet_10.png'
+import Music_1 from '../../assets/images/illustrations/musics/music_1.png'
+import Music_2 from '../../assets/images/illustrations/musics/music_2.png'
+import Music_3 from '../../assets/images/illustrations/musics/music_3.png'
+import Music_4 from '../../assets/images/illustrations/musics/music_4.png'
+import Music_5 from '../../assets/images/illustrations/musics/music_5.png'
+import Music_6 from '../../assets/images/illustrations/musics/music_6.png'
+import NoElement from '../../assets/images/illustrations/no_element.png'
+
 
 // MUI
 import { Tabs, Tab, Box, Button, Grid } from '@mui/material';
@@ -103,13 +104,14 @@ export function CustomList() {
 
   // 각 탭에 들어갈 버튼 이미지들과 그 값들
   const tapImagesArr = [
-    [{image_path:Tree_1,},{image_path:Tree_2,},{image_path:Tree_3,},{image_path:Tree_4,},{image_path:Tree_5,},{image_path:Tree_6,},{image_path:Tree_7,},{image_path:Tree_8,},{image_path:Tree_9,},{image_path:"1-10",}],
-    [{image_path:Building_1,},{image_path:Building_2,},{image_path:Building_3,},{image_path:Building_4,},{image_path:Building_5,},{image_path:Building_6,},{image_path:"2-7",},{image_path:"2-8",},{image_path:"2-9",},{image_path:"2-10",}],
-    [{image_path:Snowman_1,},{image_path:Snowman_2,},{image_path:Snowman_3,},{image_path:Snowman_4,},{image_path:Snowman_5,},{image_path:Snowman_6,},{image_path:Snowman_7,},{image_path:Snowman_8,},{image_path:"3-9",},{image_path:"3-10"}],
+    [{image_path:Tree_1,},{image_path:Tree_2,},{image_path:Tree_3,},{image_path:Tree_4,},{image_path:Tree_5,},{image_path:Tree_6,},{image_path:Tree_7,},{image_path:Tree_8,},{image_path:Tree_9,},{image_path:NoElement,}],
+    [{image_path:Building_1,},{image_path:Building_2,},{image_path:Building_3,},{image_path:Building_4,},{image_path:Building_5,},{image_path:Building_6,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement,}],
+    [{image_path:Snowman_1,},{image_path:Snowman_2,},{image_path:Snowman_3,},{image_path:Snowman_4,},{image_path:Snowman_5,},{image_path:Snowman_6,},{image_path:Snowman_7,},{image_path:Snowman_8,},{image_path:NoElement,},{image_path:NoElement}],
     [{image_path:Obj1_1,},{image_path:Obj1_2,},{image_path:Obj1_3,},{image_path:Obj1_4,},{image_path:Obj1_5,},{image_path:Obj1_6,},{image_path:Obj1_7,},{image_path:Obj1_8,},{image_path:Obj1_9,},{image_path:Obj1_10,}],
     [{image_path:Obj2_1,},{image_path:Obj2_2,},{image_path:Obj2_3,},{image_path:Obj2_4,},{image_path:Obj2_5,},{image_path:Obj2_6,},{image_path:Obj2_7,},{image_path:Obj2_8,},{image_path:Obj2_9,},{image_path:Obj2_10,}],
     [{image_path:Obj3_1,},{image_path:Obj3_2,},{image_path:Obj3_3,},{image_path:Obj3_4,},{image_path:Obj3_5,},{image_path:Obj3_6,},{image_path:Obj3_7,},{image_path:Obj3_8,},{image_path:Obj3_9,},{image_path:Obj3_10,}],
-    [{image_path:Pet_1,},{image_path:Pet_2,},{image_path:Pet_3,},{image_path:Pet_4,},{image_path:Pet_5,},{image_path:Pet_6,},{image_path:Pet_7,},{image_path:Pet_8,},{image_path:Pet_9,},{image_path:Pet_10}]
+    [{image_path:Pet_1,},{image_path:Pet_2,},{image_path:Pet_3,},{image_path:Pet_4,},{image_path:Pet_5,},{image_path:Pet_6,},{image_path:Pet_7,},{image_path:Pet_8,},{image_path:Pet_9,},{image_path:Pet_10}],
+    [{image_path:Music_1,},{image_path:Music_2,},{image_path:Music_3,},{image_path:Music_4,},{image_path:Music_5,},{image_path:Music_6,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement}]
   ]
   // 탭 변환 함수
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -120,9 +122,13 @@ export function CustomList() {
 
   // 버튼 클릭시 three 변화 함수
   const changeThreeComponent = (idx : number) => {
-    const payload = {tapValue: tapValue, indicator: idx}
-    console.log(idx, payload)
-    dispatch(changeThreeItem(payload))
+    if (tapValue === 7) {
+      dispatch(changeMusic(idx))
+    }
+    else{
+      const payload = {tapValue: tapValue, indicator: idx}
+      dispatch(changeThreeItem(payload))
+    }
   }
 
   return (
@@ -136,20 +142,22 @@ export function CustomList() {
             variant="scrollable"
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
+            className={styles.tap_text}
           >
-            <Tab label="나무"/>
-            <Tab label="건물" />
-            <Tab label="눈사람" />
-            <Tab label="장식1" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
-            <Tab label="장식2" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
-            <Tab label="장식3" disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
-            <Tab label="동물" />
+            <Tab label="나무" className={styles.tap_text}/>
+            <Tab label="건물" className={styles.tap_text}/>
+            <Tab label="눈사람" className={styles.tap_text}/>
+            <Tab label="장식1" className={styles.tap_text} disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
+            <Tab label="장식2" className={styles.tap_text} disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
+            <Tab label="장식3" className={styles.tap_text} disabled={(c_tree_id === 0 || c_tree_id === 1) ? true : false}/>
+            <Tab label="동물" className={styles.tap_text}/>
+            <Tab label="노래" className={styles.tap_text}/>
           </Tabs>
 
           {/* 탭별 하단요소들 */}
           <Grid component="div" container justifyContent="space-around" alignContent="space-evenly" className={styles.btn_container}>
             {tapImagesArr[tapValue].map((tapImage, idx) => (
-              <Grid item key={idx} xs={2.4}>
+              <Grid item key={idx} xs={2.4} sx={{ justifyContent: 'center', alignContent:"center" }}>
                 <Button onClick={() => changeThreeComponent(idx)}>
                   <img className={styles.button_img} src={tapImage.image_path} alt={tapImage.image_path} />
                 </Button>

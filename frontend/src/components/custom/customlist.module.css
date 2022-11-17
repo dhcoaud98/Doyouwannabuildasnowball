@@ -5,3 +5,9 @@
 .button_img{
   height: 70px;
 }
+
+.tap_text{
+  font-family: 'Cafe24Oneprettynight';
+  font-weight: bold;
+  font-size: 1.5rem;
+}
