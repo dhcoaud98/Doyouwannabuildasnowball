@@ -49,14 +49,15 @@ public class SnowglobeController {
         snowglobeService.updateSnowglobe(uid, snowglobeUpdateRequestDto);
         return ResponseEntity.ok().build();
     }
-    //스노우볼 좌표만 수정
+
+    //스노우볼 좌표만 수정*
     @PatchMapping("/{snowglobe_id}/modifyCoordinate")
     public ResponseEntity<Void> modifyCoordinate(@PathVariable(value = "snowglobe_id") Long sid, @RequestBody SnowglobeCoordinateModifyRequestDto snowglobeCoordinateModifyRequestDto) {
         snowglobeService.modifyCoordinate(sid, snowglobeCoordinateModifyRequestDto);
         return ResponseEntity.ok().build();
     }
 
-    //스크린샷 수정
+    //스크린샷 수정*
     @PatchMapping("/changeScreenshot")
     public ResponseEntity<Void> changeScreenshot(@RequestBody SnowglobeScreenshotRequestDto snowglobeScreenshotRequestDto) {
         snowglobeService.changeScreenshot(snowglobeScreenshotRequestDto);
