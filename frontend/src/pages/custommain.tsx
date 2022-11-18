@@ -96,17 +96,14 @@ function CustomMain() {
         musicId: currentMusicId
       })
       .then(()=>{
-        console.log('성공')
         containerRef?.current?.saveImage(currentSbId)
         setCustomListState(false)
       })
       .catch((error)=>{
-        console.log(error);
       })
     } 
     // 다른사람에게 선물 
     else {
-      console.log(ownerUserID)
       axios.post(`${APIURL}api/snowglobe/${ownerUserID}/present`, {
         makerId: nowUserID,
         screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/$DEFAULT.png`,
@@ -114,14 +111,12 @@ function CustomMain() {
         musicId: 1
       })
       .then((res)=>{
-        console.log("포스트",res, nowUserID)
         containerRef?.current?.saveImage(res.data)
         axios.patch(`${APIURL}api/snowglobe/changeScreenshot`, {
           url: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${res.data}.png`,
           sid: res.data
         })
         .then((res)=>{
-          console.log('성공', res)
           setCustomListState(false)
         })
         .catch((error)=>{
@@ -164,10 +159,10 @@ function CustomMain() {
     }
     // ㄴ.공유하기
     const shareSnowBall = () => {}
+
     // ㄷ.친구목록으로 라우팅
     const showFriends = () => {
-      // 현재는 사용자 정보가 없으므로...
-      router(`/friends/${nowUserID}`)
+      router(`/friends/`)
     }
     const showCollection = () => {
       router('/collection')
@@ -181,7 +176,6 @@ function CustomMain() {
         }
       })
         .then(res => {
-          console.log("로그아웃 성공")
           removeCookie("refresh", { path: '/' }); 
           router('/');
       })
@@ -216,8 +210,6 @@ function CustomMain() {
     const recieveRequest = () => {
       axios.patch(`${APIURL}api/friend/request/${ownerUserID}?memberId=${nowUserID}`)
       .then((response) => {
-        // console.log("새로 받은 데이터 = ", res.data);
-        console.log('우리 이제 칭긔칭긔!')
       })
       .catch((error) => {
         console.log(error)
@@ -227,7 +219,6 @@ function CustomMain() {
     const deleteFriend= () => {
       axios.delete(`${APIURL}api/friend/list/${ownerUserID}`)
       .then((response) => {
-        console.log('삭제완료')
       })
       .catch((error) => {
         console.log(error)
@@ -261,7 +252,6 @@ function CustomMain() {
           // 현재 페이지 주인 스노우볼 정보 가져와서 디스패치
           axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
           .then((response) => {
-            console.log('스노우볼 정보', response)
             if (response.data.snowglobeId !== currentSbId) {
               dispatch(setCurrentSb(response.data))
             }
@@ -282,7 +272,6 @@ function CustomMain() {
               }
             })
             .then((response) => {
-              console.log('friend status = ', response.data)
               if (response.data.status === 0) {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
@@ -313,7 +302,6 @@ function CustomMain() {
         } else {
           axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
           .then((response) => {
-            console.log('스노우볼 정보', response)
             if (response.data.snowglobeId !== currentSbId) {
               dispatch(setCurrentSb(response.data))
               setActions((prev) => [
