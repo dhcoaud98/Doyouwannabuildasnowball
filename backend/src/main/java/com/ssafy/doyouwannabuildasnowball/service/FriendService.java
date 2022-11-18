@@ -10,13 +10,10 @@ import static com.ssafy.doyouwannabuildasnowball.common.exception.ErrorCode.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.ssafy.doyouwannabuildasnowball.common.exception.BadRequestException;
 import com.ssafy.doyouwannabuildasnowball.common.exception.CustomException;
-import com.ssafy.doyouwannabuildasnowball.common.exception.DuplicateException;
 import com.ssafy.doyouwannabuildasnowball.domain.Friend;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.domain.Request;

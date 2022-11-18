@@ -41,7 +41,6 @@ public class SnowglobeService {
     public final MusicRepository musicRepository;
 
     //메인 스노우볼 페이지
-    //user_id > uid
     @Transactional
     public MainSnowglobeDto mainSnowglobe(Long uid) {
         Member member = memberRepository.findById(uid).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
@@ -82,6 +81,7 @@ public class SnowglobeService {
         decorationRepository.save(decoById);
         snowglobeRepository.save(snowglobe);
     }
+
     //스노우볼 좌표만 수정
     @Transactional
     public void modifyCoordinate(Long sid, SnowglobeCoordinateModifyRequestDto snowglobeCoordinateModifyRequestDto) {
@@ -125,7 +125,6 @@ public class SnowglobeService {
         Long sid = snowglobe.getSnowglobeId();
         return sid;
     }
-
 
     //선물한 스노우볼 내 책장에 저장
     @Transactional
