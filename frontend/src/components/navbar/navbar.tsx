@@ -32,7 +32,7 @@ export function Navbar() {
       setNowPage('방명록')
     } else if (location.pathname.includes('/custommain/')) {
       setNowPage('나의 스노우볼')
-    } else if (location.pathname.includes('/friends/')) {
+    } else if (location.pathname === '/friends') {
       setNowPage('나의 친구 목록')
     } else if (location.pathname === '/setnickname') {
       setNowPage('닉네임 설정하기')

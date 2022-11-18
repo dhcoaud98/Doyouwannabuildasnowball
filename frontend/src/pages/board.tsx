@@ -1,8 +1,10 @@
 // Systems
 import { useCallback, useEffect, useState, useRef } from 'react'
-import { useSelector } from "react-redux";
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useAppSelector } from '../app/hooks'
+import { useSelector } from 'react-redux';
+import { RootState } from "../app/store";
 
 // Other components
 import { Navbar } from '../components/navbar/navbar';
@@ -101,7 +103,7 @@ const style = {
 function Board() {
   // 유저 정보
   const nowUserId = useAppSelector((state)  => state.user.userId);
-  const snowglobeId = useAppSelector((state) => state.user.snowglobeId);
+  const snowglobeId = useSelector((state: RootState) => state.snowball.current_sb_id)
   // 토큰
   const accessToken = localStorage.getItem("accessToken")
   // API
