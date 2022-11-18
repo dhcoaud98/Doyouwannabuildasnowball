@@ -153,8 +153,8 @@ export function CustomList() {
           {/* 탭별 하단요소들 */}
           <Grid component="div" container justifyContent="space-around" alignContent="space-evenly" className={styles.btn_container}>
             {tapImagesArr[tapValue].map((tapImage, idx) => (
-              <Grid item key={idx} xs={2.4} sx={{ justifyContent: 'center', alignContent:"center" }}>
-                <Button onClick={() => changeThreeComponent(idx)}>
+              <Grid item key={idx} xs={2.4}>
+                <Button onClick={() => changeThreeComponent(idx)} className={styles.custom_elem_button}>
                   <img className={styles.button_img} src={tapImage.image_path} alt={tapImage.image_path} />
                 </Button>
               </Grid> 

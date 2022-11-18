@@ -16,7 +16,7 @@ import MainContainer from "../components/three/MainContainer";
 import { CustomList } from "../components/custom/customlist";
 import { API_URL } from "../switchurl"
 import wreath1Img from "../assets/images/wreath_1.png"
-import decoration from "../assets/images/decoration.png"
+import gotovillage from "../assets/images/gotovillage.png"
 import { setCurrentSb } from "../features/snowballSlice";
 
 // MUI
@@ -358,26 +358,8 @@ function CustomMain() {
           {/* 중단 */}
           {/* Three.js */}
           {/* 꾸미기 상태 비활성화 */}
-          <Grid component="div" item xs={9} className={noneAtCustomListTrue}>
+          <Grid component="div" item xs={10} className={noneAtCustomListTrue}>
             <MainContainer ref={containerRef}/>
-            {/* 마을 놀러가기 버튼 */}
-            <div className={styles.container}>
-              <div className={`${styles.button} ${styles.btn_clickable}`}>
-                <div className={styles.slider}>
-                  <div className={styles.slider_text}>
-                    <div className={styles.text}>마을 놀러가기!</div>
-                  </div>
-                  <div className={styles.slider_trigger}>
-                    <div className={styles.controller} id='controller'>
-                     <ArrowForwardIosIcon />
-                    </div>
-                    <div className={styles.endpoint_container}>
-                      <div className={styles.endpoint} id='controllerDrop'></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </Grid> 
 
           {/* 꾸미기 상태 활성화 */}
@@ -389,8 +371,10 @@ function CustomMain() {
 
           {/* 하단 */}
           {/* 꾸미기 상태 비활성화 */}
-          <Grid component="div" item xs={1} className={noneAtCustomListTrue}>
-            <img src={decoration} alt="" className={styles.decoration}/>
+          <Grid component="div" item xs={0} className={noneAtCustomListTrue}>
+            <Button className={styles.gotovillage_btn}>
+              <img src={gotovillage} alt="" className={styles.gotovillage_img}/>
+            </Button>
           </Grid>      
 
           {/* 꾸미기 상태 활성화 */}
@@ -399,7 +383,7 @@ function CustomMain() {
           {/* 커스텀 드로워 */}
           {/* 꾸미기 상태 활성화시 시작 */}
           <div className={customListStyles}>
-              <CustomList/>
+            <CustomList/>
           </div>
         </Grid>
 
