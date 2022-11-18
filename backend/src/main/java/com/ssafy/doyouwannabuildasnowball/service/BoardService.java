@@ -1,6 +1,5 @@
 package com.ssafy.doyouwannabuildasnowball.service;
 
-import com.ssafy.doyouwannabuildasnowball.common.api.S3Upload;
 import com.ssafy.doyouwannabuildasnowball.common.exception.CustomException;
 import com.ssafy.doyouwannabuildasnowball.domain.Board;
 import com.ssafy.doyouwannabuildasnowball.domain.Snowglobe;
@@ -29,7 +28,6 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     private final SnowglobeRepository snowglobeRepository;
-    private final S3Upload s3Upload;
 
     public BoardAllResponse findAllContentsBySnowglobe(Long snowglobeId) {
 
