@@ -12,6 +12,7 @@
 .navbar_info_text{
   display: flex;
   justify-content: center;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 .collection_box {
