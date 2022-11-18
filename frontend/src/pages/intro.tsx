@@ -80,6 +80,7 @@ const Home = () => {
             console.log(rs.data)
             dispatch(setCurrentSb(rs.data))
           })
+          
           if (isNewMember === true) {
             router('/setnickname')
           } else {
