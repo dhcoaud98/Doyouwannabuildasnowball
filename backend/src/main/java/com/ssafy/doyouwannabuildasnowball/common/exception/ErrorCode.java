@@ -23,7 +23,7 @@ public enum ErrorCode {
     
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
     FRIEND_DUPLICATE_RESOURCE(CONFLICT, "이미 존재하는 친구 요청입니다."),
-    SNOWGLOBE_REQUEST_DUPLICATE_RESOURCE(CONFLICT, "이미 존재하는 스노우볼 요청입니다."),
+    SNOWGLOBE_REQUEST_DUPLICATE_RESOURCE(CONFLICT, "이미 보낸 요청이 있어요."),
 
     
     ;

@@ -25,5 +25,5 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
 	
 	// 스노우볼 요청 중복 체크
-	
+	Request findByAskAndAsked(Member ask, Member asked);
 }

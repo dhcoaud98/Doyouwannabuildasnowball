@@ -250,31 +250,24 @@ public class FriendService {
 	// 스노우볼 요청 보내기
 	// String 반환
 	public String requestSnowglobe(Long askId, Long askedId) {
-		String result = SUCCESS;
+		String result = "요청에 실패했어요.";
 		
 		Member ask = memberRepository.findById(askId).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 		Member asked = memberRepository.findById(askedId).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 		
 		
-//		// save 하기 전에 해당 스노우볼 요청 데이터 있는지 확인
-//		Request snowglobeRequestData = friendRepository.findFriend(followId, followedId);
-//		
-//		if(friendData == null) {
-//			Friend friend = Friend.create(follow, followed);
-//			friendRepository.save(friend);
-//			
-//		} else {
-//			throw new CustomException(SNOWGLOBE_REQUEST_DUPLICATE_RESOURCE);
-//		}
-//		
-//		return getAllFriendInfo(followId);
+		// save 하기 전에 해당 스노우볼 요청 데이터 있는지 확인
+		Request request = requestRepository.findByAskAndAsked(ask, asked);
 		
-		
-		
-		
-		requestRepository.save(Request.create(ask, asked));
+		if(request == null) {
+			requestRepository.save(Request.create(ask, asked));
+			result = "스노우볼을 요청했어요!";
+		} else {
+			throw new CustomException(SNOWGLOBE_REQUEST_DUPLICATE_RESOURCE);
+		}
 
 		return result;
+
 	}
 	
 	// 받은 스노우볼 요청 삭제
