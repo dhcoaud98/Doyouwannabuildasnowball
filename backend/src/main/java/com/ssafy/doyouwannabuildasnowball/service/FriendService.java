@@ -3,8 +3,9 @@ package com.ssafy.doyouwannabuildasnowball.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.ssafy.doyouwannabuildasnowball.common.exception.BadRequestException.*;
-import static com.ssafy.doyouwannabuildasnowball.common.exception.DuplicateException.*;
+//import static com.ssafy.doyouwannabuildasnowball.common.exception.BadRequestException.*;
+//import static com.ssafy.doyouwannabuildasnowball.common.exception.DuplicateException.*;
+import static com.ssafy.doyouwannabuildasnowball.common.exception.ErrorCode.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.doyouwannabuildasnowball.common.exception.BadRequestException;
+import com.ssafy.doyouwannabuildasnowball.common.exception.CustomException;
 import com.ssafy.doyouwannabuildasnowball.common.exception.DuplicateException;
 import com.ssafy.doyouwannabuildasnowball.domain.Friend;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
@@ -57,8 +59,9 @@ public class FriendService {
 		
 		
 		// 방법 2 - orElseThrow()
-		Member follow = memberRepository.findById(followId).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
-		Member followed = memberRepository.findById(followedId).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
+		Member follow = memberRepository.findById(followId).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+//		.orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
+		Member followed = memberRepository.findById(followedId).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 		
 		
 		// save 하기 전에 해당 친구 데이터 있는지 확인
@@ -69,7 +72,7 @@ public class FriendService {
 			friendRepository.save(friend);
 			
 		} else {
-			throw new DuplicateException(FRIEND_DUPLICATE);
+			throw new CustomException(FRIEND_DUPLICATE_RESOURCE);
 		}
 		
 		return getAllFriendInfo(followId);
@@ -81,7 +84,7 @@ public class FriendService {
 	// (친구 요청 승낙하면 friend list를 보여주는 게 맞나? 아니면 그 친구 요청 승낙해야 할 그 목록을 보여줘야하나)
 	public List<FriendRes> approveRequest(Long friendId, Long memberId) {
 		
-		Friend friend = friendRepository.findById(friendId).orElseThrow(() -> new BadRequestException(FRIEND_BAD_REQUEST));
+		Friend friend = friendRepository.findById(friendId).orElseThrow(() -> new CustomException(FRIEND_NOT_FOUND));
 		friendRepository.save(Friend.approve(friend));
 
 		// 친구 요청 목록 반환
@@ -246,12 +249,29 @@ public class FriendService {
 	
 	// 스노우볼 요청 보내기
 	// String 반환
-	// 스노우볼 요청도 친구처럼 하나만 보낼 수 있게 해야하나...?
 	public String requestSnowglobe(Long askId, Long askedId) {
 		String result = SUCCESS;
 		
-		Member ask = memberRepository.findById(askId).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
-		Member asked = memberRepository.findById(askedId).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
+		Member ask = memberRepository.findById(askId).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+		Member asked = memberRepository.findById(askedId).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+		
+		
+//		// save 하기 전에 해당 스노우볼 요청 데이터 있는지 확인
+//		Request snowglobeRequestData = friendRepository.findFriend(followId, followedId);
+//		
+//		if(friendData == null) {
+//			Friend friend = Friend.create(follow, followed);
+//			friendRepository.save(friend);
+//			
+//		} else {
+//			throw new CustomException(SNOWGLOBE_REQUEST_DUPLICATE_RESOURCE);
+//		}
+//		
+//		return getAllFriendInfo(followId);
+		
+		
+		
+		
 		requestRepository.save(Request.create(ask, asked));
 
 		return result;
@@ -262,8 +282,8 @@ public class FriendService {
 	// 친구 목록 반환
 	public List<FriendRes> deleteSnowglobeRequest(Long askId, Long askedId) {
 			
-		Member ask = memberRepository.findById(askId).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
-		Member asked = memberRepository.findById(askedId).orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
+		Member ask = memberRepository.findById(askId).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+		Member asked = memberRepository.findById(askedId).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 		requestRepository.deleteAllByAskAndAsked(ask, asked);
 		
 		return getAllFriendInfo(askedId);

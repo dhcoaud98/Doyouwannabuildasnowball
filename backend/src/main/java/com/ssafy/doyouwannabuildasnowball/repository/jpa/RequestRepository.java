@@ -23,4 +23,7 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 //	@Query(value="DELETE FROM request WHERE ask_id=:askId AND asked_id=:askedId", nativeQuery = true)
 //	void deleteSnowglobeRequest(@Param("askId") Long askId, @Param("askedId") Long askedId);
 
+	
+	// 스노우볼 요청 중복 체크
+	
 }
