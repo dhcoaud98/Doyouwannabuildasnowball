@@ -19,12 +19,14 @@ public enum ErrorCode {
     DECORATION_NOT_FOUND(NOT_FOUND, "유효하지 않은 장식입니다."),
     MUSIC_NOT_FOUND(NOT_FOUND, "유효하지 않은 음악입니다."),
     FRIEND_NOT_FOUND(NOT_FOUND, "유효하지 않은 친구 관계입니다."),
+    BOARD_NOT_FOUND(NOT_FOUND, "유효하지 않은 게시판입니다."),
 
     
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
     FRIEND_DUPLICATE_RESOURCE(CONFLICT, "이미 존재하는 친구 요청입니다."),
     SNOWGLOBE_REQUEST_DUPLICATE_RESOURCE(CONFLICT, "이미 보낸 요청이 있어요."),
 
+    NICKNAME_DUPLICATE_RESOURCE(CONFLICT, "이미 존재하는 닉네임입니다.");
     
     ;
 

@@ -14,8 +14,4 @@ public class MemberUpdateRequest {
     private Long memberId;
     @ApiModelProperty(notes = "닉네임")
     private String nickname;
-//    @ApiModelProperty(notes = "전화번호")
-//    private String tel;
-//    @ApiModelProperty(notes = "이메일")
-//    private String email;
 }
