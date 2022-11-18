@@ -303,12 +303,19 @@ function CustomMain() {
               }
             })
           }
+        } else {
+          axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
+          .then((response) => {
+            console.log('스노우볼 정보', response)
+            dispatch(setCurrentSb(response.data))
+          })
         }
       })
       .catch((error) => {
         console.log(error)
       })
-    },[]) 
+    } 
+    ,[]) 
 
     useEffect(() => {
       const audio = audioref.current
