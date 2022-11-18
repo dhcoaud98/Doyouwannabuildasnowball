@@ -1,6 +1,5 @@
 // Systems
 import { useCallback, useEffect, useState, useRef } from 'react'
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useAppSelector } from '../app/hooks'
 import { useSelector } from 'react-redux';

@@ -186,7 +186,7 @@ function CustomMain() {
       })
     }
     const board = () => {
-      router(`/board/${currentSbId}`)
+      router('/board')
     }
     
     // 2.남의 메인페이지일 경우 스피드 다이얼 함수 구성
