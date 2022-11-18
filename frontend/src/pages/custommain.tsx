@@ -37,6 +37,7 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SmsIcon from '@mui/icons-material/Sms';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { RepeatOneSharp } from "@mui/icons-material";
 // ------------------------------------------------------------------------
 
 function CustomMain() {
@@ -233,6 +234,11 @@ function CustomMain() {
       })
     }
     
+    // 마을 놀러가기
+    const goToVillage = () => {
+      router('/unitybackground')
+    }
+
     // 스피드다이얼 구성 초기값 설정
     const [actions, setActions] = useState([
       { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
@@ -251,13 +257,14 @@ function CustomMain() {
       // 지금 여기 누구 페이지야? 묻는 액시오스
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {
-        console.log(response.data)
         if (ownerUserID !== nowUserID) {
           // 현재 페이지 주인 스노우볼 정보 가져와서 디스패치
           axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
           .then((response) => {
             console.log('스노우볼 정보', response)
-            dispatch(setCurrentSb(response.data))
+            if (response.data.snowglobeId !== currentSbId) {
+              dispatch(setCurrentSb(response.data))
+            }
           })
 
           setOwnerUserNickName((prev) => response.data.nickname)
@@ -307,15 +314,24 @@ function CustomMain() {
           axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
           .then((response) => {
             console.log('스노우볼 정보', response)
-            dispatch(setCurrentSb(response.data))
+            if (response.data.snowglobeId !== currentSbId) {
+              dispatch(setCurrentSb(response.data))
+              setActions((prev) => [
+                { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
+                { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
+                { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection},
+                { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
+                { icon: <SettingsIcon/>, name: '닉네임변경', eventFunc: changeNickName},
+                { icon: <LogoutIcon/>, name: '로그아웃', eventFunc: logout},
+              ])
+            }
           })
         }
       })
       .catch((error) => {
         console.log(error)
       })
-    } 
-    ,[]) 
+    } ,[]) 
 
     useEffect(() => {
       const audio = audioref.current
@@ -395,7 +411,7 @@ function CustomMain() {
           {/* 하단 */}
           {/* 꾸미기 상태 비활성화 */}
           <Grid component="div" item xs={0} className={noneAtCustomListTrue}>
-            <Button className={styles.gotovillage_btn}>
+            <Button onClick={() => goToVillage()} className={styles.gotovillage_btn}>
               <img src={gotovillage} alt="" className={styles.gotovillage_img}/>
             </Button>
           </Grid>      
