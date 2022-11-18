@@ -2,7 +2,6 @@ package com.ssafy.doyouwannabuildasnowball.service;
 
 import com.ssafy.doyouwannabuildasnowball.common.api.S3Upload;
 import com.ssafy.doyouwannabuildasnowball.common.exception.CustomException;
-import com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException;
 import com.ssafy.doyouwannabuildasnowball.domain.Board;
 import com.ssafy.doyouwannabuildasnowball.domain.Snowglobe;
 import com.ssafy.doyouwannabuildasnowball.dto.board.BoardDto;
@@ -55,7 +54,7 @@ public class BoardService {
     }
 
     @Transactional
-    public void saveContent(WriteBoardRequest writeBoardRequest) throws NotFoundException {
+    public void saveContent(WriteBoardRequest writeBoardRequest){
 
         Snowglobe snowglobe = snowglobeRepository.findById(writeBoardRequest.getSnowglobeId())
                 .orElseThrow(()->new CustomException(SNOWGLOBE_NOT_FOUND));
