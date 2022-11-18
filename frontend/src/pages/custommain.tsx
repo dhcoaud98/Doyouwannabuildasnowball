@@ -186,9 +186,8 @@ function CustomMain() {
       })
     }
     const board = () => {
-      router('/board')
+      router(`/board/${currentSbId}`)
     }
-
     
     // 2.남의 메인페이지일 경우 스피드 다이얼 함수 구성
     // ㄱ.선물하기
@@ -281,21 +280,25 @@ function CustomMain() {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
+                  { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
                 ])
               } else if (response.data.status === 1) {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <HandshakeIcon />, name: '친구추가받기', eventFunc: recieveRequest},
+                  { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
                 ])
               } else if (response.data.status === 2) {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <PersonAddAlt1Icon />, name: '친구요청됨', eventFunc: requestBeFriend},
+                  { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
                 ])
               } else {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},
+                  { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
                 ])
               }
             })
