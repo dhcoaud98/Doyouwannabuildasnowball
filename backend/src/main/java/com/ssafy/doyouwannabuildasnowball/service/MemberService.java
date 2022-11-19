@@ -77,7 +77,7 @@ public class MemberService {
                         .receiver(member)
                         .receiverSaved(true)
                         .screenshot(DEFAULT_SCREENSHOT_URL)
-                        .music(musicRepository.findById(1L).orElseThrow(()->new CustomException(MUSIC_NOT_FOUND)))
+                        .music(musicRepository.findById(0L).orElseThrow(()->new CustomException(MUSIC_NOT_FOUND)))
                         .build());
         // 스노우볼 아이디를 회원에게 저장
         memberRepository.updateSnowglobeIdById(member.getMemberId(), defaultSnowball.getSnowglobeId());
