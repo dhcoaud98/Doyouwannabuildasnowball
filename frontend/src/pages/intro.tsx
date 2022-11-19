@@ -35,8 +35,6 @@ const Home = () => {
   const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
   const OAUTH2_REDIRECT_URI = `?redirect_uri=${CLIENT_URL}`
   const REDIRECT_URI = AUTH_URL + OAUTH2_REDIRECT_URI
-
-  const [isNewMember, setIsNewMember] = useState(false)
   
   // const navigate = useNavigate()
   const router = useNavigate();
@@ -48,11 +46,8 @@ const Home = () => {
     const newMember = param.get('newMember')
     console.log('code = ', code)
     console.log('accessToken = ', accessToken)
-    console.log('newMember = ', isNewMember)
+    console.log('newMember = ', newMember)
 
-    if (newMember === "true") {
-      setIsNewMember((prev) => true)
-    }
     if (accessToken) {
       // console.log("현재 login됨")
       // console.log(accessToken)
@@ -81,7 +76,7 @@ const Home = () => {
             dispatch(setCurrentSb(rs.data))
           })
           
-          if (isNewMember === true) {
+          if (newMember === 'true') {
             router('/setnickname')
           } else {
             router(`/custommain/${res.data.memberId}`)
