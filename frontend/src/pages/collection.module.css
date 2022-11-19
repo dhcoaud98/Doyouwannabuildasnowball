@@ -12,6 +12,7 @@
 .navbar_info_text{
   display: flex;
   justify-content: center;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 .collection_box {
@@ -19,7 +20,6 @@
   height: 80%;
   background: rgb(2,0,36);
   background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(0,2,59,1) 100%);
-  /* background-image: url('../public/images/deco1.png'); */
 }
 
 .flower_deco {
