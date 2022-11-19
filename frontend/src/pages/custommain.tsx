@@ -215,8 +215,12 @@ function CustomMain() {
     } 
     // ㄷ.친구요청 받기
     const recieveRequest = () => {
-      axios.patch(`${APIURL}api/friend/request/${ownerUserID}?memberId=${nowUserID}`)
-      .then((response) => {
+      axios.patch(`${APIURL}api/friend/request/${ownerUserID}`, null, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }).then((response) => {
+        alert(`${ownerUserID}님과 친구가 되었습니다!`)
       })
       .catch((error) => {
         console.log(error)
@@ -224,8 +228,13 @@ function CustomMain() {
     }
     // ㄹ.친구삭제
     const deleteFriend= () => {
-      axios.delete(`${APIURL}api/friend/list/${ownerUserID}`)
-      .then((response) => {
+      axios.delete(`${APIURL}api/friend/list/${ownerUserID}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+        .then((response) => {
+          alert(`${ownerUserID}님을 친구목록에서 삭제했습니다.`)
       })
       .catch((error) => {
         console.log(error)
@@ -279,6 +288,7 @@ function CustomMain() {
               }
             })
             .then((response) => {
+              console.log('친구니?', response.data)
               if (response.data.status === 0) {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},

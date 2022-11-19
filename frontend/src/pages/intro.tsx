@@ -35,10 +35,12 @@ const Home = () => {
   const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
   const OAUTH2_REDIRECT_URI = `?redirect_uri=${CLIENT_URL}`
   const REDIRECT_URI = AUTH_URL + OAUTH2_REDIRECT_URI
+
   
   // const navigate = useNavigate()
   const router = useNavigate();
   const APIURL = API_URL()
+
   useEffect(() => {
     const code = window.location.search
     let param = new URLSearchParams(code);
@@ -82,10 +84,6 @@ const Home = () => {
             router(`/custommain/${res.data.memberId}`)
           }
       })
-      
-      // setTimeout(() => {
-      //   navigate('/')
-      // }, 1000);
     }
   }, [])
 

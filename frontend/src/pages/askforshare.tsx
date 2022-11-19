@@ -41,10 +41,10 @@ function AskForShare() {
   const [ownerUserNickName, setOwnerUserNickName] = useState("")
 
   const yesShare = () => {
-    console.log("스노우볼 아이디", typeof(snowglobeID))
+    // console.log("스노우볼 아이디", typeof(snowglobeID))
     axios.patch(`${APIURL}api/snowglobe/${snowglobeID}/save`)
     .then((res)=>{
-      console.log('잘됨?', res)
+      // console.log('잘됨?', res)
       alert('공유완료')
       router(`/custommain/${ownerUserID}`)
     })
