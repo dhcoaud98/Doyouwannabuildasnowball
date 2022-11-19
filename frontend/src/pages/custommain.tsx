@@ -209,7 +209,7 @@ function CustomMain() {
       .then((response) => {
         console.log(response.data)
         alert(`${ownerUserID}님께 친구요청을 보냈습니다.`)
-        window.location.replace(`custommain/${ownerUserID}`)
+        window.location.replace(`/custommain/${ownerUserID}`)
       })
       .catch((error) => {
         console.log(error)
@@ -223,7 +223,7 @@ function CustomMain() {
         }
       }).then((response) => {
         alert(`${ownerUserID}님과 친구가 되었습니다!`)
-        window.location.replace(`custommain/${ownerUserID}`)
+        window.location.replace(`/custommain/${ownerUserID}`)
       })
       .catch((error) => {
         if(error.response.status === 400) {
@@ -240,7 +240,7 @@ function CustomMain() {
       })
         .then((response) => {
           alert(`${ownerUserID}님을 친구목록에서 삭제했습니다.`)
-          window.location.replace(`custommain/${ownerUserID}`)
+          window.location.replace(`/custommain/${ownerUserID}`)
       })
       .catch((error) => {
         console.log(error)
