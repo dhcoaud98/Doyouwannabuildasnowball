@@ -1,10 +1,9 @@
 // Systems
 import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import axios from 'axios';
-import { useDispatch } from "react-redux";
+
 
 // Other components
 import "../index.css"
@@ -190,7 +189,7 @@ function Profile (props:any) {
 
   // 친구 검색
   const searchFriend = (data:string) => {
-    console.log(data);
+    // console.log(data);
     
     axios.get(`${APIURL}api/friend/search/${data}`, {     
       headers: {
@@ -199,8 +198,11 @@ function Profile (props:any) {
       .then(res => {
         console.log("확인",res.data)
         setSearchFriends(res.data)
-      })
-  }
+      }
+      )
+    }
+    // 기존친구에서 검색하기
+    let result: Member[] = friends.filter((value: Member) => value.nickname.includes(data));
 
   // 검색한 친구에서 친구 요청하기
   const SearchFriendRequest = (memberId : any) => {
@@ -268,6 +270,7 @@ function Profile (props:any) {
                         '& ul': { padding: 0 },
                       }}
                     >
+                      {/* 1-1. 검색 친구 */}
                       {searchFriends.map((item:Member, index) => (
                         <ListItem sx={{height: 100}} key={index}>
                           
@@ -287,6 +290,54 @@ function Profile (props:any) {
                             <PersonAddIcon color="inherit" fontSize='large' />
                           </Button>
                             : null }
+                        </ListItem>
+                      ))}
+                      {/* 1-2. 기존 친구에서 검색 */}
+                      {result.map((item:Member, index:any) => (
+                        <ListItem sx={{height: 100}} key={index}>
+
+                            <ListItemAvatar sx={{ mr:2 }}>
+                              <Badge color="error" badgeContent={item.snowglobeRequestCnt} max={100} onClick={() => handleOpen(item)}>
+                              {/* <Avatar> */}
+                                {/* <ImageIcon /> */}
+                                <Avatar alt="profile" src={item.profileImageUrl}/>
+                              {/* </Avatar> */}
+                              </Badge>                            
+                            </ListItemAvatar>
+                            <ListItemText primary={`${item.nickname}`} className={styles.green_text}/>
+                            {/* 1. 편지 요청 버튼 => 3*/}
+                          { item.status === 3 ? 
+                            <Button onClick={() =>(requestLetter(item.memberId))}>  
+                              <ForwardToInboxIcon color="error" fontSize='large' />
+                            </Button>
+                          : null }
+                          {/* 2. 친구 신청 후 상대방이 받을 때까지 기다리는 버튼 => 2 */}
+                          { item.status === 2 ? 
+                          <Button>
+                            <AutorenewIcon color="disabled" fontSize='large' />
+                          </Button>
+                          : null }
+                          {/* 3. 상대방이 나에게 친구 신청했는데 내가 안 받은 버튼 + 친구 신청 버튼 => 1 */}
+                          { item.status === 1 ? 
+                          <Button onClick={() =>(followFriend(item.friendId))}>
+                            <PersonAddIcon color="inherit" fontSize='large' />
+                          </Button>
+                            : null }
+                          {/* 친구 검색을 통해 얻은 친구 목록에서 친구 요청 보내기 */}
+                          { item.status === 0 ? 
+                          <Button onClick={() =>(SearchFriendRequest(item.memberId))}>
+                            <PersonAddIcon color="inherit" fontSize='large' />
+                          </Button>
+                            : null }
+                          {/* 4. 친구 삭제 버튼 => 1, 2, 3 */}
+                          {/* onClick={deleteFriend(item.friendId)} */}
+                          { item.status === 1 || item.status === 2 || item.status === 3 ? 
+                          <Button onClick={() =>(deleteFriend(item.friendId))}>
+                            <PersonRemoveIcon color="disabled" fontSize='large' />
+                          </Button>
+                            : null }
+
+
                         </ListItem>
                       ))}
                     </List>
