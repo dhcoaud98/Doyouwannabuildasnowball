@@ -208,6 +208,8 @@ function CustomMain() {
       })
       .then((response) => {
         console.log(response.data)
+        alert(`${ownerUserID}님께 친구요청을 보냈습니다.`)
+        window.location.replace(`custommain/${ownerUserID}`)
       })
       .catch((error) => {
         console.log(error)
@@ -221,13 +223,16 @@ function CustomMain() {
         }
       }).then((response) => {
         alert(`${ownerUserID}님과 친구가 되었습니다!`)
+        window.location.replace(`custommain/${ownerUserID}`)
       })
       .catch((error) => {
-        console.log(error)
+        if(error.response.status === 400) {
+          alert("확인되지 않은 친구 요청입니다.")
+        }
       })
     }
     // ㄹ.친구삭제
-    const deleteFriend= () => {
+    const deleteFriend = () => {
       axios.delete(`${APIURL}api/friend/list/${ownerUserID}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -235,6 +240,7 @@ function CustomMain() {
       })
         .then((response) => {
           alert(`${ownerUserID}님을 친구목록에서 삭제했습니다.`)
+          window.location.replace(`custommain/${ownerUserID}`)
       })
       .catch((error) => {
         console.log(error)
