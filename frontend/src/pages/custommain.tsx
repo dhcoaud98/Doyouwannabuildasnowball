@@ -208,11 +208,14 @@ function CustomMain() {
       })
       .then((response) => {
         console.log(response.data)
-        alert(`${ownerUserID}님께 친구요청을 보냈습니다.`)
+        alert(`${ownerUserNickName}님께 친구요청을 보냈습니다.`)
         window.location.replace(`/custommain/${ownerUserID}`)
       })
       .catch((error) => {
         console.log(error)
+        if(error.response.status === 409) {
+          alert("이미 요청되어 승낙을 기다리고 있어요.")
+        }
       })
     } 
     // ㄷ.친구요청 받기
@@ -222,7 +225,7 @@ function CustomMain() {
           Authorization: `Bearer ${accessToken}`
         }
       }).then((response) => {
-        alert(`${ownerUserID}님과 친구가 되었습니다!`)
+        alert(`${ownerUserNickName}님과 친구가 되었습니다!`)
         window.location.replace(`/custommain/${ownerUserID}`)
       })
       .catch((error) => {
@@ -239,7 +242,7 @@ function CustomMain() {
         }
       })
         .then((response) => {
-          alert(`${ownerUserID}님을 친구목록에서 삭제했습니다.`)
+          alert(`${ownerUserNickName}님을 친구목록에서 삭제했습니다.`)
           window.location.replace(`/custommain/${ownerUserID}`)
       })
       .catch((error) => {
@@ -401,7 +404,7 @@ function CustomMain() {
                 {/* 내 메인페이지인지에 따라 바뀜 */}
                 {/* 여기가 추후에 myActions가 아닌 actions로 바뀔 것 */}
                 {actions.map((action) => (
-                  <SpeedDialAction key={action.name} open={action.name==='친구요청됨' ? false : true }  icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={() => action.eventFunc()}/>
+                  <SpeedDialAction key={action.name} open={action.name === '친구요청됨' ? false : true }  icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={() => action.eventFunc()}/>
                 ))}
               </StyledSpeedDial>
                 
