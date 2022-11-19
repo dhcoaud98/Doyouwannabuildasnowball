@@ -223,6 +223,11 @@ function Profile (props:any) {
       })
   }
 
+  // 친구 닉네임 누르면 친구 페이지로 이동
+  const goToCustommain = (memberId : any) => {
+    router(`/custommain/${memberId}`)
+  }
+
   // modal창 만들기
   const [open, setOpen] = useState(false);
   const handleOpen = (member:Member) => {
@@ -303,11 +308,11 @@ function Profile (props:any) {
                             <ListItemAvatar sx={{ mr:2 }}>
                               {item.snowglobeRequestCnt? 
                                 <Badge color="error" badgeContent="❤" onClick={() => handleOpen(item)}>
-                                  <Avatar alt="profile" src={item.profileImageUrl}/>
+                                  <Avatar onClick={() => goToCustommain(item.memberId)} alt="profile" src={item.profileImageUrl}/>
                                 </Badge>
-                                : <Avatar alt="profile" src={item.profileImageUrl}/> }                          
+                                : <Avatar onClick={() => goToCustommain(item.memberId)} alt="profile" src={item.profileImageUrl}/> }                          
                             </ListItemAvatar>
-                            <ListItemText primary={`${item.nickname}`} className={styles.green_text}/>
+                            <ListItemText onClick={() => goToCustommain(item.memberId)} primary={`${item.nickname}`} className={styles.green_text}/>
                             {/* 1. 편지 요청 버튼 => 3*/}
                           { item.status === 3 ? 
                             <Button onClick={() =>(requestLetter(item.memberId))}>  
@@ -362,11 +367,11 @@ function Profile (props:any) {
                           <ListItemAvatar sx={{ mr:2 }}>
                             {item.snowglobeRequestCnt? 
                               <Badge color="error" badgeContent="❤" onClick={() => handleOpen(item)}>
-                                <Avatar alt="profile" src={item.profileImageUrl}/>
+                                <Avatar onClick={() => goToCustommain(item.memberId)} alt="profile" src={item.profileImageUrl}/>
                               </Badge>
-                              : <Avatar alt="profile" src={item.profileImageUrl}/> }
+                              : <Avatar onClick={() => goToCustommain(item.memberId)} alt="profile" src={item.profileImageUrl}/> }
                           </ListItemAvatar>
-                          <ListItemText primary={`${item.nickname}`} className={styles.green_text} />
+                          <ListItemText onClick={() => goToCustommain(item.memberId)} primary={`${item.nickname}`} className={styles.green_text} />
 
                           {/* 1. 편지 요청 버튼 => 3*/}
                           { item.status === 3 ? 
