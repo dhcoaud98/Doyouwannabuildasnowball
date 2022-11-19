@@ -158,7 +158,14 @@ function CustomMain() {
       setCustomListState((prev) => true)
     }
     // ㄴ.공유하기
-    const shareSnowBall = () => {}
+    const shareSnowBall = async () => {
+      try {
+        await navigator.clipboard.writeText(`https://mylittlesnowball/custommain/${nowUserID}`)
+        alert('클립보드에 링크가 복사되었습니다.')
+      } catch (err) {
+        alert('링크 복사에 실패했습니다.')
+      }
+    }
 
     // ㄷ.친구목록으로 라우팅
     const showFriends = () => {
@@ -318,6 +325,8 @@ function CustomMain() {
       })
       .catch((error) => {
         console.log(error)
+        alert('존재하지 않는 회원입니다.')
+        router(-1)
       })
     } ,[]) 
 
@@ -368,7 +377,7 @@ function CustomMain() {
                 icon={<MenuIcon />}
                 direction='down'
                 FabProps={{
-                  sx: { bgcolor: '#FFF3E1', color: '#662113', '&:hover': {bgcolor: '#FFF3E1',}}
+                  sx: { bgcolor: 'transparent', color: '#662113', '&:hover': {bgcolor: '#FFF3E1',}}
                 }}
               >
                 {/* 내 메인페이지인지에 따라 바뀜 */}
@@ -385,7 +394,7 @@ function CustomMain() {
           {/* 중단 */}
           {/* Three.js */}
           {/* 꾸미기 상태 비활성화 */}
-          <Grid component="div" item xs={10} className={noneAtCustomListTrue}>
+          <Grid component="div" item xs={8} className={noneAtCustomListTrue}>
             <MainContainer ref={containerRef}/>
           </Grid> 
 
@@ -398,7 +407,7 @@ function CustomMain() {
 
           {/* 하단 */}
           {/* 꾸미기 상태 비활성화 */}
-          <Grid component="div" item xs={0} className={noneAtCustomListTrue}>
+          <Grid component="div" item xs={2} className={noneAtCustomListTrue} sx={{backgroundColor: '#010023'}}>
             <Button onClick={() => goToVillage()} className={styles.gotovillage_btn}>
               <img src={gotovillage} alt="" className={styles.gotovillage_img}/>
             </Button>
