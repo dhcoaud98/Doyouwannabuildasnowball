@@ -1,6 +1,6 @@
 package com.ssafy.doyouwannabuildasnowball.config.security.oauth.handler;
 
-import com.ssafy.doyouwannabuildasnowball.common.exception.BadRequestException;
+import com.ssafy.doyouwannabuildasnowball.common.exception.CustomException;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.CustomUserDetails;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.util.CookieUtil;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.JWT.JwtTokenProvider;
@@ -10,7 +10,6 @@ import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.SimpleAliasRegistry;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,7 @@ import java.net.URI;
 import java.util.Optional;
 
 import static com.ssafy.doyouwannabuildasnowball.config.security.repository.CookieAuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
-
+import static com.ssafy.doyouwannabuildasnowball.common.exception.ErrorCode.*;
 
 @Slf4j
 @Component
@@ -57,7 +56,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 .map(Cookie::getValue);
 
         if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-            throw new BadRequestException("redirect URIs are not matched");
+            throw new CustomException(BAD_REQUEST_URI);
         }
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
         // JWT 생성
