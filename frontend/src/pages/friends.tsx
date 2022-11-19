@@ -35,10 +35,11 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '70%',
-  height: '50%',
+  width: '80%',
+  height: '60%',
   bgcolor: '#FFF8F3',
-  border: '2px solid #A6D388',
+  border: '0px solid #000',
+  borderRadius: '4px',
   boxShadow: 10,
   p: 4,
 };
@@ -81,7 +82,7 @@ function Profile (props:any) {
   // 검색어
   const [data, setData] = useState('');
 
-  // 친구 목록 axios
+  // 1. 친구 목록 axios
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
@@ -103,7 +104,7 @@ function Profile (props:any) {
     fetchUsers();
   }, [])
 
-  // 검색 실행
+  // 2. 검색 실행
   useEffect(() => {
     if (data !== '') {
       searchFriend(data)
@@ -121,7 +122,7 @@ function Profile (props:any) {
     status: -1,
   })
 
-  // 친구 삭제 함수
+  // 3. 친구 삭제 함수
   const deleteFriend = (friendId : any) => {
     alert("친구를 삭제 하시겠습니까?")
     axios.delete(`${APIURL}api/friend/list/${friendId}`, {
@@ -134,7 +135,7 @@ function Profile (props:any) {
     })
   }
 
-  // 친구 요청 받기
+  // 4. 친구 요청 받기
   const followFriend = (friendId : any) => {
     console.log(friendId)
     axios.patch(`${APIURL}api/friend/request/${friendId}`, null, {
@@ -153,24 +154,20 @@ function Profile (props:any) {
       })
   }
 
-  // 스노우볼 요청
+  // 5. 스노우볼 요청
   const requestLetter = (memberId : any) => {
     axios.post(`${APIURL}api/friend/snowglobe/request`, {
         "receiveMemberId" : memberId,
         "sendMemberId" : nowUser
       },)
         .then(res => {
-          // console.log("새로 받은 데이터 = ", res.data);
-          if (res.data ==='fail') {
-            alert('요청이 불확실합니다.')
-          }
         })
         .catch(() => {
-          alert('요청이 불확실합니다.')
+          alert('이미 보낸 요청이 있어요')
         })
   }
 
-  // 스노우볼 요청 삭제
+  // 6. 스노우볼 요청 삭제
   const requestDelete = (memberId : any) => {
     console.log(memberId)
     axios.delete(`${APIURL}api/friend/snowglobe/request`, {
@@ -187,7 +184,7 @@ function Profile (props:any) {
       })
   }
 
-  // 친구 검색
+  // 7. 친구 검색
   const searchFriend = (data:string) => {
     // console.log(data);
     
@@ -199,10 +196,10 @@ function Profile (props:any) {
         console.log("확인",res.data)
         setSearchFriends(res.data)
       }
-      )
-    }
-    // 기존친구에서 검색하기
-    let result: Member[] = friends.filter((value: Member) => value.nickname.includes(data));
+    )
+  }
+  // 7-5. 기존친구에서 검색하기
+  let result: Member[] = friends.filter((value: Member) => value.nickname.includes(data));
 
   // 검색한 친구에서 친구 요청하기
   const SearchFriendRequest = (memberId : any) => {
@@ -227,7 +224,8 @@ function Profile (props:any) {
   }
   const handleClose = () => setOpen(false);
 
-  return (
+  return (    
+    <ThemeProvider theme={theme}>
       <div id="container_div">
         <Grid container id="container_div">
           {/* 왼쪽 마진 */}
@@ -275,12 +273,11 @@ function Profile (props:any) {
                         <ListItem sx={{height: 100}} key={index}>
                           
                           <ListItemAvatar sx={{ mr:2 }}>
-                            <Badge color="error" badgeContent={item.snowglobeRequestCnt} max={100} onClick={() => handleOpen(item)}>
-                            {/* <Avatar> */}
-                              {/* <ImageIcon /> */}
-                              <Avatar alt="profile" src={item.profileImageUrl}/>
-                            {/* </Avatar> */}
-                            </Badge>                            
+                            {item.snowglobeRequestCnt? 
+                              <Badge color="error" badgeContent="❤" onClick={() => handleOpen(item)}>
+                                <Avatar alt="profile" src={item.profileImageUrl}/>
+                              </Badge>
+                              : <Avatar alt="profile" src={item.profileImageUrl}/> }                          
                           </ListItemAvatar>
                           <ListItemText primary={`${item.nickname}`} className={styles.green_text}/>
 
@@ -297,12 +294,11 @@ function Profile (props:any) {
                         <ListItem sx={{height: 100}} key={index}>
 
                             <ListItemAvatar sx={{ mr:2 }}>
-                              <Badge color="error" badgeContent={item.snowglobeRequestCnt} max={100} onClick={() => handleOpen(item)}>
-                              {/* <Avatar> */}
-                                {/* <ImageIcon /> */}
-                                <Avatar alt="profile" src={item.profileImageUrl}/>
-                              {/* </Avatar> */}
-                              </Badge>                            
+                              {item.snowglobeRequestCnt? 
+                                <Badge color="error" badgeContent="❤" onClick={() => handleOpen(item)}>
+                                  <Avatar alt="profile" src={item.profileImageUrl}/>
+                                </Badge>
+                                : <Avatar alt="profile" src={item.profileImageUrl}/> }                          
                             </ListItemAvatar>
                             <ListItemText primary={`${item.nickname}`} className={styles.green_text}/>
                             {/* 1. 편지 요청 버튼 => 3*/}
@@ -336,8 +332,6 @@ function Profile (props:any) {
                             <PersonRemoveIcon color="disabled" fontSize='large' />
                           </Button>
                             : null }
-
-
                         </ListItem>
                       ))}
                     </List>
@@ -359,12 +353,11 @@ function Profile (props:any) {
                         <ListItem sx={{height: 100}} key={index}>
                           
                           <ListItemAvatar sx={{ mr:2 }}>
-                            <Badge color="error" badgeContent={item.snowglobeRequestCnt} max={100} onClick={() => handleOpen(item)}>
-                            <Avatar>
-                              <ImageIcon />
-                            </Avatar>
-                            </Badge>
-                            
+                            {item.snowglobeRequestCnt? 
+                              <Badge color="error" badgeContent="❤" onClick={() => handleOpen(item)}>
+                                <Avatar alt="profile" src={item.profileImageUrl}/>
+                              </Badge>
+                              : <Avatar alt="profile" src={item.profileImageUrl}/> }
                           </ListItemAvatar>
                           <ListItemText primary={`${item.nickname}`} className={styles.green_text} />
 
@@ -412,7 +405,7 @@ function Profile (props:any) {
         </Grid>
 
         {/* 모달, 모달에 테마 적용 */}
-        <ThemeProvider theme={theme}>
+        
         { member.snowglobeRequestCnt !== 0 ? 
           <Modal
             open={open}
@@ -427,24 +420,25 @@ function Profile (props:any) {
                 </Button>
               </Grid>
               <Grid xs={12} item component="div" style={{justifyContent: 'center'}}>
-                <h1 className={styles.cntmenu_text1}>스노우볼 요청</h1>
+                <h2 className={styles.cntmenu_text1}>스노우볼 요청</h2>
               </Grid>
               <Grid xs={12} item component="div" style={{justifyContent: 'center'}} sx={{ mt:4, mb: 8 }}>
                 <h4 className={styles.cntmenu_text1}>스노우볼 요청이 왔네요!</h4>
               </Grid>
-              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
+              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:2 }}>
                 <Button variant="contained" color="primary" sx={{width: '70%'}}>
                   <h4 className={styles.go}>선물하러 가기</h4></Button>
               </Grid>
-              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
+              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:2 }}>
                 <Button variant="contained" color="success" sx={{width: '70%'}} onClick={()=>(requestDelete(member.memberId))}>
                 <h4 className={styles.go}>요청 삭제하기</h4></Button>
               </Grid>
             </Box>
           </Modal>
             : null }
-        </ThemeProvider>
       </div>
+      </ThemeProvider>
+      
     )
 }
 
