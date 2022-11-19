@@ -17,6 +17,7 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Carousel from 'react-material-ui-carousel';
 import { setCurrentSb } from "../features/snowballSlice";
+import { useNavigate } from "react-router-dom";
 // ------------------------------------------------------------------------
 
 // Collect 타입 지정
@@ -34,6 +35,7 @@ function Collection() {
   const shelf_list = useSelector((state:RootState) => state.shelf.shelfList)
   const APIURL = API_URL()
   const dispatch = useDispatch()
+  const router = useNavigate()
 
   const setSelection = (sg_id: number) => {
     axios({
@@ -69,6 +71,11 @@ function Collection() {
   }
 
   useEffect(() => {
+    if (!accessToken) {
+      alert('로그인 후 이용 가능합니다')
+      router('/')
+    }
+
     axios({
       method: "GET",
       url:`${APIURL}api/snowglobe/${user_id}/shelf`
@@ -78,6 +85,7 @@ function Collection() {
       dispatch(setShelf(res.data))
     })
   },[])
+
   return (
       <div id="container_div">
         <Grid container id="container_div">

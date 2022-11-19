@@ -1,6 +1,8 @@
 // Systems
 import { useNavigate } from "react-router-dom"
 import { useAppDispatch } from "../app/hooks"
+import axios from "axios";
+import { useEffect } from 'react'
 
 // Other components
 import "../index.css"
@@ -10,6 +12,9 @@ import decorationImg from "../assets/images/decoration.png"
 import kakaoLoginBtnImg from '../assets/images/kakao_login_btn.png'
 import { Navbar } from '../components/navbar/navbar';
 import { setUserId } from "../features/userSlice"
+import { API_URL } from "../switchurl"
+import { setUser } from "../features/userSlice";
+import { setCurrentSb } from '../features/snowballSlice';
 
 // MUI
 import { Grid, Button, Stack } from "@mui/material"
@@ -32,17 +37,73 @@ const theme = createTheme({
 function Welcome() {
   const dispatch = useAppDispatch()
   const router = useNavigate()
+
   // 뒤로가기
   const goback = () => {
     dispatch(setUserId(1))
     router(-1)
   }
 
+  // 로그인
+  // 로컬서버
+  // const API_SERVER = "http://localhost:8080/api"
+  // const CLIENT_URL = "http://localhost:3000"
+
+  // 배포서버
   const API_SERVER = "https://mylittlesnowball.com/api"
-  const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
   const CLIENT_URL = "https://mylittlesnowball.com"
+  
+  const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
   const OAUTH2_REDIRECT_URI = `?redirect_uri=${CLIENT_URL}`
   const REDIRECT_URI = AUTH_URL + OAUTH2_REDIRECT_URI
+
+  const APIURL = API_URL()
+
+  useEffect(() => {
+    const code = window.location.search
+    let param = new URLSearchParams(code);
+    const accessToken = param.get('accessToken');
+    const newMember = param.get('newMember')
+    console.log('code = ', code)
+    console.log('accessToken = ', accessToken)
+    console.log('newMember = ', newMember)
+
+    if (accessToken) {
+      // console.log("현재 login됨")
+      // console.log(accessToken)
+      localStorage.setItem("accessToken", accessToken); // 토큰을 로컬 스토리지에 저장 === 로그인 함.
+      console.log("localStorage = ", window.localStorage)
+
+      axios({
+        method: "GET",
+        url: `${APIURL}api/member/me`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then((res) => {
+        console.log(res.data)
+          dispatch(setUser(res.data))
+          axios({
+            method: "GET",
+            url: `${APIURL}api/snowglobe/${res.data.memberId}`,
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          })
+          .then((rs) => {
+            dispatch(setCurrentSb(rs.data))
+          })
+          
+          if (newMember === 'true') {
+            router('/setnickname')
+          } else {
+            router(`/custommain/${res.data.memberId}`)
+          }
+      })
+    }
+  }, [])
+
 
   return (
     <div id="container_div">

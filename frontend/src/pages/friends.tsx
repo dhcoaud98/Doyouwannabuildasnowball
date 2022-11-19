@@ -80,6 +80,8 @@ function Profile (props:any) {
   const [searchFriends, setSearchFriends] = useState([]);
   // 검색어
   const [data, setData] = useState('');
+  // 라우팅
+  const router = useNavigate();
 
   // 1. 친구 목록 axios
   const fetchUsers = async () => {
@@ -100,6 +102,11 @@ function Profile (props:any) {
 
   // 시작할 때 친구 목록 불러오기 
   useEffect(() => {
+    if (!accessToken) {
+      alert('로그인 후 이용 가능합니다')
+      router('/')
+    }
+
     fetchUsers();
   }, [])
 
