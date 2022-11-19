@@ -61,6 +61,8 @@ function Setnickname() {
       .then((response) => {
         if (insertedNickName === null) {
           alert ("설정할 닉네임을 입력해주세요.")
+        } else if (insertedNickName.length > 8) {
+          alert ("닉네임은 최대 8자까지로 입력해주세요.")
         } else {
           if (response.data === true) {
             alert("중복되는 닉네임입니다. 다른 닉네임을 입력해주세요")
@@ -111,7 +113,7 @@ function Setnickname() {
 
               <div style={{ width: '70%', marginBottom: '5%'}}>
                 <ThemeProvider theme={theme}>
-                  <TextField onChange={changingNickName} fullWidth color="secondary" label="NickName" id="fullWidth" placeholder={nowUserNickName} />
+                  <TextField onChange={changingNickName} fullWidth color="secondary" label="NickName" id="fullWidth" placeholder={nowUserNickName} inputProps={{ maxLength: 8 }}/>
                 </ThemeProvider>
               </div>
 
