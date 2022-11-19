@@ -438,7 +438,7 @@ function Profile (props:any) {
                 <h4 className={styles.cntmenu_text1}>스노우볼 요청이 왔네요!</h4>
               </Grid>
               <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:2 }}>
-                <Button variant="contained" color="primary" sx={{width: '70%'}}>
+                <Button variant="contained" color="primary" sx={{width: '70%'}} onClick={() => goToCustommain(member.memberId)}>
                   <h4 className={styles.go}>선물하러 가기</h4></Button>
               </Grid>
               <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:2 }}>
