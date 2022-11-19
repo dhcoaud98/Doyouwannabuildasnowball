@@ -274,9 +274,10 @@ function CustomMain() {
           // 현재 페이지 주인 스노우볼 정보 가져와서 디스패치
           axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
           .then((response) => {
-            if (response.data.snowglobeId !== currentSbId) {
-              dispatch(setCurrentSb(response.data))
-            }
+            dispatch(setCurrentSb(response.data))
+          })
+          .catch((err) => {
+            console.log('현재 페이지 주인 스노우볼 err = ',err)
           })
 
           setOwnerUserNickName((prev) => response.data.nickname.slice(0, 8))
