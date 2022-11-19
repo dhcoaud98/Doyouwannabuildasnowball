@@ -25,12 +25,12 @@ const Home = () => {
 
   // 로그인
   // 로컬서버
-  // const API_SERVER = "http://localhost:8080/api"
-  // const CLIENT_URL = "http://localhost:3000"
+  const API_SERVER = "http://localhost:8080/api"
+  const CLIENT_URL = "http://localhost:3000"
 
   // 배포서버
-  const API_SERVER = "https://mylittlesnowball.com/api"
-  const CLIENT_URL = "https://mylittlesnowball.com"
+  // const API_SERVER = "https://mylittlesnowball.com/api"
+  // const CLIENT_URL = "https://mylittlesnowball.com"
   
   const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
   const OAUTH2_REDIRECT_URI = `?redirect_uri=${CLIENT_URL}`
