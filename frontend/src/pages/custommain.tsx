@@ -279,7 +279,7 @@ function CustomMain() {
             }
           })
 
-          setOwnerUserNickName((prev) => response.data.nickname)
+          setOwnerUserNickName((prev) => response.data.nickname.slice(0, 8))
           setCustomMenuName((prev) => "선물하기")
 
           if (!accessToken) {
@@ -380,7 +380,8 @@ function CustomMain() {
             {/* 상단 내브바 중간 */}
             {/* 현재 상태 이름 */}
             <Grid xs={8} item component="div" style={{justifyContent: 'end'}}>
-              <h1 className='cntmenu-text'>{customListState === true ? customMenuName : `${ownerUserNickName}의 스노우볼` }</h1>
+              <h1 className='cntmenu-text'>{customListState === true ? customMenuName : `${ownerUserNickName}의` }</h1>
+              <h1 className={`cntmenu-text ${noneAtCustomListTrue}`}>스노우볼</h1>
             </Grid>
 
             {/* 상단 내브바 오른쪽 */}

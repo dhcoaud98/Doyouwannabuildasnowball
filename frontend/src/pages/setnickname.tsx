@@ -109,7 +109,8 @@ function Setnickname() {
             <img src={tutorialBoxImg} alt="" className={styles.tutorial_box}/>
             <div className={styles.description}>
               <p className={`font-bold ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.8rem'}}>사용할 닉네임을</p>
-              <p className={`font-bold ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.8rem', marginBottom:'15%'}}>설정해주세요.</p>
+              <p className={`font-bold ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.8rem'}}>설정해주세요.</p>
+              <p className={`font-bold ${styles.welcome_text} ${styles.red_text}`} style={{fontSize:'1.1rem', marginBottom:'10%'}}>* 최대 8글자 *</p>
 
               <div style={{ width: '70%', marginBottom: '5%'}}>
                 <ThemeProvider theme={theme}>

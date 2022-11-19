@@ -167,6 +167,7 @@ function Profile (props:any) {
         "sendMemberId" : nowUser
       },)
         .then(res => {
+          alert('스노우볼 요청을 보냈어요!')
         })
         .catch(() => {
           alert('이미 보낸 요청이 있어요')
