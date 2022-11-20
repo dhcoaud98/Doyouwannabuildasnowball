@@ -24,7 +24,6 @@ public class BoardController {
     @GetMapping("/{snowglobeId}/all")
     public ResponseEntity<BoardAllResponse> findAllBoardBySnowglobe(@PathVariable Long snowglobeId) {
         BoardAllResponse allContentsBySnowglobe = boardService.findAllContentsBySnowglobe(snowglobeId);
-        log.info("board controller, all Contents : " + allContentsBySnowglobe.getBoardList().size());
         return ResponseEntity.status(HttpStatus.OK).body(allContentsBySnowglobe);
     }
 
