@@ -15,7 +15,7 @@ public class Board extends BaseEntity {
     @Column(name = "board_id")
     private Long boardId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "snowglobe_id")
     private Snowglobe snowglobe;
 

@@ -52,7 +52,6 @@ public class BoardService {
         BoardAllResponse boardAllResponse = new BoardAllResponse(boardResponses);
 
 
-        log.info("boardList size : " + boardList.size());
         return boardAllResponse;
     }
 
@@ -63,12 +62,14 @@ public class BoardService {
                 .orElseThrow(()->new CustomException(SNOWGLOBE_NOT_FOUND));
 
         String imageURL = writeBoardRequest.getPicture();
-
+        Member member = null;
+        if(writeBoardRequest.getWriterId() != null)
+            member = memberRepository.findById(writeBoardRequest.getWriterId()).orElse(null);
         boardRepository.save(Board.builder()
                 .content(writeBoardRequest.getContent())
                 .picture(imageURL)
                 .snowglobe(snowglobe)
-                .writer(memberRepository.findById(writeBoardRequest.getWriterId()).orElse(null))
+                .writer(member)
                 .build());
     }
 
@@ -87,11 +88,16 @@ public class BoardService {
     }
 
     public void removeContent(Long boardId, Long memberId) {
-        log.info("board id : " + boardId);
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new CustomException(BOARD_NOT_FOUND));
-        Long boardOwnerId = board.getSnowglobe().getReceiver().getMemberId();
-        if(!Objects.equals(memberId, boardOwnerId) || !Objects.equals(memberId, board.getWriter().getMemberId()))
+        Long snowglobeId = board.getSnowglobe().getSnowglobeId();
+        Snowglobe snowglobe = snowglobeRepository.findById(snowglobeId).orElseThrow(() -> new CustomException(SNOWGLOBE_NOT_FOUND));
+        Long receiverId = snowglobe.getReceiver().getMemberId();
+
+
+        // 방명록 작성자 인 경우이거나 스노우볼 주인일 경우 삭제 가능
+        if(Objects.equals(memberId, receiverId) || Objects.equals(memberId, board.getWriter().getMemberId()))
+            boardRepository.deleteById(boardId);
+        else
             throw new CustomException(MEMBER_NOT_FOUND);
-        boardRepository.deleteById(boardId);
     }
 }
