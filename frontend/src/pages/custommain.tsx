@@ -37,7 +37,7 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SmsIcon from '@mui/icons-material/Sms';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { RepeatOneSharp } from "@mui/icons-material";
+import { VolumeIcon } from "../components/music/volumeicon";
 // ------------------------------------------------------------------------
 
 function CustomMain() {
@@ -140,6 +140,21 @@ function CustomMain() {
   // 닉네임 변경 함수
   const changeNickName = () => {
     router('/setnickname')
+  }
+
+  // 음악 끄기켜기
+  const musicOnOff = () => {
+    const audio = audioref.current
+    if (audio) {
+      if (musicState === 1){
+        audio.pause()
+        setMusic(0)
+      }
+      else {
+        audio.play()
+        setMusic(1)
+      }
+    }
   }
 
   // 꾸미기 취소 함수
@@ -255,7 +270,8 @@ function CustomMain() {
     const goToVillage = () => {
       router('/unitybackground')
     }
-
+    // 음악 state
+    const [musicState, setMusic] = useState(1)
     // 스피드다이얼 구성 초기값 설정
     const [actions, setActions] = useState([
       { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
@@ -264,6 +280,7 @@ function CustomMain() {
       { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection},
       { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
       { icon: <SettingsIcon/>, name: '닉네임변경', eventFunc: changeNickName},
+      { icon: <VolumeIcon musicstate={musicState}/>, name: '음악조정', eventFunc: musicOnOff},
       { icon: <LogoutIcon/>, name: '로그아웃', eventFunc: logout},
     ])
     // 여기서부터는 현재 서비스 사용자와 현재 페이지 소유자가 같은지 여부에 따라 달라지는 변수들
@@ -297,6 +314,7 @@ function CustomMain() {
           if (!accessToken) {
             setActions((prev) => [
               { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
+              { icon: <VolumeIcon musicstate={musicState}/>, name: '음악조정', eventFunc: musicOnOff},
             ])
           } else {
             // 어? 내 페이지 아니네, 그럼 이 페이지 주인 나랑 친구야? 묻는 액시오스
@@ -311,24 +329,28 @@ function CustomMain() {
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
                   { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
+                  { icon: <VolumeIcon musicstate={musicState}/>, name: '음악조정', eventFunc: musicOnOff},
                 ])
               } else if (response.data.status === 1) {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <HandshakeIcon />, name: '친구추가받기', eventFunc: recieveRequest},
                   { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
+                  { icon: <VolumeIcon musicstate={musicState}/>, name: '음악조정', eventFunc: musicOnOff},
                 ])
               } else if (response.data.status === 2) {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <PersonAddAlt1Icon />, name: '친구요청됨', eventFunc: requestBeFriend},
                   { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
+                  { icon: <VolumeIcon musicstate={musicState}/>, name: '음악조정', eventFunc: musicOnOff},
                 ])
               } else {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},
                   { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
+                  { icon: <VolumeIcon musicstate={musicState}/>, name: '음악조정', eventFunc: musicOnOff},
                 ])
               }
             })
