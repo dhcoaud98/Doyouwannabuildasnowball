@@ -23,23 +23,24 @@ const Home = () => {
   // react hook
   const dispatch = useDispatch()
 
-  // // 로그인
+  // 로그인
+  // 로컬서버
   // const API_SERVER = "http://localhost:8080/api"
-  // const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
   // const CLIENT_URL = "http://localhost:3000"
 
+  // 배포서버
   const API_SERVER = "https://mylittlesnowball.com/api"
-  const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
   const CLIENT_URL = "https://mylittlesnowball.com"
-
+  
+  const AUTH_URL = API_SERVER + "/oauth2/authorize/kakao"
   const OAUTH2_REDIRECT_URI = `?redirect_uri=${CLIENT_URL}`
   const REDIRECT_URI = AUTH_URL + OAUTH2_REDIRECT_URI
 
-  const [isNewMember, setIsNewMember] = useState(false)
   
   // const navigate = useNavigate()
   const router = useNavigate();
   const APIURL = API_URL()
+
   useEffect(() => {
     const code = window.location.search
     let param = new URLSearchParams(code);
@@ -47,11 +48,8 @@ const Home = () => {
     const newMember = param.get('newMember')
     console.log('code = ', code)
     console.log('accessToken = ', accessToken)
-    console.log('newMember = ', isNewMember)
+    console.log('newMember = ', newMember)
 
-    if (newMember === "true") {
-      setIsNewMember((prev) => true)
-    }
     if (accessToken) {
       // console.log("현재 login됨")
       // console.log(accessToken)
@@ -79,16 +77,13 @@ const Home = () => {
             console.log(rs.data)
             dispatch(setCurrentSb(rs.data))
           })
-          if (isNewMember === true) {
+          
+          if (newMember === 'true') {
             router('/setnickname')
           } else {
             router(`/custommain/${res.data.memberId}`)
           }
       })
-      
-      // setTimeout(() => {
-      //   navigate('/')
-      // }, 1000);
     }
   }, [])
 

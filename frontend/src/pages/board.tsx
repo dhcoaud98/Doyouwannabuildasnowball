@@ -1,14 +1,15 @@
 // Systems
 import { useCallback, useEffect, useState, useRef } from 'react'
-import { useSelector } from "react-redux";
 import axios from 'axios';
 import { useAppSelector } from '../app/hooks'
+import { useSelector } from 'react-redux';
+import { RootState } from "../app/store";
 
 // Other components
 import { Navbar } from '../components/navbar/navbar';
 import { API_URL } from "../switchurl"
 import styles from "./board.module.css"
-import BoardBackground from '../assets/images/BoardBackground.png';
+
 // MUI
 import { Grid, Box, Container, Button, TextField, Typography, Modal } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
@@ -89,11 +90,12 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
-  bgcolor: '#FFFFFF',
+  width: '80%',
+  height: '60%',
+  bgcolor: '#FFF8F3',
   border: '0px solid #000',
   borderRadius: '4px',
-  boxShadow: 24,
+  boxShadow: 10,
   p: 4,
 };
 
@@ -101,12 +103,11 @@ const style = {
 function Board() {
   // 유저 정보
   const nowUserId = useAppSelector((state)  => state.user.userId);
-  const snowglobeId = useAppSelector((state) => state.user.snowglobeId);
+  const snowglobeId = useSelector((state: RootState) => state.snowball.current_sb_id)
   // 토큰
   const accessToken = localStorage.getItem("accessToken")
   // API
   const APIURL = API_URL()
-  const imageInput = useRef();
 
   // 메시지 배경 랜덤 제공
   let randomBackImage = randomImage(backImageRandom)
@@ -133,7 +134,7 @@ function Board() {
   // 메시지 데이터
   const [contents, setContents] = useState([]);
   const [text, setText] = useState('');
-  const [imag, setImage] = useState('');
+  const [imag, setImage] = useState('https://www.gousa.or.kr/sites/default/files/styles/16_9_770x433/public/images/hero_media_image/2016-12/Fish%20Creek%20Main%20Street%20Holiday%20Scene.jpg?h=7685ba0d&itok=pP145ocO');
   const [editText, setEditText] = useState('');
   const onChange = (e : any) => {
     setText(e.target.value);
@@ -238,7 +239,6 @@ function Board() {
 
   const ref = useRef<HTMLInputElement>(null);
   const handleClick = () => {
-    console.log('dd')
     if (ref.current !== null) {
       ref.current.click()
     }
@@ -362,25 +362,25 @@ function Board() {
                       {content.content}
                     </Typography>
                     <Box component="div" className={styles.input_body}>
-                    <TextField 
-                      onChange={onChangeEdit} 
-                      value={editText} 
-                      sx={{ mr: 1 }}
-                      focused 
-                      placeholder={content.content}
-                      className={styles.input_box}/>
-                    <Button variant="contained" onClick={handleClick} sx={{ mr: 1 }}>                    
-                      <AddPhotoAlternateIcon/></Button>
-                      <input 
-                        ref={ref} 
-                        type='file' 
-                        accept='image/jpg,impge/png,image/jpeg,image/gif' 
-                        name='profile_img' 
-                        style={{ display: "none" }}
-                        onChange={e => handleFileInput(e)}
-                        >
-                      </input>
-                    <Button variant="contained" onClick={() => (editMessage(content))}><SendIcon/></Button>
+                      <TextField 
+                        onChange={onChangeEdit} 
+                        value={editText} 
+                        sx={{ mr: 1 }}
+                        focused 
+                        placeholder={content.content}
+                        className={styles.input_box}/>
+                      <Button variant="contained" onClick={handleClick} sx={{ mr: 1 }}>                    
+                        <AddPhotoAlternateIcon/></Button>
+                        <input 
+                          ref={ref} 
+                          type='file' 
+                          accept='image/jpg,impge/png,image/jpeg,image/gif' 
+                          name='profile_img' 
+                          style={{ display: "none" }}
+                          onChange={e => handleFileInput(e)}
+                          >
+                        </input>
+                      <Button variant="contained" onClick={() => (editMessage(content))}><SendIcon/></Button>
                     </Box>
                   </Box>
                 </Modal>

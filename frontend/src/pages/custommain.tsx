@@ -16,7 +16,7 @@ import MainContainer from "../components/three/MainContainer";
 import { CustomList } from "../components/custom/customlist";
 import { API_URL } from "../switchurl"
 import wreath1Img from "../assets/images/wreath_1.png"
-import decoration from "../assets/images/decoration.png"
+import gotovillage from "../assets/images/gotovillage.png"
 import { setCurrentSb } from "../features/snowballSlice";
 
 // MUI
@@ -37,6 +37,7 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SmsIcon from '@mui/icons-material/Sms';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { RepeatOneSharp } from "@mui/icons-material";
 // ------------------------------------------------------------------------
 
 function CustomMain() {
@@ -95,17 +96,14 @@ function CustomMain() {
         musicId: currentMusicId
       })
       .then(()=>{
-        console.log('성공')
         containerRef?.current?.saveImage(currentSbId)
         setCustomListState(false)
       })
       .catch((error)=>{
-        console.log(error);
       })
     } 
     // 다른사람에게 선물 
     else {
-      console.log(ownerUserID)
       axios.post(`${APIURL}api/snowglobe/${ownerUserID}/present`, {
         makerId: nowUserID,
         screenshot: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/$DEFAULT.png`,
@@ -113,14 +111,12 @@ function CustomMain() {
         musicId: 1
       })
       .then((res)=>{
-        console.log("포스트",res, nowUserID)
         containerRef?.current?.saveImage(res.data)
         axios.patch(`${APIURL}api/snowglobe/changeScreenshot`, {
           url: `https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/${res.data}.png`,
           sid: res.data
         })
         .then((res)=>{
-          console.log('성공', res)
           setCustomListState(false)
         })
         .catch((error)=>{
@@ -162,11 +158,18 @@ function CustomMain() {
       setCustomListState((prev) => true)
     }
     // ㄴ.공유하기
-    const shareSnowBall = () => {}
+    const shareSnowBall = async () => {
+      try {
+        await navigator.clipboard.writeText(`https://mylittlesnowball/custommain/${nowUserID}`)
+        alert('클립보드에 링크가 복사되었습니다.')
+      } catch (err) {
+        alert('링크 복사에 실패했습니다.')
+      }
+    }
+
     // ㄷ.친구목록으로 라우팅
     const showFriends = () => {
-      // 현재는 사용자 정보가 없으므로...
-      router(`/friends/${nowUserID}`)
+      router(`/friends/`)
     }
     const showCollection = () => {
       router('/collection')
@@ -180,7 +183,6 @@ function CustomMain() {
         }
       })
         .then(res => {
-          console.log("로그아웃 성공")
           removeCookie("refresh", { path: '/' }); 
           router('/');
       })
@@ -188,7 +190,6 @@ function CustomMain() {
     const board = () => {
       router('/board')
     }
-
     
     // 2.남의 메인페이지일 경우 스피드 다이얼 함수 구성
     // ㄱ.선물하기
@@ -207,33 +208,53 @@ function CustomMain() {
       })
       .then((response) => {
         console.log(response.data)
+        alert(`${ownerUserNickName}님께 친구요청을 보냈습니다.`)
+        window.location.replace(`/custommain/${ownerUserID}`)
       })
       .catch((error) => {
         console.log(error)
+        if(error.response.status === 409) {
+          alert("이미 요청되어 승낙을 기다리고 있어요.")
+        }
       })
     } 
     // ㄷ.친구요청 받기
     const recieveRequest = () => {
-      axios.patch(`${APIURL}api/friend/request/${ownerUserID}?memberId=${nowUserID}`)
-      .then((response) => {
-        // console.log("새로 받은 데이터 = ", res.data);
-        console.log('우리 이제 칭긔칭긔!')
+      axios.patch(`${APIURL}api/friend/request/${ownerUserID}`, null, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }).then((response) => {
+        alert(`${ownerUserNickName}님과 친구가 되었습니다!`)
+        window.location.replace(`/custommain/${ownerUserID}`)
       })
       .catch((error) => {
-        console.log(error)
+        if(error.response.status === 400) {
+          alert("확인되지 않은 친구 요청입니다.")
+        }
       })
     }
     // ㄹ.친구삭제
-    const deleteFriend= () => {
-      axios.delete(`${APIURL}api/friend/list/${ownerUserID}`)
-      .then((response) => {
-        console.log('삭제완료')
+    const deleteFriend = () => {
+      axios.delete(`${APIURL}api/friend/list/${ownerUserID}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+        .then((response) => {
+          alert(`${ownerUserNickName}님을 친구목록에서 삭제했습니다.`)
+          window.location.replace(`/custommain/${ownerUserID}`)
       })
       .catch((error) => {
         console.log(error)
       })
     }
     
+    // 마을 놀러가기
+    const goToVillage = () => {
+      router('/unitybackground')
+    }
+
     // 스피드다이얼 구성 초기값 설정
     const [actions, setActions] = useState([
       { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
@@ -252,16 +273,17 @@ function CustomMain() {
       // 지금 여기 누구 페이지야? 묻는 액시오스
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {
-        console.log(response.data)
         if (ownerUserID !== nowUserID) {
           // 현재 페이지 주인 스노우볼 정보 가져와서 디스패치
           axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
           .then((response) => {
-            console.log('스노우볼 정보', response)
             dispatch(setCurrentSb(response.data))
           })
+          .catch((err) => {
+            console.log('현재 페이지 주인 스노우볼 err = ',err)
+          })
 
-          setOwnerUserNickName((prev) => response.data.nickname)
+          setOwnerUserNickName((prev) => response.data.nickname.slice(0, 8))
           setCustomMenuName((prev) => "선물하기")
 
           if (!accessToken) {
@@ -276,36 +298,57 @@ function CustomMain() {
               }
             })
             .then((response) => {
-              console.log('friend status = ', response.data)
+              console.log('친구니?', response.data)
               if (response.data.status === 0) {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <PersonAddAlt1Icon />, name: '친구추가요청', eventFunc: requestBeFriend},
+                  { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
                 ])
               } else if (response.data.status === 1) {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <HandshakeIcon />, name: '친구추가받기', eventFunc: recieveRequest},
+                  { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
                 ])
               } else if (response.data.status === 2) {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <PersonAddAlt1Icon />, name: '친구요청됨', eventFunc: requestBeFriend},
+                  { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
                 ])
               } else {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
                   { icon: <PersonOffIcon />, name: '친구삭제', eventFunc: deleteFriend},
+                  { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
                 ])
               }
             })
           }
+        } else {
+          axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
+          .then((response) => {
+            if (response.data.snowglobeId !== currentSbId) {
+              dispatch(setCurrentSb(response.data))
+              setActions((prev) => [
+                { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
+                { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
+                { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection},
+                { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
+                { icon: <SettingsIcon/>, name: '닉네임변경', eventFunc: changeNickName},
+                { icon: <LogoutIcon/>, name: '로그아웃', eventFunc: logout},
+              ])
+            }
+          })
         }
       })
       .catch((error) => {
         console.log(error)
+        alert('존재하지 않는 회원입니다.')
+        router(-1)
       })
-    },[]) 
+    } ,[]) 
 
     useEffect(() => {
       const audio = audioref.current
@@ -341,7 +384,8 @@ function CustomMain() {
             {/* 상단 내브바 중간 */}
             {/* 현재 상태 이름 */}
             <Grid xs={8} item component="div" style={{justifyContent: 'end'}}>
-              <h1 className='cntmenu-text'>{customListState === true ? customMenuName : `${ownerUserNickName}의 스노우볼` }</h1>
+              <h1 className='cntmenu-text'>{customListState === true ? customMenuName : `${ownerUserNickName}의` }</h1>
+              <h1 className={`cntmenu-text ${noneAtCustomListTrue}`}>스노우볼</h1>
             </Grid>
 
             {/* 상단 내브바 오른쪽 */}
@@ -354,13 +398,13 @@ function CustomMain() {
                 icon={<MenuIcon />}
                 direction='down'
                 FabProps={{
-                  sx: { bgcolor: '#FFF3E1', color: '#662113', '&:hover': {bgcolor: '#FFF3E1',}}
+                  sx: { bgcolor: 'transparent', color: '#662113', '&:hover': {bgcolor: '#FFF3E1',}}
                 }}
               >
                 {/* 내 메인페이지인지에 따라 바뀜 */}
                 {/* 여기가 추후에 myActions가 아닌 actions로 바뀔 것 */}
                 {actions.map((action) => (
-                  <SpeedDialAction key={action.name} open={action.name==='친구요청됨' ? false : true }  icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={() => action.eventFunc()}/>
+                  <SpeedDialAction key={action.name} open={action.name === '친구요청됨' ? false : true }  icon={action.icon} tooltipTitle={action.name} className={styles.brownicon} onClick={() => action.eventFunc()}/>
                 ))}
               </StyledSpeedDial>
                 
@@ -371,26 +415,8 @@ function CustomMain() {
           {/* 중단 */}
           {/* Three.js */}
           {/* 꾸미기 상태 비활성화 */}
-          <Grid component="div" item xs={9} className={noneAtCustomListTrue}>
+          <Grid component="div" item xs={8} className={noneAtCustomListTrue}>
             <MainContainer ref={containerRef}/>
-            {/* 마을 놀러가기 버튼 */}
-            <div className={styles.container}>
-              <div className={`${styles.button} ${styles.btn_clickable}`}>
-                <div className={styles.slider}>
-                  <div className={styles.slider_text}>
-                    <div className={styles.text}>마을 놀러가기!</div>
-                  </div>
-                  <div className={styles.slider_trigger}>
-                    <div className={styles.controller} id='controller'>
-                     <ArrowForwardIosIcon />
-                    </div>
-                    <div className={styles.endpoint_container}>
-                      <div className={styles.endpoint} id='controllerDrop'></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </Grid> 
 
           {/* 꾸미기 상태 활성화 */}
@@ -402,8 +428,10 @@ function CustomMain() {
 
           {/* 하단 */}
           {/* 꾸미기 상태 비활성화 */}
-          <Grid component="div" item xs={1} className={noneAtCustomListTrue}>
-            <img src={decoration} alt="" className={styles.decoration}/>
+          <Grid component="div" item xs={2} className={noneAtCustomListTrue} sx={{backgroundColor: '#010023'}}>
+            <Button onClick={() => goToVillage()} className={styles.gotovillage_btn}>
+              <img src={gotovillage} alt="" className={styles.gotovillage_img}/>
+            </Button>
           </Grid>      
 
           {/* 꾸미기 상태 활성화 */}
@@ -412,7 +440,7 @@ function CustomMain() {
           {/* 커스텀 드로워 */}
           {/* 꾸미기 상태 활성화시 시작 */}
           <div className={customListStyles}>
-              <CustomList/>
+            <CustomList/>
           </div>
         </Grid>
 

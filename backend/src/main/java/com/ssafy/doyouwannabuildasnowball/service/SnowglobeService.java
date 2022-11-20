@@ -143,7 +143,6 @@ public class SnowglobeService {
     public List<SnowglobeShelfResponseDto> showAllSnowglobe(Long uid) {
         Member member = memberRepository.findById(uid).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
         List<SnowglobeShelfResponseDto> result = new ArrayList<SnowglobeShelfResponseDto>(snowglobeRepository.findAllByMakerIdAndReceiverId(uid));
-
         return result;
     }
 

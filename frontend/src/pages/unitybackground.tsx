@@ -7,14 +7,16 @@ import "./unitybackground.css"
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"
 
 // else
 import { API_URL } from "../switchurl";
 import { setCurrentSb } from "../features/snowballSlice";
-
+import { Button } from '@mui/material';
 
 function UnityBackground() {
 
+  const router = useNavigate()
   const currentSbId = useSelector((state: RootState) => state.snowball.current_sb_id)
   const deco = useSelector((state: RootState) => state.snowball.deco)
   const dispatch = useDispatch()
@@ -68,10 +70,15 @@ function UnityBackground() {
     })
   }
 
+  const goBack = () => {
+    router(-1)
+  }
+
   return (
       <div>
+        <Button onClick={() => requestFullscreen(true)}>click</Button>
+        <Button onClick={() => goBack()}>뒤로가기</Button>
         <Unity unityProvider = {unityProvider}/>
-        <button onClick={() => requestFullscreen(true)}>click</button>
       </div>
     )
 }

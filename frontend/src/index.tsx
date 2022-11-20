@@ -40,7 +40,7 @@ root.render(
                 <Route path="/board" element={<Board/>}></Route>
                 <Route path="/collection" element={<Collection/>}></Route>
                 <Route path="/custommain/:userid" element={<CustomMain/>}></Route>
-                <Route path="/friends/:userid" element={<Friends/>}></Route>
+                <Route path="/friends" element={<Friends/>}></Route>
                 <Route path="/tutorial" element={<Tutorial/>}></Route>
                 <Route path="/welcome" element={<Welcome/>}></Route>
                 <Route path="/setnickname" element={<Setnickname/>}></Route>

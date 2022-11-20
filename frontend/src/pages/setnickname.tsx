@@ -61,6 +61,8 @@ function Setnickname() {
       .then((response) => {
         if (insertedNickName === null) {
           alert ("설정할 닉네임을 입력해주세요.")
+        } else if (insertedNickName.length > 8) {
+          alert ("닉네임은 최대 8자까지로 입력해주세요.")
         } else {
           if (response.data === true) {
             alert("중복되는 닉네임입니다. 다른 닉네임을 입력해주세요")
@@ -77,7 +79,10 @@ function Setnickname() {
   
   // 닉네임 설정 함수
   const updateNickName = () => {
-    axios.patch(`${APIURL}api/member/update/${nowUserID}/${insertedNickName}`)
+    axios.patch(`${APIURL}api/member/update`, {
+      memberId: nowUserID,
+      nickname: insertedNickName
+    })
     .then((response) => {
       console.log('성공')
       alert('닉네임이 변경되었습니다.')
@@ -104,11 +109,12 @@ function Setnickname() {
             <img src={tutorialBoxImg} alt="" className={styles.tutorial_box}/>
             <div className={styles.description}>
               <p className={`font-bold ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.8rem'}}>사용할 닉네임을</p>
-              <p className={`font-bold ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.8rem', marginBottom:'15%'}}>설정해주세요.</p>
+              <p className={`font-bold ${styles.welcome_text} ${styles.green_text}`} style={{fontSize:'1.8rem'}}>설정해주세요.</p>
+              <p className={`font-bold ${styles.welcome_text} ${styles.red_text}`} style={{fontSize:'1.1rem', marginBottom:'10%'}}>* 최대 8글자 *</p>
 
               <div style={{ width: '70%', marginBottom: '5%'}}>
                 <ThemeProvider theme={theme}>
-                  <TextField onChange={changingNickName} fullWidth color="secondary" label="NickName" id="fullWidth" placeholder={nowUserNickName} />
+                  <TextField onChange={changingNickName} fullWidth color="secondary" label="NickName" id="fullWidth" placeholder={nowUserNickName} inputProps={{ maxLength: 8 }}/>
                 </ThemeProvider>
               </div>
 
