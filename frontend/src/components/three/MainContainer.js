@@ -8,7 +8,7 @@ import { OrbitControls } from "@react-three/drei"
 import { Group } from "./Group"
 
 // React
-import { Suspense, useRef, forwardRef, useImperativeHandle } from "react"
+import { Suspense, useRef, forwardRef, useImperativeHandle, useState } from "react"
 // S3
 import S3 from 'react-aws-s3';
 
@@ -18,11 +18,17 @@ window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const MainContainer = forwardRef((props, ref) => {
   // 변수 선언
+  const [scalarState, setScalarState] = useState(0)
   const target = useRef()
   useImperativeHandle(ref, () => ({
-    saveImage
+    saveImage,
+    setScale,
   }))
 
+
+  const setScale = () => {
+    setScalarState(1)
+  }
 
   // 이미지 업로드 함수
   const saveImage = (sb_id) => {  
@@ -69,7 +75,7 @@ const MainContainer = forwardRef((props, ref) => {
           <directionalLight intensity={1} position={[10, 6, 6]}> 
           </directionalLight>
           <Suspense fallback={null}>  
-            <Center onCentered={({ container, height }) => container.scale.setScalar(0.040)}>
+            <Center onCentered={scalarState === 0 ? ({ container, height }) => container.scale.setScalar(0.040) : ({ container, height }) => container.scale.setScalar(0.045)}>
                 <Group/>    
             </Center>
             <Environment blur={1} files={"/venice_dawn_2_1k.hdr"} background={false} />
