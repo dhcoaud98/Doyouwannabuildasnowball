@@ -68,13 +68,13 @@ const Home = () => {
         })
         .then((rs) => {
           dispatch(setCurrentSb(rs.data))
-        })
-        
-        if (newMember === 'true') {
-          router('/setnickname')
-        } else {
-          router(`/custommain/${res.data.memberId}`)
-        }
+
+          if (newMember === 'true') {
+            router('/setnickname')
+          } else {
+            router(`/custommain/${res.data.memberId}`)
+          }
+        })              
       })
     }
   }, [])
