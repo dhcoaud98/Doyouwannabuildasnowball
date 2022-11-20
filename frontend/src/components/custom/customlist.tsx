@@ -116,7 +116,6 @@ export function CustomList() {
   // 탭 변환 함수
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTapValue(newValue);
-    console.log(newValue)
   };
   
 

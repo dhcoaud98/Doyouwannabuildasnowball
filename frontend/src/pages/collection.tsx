@@ -43,7 +43,6 @@ function Collection() {
       url: `${APIURL}api/snowglobe/${sg_id}/detail` 
     })
     .then((res) => {
-      console.log(res.data)
       dispatch(setCurrentSb(res.data))
     })
 
@@ -64,7 +63,6 @@ function Collection() {
         url:`${APIURL}api/snowglobe/${user_id}/shelf`
       })
       .then((res) => {
-        console.log(res.data)
         dispatch(setShelf(res.data))
       })
     })
@@ -81,7 +79,6 @@ function Collection() {
       url:`${APIURL}api/snowglobe/${user_id}/shelf`
     })
     .then((res) => {
-      console.log(res.data)
       dispatch(setShelf(res.data))
     })
   },[])

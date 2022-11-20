@@ -73,14 +73,6 @@ a {
   background-color: #048320;
 }
 
-.cntmenu-text {
-  font-family:'MaruBuri-Regular';
-  font-weight: 500;
-  font-size: 2em; 
-  text-align: center;
-  color: #4E5D39;
-}
-
 .MuiSpeedDial-fab {
   background-color: transparent; 
   background-image: url('./assets/images/wreath_2.png');

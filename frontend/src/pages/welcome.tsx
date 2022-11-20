@@ -64,15 +64,9 @@ function Welcome() {
     let param = new URLSearchParams(code);
     const accessToken = param.get('accessToken');
     const newMember = param.get('newMember')
-    console.log('code = ', code)
-    console.log('accessToken = ', accessToken)
-    console.log('newMember = ', newMember)
 
     if (accessToken) {
-      // console.log("현재 login됨")
-      // console.log(accessToken)
       localStorage.setItem("accessToken", accessToken); // 토큰을 로컬 스토리지에 저장 === 로그인 함.
-      console.log("localStorage = ", window.localStorage)
 
       axios({
         method: "GET",
@@ -82,24 +76,23 @@ function Welcome() {
         }
       })
       .then((res) => {
-        console.log(res.data)
-          dispatch(setUser(res.data))
-          axios({
-            method: "GET",
-            url: `${APIURL}api/snowglobe/${res.data.memberId}`,
-            headers: {
-              Authorization: `Bearer ${accessToken}`
-            }
-          })
-          .then((rs) => {
-            dispatch(setCurrentSb(rs.data))
-          })
-          
-          if (newMember === 'true') {
-            router('/setnickname')
-          } else {
-            router(`/custommain/${res.data.memberId}`)
+        dispatch(setUser(res.data))
+        axios({
+          method: "GET",
+          url: `${APIURL}api/snowglobe/${res.data.memberId}`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`
           }
+        })
+        .then((rs) => {
+          dispatch(setCurrentSb(rs.data))
+        })
+        
+        if (newMember === 'true') {
+          router('/setnickname')
+        } else {
+          router(`/custommain/${res.data.memberId}`)
+        }
       })
     }
   }, [])
