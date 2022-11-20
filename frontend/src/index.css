@@ -76,9 +76,10 @@ a {
 .cntmenu-text {
   font-family:'MaruBuri-Regular';
   font-weight: 500;
-  font-size: 2em; 
+  font-size: 1.9rem; 
   text-align: center;
   color: #4E5D39;
+  margin: 0;
 }
 
 .MuiSpeedDial-fab {
