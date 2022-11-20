@@ -33,7 +33,7 @@ public class MemberController {
         return ResponseEntity.ok().body(memberMeResponse);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping("/update/{memberId}/{nickname}")
     public ResponseEntity<Void> updateUserInfo(@PathVariable Long memberId, @PathVariable String nickname) {
             MemberUpdateRequest memberUpdateRequest = new MemberUpdateRequest(memberId, nickname);
             memberService.updateUserInfo(memberUpdateRequest);
