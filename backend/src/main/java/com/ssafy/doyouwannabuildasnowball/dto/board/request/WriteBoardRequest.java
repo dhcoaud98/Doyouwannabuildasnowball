@@ -12,8 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class WriteBoardRequest {
 
     private Long snowglobeId;
+    private Long writerId;
     private String content;
-
-    @Nullable
-    private MultipartFile picture;
+    private String picture;
 }

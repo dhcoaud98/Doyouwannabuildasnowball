@@ -16,4 +16,5 @@ public class SnowglobeRequestDto {
     private Long makerId;
     private String screenshot;
     private List<Element> deco;
+    private Long musicId;
 }

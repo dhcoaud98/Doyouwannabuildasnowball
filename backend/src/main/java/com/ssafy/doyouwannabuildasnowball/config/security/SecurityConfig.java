@@ -24,7 +24,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    // 로그인 필요 없는 페이지
 
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
     private final CustomAccessDeniedHandler accessDeniedHandler;
@@ -77,13 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .authorizeRequests()
-                .antMatchers(PERMIT_URL_ARRAY).permitAll()
-//                .anyRequest().permitAll()
-
-                .antMatchers("/admin/**").hasRole("ADMIN");
-//                .anyRequest().authenticated()
-//                .and()
-//                .headers();
+                .antMatchers(PERMIT_URL_ARRAY).permitAll();
+//                .antMatchers("/admin/**").hasRole("ADMIN");
 
         http
                 .oauth2Login()
@@ -97,12 +91,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(oAuth2AuthenticationSuccessHandler)
                 .failureHandler(oAuth2AuthenticationFailureHandler);
 
-
-//        http.exceptionHandling()
-//                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-//                .accessDeniedHandler(jwtAccessDeniedHandler)
-//                .and()
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .and()
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 

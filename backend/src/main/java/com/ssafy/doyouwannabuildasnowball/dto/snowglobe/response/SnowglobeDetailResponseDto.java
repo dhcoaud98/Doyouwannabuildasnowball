@@ -13,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class SnowglobeDetailResponseDto {
+    private Long receiverId;
     private Long snowglobeId;
+    private Long musicId;
     private List<Element> deco;
 }

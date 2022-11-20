@@ -1,32 +1,26 @@
 package com.ssafy.doyouwannabuildasnowball.config.security.oauth.service;
 
-import com.ssafy.doyouwannabuildasnowball.common.exception.OAuthProcessingException;
+import com.ssafy.doyouwannabuildasnowball.common.exception.CustomException;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.CustomUserDetails;
-import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.KakaoOAuth2UserInfo;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.OAuth2UserInfo;
 import com.ssafy.doyouwannabuildasnowball.config.security.oauth.userinfo.OAuth2UserInfoFactory;
 import com.ssafy.doyouwannabuildasnowball.domain.Member;
 import com.ssafy.doyouwannabuildasnowball.domain.type.AuthProvider;
 import com.ssafy.doyouwannabuildasnowball.domain.type.MemberRole;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
-import com.ssafy.doyouwannabuildasnowball.repository.jpa.SnowglobeRepository;
 import com.ssafy.doyouwannabuildasnowball.service.MemberService;
-import com.ssafy.doyouwannabuildasnowball.service.SnowglobeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
-import java.util.Collections;
-import java.util.Map;
 import java.util.Optional;
+
+import static com.ssafy.doyouwannabuildasnowball.common.exception.ErrorCode.UNMATCHED_AUTH_PROVIDER;
 
 @Service
 @RequiredArgsConstructor
@@ -60,7 +54,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             log.info("user is present");
             member = userOptional.get();
             if(authProvider != member.getAuthProvider()){
-                throw new OAuthProcessingException("Wrong Match Auth Provider");
+                throw new CustomException(UNMATCHED_AUTH_PROVIDER);
             }
         } else{
             log.info("new member");
@@ -73,7 +67,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private Member createMember(OAuth2UserInfo userInfo, AuthProvider authProvider) {
         Member member = Member.builder()
                 .name(userInfo.getName())
-                .nickname(userInfo.getName())
+                .nickname(userInfo.getName()+ userInfo.getId())
                 .email(userInfo.getEmail())
                 .kakaoId(userInfo.getId())
                 .profileImageUrl(userInfo.getImageUrl())

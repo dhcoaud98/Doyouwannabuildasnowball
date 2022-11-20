@@ -34,6 +34,23 @@
   height: 70%
 }
 
+/* 친구 검색에 따른 높이 */
+.searchFriendList {
+  height: 30vh;
+}
+
+.searchFriendList2 {
+  display : none;
+}
+
+.myFriend{
+  height: 35vh;
+  margin-top: 20px;
+}
+
+.myFriend2{
+  height: 65vh;
+}
 
 .modal-text {
   font-family:'MaruBuri-Regular';
@@ -61,4 +78,8 @@
 .go{
   color: #6A1206;
   margin: 0;
+}
+
+.green_text{
+  color: #4E5D39;
 }

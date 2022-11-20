@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @NamedNativeQuery(
         name = "set_shelf",
-        query = "select snowglobe_id, screenshot from snowglobe where (maker_id=:id and maker_saved=true) or (receiver_id=:id and receiver_saved=true)",
+        query = "select snowglobe_id, screenshot, maker_id from snowglobe where (maker_id=:id and maker_saved=true) or (receiver_id=:id and receiver_saved=true)",
         resultSetMapping = "shelf_dto"
 )
 @SqlResultSetMapping(
@@ -18,7 +18,8 @@ import javax.persistence.*;
                 targetClass = SnowglobeShelfResponseDto.class,
                 columns = {
                         @ColumnResult(name = "snowglobe_id", type = Long.class),
-                        @ColumnResult(name = "screenshot", type = String.class)
+                        @ColumnResult(name = "screenshot", type = String.class),
+                        @ColumnResult(name = "maker_id", type = Long.class)
                 }
         )
 )

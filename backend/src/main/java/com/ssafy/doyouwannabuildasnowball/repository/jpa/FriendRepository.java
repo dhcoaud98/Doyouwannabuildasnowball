@@ -14,6 +14,17 @@ import com.ssafy.doyouwannabuildasnowball.dto.friend.FriendResInterface;
 
 
 public interface FriendRepository extends JpaRepository<Friend, Long> {
+	
+	
+	// 친구 요청 전 해당 friend 데이터 있는지 확인
+	// JPQL 코드 에러남
+	@Query("SELECT f FROM Friend AS f WHERE (f.follow.memberId = :myMemberId AND f.followed.memberId = :yourMemberId) OR (f.follow.memberId = :yourMemberId AND f.followed.memberId = :myMemberId)")
+//	@Query(value="SELECT * FROM Friend WHERE (follow_id = :myMemberId AND followed_id = :yourMemberId) OR (follow_id = :yourMemberId AND followed_id = :myMemberId)", nativeQuery = true)
+	Friend findFriend(@Param("myMemberId") Long myMemberId, @Param("yourMemberId") Long yourMemberId);
+	
+	
+	
+	
 
 	// 방법 1, 방법 2 보류
 	
@@ -53,7 +64,6 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 	List<FriendResInterface> getAllSendRequests(@Param("followId") Long followId);
 	
 	
-	
 	// 내 친구 목록
 	@Query(value="SELECT friendId, memberId, nickname, profileImageUrl, snowglobeId, snowglobeRequestCnt " + 
 			"FROM (SELECT friend_id friendId, memberId, nickname, profile_image_url profileImageUrl, snowglobe_id snowglobeId " + 
@@ -65,7 +75,8 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 	
 	
 	
-	// 친구 목록 리팩토링
+	
+	// 친구 목록 *리팩토링 01
 	// 나와 관련 있는 유저 memberId, friendId, status 가져오기
 	@Query(value="SELECT member_id memberId, friend_id friendId, status, IFNULL(snowgloberequestCnt, 0) snowgloberequestCnt " + 
 			"FROM (SELECT IF(follow_id = :userId, followed_id, follow_id) AS member_id, friend_id, " + 
@@ -81,7 +92,8 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 			"LEFT OUTER JOIN (SELECT ask_id, count(*) snowgloberequestCnt " + 
 			"FROM request " + 
 			"WHERE asked_id = :userId " + 
-			"GROUP BY ask_id) r ON f.member_id = r.ask_id", nativeQuery = true)
+			"GROUP BY ask_id) r ON f.member_id = r.ask_id " + 
+			"ORDER BY memberId", nativeQuery = true)
 	List<FriendDtoInterface> getAllFriendsInfo(@Param("userId") Long userId);
 	
 	
@@ -96,13 +108,16 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 //			"WHERE nickname like "%:keyword%" ORDER BY nickname", nativeQuery = true)
 //	public List<FriendResInterface> getAllFriends(@Param("userId") Long userId, @Param("keyword") String keyword);
 	
-	// 검색 결과 내 친구 아닌 유저들
-//	public List<FriendResInterface> getAllUsersByKeyword(@Param("userId") Long userId, @Param("keyword") String keyword);
-	
 	
 	// 나와 친구 관계 있는 유저들의 memberId 찾기
 	@Query(value="SELECT IF(follow_id = :userId, followed_id, follow_id) AS member_id FROM friend WHERE follow_id = :userId OR followed_id = :userId", nativeQuery = true)
 	List<Long> getAllFriendsMemberId(@Param("userId") Long userId);
+	
+	
+	// 친구 유무  :yourMemberId memberId, 
+	@Query(value = "SELECT friend_id friendId, IF(acceptance = true, 3, IF(followed_id = :myMemberId, 1, 2)) AS status FROM friend " + 
+			"WHERE (follow_id = :myMemberId AND followed_id = :yourMemberId) OR (follow_id = :yourMemberId AND followed_id = :myMemberId);", nativeQuery = true)
+	FriendDtoInterface getFriendStatus(@Param("myMemberId") Long myMemberId, @Param("yourMemberId") Long yourMemberId);
 	
 	
 }

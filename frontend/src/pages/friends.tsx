@@ -1,22 +1,24 @@
 // Systems
 import * as React from 'react';
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import {useSelector} from 'react-redux'
+import { useEffect, useState, useCallback } from 'react'
+import { useSelector } from 'react-redux'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 // Other components
 import "../index.css"
+import '../assets/fonts/font.css'
 import styles from "./friends.module.css"
-import Navbar from '../components/navbar/navbar';
+import { Navbar } from '../components/navbar/navbar';
 import SearchBar from '../components/search/searchbar';
 import { RootState } from '../app/store';
+import { API_URL } from "../switchurl"
 import decorationImg from "../assets/images/decoration.png"
 
 // MUI
 import { Grid, Box, Container, List, ListItem, ListItemText, ListItemAvatar, Avatar, Button, Badge, Modal } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import ImageIcon from '@mui/icons-material/Image';
+
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -25,8 +27,6 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import '../assets/fonts/font.css'
 // ------------------------------------------------------------------------
 
-// 컴포넌트
-
 
 // 모달 스타일
 const style = {
@@ -34,10 +34,11 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '70%',
-  height: '50%',
+  width: '80%',
+  height: '60%',
   bgcolor: '#FFF8F3',
-  border: '2px solid #A6D388',
+  border: '0px solid #000',
+  borderRadius: '4px',
   boxShadow: 10,
   p: 4,
 };
@@ -65,31 +66,55 @@ type Member = {
   status: number,
 }
 
-const Profile= () => {
-  // 라우터
-  // const router = useRouter();
-  // const accessToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfTUVNQkVSIiwiaXNzIjoic25vd2JhbGwiLCJpYXQiOjE2NjczNjMwMTAsImV4cCI6MTY2NzQ0OTQxMH0.Qy5pTKtpf_BTJxU4Qv6PWDmajOg_Ac1kGZArd3JcIfZ0bv2X60XgWXqWge1ZbjwwsV5tY6l9eHIEmox1eI2WjA'
-  // console.log("access token  : " , accessToken)
-
-  // const [nowUser, setNowUser] = useState(0);
-
+function Profile (props:any) {
+  
+  // 토큰
+  const accessToken = localStorage.getItem("accessToken")
+  // API
+  const APIURL = API_URL()
+  // 현재 유저 id
   const nowUser = useSelector((state : RootState)  => state.user.userId);
+  // 친구 목록
   const [friends, setfriends] = useState([]);
+  // 검색 목록
+  const [searchFriends, setSearchFriends] = useState([]);
+  // 검색어
+  const [data, setData] = useState('');
+  // 라우팅
+  const router = useNavigate();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/friend/list/${nowUser}` 
-        )
-        setfriends(response.data);
-        console.log("친구목록 = ", response.data)
-      } catch (err: any) {
-          console.log('errer = ', err)
-        }
+  // 1. 친구 목록 axios
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get(
+        `${APIURL}api/friend/list`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        } 
+      )
+      setfriends(response.data);
+    } catch (err: any) {
+        console.log('errer = ', err)
       }
+    }
+
+  // 시작할 때 친구 목록 불러오기 
+  useEffect(() => {
+    if (!accessToken) {
+      alert('로그인 후 이용 가능합니다')
+      router('/')
+    }
+
     fetchUsers();
   }, [])
+
+  // 2. 검색 실행
+  useEffect(() => {
+    if (data !== '') {
+      searchFriend(data)
+    }
+  }, [data])
 
   // 모달에 들어가는 한명의 데이터
   let [member, setMember] = useState<Member>({
@@ -102,47 +127,54 @@ const Profile= () => {
     status: -1,
   })
 
-
-  // 친구 삭제 함수
+  // 3. 친구 삭제 함수
   const deleteFriend = (friendId : any) => {
-    axios.delete(`http://localhost:8080/api/friend/list/${friendId}?memberId=${nowUser}`)
+    alert("친구를 삭제 하시겠습니까?")
+    axios.delete(`${APIURL}api/friend/list/${friendId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
       .then(res => {
-        // console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data);
     })
   }
 
-  // 친구 요청 받기
+  // 4. 친구 요청 받기
   const followFriend = (friendId : any) => {
-    axios.patch(`http://localhost:8080/api/friend/request/${friendId}?memberId=${nowUser}`)
+    axios.patch(`${APIURL}api/friend/request/${friendId}`, null, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
       .then(res => {
-        // console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data);
-
+        fetchUsers();
+      })
+      .catch(err => {
+        if(err.response.status === 400) {
+          alert("확인되지 않은 친구 요청입니다.")
+        }
       })
   }
 
-  // 스노우볼 요청
+  // 5. 스노우볼 요청
   const requestLetter = (memberId : any) => {
-    axios.post(`http://localhost:8080/api/friend/snowglobe/request`, {
+    axios.post(`${APIURL}api/friend/snowglobe/request`, {
         "receiveMemberId" : memberId,
         "sendMemberId" : nowUser
-      })
+      },)
         .then(res => {
-          // console.log("새로 받은 데이터 = ", res.data);
-          if (res.data==='fail') {
-            alert('요청이 불확실합니다.')
-          }
+          alert('스노우볼 요청을 보냈어요!')
         })
-        .catch(err => {
-          alert('요청이 불확실합니다.')
+        .catch(() => {
+          alert('이미 보낸 요청이 있어요')
         })
   }
 
-  // 스노우볼 요청 삭제
+  // 6. 스노우볼 요청 삭제
   const requestDelete = (memberId : any) => {
-    console.log(memberId)
-    axios.delete(`http://localhost:8080/api/friend/snowglobe/request`, {
+    axios.delete(`${APIURL}api/friend/snowglobe/request`, {
       //헤더에 포함된 정보들 
     	data:{
         "sendMemberId" : memberId,
@@ -150,30 +182,68 @@ const Profile= () => {
         }
     })
       .then(res => {
-        // console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data)
         handleClose();
       })
   }
-  
+
+  // 7. 친구 검색
+  const searchFriend = (data:string) => {
+    axios.get(`${APIURL}api/friend/search/${data}`, {     
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+    }})
+      .then(res => {
+        setSearchFriends(res.data)
+      }
+    )
+  }
+  // 7-5. 기존친구에서 검색하기
+  let result: Member[] = friends.filter((value: Member) => value.nickname.includes(data));
+
+  // 검색한 친구에서 친구 요청하기
+  const SearchFriendRequest = (memberId : any) => {
+    axios.post(`${APIURL}api/friend/request`, 
+      {
+        "sendMemberId" : nowUser,
+        "receiveMemberId" : memberId
+      }
+    )
+      .then(res => {
+        // 다시 검색 요청
+        searchFriend(data);
+        fetchUsers();
+      })
+  }
+
+  // 친구 닉네임 누르면 친구 페이지로 이동
+  const goToCustommain = (memberId : any) => {
+    requestDelete(memberId);
+    router(`/custommain/${memberId}`)
+  }
+
+  // 
+  const wait = () => {
+    alert('친구 요청을 했습니다. 잠시만 기다려 주세요')
+  }
+
   // modal창 만들기
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = (member:Member) => {
     setOpen(true);
     setMember(member)
   }
   const handleClose = () => setOpen(false);
 
-
-
-  return (
+  return (    
+    <ThemeProvider theme={theme}>
       <div id="container_div">
         <Grid container id="container_div">
           {/* 왼쪽 마진 */}
-          <Grid xs={0} sm={2} md={3} xl={4} item id="left_div"></Grid>
+          <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="left_div"></Grid>
 
           {/* 메인 콘텐츠 */}
-          <Grid xs={12} sm={8} md={6} xl={4} item id="main_div">
+          <Grid xs={12} sm={8} md={6} lg={4} xl={3} item id="main_div">
             
             {/*모바일 위 여백*/}
             <div className={styles.navbar_top_margin}>
@@ -186,9 +256,9 @@ const Profile= () => {
             
             {/* 여기는 서치바 */}
             <div className={styles.search}>
-              <SearchBar/>
+              <SearchBar setData={setData}/>
             </div>
-
+  
             {/* 장식 */}
             <div className={styles.deco}>
               <img src={decorationImg} alt="" className={styles.decoimag}/>
@@ -197,7 +267,89 @@ const Profile= () => {
             {/* 여기는 친구 목록 */}
             <div className={styles.friends}>
               <Container>
-                <Box component="div" sx={{ bgcolor: '#FFF8F3', height: '65vh' }}>
+              {/* 친구를 검색했을 경우 */}
+                <Box component="div" sx={{ bgcolor: '#FFF8F3', height: '30vh' }} className={data === '' ? styles.searchFriendList2 : styles.searchFriendList}>
+                    <List
+                      sx={{
+                        position: 'relative',
+                        width: '100%',
+                        bgcolor: '#FFF8F3',
+                        overflow: 'auto',
+                        maxHeight: '100%',
+                        '& ul': { padding: 0 },
+                      }}
+                    >
+                      {/* 1-1. 검색 친구 */}
+                      {searchFriends.map((item:Member, index) => (
+                        <ListItem sx={{height: 100}} key={index}>
+                          
+                          <ListItemAvatar sx={{ mr:2 }}>
+                            {item.snowglobeRequestCnt? 
+                              <Badge color="error" badgeContent="❤" onClick={() => handleOpen(item)}>
+                                <Avatar alt="profile" src={item.profileImageUrl}/>
+                              </Badge>
+                              : <Avatar alt="profile" src={item.profileImageUrl}/> }                          
+                          </ListItemAvatar>
+                          <ListItemText primary={`${item.nickname}`} className={styles.green_text}/>
+
+                          {/* 친구 검색을 통해 얻은 친구 목록에서 친구 요청 보내기 */}
+                          { item.status === 0 ? 
+                          <Button onClick={() =>(SearchFriendRequest(item.memberId))}>
+                            <PersonAddIcon color="inherit" fontSize='large' />
+                          </Button>
+                            : null }
+                        </ListItem>
+                      ))}
+                      {/* 1-2. 기존 친구에서 검색 */}
+                      {result.map((item:Member, index:any) => (
+                        <ListItem sx={{height: 100}} key={index}>
+
+                            <ListItemAvatar sx={{ mr:2 }}>
+                              {item.snowglobeRequestCnt? 
+                                <Badge color="error" badgeContent="❤" onClick={() => handleOpen(item)}>
+                                  <Avatar onClick={() => goToCustommain(item.memberId)} alt="profile" src={item.profileImageUrl}/>
+                                </Badge>
+                                : <Avatar onClick={() => goToCustommain(item.memberId)} alt="profile" src={item.profileImageUrl}/> }                          
+                            </ListItemAvatar>
+                            <ListItemText onClick={() => goToCustommain(item.memberId)} primary={`${item.nickname}`} className={styles.green_text}/>
+                            {/* 1. 편지 요청 버튼 => 3*/}
+                          { item.status === 3 ? 
+                            <Button onClick={() =>(requestLetter(item.memberId))}>  
+                              <ForwardToInboxIcon color="error" fontSize='large' />
+                            </Button>
+                          : null }
+                          {/* 2. 친구 신청 후 상대방이 받을 때까지 기다리는 버튼 => 2 */}
+                          { item.status === 2 ? 
+                          <Button>
+                            <AutorenewIcon color="disabled" fontSize='large' />
+                          </Button>
+                          : null }
+                          {/* 3. 상대방이 나에게 친구 신청했는데 내가 안 받은 버튼 + 친구 신청 버튼 => 1 */}
+                          { item.status === 1 ? 
+                          <Button onClick={() =>(followFriend(item.friendId))}>
+                            <PersonAddIcon color="inherit" fontSize='large' />
+                          </Button>
+                            : null }
+                          {/* 친구 검색을 통해 얻은 친구 목록에서 친구 요청 보내기 */}
+                          { item.status === 0 ? 
+                          <Button onClick={() =>(SearchFriendRequest(item.memberId))}>
+                            <PersonAddIcon color="inherit" fontSize='large' />
+                          </Button>
+                            : null }
+                          {/* 4. 친구 삭제 버튼 => 1, 2, 3 */}
+                          {/* onClick={deleteFriend(item.friendId)} */}
+                          { item.status === 1 || item.status === 2 || item.status === 3 ? 
+                          <Button onClick={() =>(deleteFriend(item.friendId))}>
+                            <PersonRemoveIcon color="disabled" fontSize='large' />
+                          </Button>
+                            : null }
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Box>
+                  
+                  {/* 내 친구 목록 */}
+                  <Box component="div" sx={{ bgcolor: '#FFF8F3'}} className={data === '' ? styles.myFriend2 : styles.myFriend}>
                     <List
                       sx={{
                         position: 'relative',
@@ -212,39 +364,45 @@ const Profile= () => {
                         <ListItem sx={{height: 100}} key={index}>
                           
                           <ListItemAvatar sx={{ mr:2 }}>
-                            <Badge color="error" badgeContent={item.snowglobeRequestCnt} max={100} onClick={() => handleOpen(item)}>
-                            <Avatar>
-                              <ImageIcon />
-                            </Avatar>
-                            </Badge>
-                            
+                            {item.snowglobeRequestCnt? 
+                              <Badge color="error" badgeContent="❤" onClick={() => handleOpen(item)}>
+                                <Avatar onClick={() => goToCustommain(item.memberId)} alt="profile" src={item.profileImageUrl}/>
+                              </Badge>
+                              : <Avatar onClick={() => goToCustommain(item.memberId)} alt="profile" src={item.profileImageUrl}/> }
                           </ListItemAvatar>
-                          <ListItemText primary={`${item.nickname}`} />
+                          <ListItemText onClick={() => goToCustommain(item.memberId)} primary={`${item.nickname}`} className={styles.green_text} />
 
                           {/* 1. 편지 요청 버튼 => 3*/}
-                          { item.status == 3 ? 
+                          { item.status === 3 ? 
                             <Button onClick={() =>(requestLetter(item.memberId))}>  
                               <ForwardToInboxIcon color="error" fontSize='large' />
                             </Button>
                           : null }
                           {/* 2. 친구 신청 후 상대방이 받을 때까지 기다리는 버튼 => 2 */}
-                          { item.status == 2 ? 
-                          <Button>
+                          { item.status === 2 ? 
+                          <Button onClick={() =>(wait())}>
                             <AutorenewIcon color="disabled" fontSize='large' />
                           </Button>
                           : null }
                           {/* 3. 상대방이 나에게 친구 신청했는데 내가 안 받은 버튼 + 친구 신청 버튼 => 1 */}
-                          { item.status == 1 ? 
+                          { item.status === 1 ? 
                           <Button onClick={() =>(followFriend(item.friendId))}>
+                            <PersonAddIcon color="inherit" fontSize='large' />
+                          </Button>
+                            : null }
+                          {/* 친구 검색을 통해 얻은 친구 목록에서 친구 요청 보내기 */}
+                          { item.status === 0 ? 
+                          <Button onClick={() =>(SearchFriendRequest(item.memberId))}>
                             <PersonAddIcon color="inherit" fontSize='large' />
                           </Button>
                             : null }
                           {/* 4. 친구 삭제 버튼 => 1, 2, 3 */}
                           {/* onClick={deleteFriend(item.friendId)} */}
+                          { item.status === 1 || item.status === 2 || item.status === 3 ? 
                           <Button onClick={() =>(deleteFriend(item.friendId))}>
                             <PersonRemoveIcon color="disabled" fontSize='large' />
                           </Button>
-
+                            : null }
                         </ListItem>
                       ))}
                     </List>
@@ -254,12 +412,12 @@ const Profile= () => {
           </Grid>
 
           {/* 오른쪽 마진 */}
-          <Grid xs={0} sm={2} md={3} xl={4} item id="right_div"></Grid>
+          <Grid xs={0} sm={2} md={3} lg={4} xl={4.5} item id="right_div"></Grid>
         </Grid>
 
         {/* 모달, 모달에 테마 적용 */}
-        <ThemeProvider theme={theme}>
-        { member.snowglobeRequestCnt != 0 ? 
+        
+        { member.snowglobeRequestCnt !== 0 ? 
           <Modal
             open={open}
             onClose={handleClose}
@@ -273,24 +431,25 @@ const Profile= () => {
                 </Button>
               </Grid>
               <Grid xs={12} item component="div" style={{justifyContent: 'center'}}>
-                <h1 className={styles.cntmenu_text1}>스노우볼 요청</h1>
+                <h2 className={styles.cntmenu_text1}>스노우볼 요청</h2>
               </Grid>
               <Grid xs={12} item component="div" style={{justifyContent: 'center'}} sx={{ mt:4, mb: 8 }}>
                 <h4 className={styles.cntmenu_text1}>스노우볼 요청이 왔네요!</h4>
               </Grid>
-              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
-                <Button variant="contained" color="primary" sx={{width: '70%'}}>
+              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:2 }}>
+                <Button variant="contained" color="primary" sx={{width: '70%'}} onClick={() => goToCustommain(member.memberId) }>
                   <h4 className={styles.go}>선물하러 가기</h4></Button>
               </Grid>
-              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:4 }}>
-                <Button variant="contained" color="success" sx={{width: '70%'}} onClick={()=>(requestDelete(member.memberId))}>
+              <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:2 }}>
+                <Button variant="contained" color="success" sx={{width: '70%'}} onClick={()=>requestDelete(member.memberId)}>
                 <h4 className={styles.go}>요청 삭제하기</h4></Button>
               </Grid>
             </Box>
           </Modal>
             : null }
-        </ThemeProvider>
       </div>
+      </ThemeProvider>
+      
     )
 }
 

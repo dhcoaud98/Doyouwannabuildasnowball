@@ -1,12 +1,13 @@
 pipeline{
     agent any
     environment {
-       BACK_CONTAINER_NAME="mylittlesnowball_back_container"
+       BACK_CONTAINER_NAME="back_container"
        BACK_NAME = "mylittlesnowball_back"
 
-       FRONT_CONTAINER_NAME="mylittlesnowball_front_container"
+       FRONT_CONTAINER_NAME="front_container"
        FRONT_NAME = "mylittlesnowball_front"
     }
+
     stages {
         stage('Clean'){
             steps{
@@ -30,7 +31,7 @@ pipeline{
             steps {
                 script{
                     sh "docker build -t ${BACK_NAME} ./backend/."
-	        sh "docker build -t ${FRONT_NAME} ./frontend/."
+	                sh "docker build -t ${FRONT_NAME} ./frontend/."
 
                 }
             }

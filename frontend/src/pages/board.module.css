@@ -33,8 +33,27 @@
   height: 85%;
 }
 
+.modalImgBox{
+  display: flex;
+  justify-content: center;
+}
+
+.modalImag {
+  position: relative;
+  width: 50vw;
+  background-size: contain;
+  border-radius: 10;
+}
+
+.modalContent{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 10%;
+}
+
 .input_body{
-  height: 20%;
+  height: 12%;
   display: flex; 
   position: relative;
   justify-content: center;
@@ -43,6 +62,7 @@
 
 .input_box {
   width: 80%;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 .send_button {

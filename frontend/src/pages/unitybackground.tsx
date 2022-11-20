@@ -3,13 +3,26 @@ import  { Unity, useUnityContext } from "react-unity-webgl"
 import { useEffect } from "react";
 
 // axios
-// import { axiosGet } from "./api/axios"
+import "./unitybackground.css"
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"
 
+// else
+import { API_URL } from "../switchurl";
+import { setCurrentSb } from "../features/snowballSlice";
+import { Button } from '@mui/material';
 
 function UnityBackground() {
 
+  const router = useNavigate()
+  const currentSbId = useSelector((state: RootState) => state.snowball.current_sb_id)
+  const deco = useSelector((state: RootState) => state.snowball.deco)
+  const dispatch = useDispatch()
+  const APIURL = API_URL()
   // Unity Embed
-  const { unityProvider, sendMessage, addEventListener, removeEventListener } = useUnityContext({
+  const { unityProvider, sendMessage, addEventListener, removeEventListener, requestFullscreen } = useUnityContext({
     loaderUrl: "Build/Project.loader.js",
     dataUrl: "Build/Project.data",
     frameworkUrl: "Build/Project.framework.js",
@@ -27,22 +40,41 @@ function UnityBackground() {
     };
   }, [addEventListener, removeEventListener,SendRequest])
 
+  useEffect(() => {
+    axios({
+      method:'GET',
+      url:`${APIURL}api/snowglobe/${currentSbId}/detail`
+    })
+    .then((res) => {
+      dispatch(setCurrentSb(res.data))
+    })
+  })
+
   // javascript => unity setMap
   function SendRequest() {
-    console.log('sta')
-    sendMessage("UserObject", "DispatchPos", JSON.stringify({snowglobeid: 14, deco: [{indicator: 0, coordinateX: -14, coordinateY: -6.68, coordinateZ: -8.76},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, coordinateZ: 0},{indicator: 1, coordinateX: 0, coordinateY: 0, z: 0}]}))
-    
+    sendMessage("UserObject", "DispatchPos", JSON.stringify({snowglobeid: currentSbId, deco: deco }))    
   }
 
   function ConMap(pos: string){
-    console.log(pos)
+    const payload = JSON.parse(pos)
+    axios({
+      method:"PATCH",
+      url: `${APIURL}api/snowglobe/${payload.snowglobeid}/modifyCoordinate`,
+      data: {deco: payload.deco}
+    })
+    .then((res) => {
+    })
+  }
+
+  const goBack = () => {
+    router(-1)
   }
 
   return (
       <div>
-        {/* <MainContainer/> */}
+        <Button onClick={() => requestFullscreen(true)}>click</Button>
+        <Button onClick={() => goBack()}>뒤로가기</Button>
         <Unity unityProvider = {unityProvider}/>
-        <button onClick={() => SendRequest()}>do</button>
       </div>
     )
 }

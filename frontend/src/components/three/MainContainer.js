@@ -2,23 +2,36 @@
 // three
 import { Canvas } from "@react-three/fiber"
 import { Center, Environment } from "@react-three/drei"
-import Model from './Scene'
-import { MeshReflectorMaterial, OrbitControls } from "@react-three/drei"
-import * as THREE from "three"
-import { Suspense, useEffect, useRef, useState } from "react"
+import { OrbitControls } from "@react-three/drei"
+
+// Model
+import { Group } from "./Group"
+
+// React
+import { Suspense, useRef, forwardRef, useImperativeHandle, useState } from "react"
+// S3
 import S3 from 'react-aws-s3';
 
 
-function MainContainer() {
-  // 변수 선언
-  const target = useRef()
-  let [env,setEnv] = useState(0)
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
+
+const MainContainer = forwardRef((props, ref) => {
+  // 변수 선언
+  const [scalarState, setScalarState] = useState(0)
+  const target = useRef()
+  useImperativeHandle(ref, () => ({
+    saveImage,
+    setScale,
+  }))
+
+
+  const setScale = (num) => {
+    setScalarState(num)
+  }
 
   // 이미지 업로드 함수
   const saveImage = (sb_id) => {  
-    setEnv(1)
-
     // canvas to blob
     const imgBase64 = target.current.toDataURL('image/png')
     const decodeImg = atob(imgBase64.split(',')[1])
@@ -42,8 +55,6 @@ function MainContainer() {
     ReactS3Client
       .uploadFile(file, filename)
       .then(data => {
-        console.log(data)
-        setEnv(0)
       })
       .catch(err => console.log(err))
   }
@@ -54,37 +65,25 @@ function MainContainer() {
       .canvas-container {
       width:100%;
       height:100%;
-      background: rgb(246,60,60);
-      background: linear-gradient(0deg, rgba(246,60,60,1) 0%, rgba(255,120,120,1) 100%);
+      background: rgb(2,0,36);
+      background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(0,2,59,1) 100%);
+
       }
     `}</style>
-        <Canvas width="100" height="400" camera={{ position: [0,0,5], fov: 35 }} gl={{ preserveDrawingBuffer: true }} dpr={[1,2]} id={'menu-canvas'} ref={target} onClick={() => saveImage('1423')}>
-          <OrbitControls/>
-          <directionalLight intensity={2} position={[10, 6, 6]}> 
+        <Canvas width="100" height="400"  gl={{ preserveDrawingBuffer: true }} dpr={[1,2]} id={'menu-canvas'} ref={target}>
+          <OrbitControls enableZoom={false} enablePan={false}/>
+          <directionalLight intensity={1} position={[10, 6, 6]}> 
           </directionalLight>
           <Suspense fallback={null}>  
-            <Center>
-                <Model/>    
+            <Center onCentered={scalarState === 0 ? ({ container, height }) => container.scale.setScalar(0.040) : ({ container, height }) => container.scale.setScalar(0.055)}>
+                <Group/>    
             </Center>
-            <Environment preset="dawn" />
+            <Environment blur={1} files={"/venice_dawn_2_1k.hdr"} background={false} />
           </Suspense>
-          {/* lanmina Material */}
-          {/* {env === 0 ? <Environment background resolution={64}>
-            <mesh scale={51}>
-              <sphereGeometry args={[1, 64, 64]} />
-              <LayerMaterial side={THREE.BackSide}>
-                <Color color="blue" alpha={1.4}/>
-                <Depth colorA="#00ffff" colorB="#ff8f00" alpha={0.5} mode="normal" near={0} far={300} origin={[100, 100, 100]} />
-                <Noise mapping="local" type="cell" scale={0.5} mode="softlight" />
-              </LayerMaterial>
-            </mesh>
-          </Environment> : null} */}
-          
         </Canvas>
     </div>
     
   )
-}
-
+})
 
 export default MainContainer
