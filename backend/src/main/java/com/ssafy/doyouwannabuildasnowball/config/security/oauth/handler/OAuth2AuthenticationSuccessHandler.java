@@ -67,7 +67,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
         Long id = Long.valueOf(user.getName());
         Optional<Member> registeredMemberOptional = memberRepository.findById(id);
-        if(registeredMemberOptional.isPresent() && registeredMemberOptional.get().getRefreshToken() != null)
+        if(registeredMemberOptional.isPresent())
             isNewMember = false;
 
         tokenProvider.createRefreshToken(authentication, response);
