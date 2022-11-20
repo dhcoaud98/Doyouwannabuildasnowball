@@ -13,6 +13,7 @@ import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeCoordin
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeScreenshotRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeUpdateRequestDto;
+import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeCollectionResponseDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeDetailResponseDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeShelfResponseDto;
 import com.ssafy.doyouwannabuildasnowball.repository.jpa.MemberRepository;
@@ -139,9 +140,19 @@ public class SnowglobeService {
 
     //갖고있는 스노우볼 확인 (내 책장 / 메인 스노우볼 포함)
     @Transactional
-    public List<SnowglobeShelfResponseDto> showAllSnowglobe(Long uid) {
+    public List<SnowglobeCollectionResponseDto> showAllSnowglobe(Long uid) {
         Member member = memberRepository.findById(uid).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
-        List<SnowglobeShelfResponseDto> result = new ArrayList<SnowglobeShelfResponseDto>(snowglobeRepository.findAllByMakerIdAndReceiverId(uid));
+        List<SnowglobeShelfResponseDto> temp = new ArrayList<SnowglobeShelfResponseDto>(snowglobeRepository.findAllByMakerIdAndReceiverId(uid));
+
+        List<SnowglobeCollectionResponseDto> result = new ArrayList<SnowglobeCollectionResponseDto>();
+        for (int i=0; i<temp.size(); i++) {
+            Member maker = memberRepository.findById(temp.get(i).getMakerId()).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+            result.add(SnowglobeCollectionResponseDto.builder()
+                    .snowglobeId(temp.get(i).getSnowglobeId())
+                    .screenshot(temp.get(i).getScreenshot())
+                    .maker(maker.getNickname())
+                    .build());
+        }
 
         return result;
     }

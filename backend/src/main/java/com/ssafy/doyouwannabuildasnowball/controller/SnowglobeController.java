@@ -8,6 +8,7 @@ import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeCoordin
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeScreenshotRequestDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.request.SnowglobeUpdateRequestDto;
+import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeCollectionResponseDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeDetailResponseDto;
 import com.ssafy.doyouwannabuildasnowball.dto.snowglobe.response.SnowglobeShelfResponseDto;
 import com.ssafy.doyouwannabuildasnowball.service.SnowglobeService;
@@ -79,8 +80,8 @@ public class SnowglobeController {
 
     //갖고있는 스노우볼 확인 (내 책장)*
     @GetMapping("/{member_id}/shelf")
-    public ResponseEntity<List<SnowglobeShelfResponseDto>> myShelf(@PathVariable(value = "member_id") Long uid) {
-        return new ResponseEntity<List<SnowglobeShelfResponseDto>>(snowglobeService.showAllSnowglobe(uid), HttpStatus.OK);
+    public ResponseEntity<List<SnowglobeCollectionResponseDto>> myShelf(@PathVariable(value = "member_id") Long uid) {
+        return new ResponseEntity<List<SnowglobeCollectionResponseDto>>(snowglobeService.showAllSnowglobe(uid), HttpStatus.OK);
     }
 
     //책장에서 스노우볼 삭제*
