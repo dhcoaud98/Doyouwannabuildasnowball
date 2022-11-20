@@ -44,7 +44,6 @@ public class SnowglobeService {
     @Transactional
     public MainSnowglobeDto mainSnowglobe(Long uid) {
         Member member = memberRepository.findById(uid).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
-                //.orElseThrow(() -> new BadRequestException(MEMBER_BAD_REQUEST));
         Snowglobe snowglobe = member.getSnowglobe();
         Decoration decoration = decorationRepository.findById(snowglobe.getSnowglobeId()).orElseThrow(() -> new CustomException(DECORATION_NOT_FOUND));
 
@@ -167,6 +166,7 @@ public class SnowglobeService {
         Snowglobe snowglobe = snowglobeRepository.findById(sid).orElseThrow(() -> new CustomException(SNOWGLOBE_NOT_FOUND));
         Decoration decoration = decorationRepository.findById(sid).orElseThrow(() -> new CustomException(DECORATION_NOT_FOUND));
         return SnowglobeDetailResponseDto.builder()
+                .receiverId(snowglobe.getReceiver().getMemberId())
                 .snowglobeId(sid)
                 .musicId(snowglobe.getMusic().getMusicId())
                 .deco(decoration.getDeco())

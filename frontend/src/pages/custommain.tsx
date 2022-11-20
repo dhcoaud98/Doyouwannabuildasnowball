@@ -174,7 +174,7 @@ function CustomMain() {
     } 
     const logout = () => {
       alert('로그아웃 하기')
-      localStorage.setItem("accessToken", '');
+      localStorage.removeItem('accessToken');
       axios.post(`${APIURL}api/member/logout/${nowUserID}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -266,12 +266,12 @@ function CustomMain() {
     // 컴포넌트 실행시 가장 먼저 실행되는 함수 
     useEffect(() => {
       // 현재 페이지 주인의 스노우볼로 스노우볼 정보 변경
-      axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
-      .then((response) => {
-        dispatch(setCurrentSb(response.data))
-      })
-      .catch((err) => {
-      })
+      // axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
+      // .then((response) => {
+      //   dispatch(setCurrentSb(response.data))
+      // })
+      // .catch((err) => {
+      // })
       
       // 페이지 주인의 정보를 묻는 액시오스
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
