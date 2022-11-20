@@ -167,7 +167,7 @@ function CustomMain() {
 
     // ㄷ.친구목록으로 라우팅
     const showFriends = () => {
-      router(`/friends/`)
+      router(`/friends`)
     }
     const showCollection = () => {
       router('/collection')
