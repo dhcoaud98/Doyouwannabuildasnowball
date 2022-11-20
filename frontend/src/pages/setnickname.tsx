@@ -79,10 +79,7 @@ function Setnickname() {
   
   // 닉네임 설정 함수
   const updateNickName = () => {
-    axios.patch(`${APIURL}api/member/update`, {
-      memberId: nowUserID,
-      nickname: insertedNickName
-    })
+    axios.patch(`${APIURL}api/member/update/${nowUserID}/${insertedNickName}`)
     .then((response) => {
       console.log('성공')
       alert('닉네임이 변경되었습니다.')
