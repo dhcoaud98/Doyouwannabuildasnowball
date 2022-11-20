@@ -49,7 +49,6 @@ const MainContainer = forwardRef((props, ref) => {
     ReactS3Client
       .uploadFile(file, filename)
       .then(data => {
-        console.log(data)
       })
       .catch(err => console.log(err))
   }
