@@ -270,19 +270,20 @@ function CustomMain() {
 
     // 컴포넌트 실행시 가장 먼저 실행되는 함수 
     useEffect(() => {
-      // 지금 여기 누구 페이지야? 묻는 액시오스
+      // 현재 페이지 주인의 스노우볼로 스노우볼 정보 변경
+      axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
+      .then((response) => {
+        dispatch(setCurrentSb(response.data))
+      })
+      .catch((err) => {
+        console.log('현재 페이지 주인 스노우볼 err = ',err)
+      })
+      
+      // 페이지 주인의 정보를 묻는 액시오스
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {
+        // 페이지 주인이 내가 아니라면,
         if (ownerUserID !== nowUserID) {
-          // 현재 페이지 주인 스노우볼 정보 가져와서 디스패치
-          axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
-          .then((response) => {
-            dispatch(setCurrentSb(response.data))
-          })
-          .catch((err) => {
-            console.log('현재 페이지 주인 스노우볼 err = ',err)
-          })
-
           setOwnerUserNickName((prev) => response.data.nickname.slice(0, 8))
           setCustomMenuName((prev) => "선물하기")
 
@@ -326,21 +327,20 @@ function CustomMain() {
               }
             })
           }
-        } else {
-          axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
-          .then((response) => {
-            dispatch(setCurrentSb(response.data))
-            if (response.data.snowglobeId !== currentSbId) {
-              setActions((prev) => [
-                { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
-                { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
-                { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection},
-                { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
-                { icon: <SettingsIcon/>, name: '닉네임변경', eventFunc: changeNickName},
-                { icon: <LogoutIcon/>, name: '로그아웃', eventFunc: logout},
-              ])
-            }
-          })
+        } 
+        
+        // 페이지 주인이 나라면,
+        else {
+          if (response.data.snowglobeId !== currentSbId) {
+            setActions((prev) => [
+              { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
+              { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
+              { icon: <AppsIcon/>, name: '스노우볼 모두 보기', eventFunc: showCollection},
+              { icon: <SmsIcon/>, name: '방명록', eventFunc: board},
+              { icon: <SettingsIcon/>, name: '닉네임변경', eventFunc: changeNickName},
+              { icon: <LogoutIcon/>, name: '로그아웃', eventFunc: logout},
+            ])
+          }
         }
       })
       .catch((error) => {
