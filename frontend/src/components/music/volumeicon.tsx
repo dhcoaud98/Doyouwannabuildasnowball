@@ -8,9 +8,9 @@ interface musicState
 export function VolumeIcon(props : musicState) {
 
   return (
-    <div>
+    <>
       {props.musicstate === 1 ? <VolumeOffIcon/> : <VolumeUpIcon/>}
-    </div>
+    </>
     
   )
 }
