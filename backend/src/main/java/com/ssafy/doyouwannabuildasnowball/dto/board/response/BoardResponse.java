@@ -16,15 +16,17 @@ public class BoardResponse {
     private LocalDateTime modifiedTime;
     private Long boardId;
     private Long snowglobeId;
+    private Long writerId;
     private String content;
     private String imageUrl;
 
     @Builder
-    public BoardResponse(LocalDateTime createdTime, LocalDateTime modifiedTime, Long boardId, Long snowglobeId, String content, String imageUrl) {
+    public BoardResponse(LocalDateTime createdTime, LocalDateTime modifiedTime, Long boardId, Long snowglobeId, Long writerId, String content, String imageUrl) {
         this.createdTime = createdTime;
         this.modifiedTime = modifiedTime;
         this.boardId = boardId;
         this.snowglobeId = snowglobeId;
+        this.writerId = writerId;
         this.content = content;
         this.imageUrl = imageUrl;
     }
