@@ -26,8 +26,8 @@ const MainContainer = forwardRef((props, ref) => {
   }))
 
 
-  const setScale = () => {
-    setScalarState(1)
+  const setScale = (num) => {
+    setScalarState(num)
   }
 
   // 이미지 업로드 함수
@@ -75,7 +75,7 @@ const MainContainer = forwardRef((props, ref) => {
           <directionalLight intensity={1} position={[10, 6, 6]}> 
           </directionalLight>
           <Suspense fallback={null}>  
-            <Center onCentered={scalarState === 0 ? ({ container, height }) => container.scale.setScalar(0.040) : ({ container, height }) => container.scale.setScalar(0.045)}>
+            <Center onCentered={scalarState === 0 ? ({ container, height }) => container.scale.setScalar(0.040) : ({ container, height }) => container.scale.setScalar(0.055)}>
                 <Group/>    
             </Center>
             <Environment blur={1} files={"/venice_dawn_2_1k.hdr"} background={false} />

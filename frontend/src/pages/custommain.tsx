@@ -45,7 +45,7 @@ function CustomMain() {
   // 타입선언
   interface saveHandle {
     saveImage: (sb_id : number) => void,
-    setScale: () => void
+    setScale: (num: number) => void
   }
   const dispatch = useAppDispatch()
   const APIURL = API_URL()
@@ -99,6 +99,7 @@ function CustomMain() {
       .then(()=>{
         containerRef?.current?.saveImage(currentSbId)
         setCustomListState(false)
+        containerRef?.current?.setScale(0)
       })
       .catch((error)=>{
       })
@@ -119,6 +120,7 @@ function CustomMain() {
         })
         .then((res)=>{
           setCustomListState(false)
+          containerRef?.current?.setScale(0)
         })
         .catch((error)=>{
         })
@@ -148,6 +150,7 @@ function CustomMain() {
     })
       
     setCustomListState((prev) => false)
+    containerRef?.current?.setScale(0)
   }
   
   // 스피드 다이얼 버튼들 함수
@@ -155,7 +158,7 @@ function CustomMain() {
     // ㄱ.꾸미기
     const customSnowBall = () => {
       setCustomListState((prev) => true)
-      containerRef?.current?.setScale()
+      containerRef?.current?.setScale(1)
     }
     // ㄴ.공유하기
     const shareSnowBall = async () => {
@@ -198,6 +201,7 @@ function CustomMain() {
         router('/welcome')
       } else {
         setCustomListState((prev) => true)
+        containerRef?.current?.setScale(1)
       }
     }
     // ㄴ.친구요청 보내기
