@@ -145,16 +145,16 @@ function CustomMain() {
   // 음악 끄기켜기
   const musicOnOff = () => {
     const audio = audioref.current
-    if (audio) {
-      if (musicState === 1){
-        audio.pause()
+    
+      if (audio?.played){
+        audio?.pause()
         setMusic(0)
       }
       else {
-        audio.play()
+        audio?.load()
+        audio?.play()
         setMusic(1)
       }
-    }
   }
 
   // 꾸미기 취소 함수
@@ -271,7 +271,7 @@ function CustomMain() {
       router('/unitybackground')
     }
     // 음악 state
-    const [musicState, setMusic] = useState(1)
+    const [musicState, setMusic] = useState(0)
     // 스피드다이얼 구성 초기값 설정
     const [actions, setActions] = useState([
       { icon: <AutoFixHighIcon />, name: '꾸미기', eventFunc: customSnowBall},
@@ -397,7 +397,13 @@ function CustomMain() {
       if (audio != null) {
         audio.load()
         audio.play()
-      }    
+      }
+      if (audio?.played) {
+        setMusic(1)
+      }
+      else {
+        setMusic(0)
+      }  
     },[currentMusicId])
 
 
