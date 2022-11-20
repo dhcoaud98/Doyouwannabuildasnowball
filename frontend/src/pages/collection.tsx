@@ -23,7 +23,8 @@ import { useNavigate } from "react-router-dom";
 // Collect 타입 지정
 type Collect = {
   screenshot : string,
-  snowglobeId : number
+  snowglobeId : number, 
+  maker: string,
 }
 const accessToken = localStorage.getItem("accessToken")
 
@@ -128,6 +129,7 @@ function Collection() {
                   <Button color="error" size='large' variant='outlined' className={ styles.current_button} onClick={() => setSelection(item.snowglobeId)}>선택됨</Button>
                   </div>: 
                   <div className={styles.save_button_container}>
+                  <div>{item.maker}</div>
                   <Button color="error" size='large' variant='outlined' className={ styles.save_button} onClick={() => setSelection(item.snowglobeId)}>선택</Button>
                   {i != 0 ? <Button color="error" size='large' variant='outlined' className={ styles.save_button} onClick={() => deleteSelection(item.snowglobeId)}>삭제</Button> : null}
                   </div>
