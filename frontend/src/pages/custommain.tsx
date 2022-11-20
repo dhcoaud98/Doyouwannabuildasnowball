@@ -277,7 +277,14 @@ function CustomMain() {
       axios.get(`${APIURL}api/member/info/${ownerUserID}`)
       .then((response) => {
         // 페이지 주인이 내가 아니라면,
-        if (ownerUserID !== nowUserID) {
+        if (ownerUserID !== nowUserID) {        
+          axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
+          .then((response) => {
+            dispatch(setCurrentSb(response.data))
+          })
+          .catch((err) => {
+          })
+
           setOwnerUserNickName((prev) => response.data.nickname.slice(0, 8))
           setCustomMenuName((prev) => "선물하기")
 
@@ -326,6 +333,18 @@ function CustomMain() {
         else {
           console.log("response.data.snowglobeId = ", response.data.snowglobeId)
           console.log("currentSbId = ", currentSbId)
+          axios.get(`${APIURL}api/snowglobe/${currentSbId}/detail`)
+          .then((response) => {
+            if (response.data.receiverId !== nowUserID) {
+              axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
+              .then((response) => {
+                dispatch(setCurrentSb(response.data))                
+              })
+              .catch((err) => {
+              })
+            }
+          })
+          .catch((err) => {})
 
           if (response.data.snowglobeId !== currentSbId) {
             setActions((prev) => [
