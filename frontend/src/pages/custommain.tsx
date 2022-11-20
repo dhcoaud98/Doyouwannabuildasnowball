@@ -37,7 +37,6 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SmsIcon from '@mui/icons-material/Sms';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { VolumeIcon } from "../components/music/volumeicon";
 // ------------------------------------------------------------------------
 
 function CustomMain() {
