@@ -65,11 +65,11 @@ public class BoardService {
         String imageURL = writeBoardRequest.getPicture();
 
         boardRepository.save(Board.builder()
-                        .content(writeBoardRequest.getContent())
-                        .picture(imageURL)
-                        .snowglobe(snowglobe)
-                        .writer(memberRepository.findById(writeBoardRequest.getWriterId()).orElse(null))
-                        .build());
+                .content(writeBoardRequest.getContent())
+                .picture(imageURL)
+                .snowglobe(snowglobe)
+                .writer(memberRepository.findById(writeBoardRequest.getWriterId()).orElse(null))
+                .build());
     }
 
 
