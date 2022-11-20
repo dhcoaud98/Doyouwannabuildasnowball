@@ -16,6 +16,10 @@
   height: 10%;
 }
 
+.lower_cntmenu {
+  margin-bottom: 5%;
+}
+
 .gotovillage_btn {
   width: 100%;
   position: absolute;
