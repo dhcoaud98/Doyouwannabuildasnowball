@@ -107,10 +107,10 @@ export function CustomList() {
     [{image_path:Tree_1,},{image_path:Tree_2,},{image_path:Tree_3,},{image_path:Tree_4,},{image_path:Tree_5,},{image_path:Tree_6,},{image_path:Tree_7,},{image_path:Tree_8,},{image_path:Tree_9,},{image_path:NoElement,}],
     [{image_path:Building_1,},{image_path:Building_2,},{image_path:Building_3,},{image_path:Building_4,},{image_path:Building_5,},{image_path:Building_6,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement,}],
     [{image_path:Snowman_1,},{image_path:Snowman_2,},{image_path:Snowman_3,},{image_path:Snowman_4,},{image_path:Snowman_5,},{image_path:Snowman_6,},{image_path:Snowman_7,},{image_path:Snowman_8,},{image_path:NoElement,},{image_path:NoElement}],
-    [{image_path:Obj1_1,},{image_path:Obj1_2,},{image_path:Obj1_3,},{image_path:Obj1_4,},{image_path:Obj1_5,},{image_path:Obj1_6,},{image_path:Obj1_7,},{image_path:Obj1_8,},{image_path:Obj1_9,},{image_path:Obj1_10,}],
-    [{image_path:Obj2_1,},{image_path:Obj2_2,},{image_path:Obj2_3,},{image_path:Obj2_4,},{image_path:Obj2_5,},{image_path:Obj2_6,},{image_path:Obj2_7,},{image_path:Obj2_8,},{image_path:Obj2_9,},{image_path:Obj2_10,}],
-    [{image_path:Obj3_1,},{image_path:Obj3_2,},{image_path:Obj3_3,},{image_path:Obj3_4,},{image_path:Obj3_5,},{image_path:Obj3_6,},{image_path:Obj3_7,},{image_path:Obj3_8,},{image_path:Obj3_9,},{image_path:Obj3_10,}],
-    [{image_path:Pet_1,},{image_path:Pet_2,},{image_path:Pet_3,},{image_path:Pet_4,},{image_path:Pet_5,},{image_path:Pet_6,},{image_path:Pet_7,},{image_path:Pet_8,},{image_path:Pet_9,},{image_path:Pet_10}],
+    [{image_path:Obj1_1,},{image_path:Obj1_2,},{image_path:Obj1_3,},{image_path:Obj1_4,},{image_path:Obj1_5,},{image_path:Obj1_6,},{image_path:Obj1_7,},{image_path:Obj1_8,},{image_path:Obj1_9,},{image_path:NoElement,}],
+    [{image_path:Obj2_1,},{image_path:Obj2_2,},{image_path:Obj2_3,},{image_path:Obj2_4,},{image_path:Obj2_5,},{image_path:Obj2_6,},{image_path:Obj2_10,},{image_path:Obj2_8,},{image_path:Obj2_9,},{image_path:NoElement,}],
+    [{image_path:Obj3_1,},{image_path:Obj3_2,},{image_path:Obj3_3,},{image_path:Obj3_4,},{image_path:Obj3_5,},{image_path:Obj3_6,},{image_path:Obj3_7,},{image_path:Obj3_8,},{image_path:NoElement,},{image_path:NoElement,}],
+    [{image_path:Pet_1,},{image_path:Pet_2,},{image_path:Pet_3,},{image_path:Pet_4,},{image_path:Pet_5,},{image_path:Pet_6,},{image_path:Pet_7,},{image_path:Pet_8,},{image_path:Pet_9,},{image_path: NoElement}],
     [{image_path:Music_1,},{image_path:Music_2,},{image_path:Music_3,},{image_path:Music_4,},{image_path:Music_5,},{image_path:Music_6,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement,},{image_path:NoElement}]
   ]
   // 탭 변환 함수

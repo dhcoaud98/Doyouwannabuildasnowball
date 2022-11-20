@@ -44,7 +44,8 @@ function CustomMain() {
   // lazyloading
   // 타입선언
   interface saveHandle {
-    saveImage: (sb_id : number) => void
+    saveImage: (sb_id : number) => void,
+    setScale: () => void
   }
   const dispatch = useAppDispatch()
   const APIURL = API_URL()
@@ -154,6 +155,7 @@ function CustomMain() {
     // ㄱ.꾸미기
     const customSnowBall = () => {
       setCustomListState((prev) => true)
+      containerRef?.current?.setScale()
     }
     // ㄴ.공유하기
     const shareSnowBall = async () => {
