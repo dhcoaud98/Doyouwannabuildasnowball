@@ -1,3 +1,8 @@
+# Server Setting
+[public ip]
+
+k7a601.p.ssafy.io: 15.165.15.32
+
 # 배포 환경 설정
 
 ---
@@ -8,9 +13,7 @@
 
 ---
 
-## Docker 설치
-
-- Docker version 20.10.21
+## Docker 설정 (ver. 20.10.21)
 
 ### 1. 오래된 버전 삭제
 
@@ -58,132 +61,93 @@ docker --version
 ```
 
 ### 7. sudo 없이 docker 명령어 실행
----
-
-## MySQL 설치
-
-### 1. MySQL APT Repository 추가 및 패키지 다운로드
 
 ```bash
-sudo wget https://dev.mysql.com/get/mysql-apt-config_0.8.13-1_all.deb
-sudo dpkg -i mysql-apt-config_0.8,13-1_all.deb
+# 사용자 권한 변경
+sudo usermod -aG docker $USER
+
+# 로그아웃 후 재접속
+exit
 ```
 
-### 2. MySQL-Server 설치
+## MySQL 설정 (ver. 8.0.31)
+
+### 1. MySQL Image install
 
 ```bash
-sudo apt-get update
-sudo apt-get install mysql-server
+docker pull mysql
 ```
 
-### 3. Mysql 외부 원격 접속 설정
-
-- /etc/mysql/mysql.conf.d/mysqld.cnf 파일 수정
-- bind-address 127.0.0.1을 0.0.0.0으로 수정
-
-### 4. MySQL 접속 계정
-
-```
-user: 아이디
-password: 비밀번호
-```
-
----
-
-## Redis 설치
-
-### 1. 설치
-
-- apt-get update
-    
-    ```bash
-    sudo apt-get update
-    sudo apt-get upgrade
-    ```
-    
-- redis 설치 및 버전 확인
-    
-    ```bash
-    sudo apt-get install redis-server
-    redis-server --version
-    ```
-    
-
-### 2. 외부 접속 허용 및 비밀번호 설정
-
-- /etc/redis/redis.conf에서 수정
-    
-    ```bash
-    # bind 127.0.0.1
-    bind 0.0.0.0:
-    
-    # requirepass 주석풀어서
-    requirepass 비밀번호
-    ```
-    
-
----
-
-## MongoDB 설치
-
-- 자세한 명령어는 밑의 공식문서 참고
-
-[https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/#install-mongodb-community-edition-using-deb-packages](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/#install-mongodb-community-edition-using-deb-packages)
-
-### 1. 우분투 버전 확인(공식문서 보고 맞는 방법으로 설치)
+### 2. Docker image 확인
 
 ```bash
-lsb_release -dc
+docker images
 ```
 
-### 2. 공개키 가져오기
+### 3. Docker 컨테이너 생성 및 실행
 
 ```bash
-wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+docker run --name mysql -e MYSQL_ROOT_PASSWORD=<password> -d -p 3306:3306 <mysql image name>
 ```
 
-### 3. 몽고디비에 대한 목록 파일 만들기
+### 4. MySQL 접속
 
 ```bash
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+docker exec -it mysql bash
 ```
 
-### 4. 로컬 패키지 데이터베이스 다시 로드
+### 4-1. 접속 및 버전 확인
 
 ```bash
-sudo apt-get update
+# 버전 확인
+show variables like "%version%";
+
+# 접속
+mysql -u root -p
 ```
 
-### 5. 몽고디비 패키지 설치(최신버전) 특정 버전 설치 시, 방법 다름
+### 4-2. root 계정 비밀번호 변경
 
 ```bash
-sudo apt-get install -y mongodb-org
+alter user 'root'@'localhost' identified with mysql_native_password by 'mylittlesnowball601!';
+flush privileges;
 ```
 
-### 6. 몽고디비 시작 && 실행 확인
+### 4-3. user 계정 생성 및 권한 설정
 
 ```bash
-sudo systemctl start mongod
-sudo systemctl status mongod
+create user 'ssafy'@'%' identified by 'mylittlesnowball601!';
+grant all privileges on *.* to 'ssafy'@'%' with grant option;
+flush privileges;
 ```
 
-### 7. 외부에서 연결 위해 설정파일 수정
+## MongoDB 설정 ( ver. 6.0.2)
 
-/etc/mongod.conf 열어서 수정
+### 1. Docker MongoDB Image install
 
 ```bash
-# network interfaces
-net:
-		port: 27017
-		bindIp: 0.0.0.0   # 이부분 변경
-
-security:
-		authorization: enabled # 이부분 변경해야 Auth 적용
+docker pull mongo
 ```
 
-### 설정
+### 2. Docker image 확인
 
-### 1. 몽고디비 관리자 계정 추가
+```bash
+docker image
+```
+
+### 3. Docker 컨테이너 생성 및 실행 (MongoDB 보안 설정 —auth)
+
+```bash
+docker run --name mongodb -v ~/data:/data/db -d -p 27017:27017 mongo --auth
+```
+
+### 4. MongoDB 접속
+
+```bash
+docker exec -it mongodb bash
+```
+
+### 4-1. 몽고디비 관리자 계정 추가
 
 - mongosh로 mongo-cli 실행
     
@@ -200,134 +164,351 @@ security:
 - 계정 생성
     
     ```bash
-    db.createUser({
-        user:'아이디',
-        pwd:'비밀번호',
-        roles: ["userAdminAnyDatabase", "dbAdminAnyDatabase", "readWriteAnyDatabase"]
-    })
+    db.createUser(
+    ... {
+    ... user: "admin",
+    ... pwd: "Tkvl601!",
+    ... roles: ["root"]
+    ... }
+    ... )
     ```
     
 
-### 2. 사용자 계정 생성
+### 4-2. 사용자 계정 생성
 
 사용자 계정을 만들때는 특정 DB로 가서 만들어야함.
 
 ```bash
-use rideus
+#snowball collection으로 이동
+use snowball
 
-db.createUser(
-    {
-        user: "test1",          // user 이름
-        pwd: "password", 
-        roles: [
-            { role: "readWrite", db: "mytestdb2" }, // mytestdb2 에 대해 readWrite 권한
-            { role: "read", db: "test" }            // test db 에 대해 read 권한
-        ]
-    }
-)
+db.createUser({
+... user:'ssafy',
+... pwd:'skwkrrnl601!',
+... roles:["readWrite"]
+... })
 ```
 
-### 3. Auth 설정
+### 4-3. 사용자 확인
+
+```bash
+# 계정 auth 인증
+db.auth('user', 'pwd')
+
+# 사용자 확인 
+show users
+```
+
+### 5. Auth 설정
 
 /etc/mongod.conf 열어서 수정
 
-이 설정을 해줘야 로그인 안하면 DB 못들어감
-
 ```bash
+# 이부분 변경해야 Auth 적용
 security:
-		authorization: enabled # 이부분 변경해야 Auth 적용
+		authorization: enabled
 ```
 
-### 4. MongoDB Compass 연결
+<aside>
+💡 설정 파일 변경하면 항상 재시작
+sudo systemctl restart mongod
 
-- 연결 url
+</aside>
+
+### 6. MongoDB Compass 연결
 
 ```
+# 연결 url
 mongodb://[username:password@]host1[:port1],...hostN[:portN]][/[defaultauthdb][?options]]
 ([]는 생략이 가능하다는 의미입니다.)
 
 ex)
-mongodb://hihi:1234@123.123.123.123:27017
+mongodb://hihi:1234@123.123.123.123:27017/dbname
 
 계정 ID: hihi
 pwd: 1234
 MongoDB가 설치된 곳의 IP: 123.123.123.123
 포트: 27017
+사용 DB 이름: dbname
 ```
 
-<aside>
-💡 설정파일 변경하면 항상 재시작
-sudo systemctl restart mongod
+## Nginx 설정 (SSL 및 HTTP2 적용)
 
-</aside>
-
----
-
-## Nginx & SSL 적용
-
-### 1. Nginx 설치
+### 1. Nginx 설치 (1.18.0)
 
 ```bash
 sudo apt-get update
 sudo apt install nginx
 ```
 
-### 2. Certbot
+### 2. Certbot 설치 후 인증서 발급
 
 - letsencrypt의 형태로 SSL/TLS 인증서를 무료로 제공하는 라이브러리
 
-Certbot 설치 후 인증서 발급
-
 ```bash
-sudo add-apt-repository ppa:certbot/certbot 
+sudo apt-add-repository -r ppa:certbot/certbot
 
-sudo apt-get update # 해당 저장소에 담긴 패키지 정보를 확인할 수 있도록 업데이트
+# 해당 저장소에 담긴 패키지 정보를 확인할 수 있도록 업데이트
+sudo apt-get update
 
-sudo apt-get install python3-certbot-nginx # certbot 설치
+# certbot 설치
+sudo apt-get install python3-certbot-nginx
 
-# 설치된 certvot을 이용하여 도메인(example.com)에 대한 SSL 인증서 발급 
-sudo certbot certonly --nginx -d j7a603.p.ssafy.io 
+# Server Public IP 확인
+curl ip.ojj.kr
 
-# 다음 경로에 5개의 파일(4개의 .pem, 1개의 readme) 생성 확인 
-sudo ls -al /etc/letsencrypt/live/j7a603.p.ssafy.io
+# gabia DNS 설정,  Public IP 추가
+# - 호스트 : www , 값/위치 : 15.165.15.32
+# - 호스트 : @ , 값/위치 : 15.165.15.32
 
-# 90일마다 만료되는 인증서 자동 갱신 
+# 설치된 certbot을 이용하여 도메인(mylittlesnowball.com)에 대한 SSL 인증서 발급 
+sudo certbot certonly --nginx -d mylittlesnowball.com
+
+# 아래 경로에 5개의 파일(4개의 .pem, 1개의 readme) 생성 확인
+sudo ls -al /etc/letsencrypt/live/mylittlesnowball.com
+
+# 90일마다 만료되는 인증서 자동 갱신 설정
 sudo certbot renew --dry-run
 ```
 
-### 3. Nginx 설정 파일 수정
+### 3. Nginx 설정 파일 수정 (HTTP2 적용)
 
-- /etc/nginx/sites-available 밑에 test.conf 설정파일 만들기
+- **/etc/nginx/nginx.conf**
     
     ```bash
+    user www-data;
+    worker_processes auto;
+    pid /run/nginx.pid;
+    include /etc/nginx/modules-enabled/*.conf;
+    
+    events {
+            worker_connections 768;
+            # multi_accept on;
+    }
+    
+    http {
+    				# 요청 데이터 사이즈 설정
+            client_max_body_size 10M;
+    
+            ##
+            # Basic Settings
+            ##
+    
+            sendfile on;
+            tcp_nopush on;
+            tcp_nodelay on;
+            keepalive_timeout 65;
+            types_hash_max_size 2048;
+            # server_tokens off;
+    
+            # server_names_hash_bucket_size 64;
+            # server_name_in_redirect off;
+    
+            include /etc/nginx/mime.types;
+            default_type application/octet-stream;
+    
+            ##
+            # SSL Settings
+            ##
+    
+            ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+            ssl_prefer_server_ciphers on;
+    
+            ##
+            # Logging Settings
+            ##
+    
+            access_log /var/log/nginx/access.log;
+            error_log /var/log/nginx/error.log;
+    
+            ##
+            # Gzip Settings
+            ##
+    
+            gzip on;
+    
+            #gzip_vary on;
+            gzip_proxied any;
+            gzip_comp_level 6;
+            gzip_buffers 16 8k;
+            gzip_types
+                    application/javascript
+                    text/css
+                    application/octet-stream;
+            # gzip_http_version 2;
+            # gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+    
+            ##
+            # Virtual Host Configs
+            ##
+    
+            include /etc/nginx/conf.d/*.conf;
+            include /etc/nginx/sites-enabled/*;
+    }
+    
+    #mail {
+    #       # See sample authentication script at:
+    #       # http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+    #
+    #       # auth_http localhost/auth.php;
+    #       # pop3_capabilities "TOP" "USER";
+    #       # imap_capabilities "IMAP4rev1" "UIDPLUS";
+    #
+    #       server {
+    #               listen     localhost:110;
+    #               protocol   pop3;
+    #               proxy      on;
+    #       }
+    #
+    #       server {
+    #               listen     localhost:143;
+    #               protocol   imap;
+    #               proxy      on;
+    #       }
+    #}
+    ```
+    
+- **/etc/nginx/sites-available/default**
+    
+    ```bash
+    ##
+    # You should look at the following URL's in order to grasp a solid understanding
+    # of Nginx configuration files in order to fully unleash the power of Nginx.
+    # https://www.nginx.com/resources/wiki/start/
+    # https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+    # https://wiki.debian.org/Nginx/DirectoryStructure
+    #
+    # In most cases, administrators will remove this file from sites-enabled/ and
+    # leave it as reference inside of sites-available where it will continue to be
+    # updated by the nginx packaging team.
+    #
+    # This file will automatically load configuration files provided by other
+    # applications, such as Drupal or Wordpress. These applications will be made
+    # available underneath a path with that package name, such as /drupal8.
+    #
+    # Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+    ##
+    
+    # Default server configuration
+    #
+    server {
+            listen 80 default_server;
+            listen [::]:80 default_server;
+    
+            # SSL configuration
+            #
+            listen 443 ssl default_server;
+            listen [::]:443 ssl default_server;
+    
+            ssl_certificate /etc/letsencrypt/live/mylittlesnowball.com/fullchain.pem;
+            ssl_certificate_key /etc/letsencrypt/live/mylittlesnowball.com/privkey.pem;
+            #
+            # Note: You should disable gzip for SSL traffic.
+            # See: https://bugs.debian.org/773332
+            #
+            # Read up on ssl_ciphers to ensure a secure configuration.
+            # See: https://bugs.debian.org/765782
+            #
+            # Self signed certs generated by the ssl-cert package
+            # Don't use them in a production server!
+            #
+            # include snippets/snakeoil.conf;
+    
+            root /var/www/html;
+    
+            # Add index.php to the list if you are using PHP
+            index index.html index.htm index.nginx-debian.html;
+    
+            server_name _;
+    
+            location / {
+                    # First attempt to serve request as file, then
+                    # as directory, then fall back to displaying a 404.
+                    try_files $uri $uri/ =404;
+            }
+    
+            # pass PHP scripts to FastCGI server
+            #
+            #location ~ \.php$ {
+            #       include snippets/fastcgi-php.conf;
+            #
+            #       # With php-fpm (or other unix sockets):
+            #       fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+            #       # With php-cgi (or other tcp sockets):
+            #       fastcgi_pass 127.0.0.1:9000;
+            #}
+    
+            # deny access to .htaccess files, if Apache's document root
+            # concurs with nginx's one
+            #
+            #location ~ /\.ht {
+            #       deny all;
+            #}
+    }
+    
+    # Virtual Host configuration for example.com
+    #
+    # You can move that to a different file under sites-available/ and symlink that
+    # to sites-enabled/ to enable it.
+    #
+    #server {
+    #       listen 80;
+    #       listen [::]:80;
+    #
+    #       server_name example.com;
+    #
+    #       root /var/www/example.com;
+    #       index index.html;
+    #
+    #       location / {
+    #               try_files $uri $uri/ =404;
+    #       }
+    #}
+    ```
+    
+- **/etc/nginx/sites-available/mylittlesnowball.conf**
+    
+    ```bash
+    #upstream backend {
+    #  server localhost:8080;
+    #  server localhost:8081;
+    #  server localhost:8082;
+    
+    #}
+    
     server {
       listen 80; #80포트로 받을 때
-      server_name j7a603.p.ssafy.io www.j7a603.p.ssafy.io; #도메인주소, 없을경우 localhost
-      return 301 https://j7a603.p.ssafy.io$request_uri;
+      server_name mylittlesnowball.com www.mylittlesnowball.com; #도메인주소, 없을경우 localhost
+      return 301 https://mylittlesnowball.com$request_uri;
     
     }
+    
     server {
-      listen 443 ssl;
-      server_name j7a603.p.ssafy.io www.j7a603.p.ssafy.io;
+      listen 443 ssl http2 ipv6only=on;
+      listen [::]:443 ssl http2;
+      server_name mylittlesnowball.com www.mylittlesnowball.com;
     
       # ssl 인증서 적용하기
-      ssl_certificate /etc/letsencrypt/live/j7a603.p.ssafy.io/fullchain.pem;
-      ssl_certificate_key /etc/letsencrypt/live/j7a603.p.ssafy.io/privkey.pem;
-      
-    	location / { # 프론트엔드
-    		proxy_pass http://localhost:3000;
-    	}
+      ssl_certificate /etc/letsencrypt/live/mylittlesnowball.com/fullchain.pem;
+      ssl_certificate_key /etc/letsencrypt/live/mylittlesnowball.com/privkey.pem;
+    
+            location / { # 프론트엔드
+                    proxy_pass http://localhost:3000;
+            }
     
       location /api { # 백엔드
         proxy_pass http://localhost:8080;
+        #proxy_pass http://backend;
+        #proxy_http_version 2;
+        proxy_set_header Connection "";
         proxy_set_header Host $http_host;
-        proxy_set_header X-Real-IP $remote_addr; 
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; 
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme; # https 필요
     
-        # 웹 소켓 설정
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Upgrade $http_upgrade;
+    #    # 웹 소켓 설정
+    #    proxy_set_header Connection "upgrade";
+    #    proxy_set_header Upgrade $http_upgrade;
       }
     }
     ```
@@ -335,150 +516,167 @@ sudo certbot renew --dry-run
 - sites-enabled에 심볼릭 링크 설정
     
     ```bash
-    sudo ln -s /etc/nginx/sites-available/test.conf /etc/nginx/sites-enabled
-    ```
-    
-- /etc/nginx/nginx.conf의 http block에 해당 구문 설정(요청 데이터 사이즈 설정)
-    
-    ```bash
-    http {
-        client_max_body_size 10M;
-        ...
-    }
+    sudo ln -s /etc/nginx/sites-available/mylittlesnowball.conf /etc/nginx/sites-enabled
     ```
     
 - nginx 재시작
     
     ```bash
-    sudo service nginx restart # nginx 재시작
+    sudo service nginx restart
     ```
     
 
----
+# Jenkins 설정 (2.361.3)
 
-# Jenkins
+> [https://hyunmin1906.tistory.com/272](https://hyunmin1906.tistory.com/272) (참고)
+> 
 
-## 설치
-
-### sudo 없이 docker 명령어 사용하기
-
-sudo 없이 docker 명령어를 사용하려면, docker 그룹에 사용자를 추가해야 함
+### 1. Java11 설치
 
 ```bash
-sudo usermod -aG docker $USER
+# apt 업데이트 
+apt-get update
 
-# 로그아웃 후 재접속
-exit
+sudo apt-get install openjdk-11-jdk
 ```
 
-### 1. Docker에 Jenkins 설치 후 실행(9090포트로 실행)
+### 2. Jenkins 설치
 
 ```bash
-sudo docker run -d \
--u root \
--p 9090:8080 \
---name=jenkins \
--v /home/ubuntu/docker/jenkins-data:/var/jenkins_home \
--v /var/run/docker.sock:/var/run/docker.sock \
--v "$HOME":/home/jenkinsci/blueocean \
-jenkinsci/blueocean
+# Jenkins 저장소 key 다운로드
+wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+
+# sources.list에 추
+echo deb http://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
+
+# key 등록
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key FCEF32E745F2C3D5
+
+# apt 업데이트
+sudo apt-get update
+
+# jenkins 설치
+sudo apt-get install jenkins
+
+# jenkins 서버 포트 번호 변경
+	# jenkins version 2.335 이전
+	sudo vi /etc/default/jenkins
+	HTTP_PORT = 9090
+	
+	# jenkins version 2.335 이후
+	sudo vi /lib/systemctl/system/jenkins.service
+	Environment = "JENKINS_PORT = 9090"
+
+# jenkins 서비스 재시작
+sudo service jenkins restart
+
+# jenkins 상태 확인 > 포트 확인
+service jenkins status
 ```
 
-- v 옵션이 붙어있습니다. 무엇일까요?
-
-사실 위 옵션 없이 하나의 인스턴스로 도커 파일을 배포하려면, 젠킨스도 컨테이너이기 때문에 젠킨스 안에서 컨테이너를 실행해야 합니다. 하지만 젠킨스 컨테이너 안에서 또 도커를 설치하여 Java안에서 또 컨테이너를 동작시킨다면, 성능이 심각하게 많이 떨어질 것입니다.
-
-이를 해결하기 위해서 docker.sock 파일을 마운트한채로 컨테이너를 동작시켜줘야 합니다. 이렇게 하면 젠킨스 컨테이너 안의 도커가 바깥의 EC2 인스턴스의 도커와 연결되어 젠킨스 컨테이너 안에서 외부 도커에 명령을 내릴 수 있게됩니다.
-
-### 2. Docker container에 접속
+### 3. jenkins 접속
 
 ```bash
-sudo docker exec -it jenkins /bin/bash
-```
+# jenkins 접속
+<public ip>:9090
+ # http://15.165.15.32:9090
 
-### 3. admin password 확인
-
-```bash
+# admin password 확인
+# 밑에 2개 중 하나로 확인
+cat /var/lib/jenkins/secrets/initialAdminPassword
 cat /var/jenkins_home/secrets/initialAdminPassword
+	# 502dc8c910524d7199738c758de665e0
 ```
 
-### 4. jenkins에 접속 후 기본 플러그인 설치
+### 5. 기본 플러그인 설치
 
-- http://<ec2 도메인주소>:9090 으로 접속
-    
-    ex) http://j7a603.p.ssafy.io/9090
-    
+## Pipeline 생성 및 설정, Gitlab 연결
 
-[https://rainbound.tistory.com/entry/JENKINS-GITLAB-%EC%97%B0%EA%B2%B0](https://rainbound.tistory.com/entry/JENKINS-GITLAB-%EC%97%B0%EA%B2%B0)
-
-- Dashboard → Jenkins  관리 → 플러그인 관리에서 Docker, Git, Gitlab, pipeline 등 관련 플러그인 설치
-
-## 파이프라인 생성 및 설정, Gitlab 연결
+> [https://rainbound.tistory.com/entry/JENKINS-GITLAB-연결](https://rainbound.tistory.com/entry/JENKINS-GITLAB-%EC%97%B0%EA%B2%B0) (참고)
+> 
 
 ### 1. Gitlab에서 API Token 생성하기
 
-![Untitled](1%20Gitlab%2065338d23a59c4fde9af84d9a08c56444/Untitled.png)
+```yaml
+# Gitlab에서 해당 프로젝트 선택 → 설정 → 액세스 토큰
+Token name: 토큰 이름
+Expiration date: 토큰 사용기한. 안 적으면 무제한
+Select a role: Maintainer
+Select scopes: 권한부여. 전부 체크
 
-- Gitlab의 프로젝트 선택 → 설정 → 액세스 토큰
-- Token name: 토큰 이름
-Expiration date: 토큰 사용기한. 안적으면 무제한
-Select a role: Maintainer로 하는게 좋을듯
-Select scopes: 권한부여. 다 체크
-- Create project access token 버튼 누르면 토큰 생성 완료.
-토큰 복사해서 따로 적어놔야 함.
+Create project access token 버튼 누르면 토큰 생성 완료.
+# 토큰 복사해서 따로 적어놔야 함.
+	# y_3sdQayosX6VbsCFTHx
+```
 
 ### 2. Jenkins에서 Gitlab 연결
 
-- Dashboard → Jenkins 관리 → Configure System
-    
-    Gitlab탭에서 설정
-    
-    ![Untitled](1%20Gitlab%2065338d23a59c4fde9af84d9a08c56444/Untitled%201.png)
-    
+```yaml
+# Dashboard → Jenkins 관리 → Configure System (시스템 설정)
+# 'Gitlab' 탭에서 설정
+'Enable authentication for '/project' end-point' 체크
+
+Connection name: 임의로 설정 (gitlab_snowball)
+Gitlab host URL: https://lab.ssafy.com
+Credentials: GitLab API token
+	# 위의 Gitlab API token으로 설정
+```
 
 ### 3. Pipeline 생성 및 설정
 
-- Dashboard → 새로운 Item → pipeline
-    
-    ![Untitled](1%20Gitlab%2065338d23a59c4fde9af84d9a08c56444/Untitled%202.png)
-    
-- 위에서 만든 GibLab Connection 연결해주기
-    
-    ![Untitled](1%20Gitlab%2065338d23a59c4fde9af84d9a08c56444/Untitled%203.png)
-    
-- Build when a change is pushed to GibLab 체크박스 선택 후 URL 복사
-- 아래에 고급 버튼 누른 후 secret token 생성 후 복사
+```yaml
+# Dashboard → 새로운 Item → pipeline
+# General
+GitLab Connection: 2에서 만든 gitlab connection 이름으로 설정
 
-### Gitlab으로 이동
+# Build Triggers
+Build when a change is pushed to GitLab 체크 후 URL 복사
+	# http://15.165.15.32:9090/project/new
+Push Events 체크
+Rebuild open Merge Requests: Never
+Approved Merge Requests (EE-only) 체크
+Comments 체크
 
-- Gitlab으로 이동 후 설정 → Webhooks
-    
-    ![Untitled](1%20Gitlab%2065338d23a59c4fde9af84d9a08c56444/Untitled%204.png)
-    
-- URL과 Secter token에 복사한 값 넣어주기 → Trigger 원하는거 체크 → Add webhook
-- 생성된 Webhook이 아래에 있음. Test → Push events → HTTP:200 뜨면 Webhook 설정 완료
+고급 버튼 누른 후 secret token 생성 후 복사
+	# dce24e4dc7bbb7d944c95d958735e332
+```
 
-### 다시 Jenkins로 돌아와서
+### 4. Gitlab으로 이동 후 Webhooks 설정
 
-![Untitled](1%20Gitlab%2065338d23a59c4fde9af84d9a08c56444/Untitled%205.png)
+```yaml
+# Gitlab에서 해당 프로젝트 선택 → 설정 → Webhooks
+URL: 위에서 복사했던 URL
+Secret token: 위에서 발급받은 secret token
+Trigger: Push events 체크 (dev)
+SSL Verification: Enable SSL Verification 체크
 
-- 설정 방법 pipeline script와 SCM 두가지 방법이 있음. 여기선 SCM 사용
-    - pipeline script: jenkins내에서 스크립트를 입력하는 방법. 젠킨스 내에서 관리
-    - SCM: 외부에서 스크립트로 관리할 수 있음.
-- Repository URL: Gitlab 프로젝트 주소
-Credentials: Jenkins 설정 → Credentials manage → kind 설정을 username password로 하고 giblat 계정, 비밀번호 입력
-Branch Specifier: 빌드할 브랜치
-Script Path: 이용할 스크립트의 위치와 파일명
-- 저장 누르면 설정 완료.
+Add webhook 버튼 누르기
 
-> [https://rainbound.tistory.com/entry/JENKINS-GITLAB-연결](https://rainbound.tistory.com/entry/JENKINS-GITLAB-%EC%97%B0%EA%B2%B0) 참고
-> 
+# 생성된 Webhook이 아래에 있음
+Test → Push events
+# HTTP:200 뜨면 Webhook 설정 완료
+```
 
----
+### 5. Jenkins로 이동 후 pipeline 설정
 
-# Dokcerfile 및 Jenkinsfile
+```yaml
+# pipeline 내 구성 → pipeline 탭
+Definition: Pipeline script from SCM
+	# 설정 방법 pipeline script와 SCM 두가지 방법이 있음. 여기선 SCM 사용
+	# - pipeline script: jenkins내에서 스크립트를 입력하는 방법. 젠킨스 내에서 관리
+	# - SCM: 외부에서 스크립트로 관리할 수 있음.
+SCM: Git
+Repositories:
+	Repository URL: https://lab.ssafy.com/s07-final/S07P31A601
+	Credentials: Add > Username with password (gitlab 계정)
+Branches to build: */dev
+Script Path: Jenkinsfile
 
-### 백엔드 Dockerfile
+```
+
+## Dokcerfile 및 Jenkinsfile
+
+### 1. 백엔드 Dockerfile
 
 ```bash
 FROM openjdk:8 AS builder
@@ -489,64 +687,17 @@ COPY settings.gradle .
 COPY src src
 RUN chmod =x ./gradlew
 RUN ./gradlew bootJar
+#RUN ./gradlew clean build --exclude-task test
 
 FROM openjdk:8
-COPY --from=builder build/libs/rideus-0.0.1-SNAPSHOT.jar rideus.jar
+COPY --from=builder build/libs/doyouwannabuildasnowball-0.0.1-SNAPSHOT.jar doyouwannabuildasnowball.jar
 
 EXPOSE 8080
 
-CMD ["java","-jar","rideus.jar"]
+CMD ["java","-jar","doyouwannabuildasnowball.jar"]
 ```
 
-### 백엔드 Jenkinsfile
-
-```bash
-pipeline{
-    agent any
-    environment {
-       BACK_CONTAINER_NAME="rideus_back_container"
-       BACK_NAME = "rideus_back"
-
-       FRONT_CONTAINER_NAME="rideus_front_container"
-       FRONT_NAME = "rideus_front"
-    }
-    stages {
-        stage('Clean'){
-            steps{
-                script {
-                    try{
-                        sh "docker stop ${BACK_CONTAINER_NAME}"
-
-                        sleep 1
-                        sh "docker rm ${BACK_CONTAINER_NAME}"
-
-                    }catch(e){
-                        sh 'exit 0'
-                    }
-                }
-            }
-        }
-        stage('Build') {
-            steps {
-                script{
-                    sh "docker build -t ${BACK_NAME} ./backend/."
-
-                }
-            }
-        }
-        stage('Deploy'){
-            steps {
-                sh "docker run -d --name=${BACK_CONTAINER_NAME} -p 8080:8080 ${BACK_NAME}"
-  
-
-                sh "docker image prune --force" #기존 도커 이미지 삭제
-            }
-        }
-    }
-}
-```
-
-### 프론트엔드 Dockerfile
+### 2. 프론트엔드 Dockerfile
 
 ```bash
 # Dockerfile
@@ -583,20 +734,28 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-### 프론트엔드 Jenkinsfile
+### 3. Jenkinsfile
 
 ```bash
-pipeline {
+pipeline{
     agent any
     environment {
-       FRONT_CONTAINER_NAME="rideus_front_container"
-       FRONT_NAME = "rideus_front"
+       BACK_CONTAINER_NAME="mylittlesnowball_back_container"
+       BACK_NAME = "mylittlesnowball_back"
+
+       FRONT_CONTAINER_NAME="mylittlesnowball_front_container"
+       FRONT_NAME = "mylittlesnowball_front"
     }
     stages {
         stage('Clean'){
             steps{
                 script {
                     try{
+                        sh "docker stop ${BACK_CONTAINER_NAME}"
+
+                        sleep 1
+                        sh "docker rm ${BACK_CONTAINER_NAME}"
+
                         sh "docker stop ${FRONT_CONTAINER_NAME}"
                         sleep 1
                         sh "docker rm ${FRONT_CONTAINER_NAME}"
@@ -609,21 +768,29 @@ pipeline {
         stage('Build') {
             steps {
                 script{
-                    sh "docker build -t ${FRONT_NAME} ./frontend/."
+                    sh "docker build -t ${BACK_NAME} ./backend/."
+	                sh "docker build -t ${FRONT_NAME} ./frontend/."
+
                 }
+            }
+        }
+
+        stage('Deploy'){
+            steps {
+                sh "docker run -d --name=${BACK_CONTAINER_NAME} -p 8080:8080 ${BACK_NAME}"
+                sh "docker run -d --name=${FRONT_CONTAINER_NAME} -p 3000:80 ${FRONT_NAME}"
             }
         }
         stage('Docker run') {
             steps {
-                sh "docker run -d --name=${FRONT_CONTAINER_NAME} -p 3000:80 ${FRONT_NAME}"
-                sh "docker image prune --force"  #기존 도커 이미지 삭제
+                sh "docker image prune --force"
             }
         }
     }
 }
 ```
 
-# 백엔드 application.yml
+## 백엔드 application.yml 및 s3
 
 ```yaml
 server:
@@ -631,17 +798,9 @@ server:
     context-path: /api
 
 spring:
-  weather:
-    api: <날씨 API 키>
+  main:
+    allow-bean-definition-overriding: true
 
-  cache:
-    type: redis
-  redis:
-    host: j7a603.p.ssafy.io
-    port: 6379
-    password: <비밀번호>
-  
-	# 요청 크기 설정 
   servlet:
     multipart:
       enabled: true
@@ -655,9 +814,15 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://j7a603.p.ssafy.io:3306/rideus?useSSL=false&useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
-    username: <아이디>
-    password: <비밀번호>
+      #로컬 환경
+#    url: jdbc:mysql://localhost:3306/snowball?useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
+#    username: ssafy
+#    password: ssafy
+
+    # ec2 DB에 연결
+    url: jdbc:mysql://k7a601.p.ssafy.io:3306/snowball?useSSL=false&useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
+    username: ssafy
+    password: mylittlesnowball601!
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -666,6 +831,7 @@ spring:
     properties:
       hibernate:
         default_batch_fetch_size: 500
+        #        show_sql: false
         format_sql: true
         show_sql: true
 
@@ -673,14 +839,17 @@ spring:
 
   data:
     mongodb:
-#      username: ssafy
-#      password: yfass1234
-#      authentication-database: admin
-      auto-index-creation:
-      uri: mongodb://ssafy4:yfass1234@j7a603.p.ssafy.io:27017/rideus
-#      host: j7a603.p.ssafy.io
-#      port: 27017
-#      database: rideus
+
+      # ec2 server setting
+      username: ssafy
+      password: skwkrrnl601!
+      host: k7a601.p.ssafy.io
+      port: 27017
+      database: snowball
+      authentication-database: snowball
+
+      # local setting
+#      uri: mongodb://localhost:27017/snowball
 
     web:
       pageable:
@@ -692,14 +861,15 @@ spring:
       client:
         registration:
           kakao:
-            client-id: <클라이언트 id>
-            client-secret: <API 키>
-            redirect-uri: <리다이렉트 URI>
+            client-id: 272ae474b08df0caa648c29a2cf58ff2
+            client-secret: PE7rGTcwahIX2yHK8ZgYHDnLT6BMUHP3
+            redirect-uri: https://mylittlesnowball.com/api/login/oauth2/code/kakao
+#            redirect-uri: http://localhost:8080/api/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             client-name: Kakao
             scope:
-#              - profile_nickname
+              - profile_nickname
               - account_email
               - profile_image
         provider:
@@ -717,20 +887,21 @@ spring:
 token:
   # 일단 하루
   expiration_time: 86400000
-  secret: <jwt 서명키>
+  secret: secretcode
   refresh-cookie-key: refresh
 
 oauth2:
   # 클라이언트 주소
-#  authorizedRedirectUri: http://localhost:3000/oauth2/redirect
-  authorizedRedirectUri: https://j7a603.p.ssafy.io/oauth2/redirect
+    authorizedRedirectUri: https://mylittlesnowball.com
+#    authorizedRedirectUri: http://localhost:3000
+
 cloud:
   aws:
     credentials:
-      accessKey: <AWS IAM 액세스키>
-      secretKey: <AWS IAM 시크릿키>
+      accessKey: AKIA3FTVN73LLSOXAIHF
+      secretKey: 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
     s3:
-      bucket: <S3 버킷명>
+      bucket: 601snowball
     region:
       static: ap-northeast-2
     stack:
@@ -739,4 +910,10 @@ cloud:
 logging:
   level:
     org.hibernate.SQL: debug
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: debug
 ```

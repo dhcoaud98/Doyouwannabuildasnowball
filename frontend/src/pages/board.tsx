@@ -59,6 +59,7 @@ type Content = {
   imageUrl: string,
   modifiedTime: string,
   snowglobeId: number,
+  writerId: number,
 }
 
 // 이미지 업로드를 하지 않았을 경우 랜덤 이미지
@@ -91,7 +92,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '80%',
-  height: '60%',
+  height: '80%',
   bgcolor: '#FFF8F3',
   border: '0px solid #000',
   borderRadius: '4px',
@@ -120,6 +121,7 @@ function Board() {
     imageUrl: " ",
     modifiedTime: " ",
     snowglobeId: -1,
+    writerId: 1,
   })
 
   // 모달
@@ -133,7 +135,7 @@ function Board() {
   // 메시지 데이터
   const [contents, setContents] = useState([]);
   const [text, setText] = useState('');
-  const [imag, setImage] = useState('https://www.gousa.or.kr/sites/default/files/styles/16_9_770x433/public/images/hero_media_image/2016-12/Fish%20Creek%20Main%20Street%20Holiday%20Scene.jpg?h=7685ba0d&itok=pP145ocO');
+  const [imag, setImage] = useState('');
   const [editText, setEditText] = useState('');
   const onChange = (e : any) => {
     setText(e.target.value);
@@ -145,15 +147,19 @@ function Board() {
 
   // 1. 메시지 전송
   const sendMessage = () => {
+    console.log("확인")
     axios.post(`${APIURL}api/board/write`, {
       "content" : text,
       "picture" : imag,
-      "snowglobeId" : snowglobeId
+      "snowglobeId" : snowglobeId,
+      "writerId": nowUserId ? nowUserId : 1,
     })
       .then(res => {
         fetchMessages();
+        setImage('')
       })
       .catch(err => {
+        console.log(err)
       })
     setText('');
   };
@@ -163,6 +169,7 @@ function Board() {
     axios.get(`${APIURL}api/board/${snowglobeId}/all`)
       .then((res) => {
         setContents(res.data.boardList);
+        console.log(res.data.boardList)
       }) 
       .catch(err => {
       })
@@ -175,8 +182,11 @@ function Board() {
 
   // 3. 메시지 삭제
   const deleteMessage = (boardId: number) => {
+    console.log(nowUserId)
+    console.log(boardId)  
+    const memberId = nowUserId
     alert('삭제 하시겠습니까?')
-    axios.delete(`${APIURL}api/board/${boardId}/delete`, {
+    axios.delete(`${APIURL}api/board/${boardId}/${memberId}/delete`, {
       headers: {
         Authorization: `Bearer ${accessToken}`
       }
@@ -185,26 +195,28 @@ function Board() {
       fetchMessages();
     })
     .catch(err => {
+      alert("삭제 권한이 없습니다.")
     })
   }
 
   // 4. 메시지 수정
   const editMessage = (item : Content) => {
-    console.log("메시지 수정하기")
     axios.put(`${APIURL}api/board/modify`, {
       "boardId" : item.boardId,
       "snowglobe" : item.snowglobeId,
       "content" : editText,
-      "picture" : item.imageUrl,
+      "picture" : imag ? imag: item.imageUrl,
+      "writerId" : nowUserId ? nowUserId : 1,
     })
     .then(res => {
-      console.log(res)
+      // console.log(res)
       handleClose();
       fetchMessages();
       setEditText('')
     })
     .catch(err => {
-      console.log(err)
+      // console.log(err)
+      alert("수정 권한이 없습니다.")
     })
   }
   const callback = useCallback(() => imag , [imag])
@@ -220,6 +232,7 @@ function Board() {
     const res = await s3.uploadFile(data, fileName);
     const ImagUrl:any = String(res.location)
     setImage(ImagUrl)
+    console.log(ImagUrl)
     callback();
   }
 

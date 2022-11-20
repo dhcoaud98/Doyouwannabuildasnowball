@@ -18,18 +18,21 @@ import ImageListItem from '@mui/material/ImageListItem';
 import Carousel from 'react-material-ui-carousel';
 import { setCurrentSb } from "../features/snowballSlice";
 import { useNavigate } from "react-router-dom";
+import { style } from "@mui/system";
 // ------------------------------------------------------------------------
 
 // Collect 타입 지정
 type Collect = {
   screenshot : string,
-  snowglobeId : number
+  snowglobeId : number, 
+  maker: string,
 }
 const accessToken = localStorage.getItem("accessToken")
 
 
 function Collection() {
   const user_id = useSelector((state:RootState) => state.user.userId)
+  const user_nickname = useSelector((state:RootState) => state.user.nickname)
   const currentSbId = useSelector((state:RootState) => state.snowball.current_sb_id)
   // shelf list = [{snowglobeId: 2, screenshot: 'https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/2.png'}, snowglobeId: 1, screenshot: 'https://601snowball.s3.ap-northeast-2.amazonaws.com/snowball_sc/1.png']
   const shelf_list = useSelector((state:RootState) => state.shelf.shelfList)
@@ -123,6 +126,7 @@ function Collection() {
                 shelf_list.map((item: Collect, i : number) => 
                 <div key={i} className={styles.collection_carousel_div}>
                   <img  src={item.screenshot} className={styles.collection_carousel_img}/>
+                  {item.maker !== user_nickname ?  <h2 className={styles.maker}>from . {item.maker}</h2> : null}  
                   {item.snowglobeId === currentSbId ?
                   <div className={styles.current_button_container}>
                   <Button color="error" size='large' variant='outlined' className={ styles.current_button} onClick={() => setSelection(item.snowglobeId)}>선택됨</Button>
