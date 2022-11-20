@@ -218,7 +218,13 @@ function Profile (props:any) {
 
   // 친구 닉네임 누르면 친구 페이지로 이동
   const goToCustommain = (memberId : any) => {
+    requestDelete(memberId);
     router(`/custommain/${memberId}`)
+  }
+
+  // 
+  const wait = () => {
+    alert('친구 요청을 했습니다. 잠시만 기다려 주세요')
   }
 
   // modal창 만들기
@@ -374,7 +380,7 @@ function Profile (props:any) {
                           : null }
                           {/* 2. 친구 신청 후 상대방이 받을 때까지 기다리는 버튼 => 2 */}
                           { item.status === 2 ? 
-                          <Button>
+                          <Button onClick={() =>(wait())}>
                             <AutorenewIcon color="disabled" fontSize='large' />
                           </Button>
                           : null }
@@ -431,11 +437,11 @@ function Profile (props:any) {
                 <h4 className={styles.cntmenu_text1}>스노우볼 요청이 왔네요!</h4>
               </Grid>
               <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:2 }}>
-                <Button variant="contained" color="primary" sx={{width: '70%'}} onClick={() => goToCustommain(member.memberId)}>
+                <Button variant="contained" color="primary" sx={{width: '70%'}} onClick={() => goToCustommain(member.memberId) }>
                   <h4 className={styles.go}>선물하러 가기</h4></Button>
               </Grid>
               <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:2 }}>
-                <Button variant="contained" color="success" sx={{width: '70%'}} onClick={()=>(requestDelete(member.memberId))}>
+                <Button variant="contained" color="success" sx={{width: '70%'}} onClick={()=>requestDelete(member.memberId)}>
                 <h4 className={styles.go}>요청 삭제하기</h4></Button>
               </Grid>
             </Box>
