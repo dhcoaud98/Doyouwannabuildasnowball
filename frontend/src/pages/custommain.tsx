@@ -169,7 +169,8 @@ function CustomMain() {
     } 
     const logout = () => {
       alert('로그아웃 하기')
-      localStorage.setItem("accessToken", '');
+      localStorage.removeItem('accessToken');
+      // localStorage.setItem("accessToken", '');
       axios.post(`${APIURL}api/member/logout/${nowUserID}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios';
-
+import { useNavigate } from "react-router-dom";
 
 // Other components
 import "../index.css"
@@ -80,6 +80,8 @@ function Profile (props:any) {
   const [searchFriends, setSearchFriends] = useState([]);
   // 검색어
   const [data, setData] = useState('');
+  // 라우터
+  const router = useNavigate();
 
   // 1. 친구 목록 axios
   const fetchUsers = async () => {
@@ -168,7 +170,7 @@ function Profile (props:any) {
 
   // 6. 스노우볼 요청 삭제
   const requestDelete = (memberId : any) => {
-    console.log(memberId)
+    // console.log(memberId)
     axios.delete(`${APIURL}api/friend/snowglobe/request`, {
       //헤더에 포함된 정보들 
     	data:{
@@ -213,6 +215,11 @@ function Profile (props:any) {
         searchFriend(data);
         fetchUsers();
       })
+  }
+
+  // 친구 메인 넘어가기
+  const goFriend = (memberId : any) => {
+    router(`/custommain/${memberId}`)
   }
 
   // modal창 만들기
@@ -425,7 +432,7 @@ function Profile (props:any) {
                 <h4 className={styles.cntmenu_text1}>스노우볼 요청이 왔네요!</h4>
               </Grid>
               <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:2 }}>
-                <Button variant="contained" color="primary" sx={{width: '70%'}}>
+                <Button variant="contained" color="primary" sx={{width: '70%'}} onClick={()=>(goFriend(member.memberId))}>
                   <h4 className={styles.go}>선물하러 가기</h4></Button>
               </Grid>
               <Grid xs={12} item component="div" className={styles.gift_delete_button} sx={{ m:2 }}>

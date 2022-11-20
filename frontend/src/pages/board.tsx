@@ -198,13 +198,12 @@ function Board() {
 
   // 4. 메시지 수정
   const editMessage = (item : Content) => {
-    
     console.log("메시지 수정하기")
     axios.put(`${APIURL}api/board/modify`, {
       "boardId" : item.boardId,
       "snowglobe" : item.snowglobeId,
       "content" : editText,
-      "picture" : imag,
+      "picture" : item.imageUrl,
     })
     .then(res => {
       console.log(res)
