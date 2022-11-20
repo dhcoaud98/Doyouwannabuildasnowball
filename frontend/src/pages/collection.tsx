@@ -18,6 +18,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import Carousel from 'react-material-ui-carousel';
 import { setCurrentSb } from "../features/snowballSlice";
 import { useNavigate } from "react-router-dom";
+import { style } from "@mui/system";
 // ------------------------------------------------------------------------
 
 // Collect 타입 지정
@@ -124,12 +125,12 @@ function Collection() {
                 shelf_list.map((item: Collect, i : number) => 
                 <div key={i} className={styles.collection_carousel_div}>
                   <img  src={item.screenshot} className={styles.collection_carousel_img}/>
+                  <h2 className={styles.maker}>{item.maker}</h2>
                   {item.snowglobeId === currentSbId ?
                   <div className={styles.current_button_container}>
                   <Button color="error" size='large' variant='outlined' className={ styles.current_button} onClick={() => setSelection(item.snowglobeId)}>선택됨</Button>
                   </div>: 
                   <div className={styles.save_button_container}>
-                  <div>{item.maker}</div>
                   <Button color="error" size='large' variant='outlined' className={ styles.save_button} onClick={() => setSelection(item.snowglobeId)}>선택</Button>
                   {i != 0 ? <Button color="error" size='large' variant='outlined' className={ styles.save_button} onClick={() => deleteSelection(item.snowglobeId)}>삭제</Button> : null}
                   </div>
