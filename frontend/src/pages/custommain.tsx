@@ -324,6 +324,9 @@ function CustomMain() {
         
         // 페이지 주인이 나라면,
         else {
+          console.log("response.data.snowglobeId = ", response.data.snowglobeId)
+          console.log("currentSbId = ", currentSbId)
+
           if (response.data.snowglobeId !== currentSbId) {
             setActions((prev) => [
               { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
