@@ -29,9 +29,13 @@ public enum ErrorCode {
 
     /* 401 BAD_REQUEST : 잘못된 redirect uri 정보 */
     UNMATCHED_AUTH_PROVIDER(UNAUTHORIZED ,"Unauthorized auth provider"),
+    UNMATCHED_MEMBER(UNAUTHORIZED ,"Member Id is not matched"),
+
+
+
     ;
 
-	
+
     private final HttpStatus httpStatus;
     private final String detail;
 

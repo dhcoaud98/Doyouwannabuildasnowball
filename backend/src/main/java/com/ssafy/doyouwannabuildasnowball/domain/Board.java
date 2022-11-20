@@ -9,7 +9,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Builder
-@ToString
 public class Board extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,13 +25,17 @@ public class Board extends BaseEntity {
     @Column(length = 200)
     private String picture;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer_id")
+    private Member writer;
 
     @Builder
-    public Board(Long boardId, Snowglobe snowglobe, String content, String picture) {
+    public Board(Long boardId, Snowglobe snowglobe, String content, String picture, Member writer) {
         this.boardId = boardId;
         this.snowglobe = snowglobe;
         this.content = content;
         this.picture = picture;
+        this.writer = writer;
     }
 
 

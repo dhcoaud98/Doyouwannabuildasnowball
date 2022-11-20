@@ -1,6 +1,8 @@
 package com.ssafy.doyouwannabuildasnowball.controller;
 
 
+import com.ssafy.doyouwannabuildasnowball.common.exception.CustomException;
+import com.ssafy.doyouwannabuildasnowball.common.exception.ErrorCode;
 import com.ssafy.doyouwannabuildasnowball.dto.board.BoardDto;
 import com.ssafy.doyouwannabuildasnowball.dto.board.request.WriteBoardRequest;
 import com.ssafy.doyouwannabuildasnowball.dto.board.response.BoardAllResponse;
@@ -39,9 +41,10 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping("/{boardId}/delete")
-    public ResponseEntity<Void> removeContent(@PathVariable Long boardId) {
-        boardService.removeContent(boardId);
+    @DeleteMapping("/{boardId}/{memberId}/delete")
+    public ResponseEntity<Void> removeContent(@PathVariable Long boardId, @PathVariable Long memberId) {
+        if(memberId == null) throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+        boardService.removeContent(boardId, memberId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
