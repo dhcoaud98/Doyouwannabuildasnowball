@@ -57,7 +57,7 @@ export function Navbar() {
 
       {/* 현재 화면 이름 */}
       <Grid xs={8} item>
-        <h1 className='cntmenu-text'>{nowPage}</h1>
+        <h1 className={styles.cntmenu_text}>{nowPage}</h1>
       </Grid>
 
       {/* 좌우대칭 */}

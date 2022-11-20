@@ -52,13 +52,10 @@ function UnityBackground() {
 
   // javascript => unity setMap
   function SendRequest() {
-    console.log('sta', currentSbId, deco)
-    sendMessage("UserObject", "DispatchPos", JSON.stringify({snowglobeid: currentSbId, deco: deco }))
-    
+    sendMessage("UserObject", "DispatchPos", JSON.stringify({snowglobeid: currentSbId, deco: deco }))    
   }
 
   function ConMap(pos: string){
-    console.log(pos)
     const payload = JSON.parse(pos)
     axios({
       method:"PATCH",
@@ -66,7 +63,6 @@ function UnityBackground() {
       data: {deco: payload.deco}
     })
     .then((res) => {
-      console.log(res)
     })
   }
 

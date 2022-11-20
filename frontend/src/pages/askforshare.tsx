@@ -41,15 +41,12 @@ function AskForShare() {
   const [ownerUserNickName, setOwnerUserNickName] = useState("")
 
   const yesShare = () => {
-    // console.log("스노우볼 아이디", typeof(snowglobeID))
     axios.patch(`${APIURL}api/snowglobe/${snowglobeID}/save`)
     .then((res)=>{
-      // console.log('잘됨?', res)
       alert('공유완료')
       router(`/custommain/${ownerUserID}`)
     })
     .catch((err) => {
-      console.log(err)
     })
   }
 
@@ -61,11 +58,9 @@ function AskForShare() {
   useEffect(() => {
     axios.get(`${APIURL}api/member/info/${ownerUserID}`)
     .then((response) => {
-      console.log(response.data)
       setOwnerUserNickName(response.data.nickname)
     })
     .catch((error) => {
-      console.log(error)
     })
   },[]) 
 
