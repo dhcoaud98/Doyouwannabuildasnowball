@@ -329,8 +329,8 @@ function CustomMain() {
         } else {
           axios.get(`${APIURL}api/snowglobe/${ownerUserID}`)
           .then((response) => {
+            dispatch(setCurrentSb(response.data))
             if (response.data.snowglobeId !== currentSbId) {
-              dispatch(setCurrentSb(response.data))
               setActions((prev) => [
                 { icon: <ShareIcon />, name: '공유', eventFunc: shareSnowBall},
                 { icon: <PeopleIcon />, name: '친구목록', eventFunc: showFriends},
