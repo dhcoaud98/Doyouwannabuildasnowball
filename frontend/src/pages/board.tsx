@@ -92,7 +92,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '80%',
-  height: '60%',
+  height: '80%',
   bgcolor: '#FFF8F3',
   border: '0px solid #000',
   borderRadius: '4px',
@@ -182,6 +182,8 @@ function Board() {
 
   // 3. 메시지 삭제
   const deleteMessage = (boardId: number) => {
+    console.log(nowUserId)
+    console.log(boardId)  
     const memberId = nowUserId
     alert('삭제 하시겠습니까?')
     axios.delete(`${APIURL}api/board/${boardId}/${memberId}/delete`, {
