@@ -1,7 +1,6 @@
 package com.ssafy.doyouwannabuildasnowball.service;
 
-import com.ssafy.doyouwannabuildasnowball.common.api.S3Upload;
-import com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException;
+import com.ssafy.doyouwannabuildasnowball.common.exception.CustomException;
 import com.ssafy.doyouwannabuildasnowball.domain.Board;
 import com.ssafy.doyouwannabuildasnowball.domain.Snowglobe;
 import com.ssafy.doyouwannabuildasnowball.dto.board.BoardDto;
@@ -14,16 +13,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
-import springfox.documentation.spring.web.json.Json;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException.BOARD_NOT_FOUND;
-import static com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException.SNOWGLOBE_NOT_FOUND;
-
+import static com.ssafy.doyouwannabuildasnowball.common.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -34,12 +28,11 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     private final SnowglobeRepository snowglobeRepository;
-    private final S3Upload s3Upload;
 
     public BoardAllResponse findAllContentsBySnowglobe(Long snowglobeId) {
 
         List<Board> boardList = boardRepository.findAllContents(snowglobeId)
-                .orElseThrow(() -> new NotFoundException(BOARD_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(BOARD_NOT_FOUND));
 
 
         List<BoardResponse> boardResponses = new ArrayList<>();
@@ -59,17 +52,11 @@ public class BoardService {
     }
 
     @Transactional
-    public void saveContent(WriteBoardRequest writeBoardRequest) throws NotFoundException {
+    public void saveContent(WriteBoardRequest writeBoardRequest){
 
         Snowglobe snowglobe = snowglobeRepository.findById(writeBoardRequest.getSnowglobeId())
-                .orElseThrow(()->new NotFoundException(SNOWGLOBE_NOT_FOUND));
+                .orElseThrow(()->new CustomException(SNOWGLOBE_NOT_FOUND));
 
-//        String imageURL = null;
-//
-//         request에 파일이 존재하는 경우
-//        if(writeBoardRequest.getPicture() != null)
-//            imageURL = s3Upload.uploadImageToS3(writeBoardRequest.getPicture());
-//
         String imageURL = writeBoardRequest.getPicture();
 
         boardRepository.save(Board.builder()
@@ -83,8 +70,7 @@ public class BoardService {
     public void modifyCotnent(BoardDto boardDto) {
 
         Board board = boardRepository.findById(boardDto.getBoardId())
-                .orElseThrow(() -> new NotFoundException(BOARD_NOT_FOUND));
-//        String imageURL = s3Upload.uploadImageToS3(boardDto.getPicture());
+                .orElseThrow(() -> new CustomException(BOARD_NOT_FOUND));
         String imageURL = boardDto.getPicture();
         board.contentUpdate(boardDto.getContent(), imageURL);
         boardRepository.updateBoardContent(board.getContent(), board.getPicture(), board.getBoardId());
@@ -93,7 +79,6 @@ public class BoardService {
 
     public void removeContent(Long boardId) {
         log.info("board id : " + boardId);
-
         boardRepository.deleteById(boardId);
     }
 }

@@ -17,29 +17,4 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @RequiredArgsConstructor
 @EnableMongoRepositories(basePackages = "com.ssafy.doyouwannabuildasnowball.repository.mongo")
 public class MongoConfig {
-    private final MongoMappingContext mongoMappingContext;
-
-//    @Value("${spring.data.mongodb.uri}")
-//    private String connectionString;
-//
-//    @Bean
-//    public MongoDatabaseFactory mongoDatabaseFactory() {
-//        return new SimpleMongoClientDatabaseFactory(connectionString);
-//    }
-//
-//    @Bean
-//    public MongoTemplate mongoTemplate() {
-//        return new MongoTemplate(mongoDatabaseFactory());
-//    }
-
-//    @Bean
-//    public MappingMongoConverter mappingMongoConverter(MongoDatabaseFactory mongoDatabaseFactory, MongoMappingContext mongoMappingContext) {
-//        DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDatabaseFactory);
-//        MappingMongoConverter converter = new MappingMongoConverter(dbRefResolver, mongoMappingContext);
-//        converter.setTypeMapper(new DefaultMongoTypeMapper(null));
-//
-//        return converter;
-//    }
-
-
 }

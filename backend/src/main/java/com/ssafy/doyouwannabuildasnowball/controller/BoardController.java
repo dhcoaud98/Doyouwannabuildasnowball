@@ -1,12 +1,10 @@
 package com.ssafy.doyouwannabuildasnowball.controller;
 
 
-import com.ssafy.doyouwannabuildasnowball.common.exception.NotFoundException;
 import com.ssafy.doyouwannabuildasnowball.dto.board.BoardDto;
 import com.ssafy.doyouwannabuildasnowball.dto.board.request.WriteBoardRequest;
 import com.ssafy.doyouwannabuildasnowball.dto.board.response.BoardAllResponse;
 import com.ssafy.doyouwannabuildasnowball.service.BoardService;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,21 +29,13 @@ public class BoardController {
 
     @PostMapping("/write")
     public ResponseEntity<Void> saveContent(@RequestBody WriteBoardRequest writeBoardRequest) {
-        try {
-            boardService.saveContent(writeBoardRequest);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
+        boardService.saveContent(writeBoardRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PutMapping("/modify")
     public ResponseEntity<Void> modifyContent(@RequestBody BoardDto boardDto) {
-        try {
-            boardService.modifyCotnent(boardDto);
-        } catch (NotFoundException ne) {
-            ne.printStackTrace();
-        }
+        boardService.modifyCotnent(boardDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
