@@ -1,0 +1,1223 @@
+[{
+  "_id": 2,
+  "deco": [
+    {
+      "indicator": 2,
+      "coordinateX": -80,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -100,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -40,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -77,
+      "coordinateY": -9,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -45,
+      "coordinateY": -5,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -70,
+      "coordinateY": -11,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 3,
+  "deco": [
+    {
+      "indicator": 0,
+      "coordinateX": -80,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -100,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -40,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -77,
+      "coordinateY": -9,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -45,
+      "coordinateY": -5,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -70,
+      "coordinateY": -11,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 4,
+  "deco": [
+    {
+      "indicator": 0,
+      "coordinateX": -65.69441986083984,
+      "coordinateY": -6.034794330596924,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -51.57984161376953,
+      "coordinateY": -7.004004001617432,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -36.893959045410156,
+      "coordinateY": -6.476047515869141,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 5,
+  "deco": [
+    {
+      "indicator": 2,
+      "coordinateX": -90.51861572265625,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 2,
+      "coordinateX": -86.64949798583984,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -48.62237548828125,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 0,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 6,
+  "deco": [
+    {
+      "indicator": 6,
+      "coordinateX": -80,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -100,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 6,
+      "coordinateX": -40,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 0,
+      "coordinateY": 0,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 7,
+  "deco": [
+    {
+      "indicator": 8,
+      "coordinateX": -80,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -100,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -40,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 8,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -77,
+      "coordinateY": -9,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 4,
+      "coordinateX": -45,
+      "coordinateY": -5,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -70,
+      "coordinateY": -11,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 8,
+  "deco": [
+    {
+      "indicator": 1,
+      "coordinateX": -90.51861572265625,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -86.64949798583984,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 5,
+      "coordinateX": -48.62237548828125,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 2,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 9,
+  "deco": [
+    {
+      "indicator": 3,
+      "coordinateX": -65.69441986083984,
+      "coordinateY": -6.034794330596924,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -51.57984161376953,
+      "coordinateY": -7.004004001617432,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -36.893959045410156,
+      "coordinateY": -6.476047515869141,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 10,
+  "deco": [
+    {
+      "indicator": 4,
+      "coordinateX": -65.69441986083984,
+      "coordinateY": -6.034794330596924,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -51.57984161376953,
+      "coordinateY": -7.004004001617432,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -36.893959045410156,
+      "coordinateY": -6.476047515869141,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 11,
+  "deco": [
+    {
+      "indicator": 4,
+      "coordinateX": -65.69441986083984,
+      "coordinateY": -6.034794330596924,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -52.216331481933594,
+      "coordinateY": -6.363941192626953,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -38.53353500366211,
+      "coordinateY": -7.659266471862793,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 12,
+  "deco": [
+    {
+      "indicator": 8,
+      "coordinateX": -80,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -100,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 5,
+      "coordinateX": -40,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 7,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -77,
+      "coordinateY": -9,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -45,
+      "coordinateY": -5,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -70,
+      "coordinateY": -11,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 13,
+  "deco": [
+    {
+      "indicator": 3,
+      "coordinateX": -65.69441986083984,
+      "coordinateY": -6.034794330596924,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -51.57984161376953,
+      "coordinateY": -7.004004001617432,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -36.893959045410156,
+      "coordinateY": -6.476047515869141,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 14,
+  "deco": [
+    {
+      "indicator": 1,
+      "coordinateX": -90.51861572265625,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 2,
+      "coordinateX": -86.64949798583984,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -48.62237548828125,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 15,
+  "deco": [
+    {
+      "indicator": 5,
+      "coordinateX": -80,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 2,
+      "coordinateX": -100,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 5,
+      "coordinateX": -40,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 5,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -77,
+      "coordinateY": -9,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -45,
+      "coordinateY": -5,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 4,
+      "coordinateX": -70,
+      "coordinateY": -11,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 16,
+  "deco": [
+    {
+      "indicator": 3,
+      "coordinateX": -80,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -100,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 7,
+      "coordinateX": -40,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 4,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 2,
+      "coordinateX": -77,
+      "coordinateY": -9,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 4,
+      "coordinateX": -45,
+      "coordinateY": -5,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -70,
+      "coordinateY": -11,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 17,
+  "deco": [
+    {
+      "indicator": 5,
+      "coordinateX": -80,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 4,
+      "coordinateX": -100,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -40,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -77,
+      "coordinateY": -9,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -45,
+      "coordinateY": -5,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -70,
+      "coordinateY": -11,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 18,
+  "deco": [
+    {
+      "indicator": 0,
+      "coordinateX": -80,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -100,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -40,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -77,
+      "coordinateY": -9,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -45,
+      "coordinateY": -5,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -70,
+      "coordinateY": -11,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 19,
+  "deco": [
+    {
+      "indicator": 6,
+      "coordinateX": -90.51861572265625,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 5,
+      "coordinateX": -86.64949798583984,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 5,
+      "coordinateX": -48.62237548828125,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 4,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 4,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 4,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 20,
+  "deco": [
+    {
+      "indicator": 1,
+      "coordinateX": -65.69441986083984,
+      "coordinateY": -6.034794330596924,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -51.57984161376953,
+      "coordinateY": -7.004004001617432,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -36.893959045410156,
+      "coordinateY": -6.476047515869141,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 4,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 21,
+  "deco": [
+    {
+      "indicator": 3,
+      "coordinateX": -80,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -100,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 4,
+      "coordinateX": -40,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 7,
+      "coordinateX": -77,
+      "coordinateY": -9,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 7,
+      "coordinateX": -45,
+      "coordinateY": -5,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 7,
+      "coordinateX": -70,
+      "coordinateY": -11,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 22,
+  "deco": [
+    {
+      "indicator": 5,
+      "coordinateX": -90.51861572265625,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 5,
+      "coordinateX": -86.64949798583984,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -48.62237548828125,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 23,
+  "deco": [
+    {
+      "indicator": 3,
+      "coordinateX": -90.51861572265625,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -86.64949798583984,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -48.62237548828125,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 7,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 0,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 1,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 24,
+  "deco": [
+    {
+      "indicator": 2,
+      "coordinateX": -65.69441986083984,
+      "coordinateY": -6.034794330596924,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -51.57984161376953,
+      "coordinateY": -7.004004001617432,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -36.893959045410156,
+      "coordinateY": -6.476047515869141,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 25,
+  "deco": [
+    {
+      "indicator": 5,
+      "coordinateX": -65.69441986083984,
+      "coordinateY": -6.034794330596924,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 2,
+      "coordinateX": -51.57984161376953,
+      "coordinateY": -7.004004001617432,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -36.893959045410156,
+      "coordinateY": -6.476047515869141,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 26,
+  "deco": [
+    {
+      "indicator": 6,
+      "coordinateX": -90.51861572265625,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 3,
+      "coordinateX": -86.64949798583984,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 5,
+      "coordinateX": -48.62237548828125,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 4,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 4,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 4,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 2,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+},{
+  "_id": 27,
+  "deco": [
+    {
+      "indicator": 0,
+      "coordinateX": -80,
+      "coordinateY": -10,
+      "coordinateZ": 60
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -100,
+      "coordinateY": -8,
+      "coordinateZ": 35
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -40,
+      "coordinateY": -8,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 20
+    },
+    {
+      "indicator": 9,
+      "coordinateX": -70,
+      "coordinateY": -10,
+      "coordinateZ": 40
+    },
+    {
+      "indicator": 9,
+      "coordinateX": 14,
+      "coordinateY": 25.000171661376953,
+      "coordinateZ": 55
+    },
+    {
+      "indicator": 0,
+      "coordinateX": -73.05999755859375,
+      "coordinateY": -10.819999694824219,
+      "coordinateZ": 30
+    }
+  ],
+  "_class": "com.ssafy.doyouwannabuildasnowball.domain.collection.Decoration"
+}]
