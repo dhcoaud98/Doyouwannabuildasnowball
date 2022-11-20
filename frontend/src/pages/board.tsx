@@ -125,7 +125,6 @@ function Board() {
   // 모달
   const [open, setOpen] = useState(false);
   const handleOpen = (content:Content) => {
-    console.log(content)
     setOpen(true);
     setContent((prev) => content)
   }
@@ -152,25 +151,20 @@ function Board() {
       "snowglobeId" : snowglobeId
     })
       .then(res => {
-        console.log(res.data)
         fetchMessages();
       })
       .catch(err => {
-        console.log(err)
       })
     setText('');
   };
-  // console.log(snowglobeId)
 
   // 2. 전체 메시지 조회
   const fetchMessages = () => {
     axios.get(`${APIURL}api/board/${snowglobeId}/all`)
       .then((res) => {
         setContents(res.data.boardList);
-        console.log('메시지 목록 = ', res.data.boardList)
       }) 
       .catch(err => {
-        console.log(err)
       })
   };
 
@@ -189,17 +183,13 @@ function Board() {
     })
     .then(res => {
       fetchMessages();
-      console.log(res)
     })
     .catch(err => {
-      console.log(err)
     })
   }
 
   // 4. 메시지 수정
   const editMessage = (item : Content) => {
-    
-    console.log("메시지 수정하기")
     axios.put(`${APIURL}api/board/modify`, {
       "boardId" : item.boardId,
       "snowglobe" : item.snowglobeId,
@@ -207,13 +197,11 @@ function Board() {
       "picture" : imag,
     })
     .then(res => {
-      console.log(res)
       handleClose();
       fetchMessages();
       setEditText('')
     })
     .catch(err => {
-      console.log(err)
     })
   }
   const callback = useCallback(() => imag , [imag])
@@ -222,17 +210,12 @@ function Board() {
   // 이미지 받아서 s3에 넣고 가져오기
   const handleFileInput = async(e:any) => {
     const data = e.target.files[0];
-    console.log("파일", data)
     const s3 = new ReactS3Client(config);
     const currentTime = new Date(+new Date() + 3240 * 10000).toISOString().replaceAll('T', '-').replaceAll(':', '').replaceAll('.', '-') 
-    console.log(currentTime)
     const fileName =  `${currentTime}${nowUserId}`
     
     const res = await s3.uploadFile(data, fileName);
-    console.log("이미지업로드 = ", res)
-    console.log(res.location)
     const ImagUrl:any = String(res.location)
-    console.log(ImagUrl)
     setImage(ImagUrl)
     callback();
   }

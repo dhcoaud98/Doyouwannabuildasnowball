@@ -120,7 +120,6 @@ function CustomMain() {
           setCustomListState(false)
         })
         .catch((error)=>{
-          console.log(error);
         })
 
         if (nowUserID === 1) {
@@ -131,7 +130,6 @@ function CustomMain() {
         }
       })
       .catch((error)=>{
-        console.log(error);
       })
     }   
   }
@@ -207,12 +205,10 @@ function CustomMain() {
         'receiveMemberId' : ownerUserID
       })
       .then((response) => {
-        console.log(response.data)
         alert(`${ownerUserNickName}님께 친구요청을 보냈습니다.`)
         window.location.replace(`/custommain/${ownerUserID}`)
       })
       .catch((error) => {
-        console.log(error)
         if(error.response.status === 409) {
           alert("이미 요청되어 승낙을 기다리고 있어요.")
         }
@@ -246,7 +242,6 @@ function CustomMain() {
           window.location.replace(`/custommain/${ownerUserID}`)
       })
       .catch((error) => {
-        console.log(error)
       })
     }
     
@@ -276,7 +271,6 @@ function CustomMain() {
         dispatch(setCurrentSb(response.data))
       })
       .catch((err) => {
-        console.log('현재 페이지 주인 스노우볼 err = ',err)
       })
       
       // 페이지 주인의 정보를 묻는 액시오스
@@ -299,7 +293,6 @@ function CustomMain() {
               }
             })
             .then((response) => {
-              console.log('친구니?', response.data)
               if (response.data.status === 0) {
                 setActions((prev) => [
                   { icon: <CardGiftcardIcon />, name: '선물하기', eventFunc: giftSnowBall},
@@ -344,7 +337,6 @@ function CustomMain() {
         }
       })
       .catch((error) => {
-        console.log(error)
         alert('존재하지 않는 회원입니다.')
         router(-1)
       })
@@ -384,8 +376,8 @@ function CustomMain() {
             {/* 상단 내브바 중간 */}
             {/* 현재 상태 이름 */}
             <Grid xs={8} item component="div" style={{justifyContent: 'end'}}>
-              <h1 className='cntmenu-text'>{customListState === true ? customMenuName : `${ownerUserNickName}의` }</h1>
-              <h1 className={`cntmenu-text ${noneAtCustomListTrue} ${styles.lower_cntmenu}`}>스노우볼</h1>
+              <h1 className={ customListState === false ? styles.cntmenu_text : `${styles.lower_cntmenu} ${styles.cntmenu_text}`}>{customListState === true ? customMenuName : `${ownerUserNickName}의` }</h1>
+              <h1 className={`${styles.cntmenu_text} ${noneAtCustomListTrue} ${styles.lower_cntmenu}`}>스노우볼</h1>
             </Grid>
 
             {/* 상단 내브바 오른쪽 */}

@@ -94,7 +94,6 @@ function Profile (props:any) {
         } 
       )
       setfriends(response.data);
-      console.log("친구목록 = ", response.data)
     } catch (err: any) {
         console.log('errer = ', err)
       }
@@ -143,7 +142,6 @@ function Profile (props:any) {
 
   // 4. 친구 요청 받기
   const followFriend = (friendId : any) => {
-    console.log(friendId)
     axios.patch(`${APIURL}api/friend/request/${friendId}`, null, {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -176,7 +174,6 @@ function Profile (props:any) {
 
   // 6. 스노우볼 요청 삭제
   const requestDelete = (memberId : any) => {
-    console.log(memberId)
     axios.delete(`${APIURL}api/friend/snowglobe/request`, {
       //헤더에 포함된 정보들 
     	data:{
@@ -185,7 +182,6 @@ function Profile (props:any) {
         }
     })
       .then(res => {
-        // console.log("새로 받은 데이터 = ", res.data);
         setfriends(res.data)
         handleClose();
       })
@@ -193,14 +189,11 @@ function Profile (props:any) {
 
   // 7. 친구 검색
   const searchFriend = (data:string) => {
-    // console.log(data);
-    
     axios.get(`${APIURL}api/friend/search/${data}`, {     
       headers: {
         Authorization: `Bearer ${accessToken}`
     }})
       .then(res => {
-        console.log("확인",res.data)
         setSearchFriends(res.data)
       }
     )

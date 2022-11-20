@@ -85,8 +85,6 @@ export function Group() {
   const objet3_id = useSelector((state) => state.snowball.deco[5].indicator)
   const pets_id = useSelector((state) => state.snowball.deco[6].indicator)
 
-  console.log(c_tree_id)
-
   return (
     <group rotation={[0.2,0,0]}>
         <Snowglobe_light/>
