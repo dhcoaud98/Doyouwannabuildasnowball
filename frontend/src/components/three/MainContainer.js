@@ -46,8 +46,8 @@ const MainContainer = forwardRef((props, ref) => {
       bucketName: '601snowball',
       dirName: 'snowball_sc',
       region: 'ap-northeast-2',
-      accessKeyId: 'AKIA3FTVN73LLSOXAIHF',
-      secretAccessKey: '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',
+      accessKeyId: 'AKIA3FTVN73LEXWVQGHT',
+      secretAccessKey: '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',
   }
     // React S3
     const ReactS3Client = new S3(config)
