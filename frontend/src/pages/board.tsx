@@ -33,8 +33,8 @@ const config = {
   bucketName: '601snowball',
   dirName: 'boardImage',
   region: 'ap-northeast-2',
-  accessKeyId: 'AKIA3FTVN73LLSOXAIHF',
-  secretAccessKey: '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',
+  accessKeyId: 'AKIA3FTVN73LEXWVQGHT',
+  secretAccessKey: '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',
 }
 
 window.Buffer = window.Buffer || require("buffer").Buffer;
