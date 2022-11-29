@@ -106,8 +106,8 @@ oauth2:
 cloud:
   aws:
     credentials:
-      accessKey: AKIA3FTVN73LLSOXAIHF
-      secretKey: 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
+      accessKey: AKIA3FTVN73LEXWVQGHT
+      secretKey: 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
     s3:
       bucket: 601snowball
     region:
